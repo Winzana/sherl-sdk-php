@@ -1,0 +1,13 @@
+{
+    "name": "sherl/sdk",
+    "type": "composer-plugin",
+    "autoload": {
+        "psr-4": {
+            "Sherl\\Sdk\\": "src/"
+        }
+    },
+    "require": {
+        "guzzlehttp/guzzle": "^7.8",
+        "jms/serializer": "^3.28"
+    }
+}
