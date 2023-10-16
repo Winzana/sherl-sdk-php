@@ -5,7 +5,9 @@ namespace Sherl\Sdk\Person;
 use Exception;
 use GuzzleHttp\Client;
 use Sherl\Sdk\Common\SerializerFactory;
+
 use Sherl\Sdk\Person\Dto\PersonOutputDto;
+use Sherl\Sdk\Common\Dto\ILocationDto;
 
 use Sherl\Sdk\Common\Error\SherlException;
 
@@ -33,5 +35,28 @@ class PersonProvider
       PersonOutputDto::class,
       'json'
     );
+  }
+
+  /**
+  * @return Pagination<ILocation>|null
+  */
+  public function getCurrentAddress()
+  {
+    $response = $this->client->get('/api/persons/me');
+
+    if ($response->getStatusCode() >= 300) {
+      throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+      $response->getBody()->getContents(),
+      ILocation::class,
+      'json'
+    );
+  }
+
+  public function getPersons(): ?IPerson
+  {
+
   }
 }
