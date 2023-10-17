@@ -6,7 +6,7 @@ use JMS\Serializer\Annotation as Serializer;
 
 use Sherl\Sdk\Person\Dto\PersonPanelCreateFilterDto;
 
-class ILocationDto {
+class LocationDto {
 
   /**
    * @var string
