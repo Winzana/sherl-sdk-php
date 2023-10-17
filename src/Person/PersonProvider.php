@@ -10,6 +10,7 @@ use Sherl\Sdk\Person\Dto\PersonOutputDto;
 use Sherl\Sdk\Common\Dto\LocationDto;
 
 use Sherl\Sdk\Common\Error\SherlException;
+use Sherl\Sdk\Common\Error\ConfigDto;
 
 class PersonProvider
 {
@@ -94,14 +95,14 @@ class PersonProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      PersonDto::class,
+      PersonOutputDto::class,
       'json'
     );
   }
 
   public function getPersonById(
     string $id,
-  ) 
+  ): ?PersonDto
   {
     $response = $fetcher->get(
       '/api/persons/:id',
@@ -116,7 +117,7 @@ class PersonProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      PersonDto::class,
+      PersonOutputDto::class,
       'json'
     );
   }
