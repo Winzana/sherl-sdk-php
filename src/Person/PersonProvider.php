@@ -61,31 +61,23 @@ class PersonProvider
     PersonFiltersDto $filters
   ) 
   {
+    $response = $fetcher->get(
+      endpoints::GET_PERSONS,
+      [
+          'page' => $page,
+          'itemsPerPage' => $itemsPerPage,
+          ...$filters,
+      ]
+    );
 
+    if ($response->getStatusCode() >= 300) {
+      throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+      $response->getBody()->getContents(),
+      PersonDto::class,
+      'json'
+    );
   }
-
-//   public function function getPersons(
-//     Fetcher $fetcher,
-//     $page = 1,
-//     $itemsPerPage = 10,
-//     IPersonFilters $filters
-// ): Pagination<IPerson> {
-//     $response = $fetcher->get(
-//         endpoints::GET_PERSONS,
-//         [
-//             'page' => $page,
-//             'itemsPerPage' => $itemsPerPage,
-//             ...$filters,
-//         ]
-//     );
-
-//     if ($response->getStatusCode() !== 200) {
-//         throw new Exception(
-//             "Failed to fetch products API (status: " . $response->getStatusCode() . ")"
-//         );
-//     }
-
-//     return $response->getData();
-// }
-
 }
