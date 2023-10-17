@@ -8,6 +8,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use OutOfBoundsException;
 use Sherl\Sdk\Auth\AuthProvider;
+use Sherl\Sdk\Claim\ClaimProvider;
 use Sherl\Sdk\Person\PersonProvider;
 use Sherl\Sdk\Common\InitOptions;
 use Sherl\Sdk\Contact\ContactProvider;
@@ -27,6 +28,8 @@ final class SherlClient
   private AuthProvider $auth;
 
   private ContactProvider $contact;
+
+  private ClaimProvider $claim;
 
   public function __get(string $name)
   {
@@ -68,6 +71,7 @@ final class SherlClient
     $this->person = new PersonProvider($client);
     $this->auth = new AuthProvider($client);
     $this->contact = new ContactProvider($client);
+    $this->claim = new ClaimProvider($client);
   }
 
   public function getClient(): Client

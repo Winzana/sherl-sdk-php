@@ -8,6 +8,7 @@
     },
     "require": {
         "guzzlehttp/guzzle": "^7.8",
-        "jms/serializer": "^3.28"
+        "jms/serializer": "^3.28",
+        "mangopay/php-sdk-v2": "^3.23"
     }
 }
