@@ -56,7 +56,7 @@ class PersonProvider
   /**
   * @return Pagination<LocationDto>|null
   */
-  public function getCurrentAddress()
+  public function getCurrentAddress(): ?LocationDto
   {
     $response = $this->client->get('/api/persons/me');
 
@@ -121,4 +121,27 @@ class PersonProvider
       'json'
     );
   }
+
+  public function createAddress(AddressDto $address): ?PersonOutputDto
+  {
+    $response = $fetcher->post(
+      '/api/persons/addresses',
+      $address
+    );
+
+    if ($response->getStatusCode() >= 300) {
+      throw new SherlException(
+          PersonProvider::DOMAIN,
+          $response->getBody()->getContents(),
+          $response->getStatusCode()
+      );
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+      $response->getBody()->getContents(),
+      PersonOutputDto::class,
+      'json'
+    );
+  }
+
 }
