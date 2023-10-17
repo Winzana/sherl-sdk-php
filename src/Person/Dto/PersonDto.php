@@ -198,7 +198,7 @@ class PersonDto {
   public $mangopayWalletId;
 
   /**
-   * @var MangopayCardOutputDto
+   * @var MangopayCardOutputDto[]
    * @Serializer\Type("array<Sherl\Sdk\Person\Dto\MangopayCardOutputDto>")
    */
   public $mangopayCards;
