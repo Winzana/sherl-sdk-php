@@ -62,7 +62,7 @@ class PersonProvider
   ) 
   {
     $response = $fetcher->get(
-      endpoints::GET_PERSONS,
+      '/api/persons',
       [
           'page' => $page,
           'itemsPerPage' => $itemsPerPage,
