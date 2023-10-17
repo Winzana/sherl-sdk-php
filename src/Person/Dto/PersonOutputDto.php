@@ -212,7 +212,7 @@ class PersonOutputDto
    * @var PersonType
    * @Serializer\Type("enum<'Sherl\Sdk\Person\Enum\PersonType', 'value'>")
    */
-  public PersonType $type;
+  public $type;
 
   /**
    * @var FrequentedEstablishmentOutputDto[]
