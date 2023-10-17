@@ -37,6 +37,21 @@ class PersonProvider
     );
   }
 
+  public function getConfig(): ?ConfigDto
+  {
+    $response = $this->client->get('/api/persons/config');
+
+    if ($response->getStatusCode() >= 300) {
+      throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+      $response->getBody()->getContents(),
+      ConfigDto::class,
+      'json'
+    );
+  }
+
   /**
   * @return Pagination<LocationDto>|null
   */
@@ -55,6 +70,9 @@ class PersonProvider
     );
   }
 
+  /**
+  * @return Pagination<PersonDto>|null
+  */
   public function getPersons(
     $page = 1,
     $itemsPerPage = 10,
@@ -67,6 +85,28 @@ class PersonProvider
           'page' => $page,
           'itemsPerPage' => $itemsPerPage,
           ...$filters,
+      ]
+    );
+
+    if ($response->getStatusCode() >= 300) {
+      throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+      $response->getBody()->getContents(),
+      PersonDto::class,
+      'json'
+    );
+  }
+
+  public function getPersonById(
+    string $id,
+  ) 
+  {
+    $response = $fetcher->get(
+      '/api/persons/:id',
+      [
+          'id' => $id
       ]
     );
 
