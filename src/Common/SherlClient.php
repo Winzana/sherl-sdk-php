@@ -10,6 +10,7 @@ use OutOfBoundsException;
 use Sherl\Sdk\Auth\AuthProvider;
 use Sherl\Sdk\Person\PersonProvider;
 use Sherl\Sdk\Common\InitOptions;
+use Sherl\Sdk\Contact\ContactProvider;
 
 final class SherlClient
 {
@@ -24,6 +25,8 @@ final class SherlClient
   private PersonProvider $person;
 
   private AuthProvider $auth;
+
+  private ContactProvider $contact;
 
   public function __get(string $name)
   {
@@ -64,6 +67,7 @@ final class SherlClient
 
     $this->person = new PersonProvider($client);
     $this->auth = new AuthProvider($client);
+    $this->contact = new ContactProvider($client);
   }
 
   public function getClient(): Client
