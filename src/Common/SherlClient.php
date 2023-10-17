@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use OutOfBoundsException;
+use Sherl\Sdk\Account\AccountProvider;
 use Sherl\Sdk\Auth\AuthProvider;
 use Sherl\Sdk\Person\PersonProvider;
 use Sherl\Sdk\Common\InitOptions;
@@ -24,6 +25,8 @@ final class SherlClient
   private PersonProvider $person;
 
   private AuthProvider $auth;
+
+  private AccountProvider $account;
 
   public function __get(string $name)
   {
@@ -64,6 +67,7 @@ final class SherlClient
 
     $this->person = new PersonProvider($client);
     $this->auth = new AuthProvider($client);
+    $this->account = new AccountProvider($client);
   }
 
   public function getClient(): Client
