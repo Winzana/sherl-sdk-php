@@ -146,6 +146,28 @@ class PersonProvider
     );
   }
 
+  public function deleteAddress(string $id): ?PersonOutputDto
+  {
+    $response = $fetcher->delete(
+      '/api/persons/addresses',
+      $id
+    );
+
+    if ($response->getStatusCode() >= 300) {
+      throw new SherlException(
+          PersonProvider::DOMAIN,
+          $response->getBody()->getContents(),
+          $response->getStatusCode()
+      );
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+      $response->getBody()->getContents(),
+      PersonOutputDto::class,
+      'json'
+    );
+  }
+
   public function createPerson(PersonCreateDto $person): ?PersonOutputDto
   {
     $response = $fetcher->post(

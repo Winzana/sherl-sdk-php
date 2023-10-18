@@ -133,6 +133,16 @@ $sherlClient->person->createAddress(AddressDto $address);
 
 This call return a [PersonOutputDto](./person-types#personoutputdto) object.
 
+## Delete address
+
+<span class="badge badge--warning">Require authentication</span>
+
+```php
+$sherlClient->person->deleteAddress(string $id);
+```
+
+This call return a [PersonOutputDto](./person-types#personoutputdto) object.
+
 ## Create person
 
 <span class="badge badge--warning">Require authentication</span>
