@@ -13,7 +13,7 @@ use Sherl\Sdk\Common\Dto\Sort;
 use Sherl\Sdk\Person\Enum\Gender;
 use Sherl\Sdk\Person\Enum\PersonType;
 
-class PersonCreateDto {
+class PersonFiltersDto {
 
   /**
    * @var string

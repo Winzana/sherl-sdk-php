@@ -21,7 +21,7 @@ class PersonPanelCreateDto {
   public $name;
 
   /**
-   * @var string
+   * @var PersonPanelCreateFilterDto
    *  @Serializer\Type("Sherl\Sdk\Person\Dto\PersonPanelCreateFilterDto")
    */
   public $filters;
