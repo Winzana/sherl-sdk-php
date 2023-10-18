@@ -146,4 +146,26 @@ class PersonProvider
     );
   }
 
+  public function createPerson(PersonCreateDto $person): ?PersonOutputDto
+  {
+    $response = $fetcher->post(
+      '/api/persons',
+      $person
+    );
+
+    if ($response->getStatusCode() >= 300) {
+      throw new SherlException(
+          PersonProvider::DOMAIN,
+          $response->getBody()->getContents(),
+          $response->getStatusCode()
+      );
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+      $response->getBody()->getContents(),
+      PersonOutputDto::class,
+      'json'
+    );
+  }
+
 }

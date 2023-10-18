@@ -132,3 +132,34 @@ $sherlClient->person->createAddress(AddressDto $address);
 </details>
 
 This call return a [PersonOutputDto](./person-types#personoutputdto) object.
+
+## Create person
+
+<span class="badge badge--warning">Require authentication</span>
+
+```php
+$sherlClient->person->createPerson(PersonCreateDto $person);
+```
+
+<details>
+ <summary>PersonCreateDto</summary>
+
+| Fields                |                         Type                          | Required           | Description                         |
+| :-------------------- | :---------------------------------------------------: | :----------------- | ----------------------------------- |
+| **id**                |                       `string`                        | :white_check_mark: | L'identifiant de la personne        |
+| **firstName**         |                       `string`                        | :x:                | Le prénom de la personne            |
+| **lastName**          |                       `string`                        | :x:                | Le nom de famille de la personne    |
+| **address**           |                     `AddressDto`                      | :x:                | L'adresse de la personne            |
+| **phoneNumber**       |                       `string`                        | :x:                | Le numéro de téléphone              |
+| **mobilePhoneNumber** |                       `string`                        | :x:                | Le numéro de téléphone mobile       |
+| **faxNumber**         |                       `string`                        | :x:                | Le numéro de télécopie              |
+| **nationality**       |                       `string`                        | :x:                | La nationalité de la personne       |
+| **affiliation**       |             `PersonOrganizationCreateDto`             | :x:                | L'affiliation de la personne        |
+| **birthDate**         |                       `string`                        | :x:                | La date de naissance de la personne |
+| **email**             |                       `string`                        | :white_check_mark: | L'adresse e-mail de la personne     |
+| **gender**            | `Gender` (Énumération `Sherl\Sdk\Person\Enum\Gender`) | :white_check_mark: | Le genre de la personne             |
+| **jobTitle**          |                       `string`                        | :x:                | Le titre de poste de la personne    |
+
+</details>
+
+This call return a [PersonOutputDto](./person-types#personoutputdto) object.
