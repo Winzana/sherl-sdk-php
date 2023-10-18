@@ -8,9 +8,11 @@ use Sherl\Sdk\Common\SerializerFactory;
 
 use Sherl\Sdk\Person\Dto\PersonOutputDto;
 use Sherl\Sdk\Common\Dto\LocationDto;
+use Sherl\Sdk\Common\Dto\ConfigDto;
+use Sherl\Sdk\Place\Dto\GeoCoordinatesDto;
 
 use Sherl\Sdk\Common\Error\SherlException;
-use Sherl\Sdk\Common\Error\ConfigDto;
+
 
 class PersonProvider
 {
@@ -56,7 +58,7 @@ class PersonProvider
   /**
   * @return Pagination<LocationDto>|null
   */
-  public function getCurrentAddress(): ?LocationDto
+  public function getCurrentAddress(GeoCoordinatesDto $position)
   {
     $response = $this->client->get('/api/persons/me');
 
