@@ -3,14 +3,22 @@
 namespace Sherl\Sdk\Common;
 
 use Closure;
+use OutOfBoundsException;
+
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
-use OutOfBoundsException;
+
 use Sherl\Sdk\Auth\AuthProvider;
+
 use Sherl\Sdk\Claim\ClaimProvider;
+
+use Sherl\Sdk\Contact\BugReportProvider;
+
 use Sherl\Sdk\Person\PersonProvider;
+
 use Sherl\Sdk\Common\InitOptions;
+
 use Sherl\Sdk\Contact\ContactProvider;
 
 final class SherlClient
@@ -30,6 +38,8 @@ final class SherlClient
   private ContactProvider $contact;
 
   private ClaimProvider $claim;
+  
+  private BugReportProvider $bugReport;
 
   public function __get(string $name)
   {
@@ -72,6 +82,7 @@ final class SherlClient
     $this->auth = new AuthProvider($client);
     $this->contact = new ContactProvider($client);
     $this->claim = new ClaimProvider($client);
+    $this->bugReport = new BugReportProvider($client);
   }
 
   public function getClient(): Client

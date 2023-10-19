@@ -1,7 +1,7 @@
 module.exports = {
   sidebar: {
     'Getting Started': ['introduction', 'installation', 'configuration'],
-    Features: ['auth', 'claim', 'contact'],
-    Types: ['auth-types', 'claim-types'],
+    Features: ['auth', 'bug-report', 'claim', 'contact'],
+    Types: ['auth-types', 'bug-report-types', 'claim-types', 'pagination'],
   },
 };
