@@ -2,9 +2,12 @@
 
 namespace Sherl\Sdk\Common;
 
+use JMS\Serializer\Handler\HandlerRegistry;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
+
+use Sherl\Sdk\Common\MixedHandler;
 
 class SerializerFactory
 {
@@ -24,7 +27,9 @@ class SerializerFactory
     self::$instance = SerializerBuilder::create()
       ->setPropertyNamingStrategy(new IdenticalPropertyNamingStrategy())
       ->enableEnumSupport(true)
+      ->configureHandlers(function (HandlerRegistry $registry) {
+        $registry->registerSubscribingHandler(new MixedHandler());
+      })
       ->build();
-
   }
 }
