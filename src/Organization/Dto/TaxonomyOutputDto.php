@@ -27,7 +27,7 @@ class TaxonomyOutputDto
   public $code;
 
   /**
-   * @var TaxonomyValueOutputDto
+   * @var TaxonomyValueOutputDto[]
    * @Serializer\Type("array<Sherl\Sdk\Organization\Dto\TaxonomyValueOutputDto>")
    */
   public $values;

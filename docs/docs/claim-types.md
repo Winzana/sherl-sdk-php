@@ -5,22 +5,22 @@ title: Claim types
 
 ## ClaimOutputDto
 
-| Fields           |                   Type                    | Description                        |
-| :--------------- | :---------------------------------------: | :--------------------------------- |
-| **id**           |                  string                   | Claim's id                         |
-| **replies**      |  [ClaimReplyOutput](#claimreplyoutput)[]  | Array of claim's replies           |
-| **schedules**    | [ClaimSchedulesDto](#claimschedulesdto)[] | Array of claim's schedules         |
-| **issueMessage** |                  string                   | Claim's message content            |
-| **issueTitle**   |                  string                   | Claim's title                      |
-| **personId**     |                  string                   | Id of the person making the claim  |
-| **orderId**      |                  string                   | Order ID associated with the claim |
-| **createdAt**    |                  string                   | Claim creation date                |
-| **updatedAt**    |                  string                   | Date of last claim update          |
-| **uri**          |                  string                   | Claim uri (/api/claims/...)        |
-| **consumerId**   |                  string                   | TODO                               |
-| **status**       |        [ClaimStatus](#claimstatus)        | Claim's status                     |
-| **person**       |         TODO LINK:PersonOutputDto         | Person associated with the claim   |
-| **order**        |         TODO LINK:OrderOutputDto          | Order associated with the claim    |
+| Fields           |                   Type                    | Description                           |
+| :--------------- | :---------------------------------------: | :------------------------------------ |
+| **id**           |                  string                   | Claim's id                            |
+| **replies**      |  [ClaimReplyOutput](#claimreplyoutput)[]  | Array of claim's replies              |
+| **schedules**    | [ClaimSchedulesDto](#claimschedulesdto)[] | Array of claim's schedules            |
+| **issueMessage** |                  string                   | Claim's message content               |
+| **issueTitle**   |                  string                   | Claim's title                         |
+| **personId**     |                  string                   | Id of the person making the claim     |
+| **orderId**      |                  string                   | Order ID associated with the claim    |
+| **createdAt**    |                  string                   | Claim creation date                   |
+| **updatedAt**    |                  string                   | Date of last claim update             |
+| **uri**          |                  string                   | Claim uri (/api/claims/...)           |
+| **consumerId**   |                  string                   | Internal API ID to identify a project |
+| **status**       |        [ClaimStatus](#claimstatus)        | Claim's status                        |
+| **person**       |         TODO LINK:PersonOutputDto         | Person associated with the claim      |
+| **order**        |         TODO LINK:OrderOutputDto          | Order associated with the claim       |
 
 ## ClaimReplyOutput
 

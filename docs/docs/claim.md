@@ -24,7 +24,7 @@ $sherlClient->claim->createClaim(CreateClaimInput $createClaim);
 
 </details>
 
-This call retuns a [ClaimOutputDto](claim-types#claimoutputdto) class.
+This call returns a [ClaimOutputDto](claim-types#claimoutputdto) class.
 
 ## Update claim by id
 
@@ -43,7 +43,7 @@ $sherlClient->claim->updateClaim(string $claimId, UpdateClaimInputDto $updateCla
 
 </details>
 
-This call retuns a [ClaimOutputDto](claim-types#claimoutputdto) class.
+This call returns a [ClaimOutputDto](claim-types#claimoutputdto) class.
 
 ## Get claim by id
 
@@ -53,7 +53,7 @@ This call retuns a [ClaimOutputDto](claim-types#claimoutputdto) class.
 $sherlClient->claim->getClaim(string $claimId);
 ```
 
-This call retuns a [ClaimOutputDto](claim-types#claimoutputdto) class.
+This call returns a [ClaimOutputDto](claim-types#claimoutputdto) class.
 
 ## Get all claims
 
@@ -74,7 +74,7 @@ $sherlClient->claim->getClaims(FindClaimsInputDto $filters);
 
 </details>
 
-This call retuns a [ClaimsResultOutputDto](claim-types#claimsresultoutputdto) class.
+This call returns a [ClaimsResultOutputDto](claim-types#claimsresultoutputdto) class.
 
 ## Find claim by
 
@@ -92,11 +92,11 @@ $sherlClient->claim->findClaimBy(ClaimFindOneByInputDto $findClaimOneBy);
 | **id**         | string | Claim's id                             |
 | **personId**   | string | ID of person which associated to claim |
 | **orderId**    | string | ID of order which associated to claim  |
-| **consumerId** | string | TODO                                   |
+| **consumerId** | string | Internal API ID to identify a project  |
 
 </details>
 
-This call retuns a [ClaimOutputDto](claim-types#claimoutputdto) class.
+This call returns a [ClaimOutputDto](claim-types#claimoutputdto) class.
 
 ## Reply to claim
 
@@ -115,7 +115,7 @@ $sherlClient->claim->replyToClaim(string $claimId, ReplyToClaimInputDto $replyTo
 
 </details>
 
-This call retuns a [ClaimOutputDto](claim-types#claimoutputdto) class.
+This call returns a [ClaimOutputDto](claim-types#claimoutputdto) class.
 
 ## Refund claim
 
@@ -125,4 +125,4 @@ This call retuns a [ClaimOutputDto](claim-types#claimoutputdto) class.
 $sherlClient->claim->refundClaim(string $claimId);
 ```
 
-This call retuns a [ClaimOutputDto](claim-types#claimoutputdto) class.
+This call returns a [ClaimOutputDto](claim-types#claimoutputdto) class.

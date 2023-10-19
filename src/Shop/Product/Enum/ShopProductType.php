@@ -8,7 +8,7 @@ enum ShopProductType: string
   case DEFAULT = 'DEFAULT';
   case ROOM = 'ROOM';
   case TIP = 'TIP';
-  case  SERVICE = 'SERVICE';
+  case SERVICE = 'SERVICE';
   case PLAN = 'PLAN';
   case QUOTA = 'QUOTA';
   case REFUND = 'REFUND';

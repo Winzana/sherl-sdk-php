@@ -354,7 +354,7 @@ class OrganizationOutputDto {
   public $statistics;
 
   /**
-   * @var mixed
+   * @var array<string,QuotaOutputDto>
    * @Serializer\Type("array<string, Sherl\Sdk\Quotas\Dto\QuotaOutputDto>")
    */
   public $quotas;

@@ -97,38 +97,38 @@ class OrderOutputDto {
   public $acceptedOffer;
 
   /**
-   * @var integer
-   * @Serializer\Type("integer")
+   * @var float
+   * @Serializer\Type("float")
    */
   public $price;
 
   /**
-   * @var integer
-   * @Serializer\Type("integer")
+   * @var float
+   * @Serializer\Type("float")
    */
   public $priceTaxIncluded;
 
   /**
-   * @var integer
-   * @Serializer\Type("integer")
+   * @var float
+   * @Serializer\Type("float")
    */
   public $priceAdvancePayment;
 
   /**
-   * @var integer
-   * @Serializer\Type("integer")
+   * @var float
+   * @Serializer\Type("float")
    */
   public $priceCommission;
 
   /**
-   * @var integer
-   * @Serializer\Type("integer")
+   * @var float
+   * @Serializer\Type("float")
    */
   public $priceTaxIncludedWithCommission;
 
   /**
-   * @var integer
-   * @Serializer\Type("integer")
+   * @var float
+   * @Serializer\Type("float")
    */
   public $priceToPay;
 
