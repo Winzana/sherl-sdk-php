@@ -4,6 +4,7 @@ namespace Sherl\Sdk\Notification\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
+use Sherl\Sdk\Common\Dto\AggregationsOutputDto;
 use Sherl\Sdk\Common\Dto\ViewOutputDto;
 
 use Sherl\Sdk\Notification\Dto\NotificationOutputDto;
@@ -21,5 +22,11 @@ class NotificationListOutputDto
    * @Serializer\Type("Sherl\Sdk\Common\Dto\ViewOutputDto")
    */
   public $view;
+
+  /**
+   * @var array<string,AggregationsOutputDto>
+   * @Serializer\Type("array<string, Sherl\Sdk\Common\Dto\AggregationsOutputDto>")
+   */
+  public $aggregations;
 
 }
