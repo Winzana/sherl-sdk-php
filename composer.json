@@ -1,6 +1,7 @@
 {
     "name": "sherl/sdk",
     "type": "composer-plugin",
+    "description": "Sherl PHP SDK",
     "autoload": {
         "psr-4": {
             "Sherl\\Sdk\\": "src/"
