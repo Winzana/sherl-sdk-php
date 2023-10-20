@@ -2,6 +2,7 @@
     "name": "sherl/sdk",
     "type": "composer-plugin",
     "description": "Sherl PHP SDK",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Sherl\\Sdk\\": "src/"
