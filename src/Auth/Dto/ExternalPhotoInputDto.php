@@ -6,9 +6,9 @@ use JMS\Serializer\Annotation as Serializer;
 
 class ExternalPhotoInputDto
 {
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $value;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $value;
 }

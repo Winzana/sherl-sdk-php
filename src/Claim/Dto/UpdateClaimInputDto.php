@@ -8,9 +8,9 @@ use Sherl\Sdk\Claim\Enum\ClaimStatus;
 
 class UpdateClaimInputDto
 {
-  /**
-   * @var ClaimStatus
-   * @Serializer\Type("enum<'Sherl\Sdk\Claim\Enum\ClaimStatus', 'value'>")
-   */
-  public $status;
+    /**
+     * @var ClaimStatus
+     * @Serializer\Type("enum<'Sherl\Sdk\Claim\Enum\ClaimStatus', 'value'>")
+     */
+    public $status;
 }

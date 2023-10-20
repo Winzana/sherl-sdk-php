@@ -6,15 +6,15 @@ use JMS\Serializer\Annotation as Serializer;
 
 class CreditedFundsOutputDto
 {
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $Currency;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $Currency;
 
-  /**
-   * @var float
-   * @Serializer\Type("float")
-   */
-  public $Amount;
+    /**
+     * @var float
+     * @Serializer\Type("float")
+     */
+    public $Amount;
 }

@@ -8,9 +8,9 @@ use Sherl\Sdk\Organization\Dto\FacebookThirdPartOutputDto;
 
 class ThridPartyOutputDto
 {
-  /**
-   * @var FacebookThirdPartOutputDto
-   * @Serializer\Type("Sherl\Sdk\Organization\Dto\FacebookThirdPartOutputDto")
-   */
-  public $facebook;
+    /**
+     * @var FacebookThirdPartOutputDto
+     * @Serializer\Type("Sherl\Sdk\Organization\Dto\FacebookThirdPartOutputDto")
+     */
+    public $facebook;
 }

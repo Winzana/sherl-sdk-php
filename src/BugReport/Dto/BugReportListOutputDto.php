@@ -11,22 +11,22 @@ use Sherl\Sdk\Common\Dto\ViewOutputDto;
 
 class BugReportListOutputDto extends Pagination
 {
-  /**
-   * @var BugReportOutputDto[]
-   * @Serializer\Type("array<Sherl\Sdk\BugReport\Dto\BugReportOutputDto>")
-   */
-  public $results;
+    /**
+     * @var BugReportOutputDto[]
+     * @Serializer\Type("array<Sherl\Sdk\BugReport\Dto\BugReportOutputDto>")
+     */
+    public $results;
 
-  /**
-   * @var ViewOutputDto
-   * @Serializer\Type("Sherl\Sdk\Common\Dto\ViewOutputDto")
-   */
-  public $view;
+    /**
+     * @var ViewOutputDto
+     * @Serializer\Type("Sherl\Sdk\Common\Dto\ViewOutputDto")
+     */
+    public $view;
 
 
-  /**
-   * @var array<string,AggregationsOutputDto>
-   * @Serializer\Type("array<string, Sherl\Sdk\Common\Dto\AggregationsOutputDto>")
-   */
-  public $aggregations;
+    /**
+     * @var array<string,AggregationsOutputDto>
+     * @Serializer\Type("array<string, Sherl\Sdk\Common\Dto\AggregationsOutputDto>")
+     */
+    public $aggregations;
 }

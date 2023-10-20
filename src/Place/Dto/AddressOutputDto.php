@@ -4,107 +4,107 @@ namespace Sherl\Sdk\Place\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class AddressOutputDto {
+class AddressOutputDto
+{
+    /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+    public $id;
 
     /**
    * @var string
    * @Serializer\Type("string")
    */
-  public $id;
-  
-    /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $country;
+    public $country;
 
     /**
    * @var string
    * @Serializer\Type("string")
    */
-  public $locality;
+    public $locality;
 
     /**
    * @var string
    * @Serializer\Type("string")
    */
-  public $region;
+    public $region;
 
     /**
    * @var string
    * @Serializer\Type("string")
    */
-  public $department;
+    public $department;
 
     /**
    * @var string[]
    * @Serializer\Type("array<string>")
    */
-  public $types;
+    public $types;
 
     /**
    * @var string
    * @Serializer\Type("string")
    */
-  public $postalCode;
+    public $postalCode;
 
     /**
    * @var string
    * @Serializer\Type("string")
    */
-  public $streetAddress;
+    public $streetAddress;
 
     /**
    * @var string
    * @Serializer\Type("string")
    */
-  public $complementaryStreetAddress;
+    public $complementaryStreetAddress;
 
     /**
    * @var string
    * @Serializer\Type("string")
    */
-  public $name;
+    public $name;
 
     /**
    * @var string
    * @Serializer\Type("string")
    */
-  public $type;
+    public $type;
 
     /**
    * @var boolean
    * @Serializer\Type("boolean")
    */
-  public $isDefault;
+    public $isDefault;
 
     /**
    * @var string
    * @Serializer\Type("string")
    */
-  public $googleToken;
+    public $googleToken;
 
     /**
    * @var string
    * @Serializer\Type("string")
    */
-  public $uri;
+    public $uri;
 
     /**
    * @var string
    * @Serializer\Type("string")
    */
-  public $originId;
+    public $originId;
 
     /**
    * @var float
    * @Serializer\Type("float")
    */
-  public $latitude;
+    public $latitude;
 
     /**
    * @var float
    * @Serializer\Type("float")
    */
-  public $longitude;
+    public $longitude;
 }

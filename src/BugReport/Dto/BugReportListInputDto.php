@@ -6,28 +6,28 @@ use Sherl\Sdk\Common\Dto\PaginationFiltersInputDto;
 
 class BugReportListInputDto extends PaginationFiltersInputDto
 {
-  /**
-   * @var string
-   */
-  public $osName;
+    /**
+     * @var string
+     */
+    public $osName;
 
-  /**
-   * @var string
-   */
-  public $browserName;
+    /**
+     * @var string
+     */
+    public $browserName;
 
-  /**
-   * @var string
-   */
-  public $contactEmail;
+    /**
+     * @var string
+     */
+    public $contactEmail;
 
-  /**
-   * @var integer
-   */
-  public $windowHeight;
+    /**
+     * @var integer
+     */
+    public $windowHeight;
 
-  /**
-   * @var integer
-   */
-  public $windowWidth;
+    /**
+     * @var integer
+     */
+    public $windowWidth;
 }
