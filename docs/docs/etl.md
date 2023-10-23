@@ -28,6 +28,8 @@ $sherlClient->etl->saveConfig(IEtlSaveConfigInputDto $config);
 | **schemas**     |     [SchemaModel] (etl-types#SchemaModel)      | Schema information.      |
 | **filters**     |     [FilterModel] (etl-types#FilterModel)      | Filter information.      |
 
+</details>
+
 This call returns an [ConfigModel](etl-types#ConfigModel) object.
 
 ## Extract transform load
