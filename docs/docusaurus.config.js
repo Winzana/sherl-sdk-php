@@ -42,7 +42,7 @@ module.exports = {
             },
             {
               label: 'Features',
-              to: 'docs/user',
+              to: 'docs/auth',
             },
             {
               label: 'Types',

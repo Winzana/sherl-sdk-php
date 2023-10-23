@@ -8,10 +8,9 @@ use Sherl\Sdk\Person\Dto\SettingsDetailOutputDto;
 
 class SettingsOutputDto
 {
-
-  /**
-   * @var SettingsDetailOutputDto
-   * @Serializer\Type("Sherl\Sdk\Person\Dto\SettingsDetailOutputDto")
-   */
-  public $notifications;
+    /**
+     * @var SettingsDetailOutputDto
+     * @Serializer\Type("Sherl\Sdk\Person\Dto\SettingsDetailOutputDto")
+     */
+    public $notifications;
 }
