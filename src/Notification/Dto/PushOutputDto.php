@@ -8,21 +8,21 @@ use Sherl\Sdk\Notification\Dto\PushContentOutputDto;
 
 class PushOutputDto
 {
-  /**
-   * @var PushContentOutputDto
-   * @Serializer\Type("Sherl\Sdk\Notification\Dto\PushContentOutputDto")
-   */
-  public $fr;
+    /**
+     * @var PushContentOutputDto
+     * @Serializer\Type("Sherl\Sdk\Notification\Dto\PushContentOutputDto")
+     */
+    public $fr;
 
-  /**
-   * @var PushContentOutputDto
-   * @Serializer\Type("Sherl\Sdk\Notification\Dto\PushContentOutputDto")
-   */
-  public $en;
+    /**
+     * @var PushContentOutputDto
+     * @Serializer\Type("Sherl\Sdk\Notification\Dto\PushContentOutputDto")
+     */
+    public $en;
 
-  /**
-   * @var array
-   * @Serializer\Type("array")
-   */
-  public $data;
+    /**
+     * @var array
+     * @Serializer\Type("array")
+     */
+    public $data;
 }

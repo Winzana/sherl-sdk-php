@@ -12,81 +12,81 @@ use Sherl\Sdk\Notification\Dto\PushOutputDto;
 
 class NotificationOutputDto
 {
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $id;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $id;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $uri;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $uri;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $consumerId;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $consumerId;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $name;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $name;
 
-  /**
-   * @var NotificationCode
-   * @Serializer\Type("enum<'Sherl\Sdk\Notification\Enum\NotificationEnum', 'value'>")
-   */
-  public $code;
+    /**
+     * @var NotificationCode
+     * @Serializer\Type("enum<'Sherl\Sdk\Notification\Enum\NotificationEnum', 'value'>")
+     */
+    public $code;
 
-  /**
-   * @var EmailOutputDto
-   * @Serializer\Type("Sherl\Sdk\Notification\Dto\EmailOutputDto")
-   */
-  public $email;
+    /**
+     * @var EmailOutputDto
+     * @Serializer\Type("Sherl\Sdk\Notification\Dto\EmailOutputDto")
+     */
+    public $email;
 
-  /**
-   * @var SMSOutputDto
-   * @Serializer\Type("Sherl\Sdk\Notification\Dto\SMSOutputDto")
-   */
-  public $sms;
+    /**
+     * @var SMSOutputDto
+     * @Serializer\Type("Sherl\Sdk\Notification\Dto\SMSOutputDto")
+     */
+    public $sms;
 
-  /**
-   * @var PushOutputDto
-   * @Serializer\Type("Sherl\Sdk\Notification\Dto\PushOutputDto")
-   */
-  public $push;
+    /**
+     * @var PushOutputDto
+     * @Serializer\Type("Sherl\Sdk\Notification\Dto\PushOutputDto")
+     */
+    public $push;
 
-  /**
-   * @var boolean
-   * @Serializer\Type("boolean")
-   */
-  public $isActivatable;
+    /**
+     * @var boolean
+     * @Serializer\Type("boolean")
+     */
+    public $isActivatable;
 
-  /**
-   * @var boolean
-   * @Serializer\Type("boolean")
-   */
-  public $enabled;
+    /**
+     * @var boolean
+     * @Serializer\Type("boolean")
+     */
+    public $enabled;
 
-  /**
-   * @var array
-   * @Serializer\Type("array")
-   */
-  public $conditions;
+    /**
+     * @var array
+     * @Serializer\Type("array")
+     */
+    public $conditions;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $createdAt;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $createdAt;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $updatedAt;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $updatedAt;
 }

@@ -8,15 +8,15 @@ use Sherl\Sdk\Notification\Dto\EmailContentOutputDto;
 
 class EmailOutputDto
 {
-  /**
-   * @var EmailContentOutputDto
-   * @Serializer\Type("Sherl\Sdk\Notification\Dto\EmailContentOutputDto")
-   */
-  public $fr;
+    /**
+     * @var EmailContentOutputDto
+     * @Serializer\Type("Sherl\Sdk\Notification\Dto\EmailContentOutputDto")
+     */
+    public $fr;
 
-  /**
-   * @var EmailContentOutputDto
-   * @Serializer\Type("Sherl\Sdk\Notification\Dto\EmailContentOutputDto")
-   */
-  public $en;
+    /**
+     * @var EmailContentOutputDto
+     * @Serializer\Type("Sherl\Sdk\Notification\Dto\EmailContentOutputDto")
+     */
+    public $en;
 }
