@@ -23,6 +23,8 @@ use Sherl\Sdk\Common\InitOptions;
 
 use Sherl\Sdk\Contact\ContactProvider;
 
+use Sherl\Sdk\User\UserProvider;
+
 final class SherlClient
 {
     private ?Client $client = null;
@@ -44,6 +46,8 @@ final class SherlClient
     private ClaimProvider $claim;
 
     private BugReportProvider $bugReport;
+
+    private UserProvider $user;
 
     public function __get(string $name)
     {
@@ -88,6 +92,7 @@ final class SherlClient
         $this->claim = new ClaimProvider($client);
         $this->bugReport = new BugReportProvider($client);
         $this->account = new AccountProvider($client);
+        $this->user = new UserProvider($client);
     }
 
     public function getClient(): Client
