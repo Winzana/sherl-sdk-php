@@ -78,6 +78,18 @@ class PersonCreateDto {
   public $email;
 
   /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $password;
+
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $confirmPassword;
+
+  /**
    * @var Gender
    * @Serializer\Type("Sherl\Sdk\Person\Enum\Gender")
    */

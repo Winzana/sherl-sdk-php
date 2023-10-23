@@ -154,21 +154,188 @@ $sherlClient->person->createPerson(PersonCreateDto $person);
 <details>
  <summary>PersonCreateDto</summary>
 
-| Fields                |                         Type                          | Required           | Description                         |
-| :-------------------- | :---------------------------------------------------: | :----------------- | ----------------------------------- |
-| **id**                |                       `string`                        | :white_check_mark: | L'identifiant de la personne        |
-| **firstName**         |                       `string`                        | :x:                | Le prénom de la personne            |
-| **lastName**          |                       `string`                        | :x:                | Le nom de famille de la personne    |
-| **address**           |                     `AddressDto`                      | :x:                | L'adresse de la personne            |
-| **phoneNumber**       |                       `string`                        | :x:                | Le numéro de téléphone              |
-| **mobilePhoneNumber** |                       `string`                        | :x:                | Le numéro de téléphone mobile       |
-| **faxNumber**         |                       `string`                        | :x:                | Le numéro de télécopie              |
-| **nationality**       |                       `string`                        | :x:                | La nationalité de la personne       |
-| **affiliation**       |             `PersonOrganizationCreateDto`             | :x:                | L'affiliation de la personne        |
-| **birthDate**         |                       `string`                        | :x:                | La date de naissance de la personne |
-| **email**             |                       `string`                        | :white_check_mark: | L'adresse e-mail de la personne     |
-| **gender**            | `Gender` (Énumération `Sherl\Sdk\Person\Enum\Gender`) | :white_check_mark: | Le genre de la personne             |
-| **jobTitle**          |                       `string`                        | :x:                | Le titre de poste de la personne    |
+| Fields                |             Type              | Required           | Description                                    |
+| :-------------------- | :---------------------------: | :----------------- | ---------------------------------------------- |
+| **id**                |           `string`            | :white_check_mark: | L'identifiant de la personne                   |
+| **firstName**         |           `string`            | :x:                | Le prénom de la personne                       |
+| **lastName**          |           `string`            | :x:                | Le nom de famille de la personne               |
+| **address**           |         `AddressDto`          | :x:                | L'adresse de la personne                       |
+| **phoneNumber**       |           `string`            | :x:                | Le numéro de téléphone                         |
+| **mobilePhoneNumber** |           `string`            | :x:                | Le numéro de téléphone mobile                  |
+| **faxNumber**         |           `string`            | :x:                | Le numéro de télécopie                         |
+| **nationality**       |           `string`            | :x:                | La nationalité de la personne                  |
+| **affiliation**       | `PersonOrganizationCreateDto` | :x:                | L'affiliation de la personne                   |
+| **birthDate**         |           `string`            | :x:                | La date de naissance de la personne            |
+| **email**             |           `string`            | :white_check_mark: | L'adresse e-mail de la personne                |
+| **password**          |           `string`            | :white_check_mark: | Le mot de passe de la personne                 |
+| **confirmPassword**   |           `string`            | :white_check_mark: | La confirmation du mot de passe de la personne |
+| **gender**            |           `Gender`            | :white_check_mark: | Le genre de la personne                        |
+| **jobTitle**          |           `string`            | :x:                | Le titre de poste de la personne               |
+
+</details>
+
+This call return a [PersonOutputDto](./person-types#personoutputdto) object.
+
+## Register with email and password
+
+<span class="badge badge--warning">Require authentication</span>
+
+```php
+$sherlClient->person->registerWithEmailAndPassword(PersonCreateDto $person);
+```
+
+<details>
+ <summary>PersonCreateDto</summary>
+
+| Fields                |             Type              | Required           | Description                                    |
+| :-------------------- | :---------------------------: | :----------------- | ---------------------------------------------- |
+| **id**                |           `string`            | :white_check_mark: | L'identifiant de la personne                   |
+| **firstName**         |           `string`            | :x:                | Le prénom de la personne                       |
+| **lastName**          |           `string`            | :x:                | Le nom de famille de la personne               |
+| **address**           |         `AddressDto`          | :x:                | L'adresse de la personne                       |
+| **phoneNumber**       |           `string`            | :x:                | Le numéro de téléphone                         |
+| **mobilePhoneNumber** |           `string`            | :x:                | Le numéro de téléphone mobile                  |
+| **faxNumber**         |           `string`            | :x:                | Le numéro de télécopie                         |
+| **nationality**       |           `string`            | :x:                | La nationalité de la personne                  |
+| **affiliation**       | `PersonOrganizationCreateDto` | :x:                | L'affiliation de la personne                   |
+| **birthDate**         |           `string`            | :x:                | La date de naissance de la personne            |
+| **email**             |           `string`            | :white_check_mark: | L'adresse e-mail de la personne                |
+| **password**          |           `string`            | :white_check_mark: | Le mot de passe de la personne                 |
+| **confirmPassword**   |           `string`            | :white_check_mark: | La confirmation du mot de passe de la personne |
+| **gender**            |           `Gender`            | :white_check_mark: | Le genre de la personne                        |
+| **jobTitle**          |           `string`            | :x:                | Le titre de poste de la personne               |
+
+</details>
+
+This call return a [PersonOutputDto](./person-types#personoutputdto) object.
+
+## Add person picture
+
+<span class="badge badge--warning">Require authentication</span>
+
+Add a profile picture to a registered person
+
+```php
+$sherlClient->person->addPersonPicture(PictureRegisterInputDto $picture);
+```
+
+<details>
+ <summary>PictureRegisterInputDto</summary>
+
+| Champs      |   Type   |       Requis       | Description                   |
+| :---------- | :------: | :----------------: | ----------------------------- |
+| **person**  | `string` | :white_check_mark: | L'identifiant de la personne. |
+| **mediaId** | `string` | :white_check_mark: | L'identifiant du média.       |
+| **file**    | `string` | :white_check_mark: | Le type de fichier            |
+
+</details>
+
+This call return a [PersonOutputDto](./person-types#personoutputdto) object.
+
+## Create address
+
+<span class="badge badge--warning">Require authentication</span>
+
+```php
+$sherlClient->person->updateAddress(AddressDto $address);
+```
+
+<details>
+ <summary>AddressDto</summary>
+
+| Champs                         |   Type   |       Requis       | Description                           |
+| :----------------------------- | :------: | :----------------: | ------------------------------------- |
+| **id**                         | `string` | :white_check_mark: | L'identifiant de l'adresse.           |
+| **country**                    | `string` | :white_check_mark: | Le pays de l'adresse.                 |
+| **locality**                   | `string` | :white_check_mark: | La localité de l'adresse.             |
+| **region**                     | `string` | :white_check_mark: | La région de l'adresse.               |
+| **postalCode**                 | `string` | :white_check_mark: | Le code postal de l'adresse.          |
+| **streetAddress**              | `string` | :white_check_mark: | L'adresse de la rue.                  |
+| **uri**                        | `string` | :white_check_mark: | L'URI de l'adresse.                   |
+| **createdAt**                  | `string` | :white_check_mark: | La date de création de l'adresse.     |
+| **department**                 | `string` | :white_check_mark: | Le département de l'adresse.          |
+| **complementaryStreetAddress** | `string` | :white_check_mark: | L'adresse complémentaire.             |
+| **name**                       | `string` | :white_check_mark: | Le nom de l'adresse.                  |
+| **originId**                   | `string` | :white_check_mark: | L'identifiant d'origine de l'adresse. |
+| **latitude**                   | `float`  | :white_check_mark: | La latitude de l'adresse.             |
+| **longitude**                  | `float`  | :white_check_mark: | La longitude de l'adresse.            |
+
+</details>
+
+This call return a [PersonOutputDto](./person-types#personoutputdto) object.
+
+## Update address
+
+<span class="badge badge--warning">Require authentication</span>
+
+```php
+$sherlClient->person->updateAddress(string $addressId, AddressDto $address);
+```
+
+<details>
+ <summary>AddressDto</summary>
+
+| Champs                         |   Type   |       Requis       | Description                           |
+| :----------------------------- | :------: | :----------------: | ------------------------------------- |
+| **id**                         | `string` | :white_check_mark: | L'identifiant de l'adresse.           |
+| **country**                    | `string` | :white_check_mark: | Le pays de l'adresse.                 |
+| **locality**                   | `string` | :white_check_mark: | La localité de l'adresse.             |
+| **region**                     | `string` | :white_check_mark: | La région de l'adresse.               |
+| **postalCode**                 | `string` | :white_check_mark: | Le code postal de l'adresse.          |
+| **streetAddress**              | `string` | :white_check_mark: | L'adresse de la rue.                  |
+| **uri**                        | `string` | :white_check_mark: | L'URI de l'adresse.                   |
+| **createdAt**                  | `string` | :white_check_mark: | La date de création de l'adresse.     |
+| **department**                 | `string` | :white_check_mark: | Le département de l'adresse.          |
+| **complementaryStreetAddress** | `string` | :white_check_mark: | L'adresse complémentaire.             |
+| **name**                       | `string` | :white_check_mark: | Le nom de l'adresse.                  |
+| **originId**                   | `string` | :white_check_mark: | L'identifiant d'origine de l'adresse. |
+| **latitude**                   | `float`  | :white_check_mark: | La latitude de l'adresse.             |
+| **longitude**                  | `float`  | :white_check_mark: | La longitude de l'adresse.            |
+
+</details>
+
+This call return a [PersonOutputDto](./person-types#personoutputdto) object.
+
+## Delete address
+
+<span class="badge badge--warning">Require authentication</span>
+
+```php
+$sherlClient->person->updateAddress(string $id);
+```
+
+This call return a [PersonOutputDto](./person-types#personoutputdto) object.
+
+## Update person by id
+
+<span class="badge badge--warning">Require authentication</span>
+
+```php
+$sherlClient->person->updateAddress(string $addressId, AddressDto $address);
+```
+
+<details>
+ <summary>PersonUpdateDto</summary>
+
+| Champs                |             Type              |       Requis       | Description                          |
+| :-------------------- | :---------------------------: | :----------------: | ------------------------------------ |
+| **firstName**         |           `string`            | :white_check_mark: | Le prénom de la personne.            |
+| **lastName**          |           `string`            | :white_check_mark: | Le nom de famille de la personne.    |
+| **address**           |         `AddressDto`          | :white_check_mark: | L'adresse de la personne.            |
+| **type**              |         `PersonType`          | :white_check_mark: | Le type de personne.                 |
+| **phoneNumber**       |           `string`            | :white_check_mark: | Le numéro de téléphone.              |
+| **mobilePhoneNumber** |           `string`            | :white_check_mark: | Le numéro de téléphone mobile.       |
+| **faxNumber**         |           `string`            | :white_check_mark: | Le numéro de télécopie.              |
+| **nationality**       |           `string`            | :white_check_mark: | La nationalité de la personne.       |
+| **affiliation**       | `PersonOrganizationCreateDto` | :white_check_mark: | L'affiliation de la personne.        |
+| **latitude**          |            `float`            | :white_check_mark: | La latitude de la personne.          |
+| **longitude**         |            `float`            | :white_check_mark: | La longitude de la personne.         |
+| **birthDate**         |           `string`            | :white_check_mark: | La date de naissance de la personne. |
+| **email**             |           `string`            |                    | L'adresse e-mail de la personne.     |
+| **gender**            |           `Gender`            | :white_check_mark: | Le genre de la personne.             |
+| **jobTitle**          |           `string`            | :white_check_mark: | Le titre de poste de la personne.    |
+| **metadata**          |           `string`            | :white_check_mark: | Métadonnées de la personne.          |
+| **userProfileUri**    |           `string`            | :white_check_mark: | L'URI du profil utilisateur.         |
 
 </details>
 

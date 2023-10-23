@@ -168,6 +168,28 @@ class PersonProvider
     );
   }
 
+  public function updateAddress(string $addressId, AddressDto $address): ?PersonOutputDto
+  {
+    $response = $fetcher->put(
+      ['/api/persons/addresses/:id', $addressId],
+      $address
+    );
+
+    if ($response->getStatusCode() >= 300) {
+      throw new SherlException(
+          PersonProvider::DOMAIN,
+          $response->getBody()->getContents(),
+          $response->getStatusCode()
+      );
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+      $response->getBody()->getContents(),
+      PersonOutputDto::class,
+      'json'
+    );
+  }
+
   public function createPerson(PersonCreateDto $person): ?PersonOutputDto
   {
     $response = $fetcher->post(
@@ -190,4 +212,77 @@ class PersonProvider
     );
   }
 
+  public function registerWithEmailAndPassword(PersonCreateDto $person): ?PersonOutputDto
+  {
+    $response = $fetcher->post(
+      '/api/persons/register-with-email-and-password',
+      $person
+    );
+
+    if ($response->getStatusCode() >= 300) {
+      throw new SherlException(
+          PersonProvider::DOMAIN,
+          $response->getBody()->getContents(),
+          $response->getStatusCode()
+      );
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+      $response->getBody()->getContents(),
+      PersonOutputDto::class,
+      'json'
+    );
+  }
+
+  public function addPersonPicture(PictureRegisterInputDto $picture): ?PersonOutputDto
+  {
+    $form = new \CURLFile($picture['file']->getRealPath(), $picture['file']->getClientMimeType(), $picture['file']->getClientOriginalName());
+    $response = $fetcher->post(
+      '/api/persons/:userId/picture/create/:mediaId',
+      $picture
+    );
+
+    $response = $fetcher->post('/api/persons/:userId/picture/create/:mediaId', [
+      'userId' => $picture['person'],
+      'mediaId' => $picture['mediaId'],
+  ], [
+      $form,
+  ]);
+
+    if ($response->getStatusCode() >= 300) {
+      throw new SherlException(
+          PersonProvider::DOMAIN,
+          $response->getBody()->getContents(),
+          $response->getStatusCode()
+      );
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+      $response->getBody()->getContents(),
+      PersonOutputDto::class,
+      'json'
+    );
+  }
+
+  public function updatePersonById(string $id, PersonUpdateDto $person): ?PersonOutputDto
+  {
+    $response = $fetcher->put(
+      ['/api/persons/:id', $id],
+      $person
+    );
+
+    if ($response->getStatusCode() >= 300) {
+      throw new SherlException(
+          PersonProvider::DOMAIN,
+          $response->getBody()->getContents(),
+          $response->getStatusCode()
+      );
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+      $response->getBody()->getContents(),
+      PersonOutputDto::class,
+      'json'
+    );
+  }
 }
