@@ -14,13 +14,13 @@ $sherlClient->claim->createClaim(CreateClaimInput $createClaim);
 <details>
  <summary><b>CreateClaimInput</b></summary>
 
-| Fields           |                        Type                        | Description                       |
-| :--------------- | :------------------------------------------------: | :-------------------------------- |
-| **id**           |                       string                       | The order id to claim             |
-| **issueTitle**   |                       string                       | Claim's title                     |
-| **issueMessage** |                       string                       | Claim's message                   |
-| **personId**     |                       string                       | Id of the person making the claim |
-| **schedules**    | [ClaimSchedulesDto](claim-types#claimschedulesdto) | Claim's schedules                 |
+| Fields           |                        Type                        |      Required      | Description                       |
+| :--------------- | :------------------------------------------------: | :----------------: | :-------------------------------- |
+| **id**           |                       string                       | :white_check_mark: | The order id to claim             |
+| **issueTitle**   |                       string                       | :white_check_mark: | Claim's title                     |
+| **issueMessage** |                       string                       | :white_check_mark: | Claim's message                   |
+| **personId**     |                       string                       | :white_check_mark: | Id of the person making the claim |
+| **schedules**    | [ClaimSchedulesDto](claim-types#claimschedulesdto) | :white_check_mark: | Claim's schedules                 |
 
 </details>
 
@@ -37,9 +37,9 @@ $sherlClient->claim->updateClaim(string $claimId, UpdateClaimInputDto $updateCla
 <details>
  <summary><b>UpdateClaimInputDto</b></summary>
 
-| Fields      |                  Type                  | Description                 |
-| :---------- | :------------------------------------: | :-------------------------- |
-| **$status** | [ClaimStatus](claim-types#claimstatus) | The new status of the claim |
+| Fields      |                  Type                  |      Required      | Description                 |
+| :---------- | :------------------------------------: | :----------------: | :-------------------------- |
+| **$status** | [ClaimStatus](claim-types#claimstatus) | :white_check_mark: | The new status of the claim |
 
 </details>
 
@@ -68,9 +68,9 @@ $sherlClient->claim->getClaims(FindClaimsInputDto $filters);
 
 //TODO Demander les bon filtres
 
-| Fields      | Type  | Description |
-| :---------- | :---: | :---------- |
-| **filters** | mixed | A changer   |
+| Fields      | Type  | Required | Description |
+| :---------- | :---: | :------: | :---------- |
+| **filters** | mixed |    :x    | A changer   |
 
 </details>
 
