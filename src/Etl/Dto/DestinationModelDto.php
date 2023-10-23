@@ -10,7 +10,7 @@ class DestinationModel
 {
     /**
      * @var LoaderType
-     * @Serializer\Type("array<Sherl\Sdk\Etl\Dto\LoaderType>")
+     * @Serializer\Type("Sherl\Sdk\Etl\Dto\LoaderType")
      */
     public $loaderType;
 
@@ -64,7 +64,7 @@ class DestinationModel
 
     /**
      * @var DatabaseLoaderType
-     * @Serializer\Type("array<Sherl\Sdk\Etl\Dto\DatabaseLoaderType>")
+     * @Serializer\Type("Sherl\Sdk\Etl\Dto\DatabaseLoaderType")
      */
     public $databaseType;
 

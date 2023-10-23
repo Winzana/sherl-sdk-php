@@ -22,7 +22,7 @@ class SchemaSourceModel
 
     /**
      * @var WrapperModel[]
-     * @Serializer\Type("Sherl\Sdk\Etl\Enum\WrapperModelDto")
+     * @Serializer\Type("array<Sherl\Sdk\Etl\Enum\WrapperModelDto>")
      */
     public $wrappers;
 

@@ -30,13 +30,13 @@ class ConfigModel{
 
     /**
      * @var SourceModel
-     * @Serializer\Type("array<Sherl\Sdk\Etl\Dto\SourceModelDto>")
+     * @Serializer\Type("Sherl\Sdk\Etl\Dto\SourceModelDto")
      */
     public $source;
 
     /**
      * @var DestinationModel
-     * @Serializer\Type("array<Sherl\Sdk\Etl\Dto\DestinationModelDto>")
+     * @Serializer\Type("Sherl\Sdk\Etl\Dto\DestinationModelDto")
      */
     public $destination;
 
@@ -48,13 +48,13 @@ class ConfigModel{
 
     /**
      * @var FilterModel[]
-     * @Serializer\Type("array<App\Model\FilterModel>")
+     * @Serializer\Type("array<Sherl\Sdk\Etl\Dto\FilterModel>")
      */
     public $filters;
 
     /**
      * @var string
-     * @Serializer\Type("array<Sherl\Sdk\Etl\Dto\FilterModelDto>") 
+     * @Serializer\Type("string") 
      */
     public $createdAt;
 }

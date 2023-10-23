@@ -22,7 +22,7 @@ class FilterModel
 
     /**
      * @var FilterOptionsModel
-     * @Serializer\Type("array<Sherl\Sdk\Etl\Dto\FilterOptionsModelDto>") 
+     * @Serializer\Type("Sherl\Sdk\Etl\Dto\FilterOptionsModelDto") 
      */
     public $options;
 

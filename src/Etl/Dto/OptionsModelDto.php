@@ -52,13 +52,13 @@ class OptionsModel
 
     /**
      * @var HttpRequestType
-     * @Serializer\Type("array<Sherl\Sdk\Etl\Enum\HttpRequestType>")
+     * @Serializer\Type("Sherl\Sdk\Etl\Enum\HttpRequestType")
      */
     public $type;
 
     /**
      * @var MimeType
-     * @Serializer\Type("array<Sherl\Sdk\Etl\Enum\MimeType>")
+     * @Serializer\Type("Sherl\Sdk\Etl\Enum\MimeType")
      */
     public $mimeType;
 
