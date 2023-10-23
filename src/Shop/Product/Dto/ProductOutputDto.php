@@ -6,9 +6,9 @@ use JMS\Serializer\Annotation as Serializer;
 
 class ProductOutputDto
 {
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $id;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $id;
 }

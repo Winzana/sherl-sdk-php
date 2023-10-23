@@ -8,21 +8,21 @@ use Sherl\Sdk\Order\Dto\OrderItemProductOptionItemOutputDto;
 
 class OrderItemProductOptionOutputDto
 {
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $id;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $id;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $name;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $name;
 
-  /**
-   * @var OrderItemProductOptionItemOutputDto[]
-   * @Serializer\Type("array<Sherl\Sdk\Order\Dto\OrderItemProductOptionItemOutputDto>")
-   */
-  public $items;
+    /**
+     * @var OrderItemProductOptionItemOutputDto[]
+     * @Serializer\Type("array<Sherl\Sdk\Order\Dto\OrderItemProductOptionItemOutputDto>")
+     */
+    public $items;
 }

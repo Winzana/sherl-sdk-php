@@ -8,20 +8,20 @@ use JMS\Serializer\JsonDeserializationVisitor;
 
 class MixedHandler implements SubscribingHandlerInterface
 {
-  public static function getSubscribingMethods()
-  {
-    return [
-      [
-        'direction' => GraphNavigator::DIRECTION_DESERIALIZATION,
-        'format' => 'json',
-        'type' => 'mixed',
-        'method' => 'deserializeFromJSON',
-      ],
-    ];
-  }
+    public static function getSubscribingMethods()
+    {
+        return [
+          [
+            'direction' => GraphNavigator::DIRECTION_DESERIALIZATION,
+            'format' => 'json',
+            'type' => 'mixed',
+            'method' => 'deserializeFromJSON',
+          ],
+        ];
+    }
 
-  public function deserializeFromJSON(JsonDeserializationVisitor $visitor, $data, array $type)
-  {
-    return $data;
-  }
+    public function deserializeFromJSON(JsonDeserializationVisitor $visitor, $data, array $type)
+    {
+        return $data;
+    }
 }

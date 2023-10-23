@@ -6,27 +6,27 @@ use JMS\Serializer\Annotation as Serializer;
 
 class RefundOutputDto
 {
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $object;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $object;
 
-  /**
-   * @var array
-   * @Serializer\Type("array")
-   */
-  public $data;
+    /**
+     * @var array
+     * @Serializer\Type("array")
+     */
+    public $data;
 
-  /**
-   * @var boolean
-   * @Serializer\Type("boolean")
-   */
-  public $has_more;
+    /**
+     * @var boolean
+     * @Serializer\Type("boolean")
+     */
+    public $has_more;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $url;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $url;
 }

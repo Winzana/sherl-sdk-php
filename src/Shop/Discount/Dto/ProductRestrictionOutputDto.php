@@ -8,27 +8,27 @@ use Sherl\Sdk\Shop\Product\Dto\CategoryOutputDto;
 
 class ProductRestrictionOutputDto
 {
-  /**
-   * @var integer
-   * @Serializer\Type("integer")
-   */
-  public $requiredQuantity;
+    /**
+     * @var integer
+     * @Serializer\Type("integer")
+     */
+    public $requiredQuantity;
 
-  /**
-   * @var ProductOutputDto
-   * @Serializer\Type("Sherl\Sdk\Shop\Product\Dto\ProductOutputDto")
-   */
-  public $product;
+    /**
+     * @var ProductOutputDto
+     * @Serializer\Type("Sherl\Sdk\Shop\Product\Dto\ProductOutputDto")
+     */
+    public $product;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $categoryUri;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $categoryUri;
 
-  /**
-   * @var CategoryOutputDto
-   * @Serializer\Type("Sherl\Sdk\Shop\Product\Dto\CategoryOutputDto")
-   */
-  public $category;
+    /**
+     * @var CategoryOutputDto
+     * @Serializer\Type("Sherl\Sdk\Shop\Product\Dto\CategoryOutputDto")
+     */
+    public $category;
 }

@@ -8,9 +8,9 @@ use Sherl\Sdk\Common\Dto\AggregationKeysOutputDto;
 
 class AggregationsOutputDto extends AggregationKeysOutputDto
 {
-  /**
-   * @var array<string, AggregationKeysOutputDto>
-   * @Serializer\Type("array<string, Sherl\Sdk\Common\Dto\AggregationKeysOutputDto>")
-   */
-  public $sub;
+    /**
+     * @var array<string, AggregationKeysOutputDto>
+     * @Serializer\Type("array<string, Sherl\Sdk\Common\Dto\AggregationKeysOutputDto>")
+     */
+    public $sub;
 }

@@ -7,21 +7,21 @@ use Sherl\Sdk\Place\Dto\AddressInfoDto;
 
 class AddressOutputDto extends AddressInfoDto
 {
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $id;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $id;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $createdAt;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $createdAt;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $updatedAt;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $updatedAt;
 }
