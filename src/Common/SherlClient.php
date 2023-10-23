@@ -9,6 +9,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 
+use Sherl\Sdk\Account\AccountProvider;
+
 use Sherl\Sdk\Auth\AuthProvider;
 
 use Sherl\Sdk\Claim\ClaimProvider;
@@ -34,6 +36,8 @@ final class SherlClient
     private PersonProvider $person;
 
     private AuthProvider $auth;
+
+    private AccountProvider $account;
 
     private ContactProvider $contact;
 
@@ -83,6 +87,7 @@ final class SherlClient
         $this->contact = new ContactProvider($client);
         $this->claim = new ClaimProvider($client);
         $this->bugReport = new BugReportProvider($client);
+        $this->account = new AccountProvider($client);
     }
 
     public function getClient(): Client
