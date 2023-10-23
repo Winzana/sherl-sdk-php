@@ -3,6 +3,7 @@
 namespace Sherl\Sdk\Person\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
+use Sherl\Sdk\Organization\Dto\OrganizationOutputDto;
 use Sherl\Sdk\Person\Dto\FrequentedEstablishmentOutputDto;
 use Sherl\Sdk\Person\Dto\StatisticOutputDto;
 use Sherl\Sdk\Person\Dto\LemonwayOutputDto;
@@ -96,7 +97,11 @@ class PersonOutputDto
    */
   public $nationality;
 
-  // affiliation: IOrganizationResponse;
+  /**
+   * @var OrganizationOutputDto
+   * @Serializer\Type("Sherl\Sdk\Organization\Dto\OrganizationOutputDto")
+   */
+  public $affiliation;
 
   /**
    * @var string
@@ -112,7 +117,7 @@ class PersonOutputDto
 
   /**
    * @var Gender
-   * @Serializer\Type("Sherl\Sdk\Person\Enum\Gender")
+   * @Serializer\Type("enum<'Sherl\Sdk\Person\Enum\Gender', 'value'>")
    */
   public $gender;
 
@@ -212,7 +217,7 @@ class PersonOutputDto
    * @var PersonType
    * @Serializer\Type("enum<'Sherl\Sdk\Person\Enum\PersonType', 'value'>")
    */
-  public PersonType $type;
+  public $type;
 
   /**
    * @var FrequentedEstablishmentOutputDto[]

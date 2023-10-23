@@ -1,14 +1,14 @@
 <?php
 
-namespace Sherl\Sdk\Auth\Dto;
+namespace Sherl\Sdk\Claim\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class LoginOutDto {
-
+class ReplyToClaimInputDto
+{
   /**
    * @var string
    * @Serializer\Type("string")
    */
-  public $access_token;
+  public $content;
 }
