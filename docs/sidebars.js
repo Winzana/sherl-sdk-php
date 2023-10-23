@@ -20,6 +20,7 @@ module.exports = {
       "pagination",
       "place-types",
       "person-types",
+      "common-types",
     ],
   },
 };
