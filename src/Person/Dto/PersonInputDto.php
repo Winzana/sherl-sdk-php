@@ -4,10 +4,10 @@ namespace Sherl\Sdk\Person\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-use Sherl\Sdk\Person\Dto\AddressDto;
-use Sherl\Sdk\Person\Dto\PersonOrganizationCreateDto;
-use Sherl\Sdk\Person\Dto\AcceptLegalNoticeDto;
-use Sherl\Sdk\Person\Dto\AcceptPrivacyNoticeDto;
+use Sherl\Sdk\Person\Dto\AddressInputDto;
+use Sherl\Sdk\Person\Dto\PersonOrganizationCreateInputDto;
+use Sherl\Sdk\Person\Dto\AcceptLegalNoticeInputDto;
+use Sherl\Sdk\Person\Dto\AcceptPrivacyNoticeInputDto;
 use Sherl\Sdk\Person\Dto\MangopayCardOutputDto;
 use Sherl\Sdk\Person\Dto\StripeOutputDto;
 use Sherl\Sdk\Person\Dto\FrequentedEstablishmentOutputDto;
@@ -21,7 +21,7 @@ use Sherl\Sdk\Place\Dto\GeoCoordinatesDto;
 use Sherl\Sdk\Person\Enum\Gender;
 use Sherl\Sdk\Person\Enum\PersonType;
 
-class PersonDto
+class PersonInputDto
 {
     /**
      * @var string
@@ -54,14 +54,14 @@ class PersonDto
     public $lastName;
 
     /**
-     * @var AddressDto
-     * @Serializer\Type("Sherl\Sdk\Person\Dto\AddressDto")
+     * @var AddressInputDto
+     * @Serializer\Type("Sherl\Sdk\Person\Dto\AddressInputDto")
      */
     public $address;
 
     /**
-     * @var AddressDto[]
-     * @Serializer\Type("array<Sherl\Sdk\Person\Dto\AddressDto>")
+     * @var AddressInputDto[]
+     * @Serializer\Type("array<Sherl\Sdk\Person\Dto\AddressInputDto>")
      */
     public $myAddresses;
 
@@ -96,8 +96,8 @@ class PersonDto
     public $nationality;
 
     /**
-     * @var PersonOrganizationCreateDto
-     * @Serializer\Type("Sherl\Sdk\Person\Dto\PersonOrganizationCreateDto")
+     * @var PersonOrganizationCreateInputDto
+     * @Serializer\Type("Sherl\Sdk\Person\Dto\PersonOrganizationCreateInputDto")
      */
     public $affiliation;
 
@@ -144,14 +144,14 @@ class PersonDto
     public $enabled;
 
     /**
-     * @var AcceptLegalNoticeDto
-     * @Serializer\Type("Sherl\Sdk\Person\Dto\AcceptLegalNoticeDto")
+     * @var AcceptLegalNoticeInputDto
+     * @Serializer\Type("Sherl\Sdk\Person\Dto\AcceptLegalNoticeInputDto")
      */
     public $legalNotice;
 
     /**
-     * @var AcceptPrivacyNoticeDto
-     * @Serializer\Type("Sherl\Sdk\Person\Dto\AcceptPrivacyNoticeDto")
+     * @var AcceptPrivacyNoticeInputDto
+     * @Serializer\Type("Sherl\Sdk\Person\Dto\AcceptPrivacyNoticeInputDto")
      */
     public $privacyNotice;
 

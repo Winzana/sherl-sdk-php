@@ -4,9 +4,9 @@ namespace Sherl\Sdk\Person\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-use Sherl\Sdk\Person\Dto\AddressDto;
-use Sherl\Sdk\Person\Dto\PersonOrganizationCreateDto;
-use Sherl\Sdk\Person\Dto\PersonDto;
+use Sherl\Sdk\Person\Dto\AddressInputDto;
+use Sherl\Sdk\Person\Dto\PersonOrganizationCreateInputDto;
+use Sherl\Sdk\Person\Dto\PersonInputDto;
 
 use Sherl\Sdk\Common\Dto\Sort;
 
@@ -152,8 +152,8 @@ class PersonFiltersDto
     public $type;
 
     /**
-     * @var Sort<PersonDto>
-     * @Serializer(Type("Sort<PersonDto>"))
+     * @var Sort<PersonInputDto>
+     * @Serializer(Type("Sort<PersonInputDto>"))
      */
     public $sort;
 

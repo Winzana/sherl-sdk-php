@@ -5,7 +5,7 @@ namespace Sherl\Sdk\Person\Dto;
 use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Person\Enum\TravelingGroup;
 
-class ExperienceFormResponseDto
+class ExperienceFormResponseInputDto
 {
     /**
      * @var string

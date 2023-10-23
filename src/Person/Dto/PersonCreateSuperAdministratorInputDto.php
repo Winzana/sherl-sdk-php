@@ -4,9 +4,7 @@ namespace Sherl\Sdk\Person\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-use Sherl\Sdk\Person\Dto\AddressDto;
-
-class PersonOrganizationCreateDto
+class PersonCreateSuperAdministratorInputDto
 {
     /**
      * @var string
@@ -18,23 +16,17 @@ class PersonOrganizationCreateDto
      * @var string
      * @Serializer\Type("string")
      */
-    public $uri;
+    public $firstName;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $legalName;
+    public $lastName;
 
     /**
-     * @var AddressDto
-     * @Serializer\Type("Sherl\Sdk\Person\Dto\AddressDto")
+     * @var string
+     * @Serializer\Type("string")
      */
-    public $location;
-
-    /**
-     * @var string[]
-     * @Serializer\Type("array<string>")
-     */
-    public $subOrganizations;
+    public $email;
 }

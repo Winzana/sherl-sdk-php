@@ -3,7 +3,7 @@
 namespace Sherl\Sdk\Person\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
-use Sherl\Sdk\Person\Dto\ExperienceFormResponseDto;
+use Sherl\Sdk\Person\Dto\ExperienceFormResponseInputDto;
 
 use Sherl\Sdk\Person\Enum\TravelingGroup;
 
@@ -22,8 +22,8 @@ class SessionUpdateInputDto
     public $ipAddress;
 
     /**
-     * @var ExperienceFormResponseDto
-     * @Serializer\Type("<Sherl\Sdk\Person\Dto\ExperienceFormResponseDto>")
+     * @var ExperienceFormResponseInputDto
+     * @Serializer\Type("<Sherl\Sdk\Person\Dto\ExperienceFormResponseInputDto>")
      */
     public $experienceFormResponses;
 

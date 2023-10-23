@@ -58,7 +58,7 @@ class PersonProvider
     }
 
     /**
-    * @return Pagination<PersonDto>|null
+    * @return Pagination<PersonOuputDto>|null
     */
     public function getPersons(
         $page = 1,
@@ -87,7 +87,7 @@ class PersonProvider
 
     public function getPersonById(
         string $id,
-    ): ?PersonDto {
+    ): ?PersonOuputDto {
         $response = $fetcher->get(
             '/api/persons/:id',
             [
@@ -106,7 +106,7 @@ class PersonProvider
         );
     }
 
-    public function createAddress(AddressDto $address): ?PersonOutputDto
+    public function createAddress(AddressInputDto $address): ?PersonOutputDto
     {
         $response = $fetcher->post(
             '/api/persons/addresses',
@@ -150,7 +150,7 @@ class PersonProvider
         );
     }
 
-    public function updateAddress(string $addressId, AddressDto $address): ?PersonOutputDto
+    public function updateAddress(string $addressId, AddressInputDto $address): ?PersonOutputDto
     {
         $response = $fetcher->put(
             ['/api/persons/addresses/:id', $addressId],
@@ -172,7 +172,7 @@ class PersonProvider
         );
     }
 
-    public function createPerson(PersonCreateDto $person): ?PersonOutputDto
+    public function createPerson(PersonCreateInputDto $person): ?PersonOutputDto
     {
         $response = $fetcher->post(
             '/api/persons',
@@ -194,7 +194,7 @@ class PersonProvider
         );
     }
 
-    public function registerWithEmailAndPassword(PersonCreateDto $person): ?PersonOutputDto
+    public function registerWithEmailAndPassword(PersonCreateInputDto $person): ?PersonOutputDto
     {
         $response = $fetcher->post(
             '/api/persons/register-with-email-and-password',
@@ -246,7 +246,7 @@ class PersonProvider
         );
     }
 
-    public function updatePersonById(string $id, PersonUpdateDto $person): ?PersonOutputDto
+    public function updatePersonById(string $id, PersonUpdateInputDto $person): ?PersonOutputDto
     {
         $response = $fetcher->put(
             ['/api/persons/:id', $id],

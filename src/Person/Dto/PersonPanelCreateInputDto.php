@@ -4,7 +4,9 @@ namespace Sherl\Sdk\Person\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class PersonCreateSuperAdministratorDto
+use Sherl\Sdk\Person\Dto\PersonPanelCreateFilterDto;
+
+class PersonPanelCreateInputDto
 {
     /**
      * @var string
@@ -16,17 +18,11 @@ class PersonCreateSuperAdministratorDto
      * @var string
      * @Serializer\Type("string")
      */
-    public $firstName;
+    public $name;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var PersonPanelCreateFilterDto
+     *  @Serializer\Type("Sherl\Sdk\Person\Dto\PersonPanelCreateFilterDto")
      */
-    public $lastName;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $email;
+    public $filters;
 }

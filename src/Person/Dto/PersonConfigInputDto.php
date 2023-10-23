@@ -4,7 +4,7 @@ namespace Sherl\Sdk\Person\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class PersonConfigDto
+class PersonConfigInputDto
 {
     /**
      * @var string[]

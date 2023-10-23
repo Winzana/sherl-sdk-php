@@ -4,11 +4,17 @@ namespace Sherl\Sdk\Person\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class AcceptPrivacyNoticeDto
+class PersonPanelIUpdateFilterInputDto
 {
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $version;
+    public $name;
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $value;
 }

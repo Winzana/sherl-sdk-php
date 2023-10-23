@@ -4,9 +4,9 @@ namespace Sherl\Sdk\Person\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-use Sherl\Sdk\Person\Dto\AddressDto;
+use Sherl\Sdk\Person\Dto\AddressInputDto;
 
-class PersonRegisterWithEmailAndPasswordDto
+class PersonRegisterWithEmailAndPasswordInputDto
 {
     /**
      * @var string
@@ -27,8 +27,8 @@ class PersonRegisterWithEmailAndPasswordDto
     public $lastName;
 
     /**
-     * @var AddressDto
-     * @Serializer\Type("Sherl\Sdk\Person\Dto\AddressDto")
+     * @var AddressInputDto
+     * @Serializer\Type("Sherl\Sdk\Person\Dto\AddressInputDto")
      */
     public $address;
 

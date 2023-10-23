@@ -4,14 +4,19 @@ namespace Sherl\Sdk\Person\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-use Sherl\Sdk\Person\Dto\AddressDto;
-use Sherl\Sdk\Person\Dto\PersonOrganizationCreateDto;
+use Sherl\Sdk\Person\Dto\AddressInputDto;
+use Sherl\Sdk\Person\Dto\PersonOrganizationCreateInputDto;
 
 use Sherl\Sdk\Person\Enum\Gender;
-use Sherl\Sdk\Person\Enum\PersonType;
 
-class PersonUpdateDto
+class PersonCreateInputDto
 {
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $id;
+
     /**
      * @var string
      * @Serializer\Type("string")
@@ -25,16 +30,10 @@ class PersonUpdateDto
     public $lastName;
 
     /**
-     * @var AddressDto
-     * @Serializer\Type("Sherl\Sdk\Person\Dto\AddressDto")
+     * @var AddressInputDto
+     * @Serializer\Type("Sherl\Sdk\Person\Dto\AddressInputDto")
      */
     public $address;
-
-    /**
-     * @var PersonType
-     * @Serializer\Type("Sherl\Sdk\Person\Dto\PersonType")
-     */
-    public $type;
 
     /**
      * @var string
@@ -61,22 +60,10 @@ class PersonUpdateDto
     public $nationality;
 
     /**
-     * @var PersonOrganizationCreateDto
-     * @Serializer\Type("Sherl\Sdk\Person\Dto\PersonOrganizationCreateDto")
+     * @var PersonOrganizationCreateInputDto
+     * @Serializer\Type("Sherl\Sdk\Person\Dto\PersonOrganizationCreateInputDto")
      */
     public $affiliation;
-
-    /**
-     * @var float
-     * @Serializer\Type("float")
-     */
-    public $latitude;
-
-    /**
-     * @var float
-     * @Serializer\Type("float")
-     */
-    public $longitude;
 
     /**
      * @var string
@@ -91,6 +78,18 @@ class PersonUpdateDto
     public $email;
 
     /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $password;
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $confirmPassword;
+
+    /**
      * @var Gender
      * @Serializer\Type("Sherl\Sdk\Person\Enum\Gender")
      */
@@ -101,16 +100,4 @@ class PersonUpdateDto
      * @Serializer\Type("string")
      */
     public $jobTitle;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $metadata;
-
-    /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-    public $userProfileUri;
 }

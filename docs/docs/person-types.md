@@ -8,7 +8,7 @@ In all the interfaces you will find, it's possible that some properties inherit 
 To access these properties, you need to have activated the domains on which the interfaces are based.
 
 <details>
- <summary>PersonDto</summary>
+ <summary>PersonInputDto</summary>
 
 | Fields                       |                 Type                 | Description                                 |
 | :--------------------------- | :----------------------------------: | :------------------------------------------ |
@@ -17,14 +17,14 @@ To access these properties, you need to have activated the domains on which the 
 | **consumerId**               |               `string`               | The consumerId of the person                |
 | **firstName**                |               `string`               | The firstName of the person                 |
 | **lastName**                 |               `string`               | The lastName of the person                  |
-| **address**                  |             `AddressDto`             | The address of the person                   |
-| **myAddresses**              |            `AddressDto[]`            | The registered addresses of the person      |
+| **address**                  |          `AddressInputDto`           | The address of the person                   |
+| **myAddresses**              |         `AddressInputDto[]`          | The registered addresses of the person      |
 | **subscriptionLocation**     |         `GeoCoordinatesDto`          | The subscription location of the person     |
 | **phoneNumber**              |               `string`               | The phone number of the person              |
 | **mobilePhoneNumber**        |               `string`               | The mobile phone number of the person       |
 | **faxNumber**                |               `string`               | The fax number of the person                |
 | **nationality**              |               `string`               | The nationality of the person               |
-| **affiliation**              |    `PersonOrganizationCreateDto`     | The affiliation of the person               |
+| **affiliation**              |  `PersonOrganizationCreateInputDto`  | The affiliation of the person               |
 | **birthDate**                |               `string`               | The birth date of the person                |
 | **email**                    |               `string`               | The email of the person                     |
 | **gender**                   |               `Gender`               | The gender of the person                    |
@@ -32,8 +32,8 @@ To access these properties, you need to have activated the domains on which the 
 | **longitude**                |               `float`                | The longitude of the person                 |
 | **jobTitle**                 |               `string`               | The job title of the person                 |
 | **enabled**                  |              `boolean`               | The status of the person ( true of false)   |
-| **legalNotice**              |        `AcceptLegalNoticeDto`        | The legal notice status of the person       |
-| **privacyNotive**            |       `AcceptPrivacyNoticeDto`       | The privacy notice status of the person     |
+| **legalNotice**              |     `AcceptLegalNoticeInputDto`      | The legal notice status of the person       |
+| **privacyNotive**            |    `AcceptPrivacyNoticeInputDto`     | The privacy notice status of the person     |
 | **createdAt**                |               `string`               | The creation date of the person             |
 | **updatedAt**                |               `string`               | The update of the person                    |
 | **picture**                  |           `ImageObjectDto`           | The picture of the person                   |
@@ -52,32 +52,32 @@ To access these properties, you need to have activated the domains on which the 
 </details>
 
 <details>
- <summary>PersonUpdateDto</summary>
+ <summary>PersonUpdateInputDto</summary>
 
-| Fields                |             Type              | Description                           |
-| :-------------------- | :---------------------------: | :------------------------------------ |
-| **firstName**         |           `string`            | The first name of the person          |
-| **lastName**          |           `string`            | The last name of the person           |
-| **address**           |         `AddressDto`          | The address of the person             |
-| **type**              |         `PersonType`          | The type of the person                |
-| **phoneNumber**       |           `string`            | The phone number of the person        |
-| **mobilePhoneNumber** |           `string`            | The mobile phone number of the person |
-| **faxNumber**         |           `string`            | The fax phone number of the person    |
-| **nationality**       |           `string`            | The nationality of the person         |
-| **affiliation**       | `PersonOrganizationCreateDto` | The mobile phone number of the person |
-| **latitude**          |            `float`            | The latitude of the person            |
-| **longitude**         |            `float`            | The latitude of the person            |
-| **birthDate**         |           `string`            | The birth date of the person          |
-| **email**             |           `string`            | The email of the person               |
-| **gender**            |           `Gender`            | The gender of the person              |
-| **jobTitle**          |           `string`            | The job title of the person           |
-| **metadatas**         |           `string`            | The metadatas of the person           |
-| **userProfileUri**    |           `string`            | The user profile uri of the person    |
+| Fields                |                Type                | Description                           |
+| :-------------------- | :--------------------------------: | :------------------------------------ |
+| **firstName**         |              `string`              | The first name of the person          |
+| **lastName**          |              `string`              | The last name of the person           |
+| **address**           |         `AddressInputDto`          | The address of the person             |
+| **type**              |            `PersonType`            | The type of the person                |
+| **phoneNumber**       |              `string`              | The phone number of the person        |
+| **mobilePhoneNumber** |              `string`              | The mobile phone number of the person |
+| **faxNumber**         |              `string`              | The fax phone number of the person    |
+| **nationality**       |              `string`              | The nationality of the person         |
+| **affiliation**       | `PersonOrganizationCreateInputDto` | The mobile phone number of the person |
+| **latitude**          |              `float`               | The latitude of the person            |
+| **longitude**         |              `float`               | The latitude of the person            |
+| **birthDate**         |              `string`              | The birth date of the person          |
+| **email**             |              `string`              | The email of the person               |
+| **gender**            |              `Gender`              | The gender of the person              |
+| **jobTitle**          |              `string`              | The job title of the person           |
+| **metadatas**         |              `string`              | The metadatas of the person           |
+| **userProfileUri**    |              `string`              | The user profile uri of the person    |
 
 </details>
 
 <details>
- <summary>AcceptLegalNoticeDto</summary>
+ <summary>AcceptLegalNoticeInputDto</summary>
 
 | Fields      |   Type   | Description                               |
 | :---------- | :------: | :---------------------------------------- |
@@ -96,7 +96,7 @@ To access these properties, you need to have activated the domains on which the 
 </details>
 
 <details>
- <summary>AcceptPrivacyNoticeDto</summary>
+ <summary>AcceptPrivacyNoticeInputDto</summary>
 
 | Fields      |   Type   | Description                                 |
 | :---------- | :------: | :------------------------------------------ |
@@ -105,7 +105,7 @@ To access these properties, you need to have activated the domains on which the 
 </details>
 
 <details>
- <summary>AddressDto</summary>
+ <summary>AddressInputDto</summary>
 
 | Fields                         |   Type   | Description                             |
 | :----------------------------- | :------: | :-------------------------------------- |
@@ -127,7 +127,7 @@ To access these properties, you need to have activated the domains on which the 
 </details>
 
 <details>
- <summary>ExperienceFormResponseDto</summary>
+ <summary>ExperienceFormResponseInputDto</summary>
 
 | Fields             |       Type       | Description                                              |
 | :----------------- | :--------------: | :------------------------------------------------------- |
@@ -135,18 +135,6 @@ To access these properties, you need to have activated the domains on which the 
 | **endDate**        |     `string`     | The end date of the experience form response             |
 | **travelingGroup** | `TravelingGroup` | The traveling group type of the experience form response |
 | **activities**     |    `string[]`    | The activities linked on the experience form response    |
-
-</details>
-
-<details>
- <summary>ExperienceFormResponseDto</summary>
-
-| Fields             |       Type       | Description                                              |
-| :----------------- | :--------------: | :------------------------------------------------------- |
-| **startDate**      |     `string`     | The start date of the experience form response           |
-| **endDate**        |     `string`     | The end date of the experience form response             |
-| **travelingGroup** | `TravelingGroup` | The traveling group type of the experience form response |
-| **activities**     |    `string[]`    | The activities linked with the experience form response  |
 
 </details>
 
@@ -241,7 +229,7 @@ To access these properties, you need to have activated the domains on which the 
 </details>
 
 <details>
- <summary>PersonConfigDto</summary>
+ <summary>PersonConfigInputDto</summary>
 
 | Fields      |    Type    | Description               |
 | :---------- | :--------: | :------------------------ |
@@ -250,28 +238,28 @@ To access these properties, you need to have activated the domains on which the 
 </details>
 
 <details>
- <summary>PersonCreateDto</summary>
+ <summary>PersonCreateInputDto</summary>
 
-| Fields                |             Type              | Description                                     |
-| :-------------------- | :---------------------------: | :---------------------------------------------- |
-| **id**                |           `string`            | The id of the person to create                  |
-| **firstName**         |           `string`            | The first name of the person to create          |
-| **lastName**          |           `string`            | The id of the person to create                  |
-| **address**           |         `AddressDto`          | The address of the person to create             |
-| **phoneNumber**       |           `string`            | The phone number of the person to create        |
-| **mobilePhoneNumber** |           `string`            | The mobile phone number of the person to create |
-| **faxNumber**         |           `string`            | The fax number of the person to create          |
-| **nationality**       |           `string`            | The nationality of the person to create         |
-| **affiliation**       | `PersonOrganizationCreateDto` | The affiliation of the person to create         |
-| **birthDate**         |           `string`            | The birth date of the person to create          |
-| **email**             |           `string`            | The email of the person to create               |
-| **gender**            |           `Gender`            | The gender of the person to create              |
-| **jobTitle**          |           `string`            | The job title of the person to create           |
+| Fields                |                Type                | Description                                     |
+| :-------------------- | :--------------------------------: | :---------------------------------------------- |
+| **id**                |              `string`              | The id of the person to create                  |
+| **firstName**         |              `string`              | The first name of the person to create          |
+| **lastName**          |              `string`              | The id of the person to create                  |
+| **address**           |         `AddressInputDto`          | The address of the person to create             |
+| **phoneNumber**       |              `string`              | The phone number of the person to create        |
+| **mobilePhoneNumber** |              `string`              | The mobile phone number of the person to create |
+| **faxNumber**         |              `string`              | The fax number of the person to create          |
+| **nationality**       |              `string`              | The nationality of the person to create         |
+| **affiliation**       | `PersonOrganizationCreateInputDto` | The affiliation of the person to create         |
+| **birthDate**         |              `string`              | The birth date of the person to create          |
+| **email**             |              `string`              | The email of the person to create               |
+| **gender**            |              `Gender`              | The gender of the person to create              |
+| **jobTitle**          |              `string`              | The job title of the person to create           |
 
 </details>
 
 <details>
- <summary>PersonCreateSuperAdministratorDto</summary>
+ <summary>PersonCreateSuperAdministratorInputDto</summary>
 
 | Fields        |   Type   | Description                                         |
 | :------------ | :------: | :-------------------------------------------------- |
@@ -285,45 +273,45 @@ To access these properties, you need to have activated the domains on which the 
 <details>
  <summary>PersonFiltersDto</summary>
 
-| Fields                        |       Type        | Description                                        |
-| :---------------------------- | :---------------: | :------------------------------------------------- |
-| **id**                        |     `string`      | The person id to filter                            |
-| **userId**                    |     `string`      | The person user id to filter                       |
-| **q**                         |     `string`      | The person query to filter                         |
-| **firstName**                 |     `string`      | The person first name to filter                    |
-| **lastName**                  |     `string`      | The person last name to filter                     |
-| **phoneNumber**               |     `string`      | The person phone number to filter                  |
-| **mobilePhoneNumber**         |     `string`      | The person mobile phone number to filter           |
-| **faxNumber**                 |     `string`      | The person fax number to filter                    |
-| **nationality**               |     `string`      | The person nationality to filter                   |
-| **uri**                       |     `string`      | The person uri to filter                           |
-| **legalName**                 |     `string`      | The person legal name to filter                    |
-| **location**                  |      `mixed`      | The person location to filter                      |
-| **subOrganizations**          |      `mixed`      | The person sub organizations to filter             |
-| **birthDate**                 |     `string`      | The person birth date to filter                    |
-| **email**                     |     `string`      | The person email to filter                         |
-| **gender**                    |     `string`      | The person gender to filter                        |
-| **jobTitle**                  |     `string`      | The person job title to filter                     |
-| **enabled**                   |     `boolean`     | The person account status to filter                |
-| **createdAt**                 |     `string`      | The person creation date to filter                 |
-| **updatedAt**                 |     `string`      | The person update date to filter                   |
-| **analytics**                 |     `string`      | The person analytics to filter                     |
-| **noFrequentedEstablishment** |     `string`      | The person not frequenting establishment to filter |
-| **type**                      |   `PersonType`    | The person type to filter                          |
-| **sort**                      | `Sort<PersonDto>` | The person sorting status                          |
+| Fields                        |          Type          | Description                                        |
+| :---------------------------- | :--------------------: | :------------------------------------------------- |
+| **id**                        |        `string`        | The person id to filter                            |
+| **userId**                    |        `string`        | The person user id to filter                       |
+| **q**                         |        `string`        | The person query to filter                         |
+| **firstName**                 |        `string`        | The person first name to filter                    |
+| **lastName**                  |        `string`        | The person last name to filter                     |
+| **phoneNumber**               |        `string`        | The person phone number to filter                  |
+| **mobilePhoneNumber**         |        `string`        | The person mobile phone number to filter           |
+| **faxNumber**                 |        `string`        | The person fax number to filter                    |
+| **nationality**               |        `string`        | The person nationality to filter                   |
+| **uri**                       |        `string`        | The person uri to filter                           |
+| **legalName**                 |        `string`        | The person legal name to filter                    |
+| **location**                  |        `mixed`         | The person location to filter                      |
+| **subOrganizations**          |        `mixed`         | The person sub organizations to filter             |
+| **birthDate**                 |        `string`        | The person birth date to filter                    |
+| **email**                     |        `string`        | The person email to filter                         |
+| **gender**                    |        `string`        | The person gender to filter                        |
+| **jobTitle**                  |        `string`        | The person job title to filter                     |
+| **enabled**                   |       `boolean`        | The person account status to filter                |
+| **createdAt**                 |        `string`        | The person creation date to filter                 |
+| **updatedAt**                 |        `string`        | The person update date to filter                   |
+| **analytics**                 |        `string`        | The person analytics to filter                     |
+| **noFrequentedEstablishment** |        `string`        | The person not frequenting establishment to filter |
+| **type**                      |      `PersonType`      | The person type to filter                          |
+| **sort**                      | `Sort<PersonInputDto>` | The person sorting status                          |
 
 </details>
 
 <details>
- <summary>PersonOrganizationCreateDto</summary>
+ <summary>PersonOrganizationCreateInputDto</summary>
 
-| Fields               |     Type     | Description                                                |
-| :------------------- | :----------: | :--------------------------------------------------------- |
-| **id**               |   `string`   | The id of the person organization to create                |
-| **uri**              |   `string`   | The uri of the person organization to create               |
-| **legalName**        |   `string`   | The legal name of the person organization to create        |
-| **location**         | `AddressDto` | The address of the person organization to create           |
-| **subOrganizations** |  `string[]`  | The sub organizations of the person organization to create |
+| Fields               |       Type        | Description                                                |
+| :------------------- | :---------------: | :--------------------------------------------------------- |
+| **id**               |     `string`      | The id of the person organization to create                |
+| **uri**              |     `string`      | The uri of the person organization to create               |
+| **legalName**        |     `string`      | The legal name of the person organization to create        |
+| **location**         | `AddressInputDto` | The address of the person organization to create           |
+| **subOrganizations** |    `string[]`     | The sub organizations of the person organization to create |
 
 </details>
 
@@ -371,7 +359,7 @@ To access these properties, you need to have activated the domains on which the 
 </details>
 
 <details>
- <summary>PersonPanelCreateDto</summary>
+ <summary>PersonPanelCreateInputDto</summary>
 
 | Fields      |             Type             | Description                               |
 | :---------- | :--------------------------: | :---------------------------------------- |
@@ -392,17 +380,17 @@ To access these properties, you need to have activated the domains on which the 
 </details>
 
 <details>
- <summary>PersonPanelIUpdateDto</summary>
+ <summary>PersonPanelIUpdateInputDto</summary>
 
-| Fields      |              Type               | Description                               |
-| :---------- | :-----------------------------: | :---------------------------------------- |
-| **name**    |            `string`             | The name of the person panel to update    |
-| **filters** | `PersonPanelIUpdateFilterDto[]` | The filters of the person panel to update |
+| Fields      |                 Type                 | Description                               |
+| :---------- | :----------------------------------: | :---------------------------------------- |
+| **name**    |               `string`               | The name of the person panel to update    |
+| **filters** | `PersonPanelIUpdateFilterInputDto[]` | The filters of the person panel to update |
 
 </details>
 
 <details>
- <summary>PersonPanelIUpdateFilterDto</summary>
+ <summary>PersonPanelIUpdateFilterInputDto</summary>
 
 | Fields    |   Type   | Description                                  |
 | :-------- | :------: | :------------------------------------------- |
@@ -412,19 +400,19 @@ To access these properties, you need to have activated the domains on which the 
 </details>
 
 <details>
- <summary>PersonRegisterWithEmailAndPasswordDto</summary>
+ <summary>PersonRegisterWithEmailAndPasswordInputDto</summary>
 
-| Fields              |     Type     | Description                                                                 |
-| :------------------ | :----------: | :-------------------------------------------------------------------------- |
-| **id**              |   `string`   | The id of the person to register with email and password                    |
-| **firstName**       |   `string`   | The first name of the person to register with email and password            |
-| **lastName**        |   `string`   | The last name of the person to register with email and password             |
-| **address**         | `AddressDto` | The address of the person to register with email and password               |
-| **phoneNumber**     |   `string`   | The phone number of the person to register with email and password          |
-| **birthDate**       |   `string`   | The birth date of the person to register with email and password            |
-| **email**           |   `string`   | The email of the person to register with email and password                 |
-| **password**        |   `string`   | The password of the person to register with email and password              |
-| **confirmPassword** |   `string`   | The password confirmation of the person to register with email and password |
+| Fields              |       Type        | Description                                                                 |
+| :------------------ | :---------------: | :-------------------------------------------------------------------------- |
+| **id**              |     `string`      | The id of the person to register with email and password                    |
+| **firstName**       |     `string`      | The first name of the person to register with email and password            |
+| **lastName**        |     `string`      | The last name of the person to register with email and password             |
+| **address**         | `AddressInputDto` | The address of the person to register with email and password               |
+| **phoneNumber**     |     `string`      | The phone number of the person to register with email and password          |
+| **birthDate**       |     `string`      | The birth date of the person to register with email and password            |
+| **email**           |     `string`      | The email of the person to register with email and password                 |
+| **password**        |     `string`      | The password of the person to register with email and password              |
+| **confirmPassword** |     `string`      | The password confirmation of the person to register with email and password |
 
 </details>
 
@@ -457,27 +445,27 @@ To access these properties, you need to have activated the domains on which the 
 </details>
 
 <details>
- <summary>PersonUpdateDto</summary>
+ <summary>PersonUpdateInputDto</summary>
 
-| Fields                |             Type              | Description                                     |
-| :-------------------- | :---------------------------: | :---------------------------------------------- |
-| **fistName**          |           `string`            | The first name of the person to update          |
-| **lastName**          |           `string`            | The last name of the person to update           |
-| **address**           |         `AddressDto`          | The address of the person to update             |
-| **type**              |         `PersonType`          | The type of the person to update                |
-| **phoneNumber**       |           `string`            | The phone number of the person to update        |
-| **mobilePhoneNumber** |           `string`            | The mobile phoen number of the person to update |
-| **faxNumber**         |           `string`            | The fax number of the person to update          |
-| **nationality**       |           `string`            | The nationality of the person to update         |
-| **affiliation**       | `PersonOrganizationCreateDto` | The affiliation of the person to update         |
-| **latitude**          |            `float`            | The latitude of the person to update            |
-| **longitude**         |            `float`            | The longitude of the person to update           |
-| **birthDate**         |           `string`            | The birth date of the person to update          |
-| **email**             |           `string`            | The email of the person to update               |
-| **gender**            |           `Gender`            | The gender of the person to update              |
-| **jobTitle**          |           `string`            | The job title of the person to update           |
-| **metadatas**         |           `string`            | The metadatas of the person to update           |
-| **userProfileUri**    |           `string`            | The user profile uri of the person to update    |
+| Fields                |                Type                | Description                                     |
+| :-------------------- | :--------------------------------: | :---------------------------------------------- |
+| **fistName**          |              `string`              | The first name of the person to update          |
+| **lastName**          |              `string`              | The last name of the person to update           |
+| **address**           |         `AddressInputDto`          | The address of the person to update             |
+| **type**              |            `PersonType`            | The type of the person to update                |
+| **phoneNumber**       |              `string`              | The phone number of the person to update        |
+| **mobilePhoneNumber** |              `string`              | The mobile phoen number of the person to update |
+| **faxNumber**         |              `string`              | The fax number of the person to update          |
+| **nationality**       |              `string`              | The nationality of the person to update         |
+| **affiliation**       | `PersonOrganizationCreateInputDto` | The affiliation of the person to update         |
+| **latitude**          |              `float`               | The latitude of the person to update            |
+| **longitude**         |              `float`               | The longitude of the person to update           |
+| **birthDate**         |              `string`              | The birth date of the person to update          |
+| **email**             |              `string`              | The email of the person to update               |
+| **gender**            |              `Gender`              | The gender of the person to update              |
+| **jobTitle**          |              `string`              | The job title of the person to update           |
+| **metadatas**         |              `string`              | The metadatas of the person to update           |
+| **userProfileUri**    |              `string`              | The user profile uri of the person to update    |
 
 </details>
 

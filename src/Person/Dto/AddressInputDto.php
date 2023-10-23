@@ -4,12 +4,7 @@ namespace Sherl\Sdk\Person\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-use Sherl\Sdk\Person\Dto\AddressDto;
-use Sherl\Sdk\Person\Dto\PersonOrganizationCreateDto;
-
-use Sherl\Sdk\Person\Enum\Gender;
-
-class PersonCreateDto
+class AddressInputDto
 {
     /**
      * @var string
@@ -21,83 +16,77 @@ class PersonCreateDto
      * @var string
      * @Serializer\Type("string")
      */
-    public $firstName;
+    public $country;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $lastName;
-
-    /**
-     * @var AddressDto
-     * @Serializer\Type("Sherl\Sdk\Person\Dto\AddressDto")
-     */
-    public $address;
+    public $locality;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $phoneNumber;
+    public $region;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $mobilePhoneNumber;
+    public $postalCode;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $faxNumber;
+    public $streetAddress;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $nationality;
-
-    /**
-     * @var PersonOrganizationCreateDto
-     * @Serializer\Type("Sherl\Sdk\Person\Dto\PersonOrganizationCreateDto")
-     */
-    public $affiliation;
+    public $uri;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $birthDate;
+    public $createdAt;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $email;
+    public $department;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $password;
+    public $complementaryStreetAddress;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $confirmPassword;
-
-    /**
-     * @var Gender
-     * @Serializer\Type("Sherl\Sdk\Person\Enum\Gender")
-     */
-    public $gender;
+    public $name;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $jobTitle;
+    public $originId;
+
+    /**
+     * @var float
+     * @Serializer\Type("float")
+     */
+    public $latitude;
+
+    /**
+     * @var float
+     * @Serializer\Type("float")
+     */
+    public $longitude;
 }
