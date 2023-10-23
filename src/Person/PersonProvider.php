@@ -25,13 +25,6 @@ class PersonProvider
         $this->client = $client;
     }
 
-    return SerializerFactory::getInstance()->deserialize(
-      $response->getBody()->getContents(),
-      PersonOutputDto::class,
-      'json'
-    );
-  }
-
   public function getConfig(): ?ConfigDto
   {
     $response = $this->client->get('/api/persons/config');
