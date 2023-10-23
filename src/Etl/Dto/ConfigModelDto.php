@@ -8,8 +8,8 @@ use Sherl\Sdk\Etl\Dto\DestinationModel;
 use Sherl\Sdk\Etl\Dto\SchemaModelDto;
 use Sherl\Sdk\Etl\Dto\FilterModelDto;
 
-class ConfigModel{
-
+class ConfigModel
+{
     /**
      * @var string
      * @Serializer\Type("string")
@@ -54,7 +54,7 @@ class ConfigModel{
 
     /**
      * @var string
-     * @Serializer\Type("string") 
+     * @Serializer\Type("string")
      */
     public $createdAt;
 }

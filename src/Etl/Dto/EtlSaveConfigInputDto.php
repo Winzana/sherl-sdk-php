@@ -12,13 +12,13 @@ class EtlSaveConfigInputDto
 {
     /**
      * @var SourceModel
-     * @Serializer\Type("Sherl\Sdk\Etl\Dto\SourceModelDto") 
+     * @Serializer\Type("Sherl\Sdk\Etl\Dto\SourceModelDto")
      */
     public $source;
 
     /**
      * @var DestinationModel
-     * @Serializer\Type("Sherl\Sdk\Etl\Dto\DestinationModelDto") 
+     * @Serializer\Type("Sherl\Sdk\Etl\Dto\DestinationModelDto")
      */
     public $destination;
 
@@ -30,7 +30,7 @@ class EtlSaveConfigInputDto
 
     /**
      * @var FilterModel
-     * @Serializer\Type("Sherl\Sdk\Etl\Dto\FilterModelDto") 
+     * @Serializer\Type("Sherl\Sdk\Etl\Dto\FilterModelDto")
      */
     public $filters;
 }

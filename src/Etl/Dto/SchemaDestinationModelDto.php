@@ -40,7 +40,7 @@ class SchemaDestinationModel
 
     /**
      * @var WrapperModel[]
-     * @Serializer\Type("array<Sherl\Sdk\Etl\Dto\WrapperModelDto>") 
+     * @Serializer\Type("array<Sherl\Sdk\Etl\Dto\WrapperModelDto>")
      */
     public $wrappers;
 }

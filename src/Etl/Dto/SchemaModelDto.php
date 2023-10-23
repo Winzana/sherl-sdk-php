@@ -16,7 +16,7 @@ class SchemaModel
 
     /**
      * @var SchemaSourceModel[]
-     * @Serializer\Type("array<Sherl\Sdk\Etl\Dto\SchemaSourceModelDto>") 
+     * @Serializer\Type("array<Sherl\Sdk\Etl\Dto\SchemaSourceModelDto>")
      */
     public $sources;
 

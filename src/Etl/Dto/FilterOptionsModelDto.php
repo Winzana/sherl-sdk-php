@@ -4,7 +4,6 @@ namespace Sherl\Sdk\Etl\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-
 class FilterOptionsModel
 {
     /**

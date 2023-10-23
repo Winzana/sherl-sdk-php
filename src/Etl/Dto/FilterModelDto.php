@@ -22,13 +22,13 @@ class FilterModel
 
     /**
      * @var FilterOptionsModel
-     * @Serializer\Type("Sherl\Sdk\Etl\Dto\FilterOptionsModelDto") 
+     * @Serializer\Type("Sherl\Sdk\Etl\Dto\FilterOptionsModelDto")
      */
     public $options;
 
     /**
      * @var FilterFieldModel[]
-     * @Serializer\Type("array<Sherl\Sdk\Etl\Dto\FilterModelDto>") 
+     * @Serializer\Type("array<Sherl\Sdk\Etl\Dto\FilterModelDto>")
      */
     public $fields;
 }

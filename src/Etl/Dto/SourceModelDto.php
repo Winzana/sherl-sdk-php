@@ -16,7 +16,7 @@ class SourceModel
 
     /**
      * @var OptionsModel
-     * @Serializer\Type("Sherl\Sdk\Etl\Dto\ConfigModelDto") 
+     * @Serializer\Type("Sherl\Sdk\Etl\Dto\ConfigModelDto")
      */
     public $options;
 
