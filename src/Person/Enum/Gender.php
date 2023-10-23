@@ -4,11 +4,11 @@ namespace Sherl\Sdk\Person\Enum;
 
 enum Gender: string
 {
-  case MAN = 'MAN';
+    case MAN = 'MAN';
 
-  case WOMAN = 'WOMAN';
+    case WOMAN = 'WOMAN';
 
-  case OTHER = 'OTHER';
+    case OTHER = 'OTHER';
 
-  case NSP = 'NSP';
+    case NSP = 'NSP';
 }

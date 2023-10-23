@@ -1,0 +1,24 @@
+name: Docs
+
+on:
+  pull_request:
+    branches: [develop, main]
+
+jobs:
+  docs:
+    name: Docs
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./docs
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install dependencies
+        run: npm install
+        working-directory: ${{env.working-directory}}
+      - name: Build Website
+        run: npm run build
+        working-directory: ${{env.working-directory}}
