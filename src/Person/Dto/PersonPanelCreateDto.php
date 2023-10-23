@@ -6,23 +6,23 @@ use JMS\Serializer\Annotation as Serializer;
 
 use Sherl\Sdk\Person\Dto\PersonPanelCreateFilterDto;
 
-class PersonPanelCreateDto {
+class PersonPanelCreateDto
+{
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $id;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $id;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $name;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $name;
-
-  /**
-   * @var PersonPanelCreateFilterDto
-   *  @Serializer\Type("Sherl\Sdk\Person\Dto\PersonPanelCreateFilterDto")
-   */
-  public $filters;
+    /**
+     * @var PersonPanelCreateFilterDto
+     *  @Serializer\Type("Sherl\Sdk\Person\Dto\PersonPanelCreateFilterDto")
+     */
+    public $filters;
 }

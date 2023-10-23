@@ -6,52 +6,53 @@ use Sherl\Sdk\Media\Dto\ImageObjectDto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class ImageObjectDto {
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $id;
+class ImageObjectDto
+{
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $id;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $consumerId;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $consumerId;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $uri;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $uri;
 
-  /**
-   * @var integer
-   * @Serializer\Type("integer")
-   */
-  public $width;
+    /**
+     * @var integer
+     * @Serializer\Type("integer")
+     */
+    public $width;
 
-  /**
-   * @var integer
-   * @Serializer\Type("integer")
-   */
-  public $height;
+    /**
+     * @var integer
+     * @Serializer\Type("integer")
+     */
+    public $height;
 
     /**
    * @var ImageObjectDto
    * @Serializer\Type("Sherl\Sdk\Media\Dto\ImageObjectDto")
    */
-  public $caption;
+    public $caption;
 
     /**
    * @var ImageObjectDto
    * @Serializer\Type("Sherl\Sdk\Media\Dto\ImageObjectDto")
    */
-  public $thumbnail;
+    public $thumbnail;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $createdAt;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $createdAt;
 }
