@@ -4,18 +4,18 @@ namespace Sherl\Sdk\Person\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class LegalNoticeAcceptanceOutputDto {
+class LegalNoticeAcceptanceOutputDto
+{
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $version;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $version;
-
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $dateOfAcceptance;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $dateOfAcceptance;
 
 }
