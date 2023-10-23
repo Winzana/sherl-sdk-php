@@ -6,21 +6,21 @@ use JMS\Serializer\Annotation as Serializer;
 
 class ContactInputDto
 {
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $name;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $name;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $email;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $email;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $message;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $message;
 }

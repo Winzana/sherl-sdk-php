@@ -1,13 +1,23 @@
 module.exports = {
   sidebar: {
     'Getting Started': ['introduction', 'installation', 'configuration'],
-    Features: ['auth', 'bug-report', 'claim', 'contact', 'notification'],
+    Features: [
+      'account',
+      'auth',
+      'bug-report',
+      'claim',
+      'contact',
+      'notification',
+      'user',
+    ],
     Types: [
+      'account-types',
       'auth-types',
       'bug-report-types',
       'claim-types',
       'notification-types',
       'pagination',
+      'place-types',
     ],
   },
 };

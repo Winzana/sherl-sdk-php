@@ -11,25 +11,25 @@ use Sherl\Sdk\Common\MixedHandler;
 
 class SerializerFactory
 {
-  private static ?Serializer $instance = null;
+    private static ?Serializer $instance = null;
 
-  public static function getInstance(): Serializer
-  {
-    if (!self::$instance) {
-      self::create();
+    public static function getInstance(): Serializer
+    {
+        if (!self::$instance) {
+            self::create();
+        }
+
+        return self::$instance;
     }
 
-    return self::$instance;
-  }
-
-  private static function create()
-  {
-    self::$instance = SerializerBuilder::create()
-      ->setPropertyNamingStrategy(new IdenticalPropertyNamingStrategy())
-      ->enableEnumSupport(true)
-      ->configureHandlers(function (HandlerRegistry $registry) {
-        $registry->registerSubscribingHandler(new MixedHandler());
-      })
-      ->build();
-  }
+    private static function create()
+    {
+        self::$instance = SerializerBuilder::create()
+          ->setPropertyNamingStrategy(new IdenticalPropertyNamingStrategy())
+          ->enableEnumSupport(true)
+          ->configureHandlers(function (HandlerRegistry $registry) {
+              $registry->registerSubscribingHandler(new MixedHandler());
+          })
+          ->build();
+    }
 }

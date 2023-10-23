@@ -4,11 +4,11 @@ namespace Sherl\Sdk\Person\Enum;
 
 enum PersonType: string
 {
-  case DEFAULT = 'DEFAULT';
+    case DEFAULT = 'DEFAULT';
 
-  case EMPLOYEE = 'EMPLOYEE';
+    case EMPLOYEE = 'EMPLOYEE';
 
-  case FOUNDER = 'FOUNDER';
+    case FOUNDER = 'FOUNDER';
 
-  case ADMIN = 'ADMIN';
+    case ADMIN = 'ADMIN';
 }

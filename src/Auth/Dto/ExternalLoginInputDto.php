@@ -9,39 +9,39 @@ use Sherl\Sdk\Auth\Dto\ExternalPhotoInputDto;
 
 class ExternalLoginInputDto
 {
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $displayName;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $displayName;
 
-  /**
-   * @var ExternalEmailInputDto
-   * @Serializer\Type("Sherl\Sdk\Auth\Dto\ExternalEmailInputDto")
-   */
-  public $emails;
+    /**
+     * @var ExternalEmailInputDto
+     * @Serializer\Type("Sherl\Sdk\Auth\Dto\ExternalEmailInputDto")
+     */
+    public $emails;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $id;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $id;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $locale;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $locale;
 
-  /**
-   * @var ExternalNameInputDto
-   * @Serializer\Type("Sherl\Sdk\Auth\Dto\ExternalNameInputDto")
-   */
-  public $name;
+    /**
+     * @var ExternalNameInputDto
+     * @Serializer\Type("Sherl\Sdk\Auth\Dto\ExternalNameInputDto")
+     */
+    public $name;
 
-  /**
-   * @var ExternalPhotoInputDto
-   * @Serializer\Type("Sherl\Sdk\Auth\Dto\ExternalPhotoInputDto")
-   */
-  public $photos;
+    /**
+     * @var ExternalPhotoInputDto
+     * @Serializer\Type("Sherl\Sdk\Auth\Dto\ExternalPhotoInputDto")
+     */
+    public $photos;
 }

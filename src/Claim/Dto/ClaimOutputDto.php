@@ -14,87 +14,87 @@ use Sherl\Sdk\Person\Dto\PersonOutputDto;
 
 class ClaimOutputDto
 {
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $id;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $id;
 
-  /**
-   * @var ClaimReplyOutput[]
-   * @Serializer\Type("array<Sherl\Sdk\Claim\Dto\ClaimReplyOutput>")
-   */
-  public $replies;
+    /**
+     * @var ClaimReplyOutput[]
+     * @Serializer\Type("array<Sherl\Sdk\Claim\Dto\ClaimReplyOutput>")
+     */
+    public $replies;
 
-  /**
-   * @var ClaimSchedulesDto
-   * @Serializer\Type("Sherl\Sdk\Claim\Dto\ClaimSchedulesDto")
-   */
-  public $schedules;
+    /**
+     * @var ClaimSchedulesDto
+     * @Serializer\Type("Sherl\Sdk\Claim\Dto\ClaimSchedulesDto")
+     */
+    public $schedules;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $issueMessage;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $issueMessage;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $issueTitle;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $issueTitle;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $personId;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $personId;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $orderId;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $orderId;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $createdAt;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $createdAt;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $updatedAt;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $updatedAt;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $uri;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $uri;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $consumerId;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $consumerId;
 
-  /**
-   * @var ClaimStatus
-   * @Serializer\Type("enum<'Sherl\Sdk\Claim\Enum\ClaimStatus', 'value'>")
-   */
-  public $status;
+    /**
+     * @var ClaimStatus
+     * @Serializer\Type("enum<'Sherl\Sdk\Claim\Enum\ClaimStatus', 'value'>")
+     */
+    public $status;
 
-  /**
-   * @var PersonOutputDto
-   * @Serializer\Type("Sherl\Sdk\Person\Dto\PersonOutputDto")
-   */
-  public $person;
+    /**
+     * @var PersonOutputDto
+     * @Serializer\Type("Sherl\Sdk\Person\Dto\PersonOutputDto")
+     */
+    public $person;
 
-  /**
-   * @var OrderOutputDto
-   * @Serializer\Type("Sherl\Sdk\Order\Dto\OrderOutputDto")
-   */
-  public $order;
+    /**
+     * @var OrderOutputDto
+     * @Serializer\Type("Sherl\Sdk\Order\Dto\OrderOutputDto")
+     */
+    public $order;
 }
