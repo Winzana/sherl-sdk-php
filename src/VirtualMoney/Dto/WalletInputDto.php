@@ -17,35 +17,6 @@ class WalletInputDto
      * @var string
      * @Serializer\Type("string")
      */
-    public $uri;
-
-    /**
-     * @var float
-     * @Serializer\Type("float")
-     */
-    public $amount;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $consumerId;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
     public $personId;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $createdAt;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $updatedAt;
 }
