@@ -55,9 +55,8 @@ class VirtualMoneyProvider
     public function getWalletHistorical(
         string $walletId,
         string $historicalId
-    ): ?WalletHistoricalOutputDto
-    {
-        $response = $this->client->get("api/wallet/$walletId/historical/$historicalId" , [
+    ): ?WalletHistoricalOutputDto {
+        $response = $this->client->get("api/wallet/$walletId/historical/$historicalId", [
             "headers" => [
               "Content-Type" => "application/json",
             ]
@@ -138,9 +137,8 @@ class VirtualMoneyProvider
         string $id,
         string $personId,
         string $consumerId
-    ): ?WalletOutputDto
-    {
-        $response = $this->client->get("/api/wallet/find-one" , [
+    ): ?WalletOutputDto {
+        $response = $this->client->get("/api/wallet/find-one", [
             "headers" => [
               "Content-Type" => "application/json",
             ], [
@@ -160,12 +158,11 @@ class VirtualMoneyProvider
             'json'
         );
     }
-    
+
     public function getWalletById(
         string $walletId,
-    ): ?WalletOutputDto
-    {
-        $response = $this->client->get("api/wallet/$walletId" , [
+    ): ?WalletOutputDto {
+        $response = $this->client->get("api/wallet/$walletId", [
             "headers" => [
               "Content-Type" => "application/json",
             ]

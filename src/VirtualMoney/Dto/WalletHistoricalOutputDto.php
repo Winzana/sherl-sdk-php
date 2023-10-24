@@ -47,7 +47,7 @@ class WalletHistoricalOutputDto
      * @Serializer\Type("string")
      */
     public $personId;
-    
+
     /**
      * @var string
      * @Serializer\Type("string")

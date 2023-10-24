@@ -6,7 +6,6 @@ use JMS\Serializer\Annotation as Serializer;
 
 class WalletOutputDto
 {
-
     /**
      * @var string
      * @Serializer\Type("string")
