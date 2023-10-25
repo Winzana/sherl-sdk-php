@@ -19,7 +19,6 @@ use Sherl\Sdk\Analytics\Dto\NotificationsAnalyticsInputDto;
 use Sherl\Sdk\Analytics\Dto\ProductAnalyticsInputDto;
 use Sherl\Sdk\Analytics\Enum\TraceEnum;
 
-
 class AnalyticsProvider
 {
     public const DOMAIN = "Analytics";
@@ -60,142 +59,142 @@ class AnalyticsProvider
     }
 
     public function getAudiencesAnalytics(
-      AnalyticsInputBaseDto $filters,
-  ): ?AnalyticsOutputDto {
-      $response = $this->client->get("/api/analytics/audiences", [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          [
-            RequestOptions::JSON => $filters
-          ]
-        ]);
+        AnalyticsInputBaseDto $filters,
+    ): ?AnalyticsOutputDto {
+        $response = $this->client->get("/api/analytics/audiences", [
+            "headers" => [
+              "Content-Type" => "application/json",
+            ],
+            [
+              RequestOptions::JSON => $filters
+            ]
+          ]);
 
-      if ($response->getStatusCode() >= 300) {
-          throw new SherlException(AnalyticsProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
-      }
+        if ($response->getStatusCode() >= 300) {
+            throw new SherlException(AnalyticsProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        }
 
-      return SerializerFactory::getInstance()->deserialize(
-          $response->getBody()->getContents(),
-          AnalyticsOutputDto::class,
-          'json'
-      );
-  }
-
-  public function getBIAnalytics(
-    AnalyticsFindBIInputDto $filters,
-): ?AnalyticsOutputDto {
-    $response = $this->client->get("/api/analytics/bi", [
-        "headers" => [
-          "Content-Type" => "application/json",
-        ],
-        [
-          RequestOptions::JSON => $filters
-        ]
-      ]);
-
-    if ($response->getStatusCode() >= 300) {
-        throw new SherlException(AnalyticsProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            AnalyticsOutputDto::class,
+            'json'
+        );
     }
 
-    return SerializerFactory::getInstance()->deserialize(
-        $response->getBody()->getContents(),
-        AnalyticsOutputDto::class,
-        'json'
-    );
-}
+    public function getBIAnalytics(
+        AnalyticsFindBIInputDto $filters,
+    ): ?AnalyticsOutputDto {
+        $response = $this->client->get("/api/analytics/bi", [
+            "headers" => [
+              "Content-Type" => "application/json",
+            ],
+            [
+              RequestOptions::JSON => $filters
+            ]
+          ]);
 
-  public function getCAAnalytics(
-    CAAnalyticsInputDto $filters,
-  ): ?AnalyticsOutputDto {
-    $response = $this->client->get("/api/analytics/ca", [
-        "headers" => [
-          "Content-Type" => "application/json",
-        ],
-        [
-          RequestOptions::JSON => $filters
-        ]
-      ]);
+        if ($response->getStatusCode() >= 300) {
+            throw new SherlException(AnalyticsProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        }
 
-    if ($response->getStatusCode() >= 300) {
-        throw new SherlException(AnalyticsProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            AnalyticsOutputDto::class,
+            'json'
+        );
     }
 
-    return SerializerFactory::getInstance()->deserialize(
-        $response->getBody()->getContents(),
-        AnalyticsOutputDto::class,
-        'json'
-    );
-  }
+    public function getCAAnalytics(
+        CAAnalyticsInputDto $filters,
+    ): ?AnalyticsOutputDto {
+        $response = $this->client->get("/api/analytics/ca", [
+            "headers" => [
+              "Content-Type" => "application/json",
+            ],
+            [
+              RequestOptions::JSON => $filters
+            ]
+          ]);
 
-  public function getNotificationsAnalytics(
-    NotificationsAnalyticsInputDto $filters,
-  ): ?AnalyticsOutputDto {
-    $response = $this->client->get("/api/analytics/notifications", [
-        "headers" => [
-          "Content-Type" => "application/json",
-        ],
-        [
-          RequestOptions::JSON => $filters
-        ]
-      ]);
+        if ($response->getStatusCode() >= 300) {
+            throw new SherlException(AnalyticsProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        }
 
-    if ($response->getStatusCode() >= 300) {
-        throw new SherlException(AnalyticsProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            AnalyticsOutputDto::class,
+            'json'
+        );
     }
 
-    return SerializerFactory::getInstance()->deserialize(
-        $response->getBody()->getContents(),
-        AnalyticsOutputDto::class,
-        'json'
-    );
-  }
+    public function getNotificationsAnalytics(
+        NotificationsAnalyticsInputDto $filters,
+    ): ?AnalyticsOutputDto {
+        $response = $this->client->get("/api/analytics/notifications", [
+            "headers" => [
+              "Content-Type" => "application/json",
+            ],
+            [
+              RequestOptions::JSON => $filters
+            ]
+          ]);
 
-  public function getProductsAnalytics(
-    ProductAnalyticsInputDto $filters,
-  ): ?AnalyticsOutputDto {
-    $response = $this->client->get("/api/analytics/products", [
-        "headers" => [
-          "Content-Type" => "application/json",
-        ],
-        [
-          RequestOptions::JSON => $filters
-        ]
-      ]);
+        if ($response->getStatusCode() >= 300) {
+            throw new SherlException(AnalyticsProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        }
 
-    if ($response->getStatusCode() >= 300) {
-        throw new SherlException(AnalyticsProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            AnalyticsOutputDto::class,
+            'json'
+        );
     }
 
-    return SerializerFactory::getInstance()->deserialize(
-        $response->getBody()->getContents(),
-        AnalyticsOutputDto::class,
-        'json'
-    );
-  }
+    public function getProductsAnalytics(
+        ProductAnalyticsInputDto $filters,
+    ): ?AnalyticsOutputDto {
+        $response = $this->client->get("/api/analytics/products", [
+            "headers" => [
+              "Content-Type" => "application/json",
+            ],
+            [
+              RequestOptions::JSON => $filters
+            ]
+          ]);
 
-  public function getTrackingAnalytics(
-    AnalyticsFindByInputDto $filters,
-  ) {
-    $response = $this->client->get("/api/analytics/tracking", [
-        "headers" => [
-          "Content-Type" => "application/json",
-        ],
-        [
-          RequestOptions::JSON => $filters
-        ]
-      ]);
+        if ($response->getStatusCode() >= 300) {
+            throw new SherlException(AnalyticsProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        }
 
-    if ($response->getStatusCode() >= 300) {
-        throw new SherlException(AnalyticsProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            AnalyticsOutputDto::class,
+            'json'
+        );
     }
 
-    return SerializerFactory::getInstance()->deserialize(
-        $response->getBody()->getContents(),
-        AnalyticsOutputDto::class,
-        'json'
-    );
-  }
-  
+    public function getTrackingAnalytics(
+        AnalyticsFindByInputDto $filters,
+    ) {
+        $response = $this->client->get("/api/analytics/tracking", [
+            "headers" => [
+              "Content-Type" => "application/json",
+            ],
+            [
+              RequestOptions::JSON => $filters
+            ]
+          ]);
+
+        if ($response->getStatusCode() >= 300) {
+            throw new SherlException(AnalyticsProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            AnalyticsOutputDto::class,
+            'json'
+        );
+    }
+
 
 }
