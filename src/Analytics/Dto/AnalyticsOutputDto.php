@@ -4,7 +4,7 @@ namespace Sherl\Sdk\Analytic\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class AnalyticOutputDto
+class AnalyticsOutputDto
 {
     /**
      * @var string
@@ -31,8 +31,8 @@ class AnalyticOutputDto
     public $number;
 
     /**
-     * @var array
-     * @Serializer\Type("array")
+     * @var string[]
+     * @Serializer\Type("array<string>")
      */
     public $metadata;
 }

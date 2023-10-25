@@ -7,7 +7,7 @@ use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Analytics\Enum\TraceEnum;
 use Sherl\Sdk\Organization\Dto\OrganizationOutputDto;
 
-class TraceDto
+class TraceOuputDto
 {
     /**
      * @var string

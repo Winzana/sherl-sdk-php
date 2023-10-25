@@ -8,13 +8,17 @@ use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 
 use Sherl\Sdk\Common\Error\SherlException;
+use Sherl\Sdk\Common\Dto\SearchResult;
 
-use Sherl\Sdk\VirtualMoney\Dto\CreateWalletHistoricalInputDto;
-use Sherl\Sdk\VirtualMoney\Dto\WalletHistoricalOutputDto;
-use Sherl\Sdk\VirtualMoney\Dto\WalletHistoricalInputDto;
-use Sherl\Sdk\VirtualMoney\Dto\WalletInputDto;
-use Sherl\Sdk\VirtualMoney\Dto\WalletOuputDto;
-use Sherl\Sdk\VirtualMoney\Dto\TransferWalletInputDto;
+use Sherl\Sdk\Analytics\Dto\AnalyticsOutputDto;
+use Sherl\Sdk\Analytics\Dto\AnalyticsInputDto;
+use Sherl\Sdk\Analytics\Dto\AnalyticsInputBaseDto;
+use Sherl\Sdk\Analytics\Dto\AnalyticsFindBIInputDto;
+use Sherl\Sdk\Analytics\Dto\CAAnalyticsInputDto;
+use Sherl\Sdk\Analytics\Dto\NotificationsAnalyticsInputDto;
+use Sherl\Sdk\Analytics\Dto\ProductAnalyticsInputDto;
+use Sherl\Sdk\Analytics\Enum\TraceEnum;
+
 
 class AnalyticsProvider
 {
@@ -32,150 +36,166 @@ class AnalyticsProvider
         throw new SherlException(AnalyticsProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
 
-    public function createWalletHistorical(string $walletId, CreateWalletHistoricalInputDto $walletHistorical): ?WalletHistoricalOutputDto
-    {
-        $response = $this->client->post("/api/wallet/$walletId/historical", [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => $walletHistorical
-        ]);
-
-        if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlUserException($response);
-        }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            WalletHistoricalOutputDto::class,
-            'json'
-        );
-    }
-
-    public function getWalletHistorical(
-        string $walletId,
-        string $historicalId
-    ): ?WalletHistoricalOutputDto {
-        $response = $this->client->get("api/wallet/$walletId/historical/$historicalId", [
+    public function getAnalytics(
+        AnalyticsInputDto $filters,
+    ): ?AnalyticsOutputDto {
+        $response = $this->client->get("/api/analytics", [
             "headers" => [
               "Content-Type" => "application/json",
+            ],
+            [
+              RequestOptions::JSON => $filters
             ]
           ]);
 
         if ($response->getStatusCode() >= 300) {
-            throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+            throw new SherlException(AnalyticsProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
         }
 
         return SerializerFactory::getInstance()->deserialize(
             $response->getBody()->getContents(),
-            WalletHistoricalOutputDto::class,
+            AnalyticsOutputDto::class,
             'json'
         );
     }
 
-    public function createWallet(WalletInputDto $wallet): ?WalletOutputDto
-    {
-        $response = $this->client->post("/api/wallet", [
+    public function getAudiencesAnalytics(
+      AnalyticsInputBaseDto $filters,
+  ): ?AnalyticsOutputDto {
+      $response = $this->client->get("/api/analytics/audiences", [
           "headers" => [
             "Content-Type" => "application/json",
           ],
-          RequestOptions::JSON => $wallet
+          [
+            RequestOptions::JSON => $filters
+          ]
         ]);
 
-        if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlUserException($response);
-        }
+      if ($response->getStatusCode() >= 300) {
+          throw new SherlException(AnalyticsProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+      }
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            WalletOutputDto::class,
-            'json'
-        );
+      return SerializerFactory::getInstance()->deserialize(
+          $response->getBody()->getContents(),
+          AnalyticsOutputDto::class,
+          'json'
+      );
+  }
+
+  public function getBIAnalytics(
+    AnalyticsFindBIInputDto $filters,
+): ?AnalyticsOutputDto {
+    $response = $this->client->get("/api/analytics/bi", [
+        "headers" => [
+          "Content-Type" => "application/json",
+        ],
+        [
+          RequestOptions::JSON => $filters
+        ]
+      ]);
+
+    if ($response->getStatusCode() >= 300) {
+        throw new SherlException(AnalyticsProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
 
-    public function creditWallet(string $walletId, TransferWalletInputDto $transferWallet): ?WalletOutputDto
-    {
-        $response = $this->client->post("/api/wallet/$walletId/credit", [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => $transferWallet
-        ]);
+    return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        AnalyticsOutputDto::class,
+        'json'
+    );
+}
 
-        if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlUserException($response);
-        }
+  public function getCAAnalytics(
+    CAAnalyticsInputDto $filters,
+  ): ?AnalyticsOutputDto {
+    $response = $this->client->get("/api/analytics/ca", [
+        "headers" => [
+          "Content-Type" => "application/json",
+        ],
+        [
+          RequestOptions::JSON => $filters
+        ]
+      ]);
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            WalletOutputDto::class,
-            'json'
-        );
+    if ($response->getStatusCode() >= 300) {
+        throw new SherlException(AnalyticsProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
 
-    public function debitWalet(string $walletId, TransferWalletInputDto $transferWallet): ?WalletOutputDto
-    {
-        $response = $this->client->post("/api/wallet/$walletId/debit", [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => $transferWallet
-        ]);
+    return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        AnalyticsOutputDto::class,
+        'json'
+    );
+  }
 
-        if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlUserException($response);
-        }
+  public function getNotificationsAnalytics(
+    NotificationsAnalyticsInputDto $filters,
+  ): ?AnalyticsOutputDto {
+    $response = $this->client->get("/api/analytics/notifications", [
+        "headers" => [
+          "Content-Type" => "application/json",
+        ],
+        [
+          RequestOptions::JSON => $filters
+        ]
+      ]);
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            WalletOutputDto::class,
-            'json'
-        );
+    if ($response->getStatusCode() >= 300) {
+        throw new SherlException(AnalyticsProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
 
-    public function findOneWallet(
-        string $id,
-        string $personId,
-        string $consumerId
-    ): ?WalletOutputDto {
-        $response = $this->client->get("/api/wallet/find-one", [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ], [
-                "id" => $id,
-                "personId" => $personId,
-                "consumerId" => $consumerId
-              ]
-          ]);
+    return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        AnalyticsOutputDto::class,
+        'json'
+    );
+  }
 
-        if ($response->getStatusCode() >= 300) {
-            throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
-        }
+  public function getProductsAnalytics(
+    ProductAnalyticsInputDto $filters,
+  ): ?AnalyticsOutputDto {
+    $response = $this->client->get("/api/analytics/products", [
+        "headers" => [
+          "Content-Type" => "application/json",
+        ],
+        [
+          RequestOptions::JSON => $filters
+        ]
+      ]);
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            WalletOutputDto::class,
-            'json'
-        );
+    if ($response->getStatusCode() >= 300) {
+        throw new SherlException(AnalyticsProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
 
-    public function getWalletById(
-        string $walletId,
-    ): ?WalletOutputDto {
-        $response = $this->client->get("api/wallet/$walletId", [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ]
-          ]);
+    return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        AnalyticsOutputDto::class,
+        'json'
+    );
+  }
 
-        if ($response->getStatusCode() >= 300) {
-            throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
-        }
+  public function getTrackingAnalytics(
+    AnalyticsFindByInputDto $filters,
+  ) {
+    $response = $this->client->get("/api/analytics/tracking", [
+        "headers" => [
+          "Content-Type" => "application/json",
+        ],
+        [
+          RequestOptions::JSON => $filters
+        ]
+      ]);
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            WalletOutputDto::class,
-            'json'
-        );
+    if ($response->getStatusCode() >= 300) {
+        throw new SherlException(AnalyticsProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
+
+    return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        AnalyticsOutputDto::class,
+        'json'
+    );
+  }
+  
+
 }
