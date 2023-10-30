@@ -1,6 +1,6 @@
 <?php
 
-namespace Sherl\Sdk\Calendat\Dto;
+namespace Sherl\Sdk\Calendar\Dto;
 
 class CheckLocationInputDto
 {

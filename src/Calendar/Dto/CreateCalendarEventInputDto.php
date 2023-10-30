@@ -1,12 +1,11 @@
 <?php
 
-namespace Sherl\Sdk\Calendat\Dto;
+namespace Sherl\Sdk\Calendar\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
+use Sherl\Sdk\Calendar\Dto\OpenHoursSpecification;
 
-use Sherl\Sdk\Common\Dto\PaginationFilterInputDto;
-
-class GetCalendarEventByOwnerInputDto extends PaginationFilterInputDto 
+class CreateCalendarEventInputDto
 {
     /**
      * @var string
@@ -18,13 +17,13 @@ class GetCalendarEventByOwnerInputDto extends PaginationFilterInputDto
      * @var string
      * @Serializer\Type("string")
      */
-    public $calendarOwnerUri;
+    public $uri;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $calendarAboutUri;
+    public $aboutUri;
 
     /**
      * @var string
@@ -36,18 +35,17 @@ class GetCalendarEventByOwnerInputDto extends PaginationFilterInputDto
      * @var string
      * @Serializer\Type("string")
      */
-    public $aboutUri;
-
-    /**
-     * @var DateFilterOutputDto
-     * @Serializer\Type("Sherl\Sdk\Common\Dto\DateFilterOutputDto")
-     */
     public $startDate;
 
     /**
-     * @var DateFilterOutputDto
-     * @Serializer\Type("Sherl\Sdk\Common\Dto\DateFilterOutputDto")
+     * @var string
+     * @Serializer\Type("string")
      */
     public $endDate;
 
+    /**
+     * @var mixed
+     * @Serializer\Type("mixed")
+     */
+    public $metadatas;
 }

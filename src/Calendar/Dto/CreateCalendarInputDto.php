@@ -5,7 +5,7 @@ namespace Sherl\Sdk\Calendar\Dto;
 use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Calendar\Dto\OpenHoursSpecification;
 
-class CalendarEventOutputDto
+class CreateCalendarInputDto
 {
     /**
      * @var string
@@ -27,7 +27,7 @@ class CalendarEventOutputDto
 
     /**
      * @var OpenHoursSpecification
-     * @Serializer\Type("array<Sherl\Sdk\Calendar\Dto\OenHoursSpecification>")
+     * @Serializer\Type("array<Sherl\Sdk\Calendar\Dto\OpeningHoursSpecificationOutputDto>")
      */
     public $availabilities;
 

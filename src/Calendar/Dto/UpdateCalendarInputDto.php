@@ -12,6 +12,12 @@ class UpdateCalendarInputDto
      */
     public $aboutUri;
 
+        /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $ownerUri;
+
     /**
      * @var OpenHoursSpecification
      * @Serializer\Type("array<Sherl\Sdk\Calendar\Dto\OenHoursSpecification>")
