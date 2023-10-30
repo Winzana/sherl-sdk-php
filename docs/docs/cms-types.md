@@ -45,24 +45,24 @@ title: Cms types
 
 ## IArticle
 
-| Fields              |                         Type                         | Description                       |
-| :------------------ | :--------------------------------------------------: | :-------------------------------- |
-| **id**              |                        string                        | ID                                |
-| **uri**             |                        string                        | URI                               |
-| **title**           |                        string                        | Title                             |
-| **slug**            |                        string                        | Slug                              |
-| **resume**          |                        string                        | Resume                            |
-| **content**         |                        string                        | Content                           |
-| **consumerId**      |                  string (optional)                   | Consumer ID                       |
-| **organizationUri** |                  string (optional)                   | Organization URI                  |
-| **type**            |         [ArticleTypeEnum](#ArticleTypeEnum)          | Article type                      |
-| **authorUri**       |                        string                        | Author URI                        |
-| **author**          | [PersonOutputDto](person#PersonOutputDto) (optional) | Author                            |
-| **beginDate**       |                         Date                         | Begin date                        |
-| **endDate**         |                   Date (optional)                    | End date                          |
-| **tokens**          |                        Object                        | Tokens (e.g. Facebook)            |
-| **status**          |       [ArticleStatusEnum](#ArticleStatusEnum)        | Article status                    |
-| **media**           |  [ImageObject](media-types#imageobject) (optional)   | Media associated with the article |
-| **metadatas**       |             Associative Array (optional)             | Metadatas                         |
-| **createdAt**       |                   Date (optional)                    | Created at                        |
-| **updatedAt**       |                   Date (optional)                    | Updated at                        |
+| Fields              |                  Type                   | Description                       |
+| :------------------ | :-------------------------------------: | :-------------------------------- |
+| **id**              |                 string                  | ID                                |
+| **uri**             |                 string                  | URI                               |
+| **title**           |                 string                  | Title                             |
+| **slug**            |                 string                  | Slug                              |
+| **resume**          |                 string                  | Resume                            |
+| **content**         |                 string                  | Content                           |
+| **consumerId**      |            string (optional)            | Consumer ID                       |
+| **organizationUri** |            string (optional)            | Organization URI                  |
+| **type**            |   [ArticleTypeEnum](#ArticleTypeEnum)   | Article type                      |
+| **authorUri**       |                 string                  | Author URI                        |
+| **author**          |        PersonInputDto(optional)         | Author                            |
+| **beginDate**       |                  Date                   | Begin date                        |
+| **endDate**         |             Date (optional)             | End date                          |
+| **tokens**          |                 Object                  | Tokens (e.g. Facebook)            |
+| **status**          | [ArticleStatusEnum](#ArticleStatusEnum) | Article status                    |
+| **media**           |         ImageObject (optional)          | Media associated with the article |
+| **metadatas**       |      Associative Array (optional)       | Metadatas                         |
+| **createdAt**       |             Date (optional)             | Created at                        |
+| **updatedAt**       |             Date (optional)             | Updated at                        |
