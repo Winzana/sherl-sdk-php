@@ -46,7 +46,7 @@ class CmsProvider
             RequestOptions::JSON => [
                 "title" => $articleInput->title,
                 "content" => $articleInput->content
-                // Ajoutez d'autres champs si nécessaire
+
             ]
         ]);
 
@@ -74,147 +74,147 @@ class CmsProvider
         return $response->getBody()->getContents();
     }
     public function createPostsPage(array $data): string
-{
-    $response = $this->client->post("/api/manage_articles", [
-        "headers" => ["Content-Type" => "application/json"],
-        RequestOptions::JSON => $data
-    ]);
+    {
+        $response = $this->client->post("/api/manage_articles", [
+            "headers" => ["Content-Type" => "application/json"],
+            RequestOptions::JSON => $data
+        ]);
 
-    if ($response->getStatusCode() !== 201) {
-        $this->throwCmsException($response);
+        if ($response->getStatusCode() !== 201) {
+            $this->throwCmsException($response);
+        }
+
+        return $response->getBody()->getContents();
     }
 
-    return $response->getBody()->getContents();
-}
+    public function createStaticPage(array $data): string
+    {
+        $response = $this->client->post("/api/create_static", [
+            "headers" => ["Content-Type" => "application/json"],
+            RequestOptions::JSON => $data
+        ]);
 
-public function createStaticPage(array $data): string
-{
-    $response = $this->client->post("/api/create_static", [
-        "headers" => ["Content-Type" => "application/json"],
-        RequestOptions::JSON => $data
-    ]);
+        if ($response->getStatusCode() !== 201) {
+            $this->throwCmsException($response);
+        }
 
-    if ($response->getStatusCode() !== 201) {
-        $this->throwCmsException($response);
+        return $response->getBody()->getContents();
     }
 
-    return $response->getBody()->getContents();
-}
+    public function createStoriesPage(array $data): string
+    {
+        $response = $this->client->post("/api/create_stories", [
+            "headers" => ["Content-Type" => "application/json"],
+            RequestOptions::JSON => $data
+        ]);
 
-public function createStoriesPage(array $data): string
-{
-    $response = $this->client->post("/api/create_stories", [
-        "headers" => ["Content-Type" => "application/json"],
-        RequestOptions::JSON => $data
-    ]);
+        if ($response->getStatusCode() !== 201) {
+            $this->throwCmsException($response);
+        }
 
-    if ($response->getStatusCode() !== 201) {
-        $this->throwCmsException($response);
+        return $response->getBody()->getContents();
     }
 
-    return $response->getBody()->getContents();
-}
+    public function createTrainingsPage(array $data): string
+    {
+        $response = $this->client->post("/api/create_training", [
+            "headers" => ["Content-Type" => "application/json"],
+            RequestOptions::JSON => $data
+        ]);
 
-public function createTrainingsPage(array $data): string
-{
-    $response = $this->client->post("/api/create_training", [
-        "headers" => ["Content-Type" => "application/json"],
-        RequestOptions::JSON => $data
-    ]);
+        if ($response->getStatusCode() !== 201) {
+            $this->throwCmsException($response);
+        }
 
-    if ($response->getStatusCode() !== 201) {
-        $this->throwCmsException($response);
+        return $response->getBody()->getContents();
+    }
+    public function deleteArticleById(string $id): string
+    {
+        $endpoint = str_replace("{id}", $id, "/api/manage_posts/{id}");
+        $response = $this->client->delete($endpoint);
+
+        return $response->getBody()->getContents();
     }
 
-    return $response->getBody()->getContents();
-}
-public function deleteArticleById(string $id): string
-{
-    $endpoint = str_replace("{id}", $id, "/api/manage_posts/{id}");
-    $response = $this->client->delete($endpoint);
+    public function deleteMediaPage(string $id): string
+    {
+        $endpoint = str_replace("{id}", $id, "/api/manage_media/{id}");
+        $response = $this->client->delete($endpoint);
 
-    return $response->getBody()->getContents();
-}
-
-public function deleteMediaPage(string $id): string
-{
-    $endpoint = str_replace("{id}", $id, "/api/manage_media/{id}");
-    $response = $this->client->delete($endpoint);
-
-    return $response->getBody()->getContents();
-}
-
-public function getArticleById(string $id): string
-{
-    $endpoint = str_replace("{id}", $id, "/api/manage_posts/{id}");
-    $response = $this->client->get($endpoint);
-
-    if ($response->getStatusCode() !== 200) {
-        $this->throwCmsException($response);
+        return $response->getBody()->getContents();
     }
 
-    return $response->getBody()->getContents();
-}
+    public function getArticleById(string $id): string
+    {
+        $endpoint = str_replace("{id}", $id, "/api/manage_posts/{id}");
+        $response = $this->client->get($endpoint);
 
-public function getArticleBySlug(string $slug): string
-{
-    $endpoint = str_replace("{slug}", $slug, "/api/get_slug/{slug}");
-    $response = $this->client->get($endpoint);
+        if ($response->getStatusCode() !== 200) {
+            $this->throwCmsException($response);
+        }
 
-    if ($response->getStatusCode() !== 200) {
-        $this->throwCmsException($response);
+        return $response->getBody()->getContents();
     }
 
-    return $response->getBody()->getContents();
-}
+    public function getArticleBySlug(string $slug): string
+    {
+        $endpoint = str_replace("{slug}", $slug, "/api/get_slug/{slug}");
+        $response = $this->client->get($endpoint);
 
-public function getPosts(array $filters): string
-{
-    $response = $this->client->get("/api/manage_articles", [
-        "query" => $filters
-    ]);
+        if ($response->getStatusCode() !== 200) {
+            $this->throwCmsException($response);
+        }
 
-    if ($response->getStatusCode() !== 200) {
-        $this->throwCmsException($response);
+        return $response->getBody()->getContents();
     }
 
-    return $response->getBody()->getContents();
-}
+    public function getPosts(array $filters): string
+    {
+        $response = $this->client->get("/api/manage_articles", [
+            "query" => $filters
+        ]);
 
-public function getPublicArticleById(string $id): string
-{
-    $endpoint = str_replace("{id}", $id, "/api/manage_posts/{id}");
-    $response = $this->client->get($endpoint);
+        if ($response->getStatusCode() !== 200) {
+            $this->throwCmsException($response);
+        }
 
-    if ($response->getStatusCode() !== 200) {
-        $this->throwCmsException($response);
+        return $response->getBody()->getContents();
     }
 
-    return $response->getBody()->getContents();
-}
+    public function getPublicArticleById(string $id): string
+    {
+        $endpoint = str_replace("{id}", $id, "/api/manage_posts/{id}");
+        $response = $this->client->get($endpoint);
 
-public function getPublicArticleBySlug(string $slug): string
-{
-    $endpoint = str_replace("{slug}", $slug, "/api/get_article_by_slug/{slug}");
-    $response = $this->client->get($endpoint);
+        if ($response->getStatusCode() !== 200) {
+            $this->throwCmsException($response);
+        }
 
-    if ($response->getStatusCode() !== 200) {
-        $this->throwCmsException($response);
+        return $response->getBody()->getContents();
     }
 
-    return $response->getBody()->getContents();
-}
+    public function getPublicArticleBySlug(string $slug): string
+    {
+        $endpoint = str_replace("{slug}", $slug, "/api/get_article_by_slug/{slug}");
+        $response = $this->client->get($endpoint);
 
-public function getPublicArticles(array $filters): string
-{
-    $response = $this->client->get("/api/get_public_articles", [
-        "query" => $filters
-    ]);
+        if ($response->getStatusCode() !== 200) {
+            $this->throwCmsException($response);
+        }
 
-    if ($response->getStatusCode() !== 200) {
-        $this->throwCmsException($response);
+        return $response->getBody()->getContents();
     }
 
-    return $response->getBody()->getContents();
-}
+    public function getPublicArticles(array $filters): string
+    {
+        $response = $this->client->get("/api/get_public_articles", [
+            "query" => $filters
+        ]);
+
+        if ($response->getStatusCode() !== 200) {
+            $this->throwCmsException($response);
+        }
+
+        return $response->getBody()->getContents();
+    }
 }
