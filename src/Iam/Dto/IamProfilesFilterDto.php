@@ -4,7 +4,8 @@ namespace Sherl\Sdk\Iam\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class IamProfilesFilterDto {
+class IamProfilesFilterDto
+{
     /**
      * @var int
      * @Serializer\Type("integer")

@@ -7,7 +7,6 @@ use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 use Sherl\Sdk\Common\Error\SherlException;
 
-
 class IamProvider
 {
     public const DOMAIN = "Iam";
@@ -26,7 +25,8 @@ class IamProvider
         throw new SherlException(SherlException::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
 
-    public function getAllIamProfiles(array $filters): array {
+    public function getAllIamProfiles(array $filters): array
+    {
         try {
             $response = $this->client->get($this->endpoints['GET_ALL_IAM_PROFILES'], [
                 'query' => $filters
@@ -42,7 +42,8 @@ class IamProvider
         }
     }
 
-    public function getIamProfileById(string $id): array {
+    public function getIamProfileById(string $id): array
+    {
         try {
             $endpoint = str_replace('{id}', $id, $this->endpoints['GET_IAM_PROFILE_BY_ID']);
             $response = $this->client->get($endpoint);
@@ -57,7 +58,8 @@ class IamProvider
         }
     }
 
-    public function getIamRoleById(string $id): array {
+    public function getIamRoleById(string $id): array
+    {
         try {
             $endpoint = str_replace('{id}', $id, $this->endpoints['GET_IAM_ROLE_BY_ID']);
             $response = $this->client->get($endpoint);

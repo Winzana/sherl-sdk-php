@@ -7,12 +7,12 @@ use Sherl\Sdk\Iam\Dto\RoleDto;
 
 class ProfileDto
 {
-/**
-     * @var string
-     * @Serializer\Type("string")
-     */
+    /**
+         * @var string
+         * @Serializer\Type("string")
+         */
     public $id;
-    
+
     /**
      * @var string
      * @Serializer\Type("string")

@@ -4,7 +4,8 @@ namespace Sherl\Sdk\Iam\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class StatementDto {
+class StatementDto
+{
     /**
      * @var string[]
      * @Serializer\Type("array<string>")
