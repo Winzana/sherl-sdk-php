@@ -21,12 +21,12 @@ $sherlClient->etl->saveConfig(IEtlSaveConfigInputDto $config);
 <details>
  <summary><b>EtlSaveConfigInputDto</b></summary>
 
-| Fields          |                      Type                      | Description              |
-| :-------------- | :--------------------------------------------: | :----------------------- |
-| **source**      |      [SourceModel](etl-types#SourceModel)      | Source information.      |
-| **destination** | [DestinationModel](etl-types#DestinationModel) | Destination information. |
-| **schemas**     |     [SchemaModel] (etl-types#SchemaModel)      | Schema information.      |
-| **filters**     |     [FilterModel] (etl-types#FilterModel)      | Filter information.      |
+| Fields          | Type                                           |      Required      | Description              |
+| --------------- | ---------------------------------------------- | :----------------: | ------------------------ |
+| **source**      | [SourceModel](etl-types#SourceModel)           | :white_check_mark: | Source information.      |
+| **destination** | [DestinationModel](etl-types#DestinationModel) | :white_check_mark: | Destination information. |
+| **schemas**     | [SchemaModel] (etl-types#SchemaModel)          | :white_check_mark: | Schema information.      |
+| **filters**     | [FilterModel] (etl-types#FilterModel)          | :white_check_mark: | Filter information.      |
 
 </details>
 
@@ -46,9 +46,9 @@ $sherlClient->etl->extractTransformLoad(IExtractTransformLoadInputDto $config);
 
 ## ExtractTransformLoadInputDto
 
-| Fields     |                 Type                 | Description                 |
-| :--------- | :----------------------------------: | :-------------------------- |
-| **config** | [ConfigModel](etl-types#ConfigModel) | Configuration for ETL task. |
+| Fields     | Type                                 |      Required      | Description                 |
+| ---------- | ------------------------------------ | :----------------: | --------------------------- |
+| **config** | [ConfigModel](etl-types#ConfigModel) | :white_check_mark: | Configuration for ETL task. |
 
 This call returns an [EtlResponse](etl-types#EtlResponse) object.
 
