@@ -12,7 +12,7 @@ $sherlClient->calendar->createCalendar(CreateCalendarInputDto $createCalendar);
 ```
 
 <details>
- <summary><b>CreateClaimInput</b></summary>
+ <summary><b>CreateCalendarInputDto</b></summary>
 
 | Fields           |                        Type                        |      Required      | Description                       |
 | :--------------- | :------------------------------------------------: | :----------------: | :-------------------------------- |
@@ -68,7 +68,7 @@ This call returns true if calendar calendar is successfully deleted.
 $sherlClient->claim->getCalendarWithId(string $calendarId);
 ```
 
-This call returns a [CalendarOutputDto](claim-types#claimoutputdto) class.
+This call returns a [CalendarOutputDto](calendar-types#calendaroutputdto) class.
 
 ## Find calendar availabilities
 
@@ -172,74 +172,133 @@ $sherlClient->calendar->createCalendarEvent(CreateCalendarEventInputDto $createC
 
 This call returns a [CalendarEventOutputDto](calendar-types#calendareventoutputdto) class.
 
-## Update calendar by id
+## Update calendar event by id
 
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$sherlClient->claim->updateClaim(string $claimId, UpdateClaimInputDto $updateClaim);
+$sherlClient->claim->updateCalendarEventRequest(string $calendarId, string $eventId,UpdateCalendarEventInputDto $calendarEventData);
 ```
 
 <details>
- <summary><b>UpdateCalendarInputDto</b></summary>
+ <summary><b>UpdateCalendarEventInputDto</b></summary>
 
-| Fields      |                  Type                  |      Required      | Description                 |
-| :---------- | :------------------------------------: | :----------------: | :-------------------------- |
-| **aboutUri**   |                       string                       | :white_check_mark: | TODO                    |
-| **ownerUri** |                       string                       | :white_check_mark: | The uri of the owner                   |
-| **availabilities**     |                       [OpenHoursSpecification](calendar-types#openHoursSpecification)                       | :white_check_mark: | Availabilities of the calendar |
-| **metadatas**    | TODO | :white_check_mark: | Metadata information about the calendar                 |
+| Fields      | Type    | Required | Description                        |
+|-------------|:-------:|:--------:|------------------------------------|
+| aboutUri    | string  | ::       | TODO                               |
+| ownerUri    | string  |          | The uri of the owner               |
+| calendarUri | string  |          | The uri of the associated calendar |
+| startDate   | string  |          | The start date of the event        |
+| endDate     | boolean |          | The end date of the event          |              |
 
 </details>
 
-This call returns the updated [CalendarOutputDto](calendar-types#calendaroutputdto).
+This call returns the updated [CalendarEventOutputDto](calendar-types#calendaroutputdto).
 
-## Delete calendar by id
+## Delete calendar event by id
 
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$sherlClient->claim->deleteCalendar(string $calendarId);
+$sherlClient->claim->deleteCalendarEventRequest(string $calendarEventId);
 ```
-| Fields      |                  Type                  |      Required      | Description                 |
-| :---------- | :------------------------------------: | :----------------: | :-------------------------- |
-| **calendarId**   |                       string                       | :white_check_mark: | The id of the calendar to delete                    |
-This call returns true if calendar calendar is successfully deleted.
+
+This call returns true if calendar calendar with id was successfully deleted.
 
 ## Get calendar by id
 
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$sherlClient->claim->getCalendarWithId(string $calendarId);
+$sherlClient->claim->getCalendarEventRequest(string $eventId);
 ```
 
-This call returns a [CalendarOutputDto](claim-types#claimoutputdto) class.
+This call returns a [CalendarEventOutputDto](calendar-types#calendareventoutputdto) class.
 
-## Find calendar availabilities
+## Get all calendar events
 
 <span class="badge badge--warning">Require authentication</span>
 
-Check availabilities of a specific calendar with filters.
+Get all calendar events from a specific calendar with the possibility to filter the results.
+
 ```php
-$sherlClient->calendar->findCalendarAvailabilities(FindAvailabilitiesInputDto $filters);
+$sherlClient->calendar->getAllCalendarEvents(string $eventId, GetCalendarEventForCalendarInputDto $filters );
 ```
 
 <details>
- <summary><b>FindAvailabilitiesInputDto</b></summary>
+ <summary><b>GetCalendarEventForCalendarInputDto</b></summary>
 
-| Fields       | Type    | Required | Description                          |
-|--------------|:-------:|:--------:|--------------------------------------|
-| ownerUri     | string  | :x:      | Uri of the owner project             |
-| aboutUri     | string  | :x:      | TODO                                 |
-| userPlaceUri | string  | :x:      | TODO                                 |
-| metadatas    | mixed   | :x:      | Other metadata to filter             |
-| startDate    | string  | :x:      | Start date of the calendar to find   |
-| endDate      | string  | :x:      | End date of the calendar to find     |
-| scale   |   [AvailabilityScale](calendar-enum#availabilityscale)      | :x:      | TODO                                 |
-| scaleValue   |         | :x:      | TODO                                 |
-| available    | boolean | :x:      | Availability of the calendar to find |
+| Fields       | ^cType                                                 | ^cRequired | Description                    |
+| ------------ | ------------------------------------------------------ | ---------- | ------------------------------ |
+| itemsPerPage | integer                                                | :x:        | Number of items per pages      |
+| page         | integer                                                | :x:        | Current page                   |
+| id           | string                                                 | :x:        | The id of event                |
+| uri          | string                                                 | :x:        | The uri of the event           |
+| aboutUri     | string                                                 | :x:        | The uri of the event ressource |
+| ownerUri     | string                                                 | :x:        | The uri of the owner           |
+| startDate    | [DateFilterOutputDto](date-filter#datefilteroutputdto) | :x:        | Start date of the event        |
+| endDate      | [DateFilterOutputDto](date-filter#datefilteroutputdto  | :x:        | End date of the event          |
 
 </details>
 
-This call returns a array of [IAvailability](calendar-type#iavailability) class.
+This call returns a [GetCalendarEventForCalendarOutputDto](calendar-types#getcalendareventforcalendaroutputdto) class.
+
+
+## Get all calendar events for current person
+
+<span class="badge badge--warning">Require authentication</span>
+
+Get all calendar events for the current person
+
+```php
+$sherlClient->calendar->getCalendarEventForCurrentPersonRequest(GetCalendarEventForCurrentPersonInputDto $input);
+```
+
+<details>
+ <summary><b>GetCalendarEventForCurrentPersonInputDto</b></summary>
+
+GetCalendarEventForCurrentPersonInputDto extends [PaginationFilterInputDto](pagination#PaginationFilterInputDto)
+
+| Fields       | ^cType                                                 | ^cRequired | Description                    |
+| ------------ | ------------------------------------------------------ | ---------- | ------------------------------ |
+| itemsPerPage | integer                                                | :x:        | Number of items per pages      |
+| page         | integer                                                | :x:        | Current page                   |
+| id           | string                                                 | :x:        | The id of event                |
+| uri          | string                                                 | :x:        | The uri of the event           |
+| aboutUri     | string                                                 | :x:        | The uri of the event ressource |
+| ownerUri     | string                                                 | :x:        | The uri of the owner           |
+| startDate    | [DateFilterOutputDto](date-filter#datefilteroutputdto) | :x:        | Start date of the event        |
+| endDate      | [DateFilterOutputDto](date-filter#datefilteroutputdto  | :x:        | End date of the event          |
+
+</details>
+
+This call returns a [GetCalendarEventForCalendarOutputDto](calendar-types#getcalendareventforcalendaroutputdto) class.
+
+## Get all calendar events for owner
+
+<span class="badge badge--warning">Require authentication</span>
+
+Get all calendar events for a calendar owner
+
+```php
+$sherlClient->calendar->getAllCalendarEventsForOwner(DtoGetCalendarEventByOwnerInputDto $input);
+```
+
+<details>
+ <summary><b>DtoGetCalendarEventByOwnerInputDto</b></summary>
+
+DtoGetCalendarEventByOwnerInputDto extends [PaginationFilterInputDto](pagination#PaginationFilterInputDto)
+
+| Fields            | Type                                                   | Required | Description                                                    |
+|-------------------|:------------------------------------------------------:|:--------:|----------------------------------------------------------------|
+| calendarOwnerUri  | string                                                 | :x:      | The uri of the calendar owner                                  |
+| calendarAboutUri  | string                                                 | :x:      | The uri for a custom resource associated to the calendar owner |
+| calendarMetadatas | string                                                 | :x:      | Calendar metadata                                              |
+| aboutUri          | string                                                 | :x:      | The uri for the custom resource associated                     |
+| ownerUri          | string                                                 | :x:      | The uri of the calendar event owner                            |
+| startDate         | [DateFilterOutputDto](date-filter#datefilteroutputdto) | :x:      | Start date of the events                                       |
+| endDate           | [DateFilterOutputDto](date-filter#datefilteroutputdto) | :x:      | End date of the events                                         |
+
+</details>
+
+This call returns a [GetCalendarEventForCalendarOutputDto](calendar-types#getcalendareventforcalendaroutputdto) class.

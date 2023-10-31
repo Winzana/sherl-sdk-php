@@ -136,8 +136,8 @@ class UserProvider
             $response->getBody()->getContents(),
             CalendarOutputDto::class,
             'json'
-        );  
-     }
+        );
+    }
 
     public function findCalendarAvailabilities(FindAvailabilitiesInputDto $filters): array
     {
@@ -167,7 +167,7 @@ class UserProvider
             $response->getBody()->getContents(),
             "array<FindAvailabilitiesOutputDto>",
             'json'
-        );   
+        );
     }
 
     public function checksDateAvailabilities(CheckDatesInputDto $dates): ?bool
@@ -217,235 +217,207 @@ class UserProvider
 
 
 
-     public function findCalandarWithFilter(CalendarFilterInputDto $calendarFilter): ?CalendarOutputDto
-     {
-         $response = $this->client->get('/api/calendar/find-one', [
-           "headers" => [
-             "Content-Type" => "application/json",
-           ],
-           RequestOptions::JSON => [
-            "id" => $calendarFilter->id,
-            "uri" => $calendarFilter->uri,
-            "aboutUri" => $calendarFilter->aboutUri,
-            "ownerUri" => $calendarFilter->ownerUri
-           ]
-         ]);
- 
-         if ($response->getStatusCode() >= 300) {
-             return $this->throwSherlUserException($response);
-         }
- 
-         return SerializerFactory::getInstance()->deserialize(
-             $response->getBody()->getContents(),
-             CalendarOutputDto::class,
-             'json'
-         );  
-      }
+    public function findCalandarWithFilter(CalendarFilterInputDto $calendarFilter): ?CalendarOutputDto
+    {
+        $response = $this->client->get('/api/calendar/find-one', [
+          "headers" => [
+            "Content-Type" => "application/json",
+          ],
+          RequestOptions::JSON => [
+           "id" => $calendarFilter->id,
+           "uri" => $calendarFilter->uri,
+           "aboutUri" => $calendarFilter->aboutUri,
+           "ownerUri" => $calendarFilter->ownerUri
+          ]
+        ]);
 
-      // Calendar Events
-      public function createCalendarEventRequest(CreateCalendarEventInputDto $calendarData): ?CalendarEventOutputDto
-      {
-          $response = $this->client->post('/api/calendar', [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-                "uri" => $calendarData->uri,
-              "aboutUri" => $calendarData->aboutUri,
-              "ownerUri" => $calendarData->ownerUri,
-              "startDate" => $calendarData->startDate,
-              "endDate" => $calendarData->endDate,
-              "metadatas" => $calendarData->metadatas,
-            ]
-          ]);
-  
-          if ($response->getStatusCode() >= 300) {
-              return $this->throwSherlUserException($response);
-          }
-  
-          return SerializerFactory::getInstance()->deserialize(
-              $response->getBody()->getContents(),
-              CalendarEventOutputDto::class,
-              'json'
-          );
-      }
-  
-      public function updateCalendarEventRequest(string $calendarId, UpdateCalendarEventInputDto $calendarEventData): ?CalendarEventOutputDto
-      {
-          $response = $this->client->put('/api/calendar/' + $calendarId + '/event', [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              "aboutUri" => $calendarEventData->aboutUri,
-              "ownerUri" => $calendarEventData->ownerUri,
-              "calendarUri" => $calendarEventData->calendarUri,
-              "startDate" => $calendarEventData->startDate,
-              "endDate" => $calendarEventData->endDate
-            ]
-          ]);
-  
-          if ($response->getStatusCode() >= 300) {
-              return $this->throwSherlUserException($response);
-          }
-  
-          return SerializerFactory::getInstance()->deserialize(
-              $response->getBody()->getContents(),
-              CalendarEventOutputDto::class,
-              'json'
-          );
-      }
-  
-      public function deleteCalendarEventRequest(string $calendarId, string $calendarEventId): ?bool
-      {
-          $response = $this->client->delete('/api/calendar/' + $calendarId + '/event/' + $calendarEventId, [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-  
-            ]
-          ]);
-  
-          if ($response->getStatusCode() >= 300) {
-              return $this->throwSherlUserException($response);
-          }
-  
-          return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
-      }
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlUserException($response);
+        }
 
-      public function getCalendarEventForCurrentPersonRequest(GetCalendarEventForCurrentPersonInputDto $input): ?GetCalendarEventForCurrentPersonOutputDto
-      {
-          $response = $this->client->get('/api/calendar-events', [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-                "page" => $input->page,
-                "itemsPerPage" => $input->itemsPerPage,
-                "uri" => $$input->uri,
-                "aboutUri" => $input->aboutUri,
-                "ownerUri" => $input->ownerUri,
-                "startDate" => $input->startDate,
-                "endDate" => $input->endDate,
-            ]
-          ]);
-  
-          if ($response->getStatusCode() >= 300) {
-              return $this->throwSherlUserException($response);
-          }
-  
-          return SerializerFactory::getInstance()->deserialize(
+        return SerializerFactory::getInstance()->deserialize(
             $response->getBody()->getContents(),
-            GetCalendarEventForCurrentPersonOutputDto::class,
+            CalendarOutputDto::class,
             'json'
         );
-      }
+    }
 
-      public function getAllCalendarEvents(string $calendarId, GetCalendarEventForCalendarInputDto $filters ): ?array
-      {
-          $response = $this->client->get('/api/calendar/' + $calendarId + 'events', [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-                "page" => $filters->page,
-                "itemsPerPage" => $filters->itemsPerPage,
-                "aboutUri" => $filters->aboutUri,
-                "ownerUri" => $filters->ownerUri,
-                "startDate" => $filters->startDate,
-                "endDate" => $filters->endDate,
-                "calendarUri" => $filters->calendarUri,
-                "consumerId" => $filters->consumerId,
-            ]
-          ]);
-  
-          if ($response->getStatusCode() >= 300) {
-              return $this->throwSherlUserException($response);
-          }
-  
-          return SerializerFactory::getInstance()->deserialize(
+    // Calendar Events
+    public function createCalendarEventRequest(CreateCalendarEventInputDto $calendarData): ?CalendarEventOutputDto
+    {
+        $response = $this->client->post('/api/calendar', [
+          "headers" => [
+            "Content-Type" => "application/json",
+          ],
+          RequestOptions::JSON => [
+              "uri" => $calendarData->uri,
+            "aboutUri" => $calendarData->aboutUri,
+            "ownerUri" => $calendarData->ownerUri,
+            "startDate" => $calendarData->startDate,
+            "endDate" => $calendarData->endDate,
+            "metadatas" => $calendarData->metadatas,
+          ]
+        ]);
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlUserException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            CalendarEventOutputDto::class,
+            'json'
+        );
+    }
+
+    public function updateCalendarEventRequest(string $calendarId, string $eventId, UpdateCalendarEventInputDto $calendarEventData): ?CalendarEventOutputDto
+    {
+        $response = $this->client->put('/api/calendar/' + $calendarId + '/event/' + $eventId, [
+          "headers" => [
+            "Content-Type" => "application/json",
+          ],
+          RequestOptions::JSON => [
+            "aboutUri" => $calendarEventData->aboutUri,
+            "ownerUri" => $calendarEventData->ownerUri,
+            "calendarUri" => $calendarEventData->calendarUri,
+            "startDate" => $calendarEventData->startDate,
+            "endDate" => $calendarEventData->endDate
+          ]
+        ]);
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlUserException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            CalendarEventOutputDto::class,
+            'json'
+        );
+    }
+
+    public function deleteCalendarEventRequest(string $calendarId, string $calendarEventId): ?bool
+    {
+        $response = $this->client->delete('/api/calendar/' + $calendarId + '/event/' + $calendarEventId, [
+          "headers" => [
+            "Content-Type" => "application/json",
+          ],
+          RequestOptions::JSON => [
+
+          ]
+        ]);
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlUserException($response);
+        }
+
+        return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
+    }
+
+    public function getAllCalendarEvents(string $calendarId, GetCalendarEventForCalendarInputDto $filters): ?array
+    {
+        $response = $this->client->get('/api/calendar/' + $calendarId + 'events', [
+          "headers" => [
+            "Content-Type" => "application/json",
+          ],
+          RequestOptions::JSON => [
+              "page" => $filters->page,
+              "itemsPerPage" => $filters->itemsPerPage,
+              "aboutUri" => $filters->aboutUri,
+              "ownerUri" => $filters->ownerUri,
+              "startDate" => $filters->startDate,
+              "endDate" => $filters->endDate,
+              "calendarUri" => $filters->calendarUri,
+              "consumerId" => $filters->consumerId,
+          ]
+        ]);
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlUserException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
             $response->getBody()->getContents(),
             "array<GetCalendarEventForCalendarOutputDto>",
             'json'
         );
-      }
+    }
 
-      public function getCalendarEventRequest(string $calendarEventId): ?CalendarEventOutputDto
-      {
-          $response = $this->client->put('/api/calendar-event/' + $calendarEventId, [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-            ]
-          ]);
-  
-          if ($response->getStatusCode() >= 300) {
-              return $this->throwSherlUserException($response);
-          }
-  
-          return SerializerFactory::getInstance()->deserialize(
-              $response->getBody()->getContents(),
-              CalendarEventOutputDto::class,
-              'json'
-          );
-      }
+    public function getCalendarEventRequest(string $calendarEventId): ?CalendarEventOutputDto
+    {
+        $response = $this->client->put('/api/calendar-event/' + $calendarEventId, [
+          "headers" => [
+            "Content-Type" => "application/json",
+          ],
+          RequestOptions::JSON => [
+          ]
+        ]);
 
-      public function getCalendarEventForCurrentPersonRequest(GetCalendarEventForCurrentPersonInputDto $input): ?GetCalendarEventForCurrentPersonOutputDto
-      {
-          $response = $this->client->get('/api/calendar-events', [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-                "page" => $input->page,
-                "itemsPerPage" => $input->itemsPerPage,
-                "uri" => $$input->uri,
-                "aboutUri" => $input->aboutUri,
-                "ownerUri" => $input->ownerUri,
-                "startDate" => $input->startDate,
-                "endDate" => $input->endDate,
-            ]
-          ]);
-  
-          if ($response->getStatusCode() >= 300) {
-              return $this->throwSherlUserException($response);
-          }
-  
-          return SerializerFactory::getInstance()->deserialize(
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlUserException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            CalendarEventOutputDto::class,
+            'json'
+        );
+    }
+
+    public function getCalendarEventForCurrentPersonRequest(GetCalendarEventForCurrentPersonInputDto $input): ?GetCalendarEventForCurrentPersonOutputDto
+    {
+        $response = $this->client->get('/api/calendar-events', [
+          "headers" => [
+            "Content-Type" => "application/json",
+          ],
+          RequestOptions::JSON => [
+              "page" => $input->page,
+              "itemsPerPage" => $input->itemsPerPage,
+              "uri" => $$input->uri,
+              "aboutUri" => $input->aboutUri,
+              "ownerUri" => $input->ownerUri,
+              "startDate" => $input->startDate,
+              "endDate" => $input->endDate,
+          ]
+        ]);
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlUserException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
             $response->getBody()->getContents(),
             GetCalendarEventForCurrentPersonOutputDto::class,
             'json'
         );
-      }
+    }
 
-      public function getAllCalendarEventsForOwner(DtoGetCalendarEventByOwnerInputDto $input ): ?array
-      {
-          $response = $this->client->get('/api/calendar/owner', [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-                "page" => $input->page,
-                "itemsPerPage" => $input->itemsPerPage,
-                "calendarOwnerUri" => $input->calendarOwnerUri,
-                "calendarAboutUri" => $input->calendarAboutUri,
-                "aboutUri" => $input->aboutUri,
-                "ownerUri" => $input->ownerUri,
-                "startDate" => $input->startDate,
-                "endDate" => $input->endDate,
-            ]
-          ]);
-  
-          if ($response->getStatusCode() >= 300) {
-              return $this->throwSherlUserException($response);
-          }
-  
-          return SerializerFactory::getInstance()->deserialize(
+    public function getAllCalendarEventsForOwner(DtoGetCalendarEventByOwnerInputDto $input): ?array
+    {
+        $response = $this->client->get('/api/calendar/owner', [
+          "headers" => [
+            "Content-Type" => "application/json",
+          ],
+          RequestOptions::JSON => [
+              "page" => $input->page,
+              "itemsPerPage" => $input->itemsPerPage,
+              "calendarOwnerUri" => $input->calendarOwnerUri,
+              "calendarAboutUri" => $input->calendarAboutUri,
+              "aboutUri" => $input->aboutUri,
+              "ownerUri" => $input->ownerUri,
+              "startDate" => $input->startDate,
+              "endDate" => $input->endDate,
+          ]
+        ]);
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlUserException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
             $response->getBody()->getContents(),
             "array<GetCalendarEventForCalendarOutputDto>",
             'json'
         );
-      }
+    }
 }

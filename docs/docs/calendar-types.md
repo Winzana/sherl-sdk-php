@@ -44,3 +44,14 @@ title: Calendar Types
 | isRoaming | boolean | Specify if the availability is a roaming or not   |
 | place     | [PlaceOutputDto](place-types#placeoutputdto)  | The place associated to the calendar availability |
 
+### GetCalendarEventForCalendarInputDto
+
+
+### GetCalendarEventForCalendarOutputDto
+
+| Field   | Type                                                             | Description             |
+|---------|------------------------------------------------------------------|-------------------------|
+| results | [CalendarEventOutputDto[]](calendar-types#calendareventoutputdto) | Array of Calendar Event |
+| view    | pagination#viewoutputdto)                                        | View information        |
+
+### GetCalendarEventForCurrentPersonInputDto

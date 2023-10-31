@@ -42,7 +42,7 @@ class FindAvailabilitiesInputDto
     */
     public $endDate;
 
-        /**
+    /**
      * @var AvailabilityScale
      * @Serializer\Type("Sherl\Sdk\Calendar\Enum\AvailabilityScale")
      */

@@ -12,7 +12,7 @@ class UpdateCalendarInputDto
      */
     public $aboutUri;
 
-        /**
+    /**
      * @var string
      * @Serializer\Type("string")
      */

@@ -6,14 +6,8 @@ use JMS\Serializer\Annotation as Serializer;
 
 use Sherl\Sdk\Common\Dto\PaginationFilterInputDto;
 
-class GetCalendarEventByOwnerInputDto extends PaginationFilterInputDto 
+class GetCalendarEventByOwnerInputDto extends PaginationFilterInputDto
 {
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $id;
-
     /**
      * @var string
      * @Serializer\Type("string")

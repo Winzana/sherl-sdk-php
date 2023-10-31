@@ -12,7 +12,7 @@ class CalendarFilterInputDto
      */
     public $id;
 
-        /**
+    /**
      * @var string
      * @Serializer\Type("string")
      */

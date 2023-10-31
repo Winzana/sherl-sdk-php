@@ -30,7 +30,7 @@ class CalendarOutputDto
      */
     public $unavailabilities;
 
-        /**
+    /**
      * @var string
      * @Serializer\Type("string")
      */
@@ -42,7 +42,7 @@ class CalendarOutputDto
      */
     public $aboutUri;
 
-        /**
+    /**
      * @var boolean
      * @Serializer\Type("boolean")
      */

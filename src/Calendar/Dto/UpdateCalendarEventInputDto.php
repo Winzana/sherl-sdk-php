@@ -19,20 +19,20 @@ class UpdateCalendarEventInputDto
      */
     public $ownerUri;
 
-        /**
+    /**
      * @var string
      * @Serializer\Type("string")
      */
     public $calendarUri;
 
     /**
-     * @var DateFilterOutputDto
+     * @var string
      * @Serializer\Type("Sherl\Sdk\Common\Dto\DateFilterOutputDto")
      */
     public $startDate;
 
     /**
-     * @var DateFilterOutputDto
+     * @var string
      * @Serializer\Type("Sherl\Sdk\Common\Dto\DateFilterOutputDto")
      */
     public $endDate;

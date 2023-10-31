@@ -4,7 +4,7 @@ namespace Sherl\Sdk\Calendar\Dto;
 
 use Sherl\Sdk\Common\Dto\PaginationFilterInputDto;
 
-class GetCalendarEventForCurrentPersonInputDto extends PaginationFilterInputDto 
+class GetCalendarEventForCurrentPersonInputDto extends PaginationFilterInputDto
 {
     /**
      * @var string
