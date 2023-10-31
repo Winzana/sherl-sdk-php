@@ -16,15 +16,10 @@ use Sherl\Sdk\Calendar\Dto\CheckDatesInputDto;
 use Sherl\Sdk\Calendar\Dto\CheckLocationInputDto;
 use Sherl\Sdk\Calendar\Dto\CreateCalendarEventInputDto;
 use Sherl\Sdk\Calendar\Dto\CreateCalendarInputDto;
-use Sherl\Sdk\Calendar\Dto\DaysOutputDto;
 use Sherl\Sdk\Calendar\Dto\FindAvailabilitiesInputDto;
-use Sherl\Sdk\Calendar\Dto\FindAvailabilitiesOutputDto;
-use Sherl\Sdk\Calendar\Dto\GetCalendarEventByOwnerInputDto;
 use Sherl\Sdk\Calendar\Dto\GetCalendarEventForCalendarInputDto;
-use Sherl\Sdk\Calendar\Dto\GetCalendarEventForCalendarOutputDto;
 use Sherl\Sdk\Calendar\Dto\GetCalendarEventForCurrentPersonInputDto;
 use Sherl\Sdk\Calendar\Dto\GetCalendarEventForCurrentPersonOutputDto;
-use Sherl\Sdk\Calendar\Dto\OpeningHoursSpecificationOutputDto;
 use Sherl\Sdk\Calendar\Dto\UpdateCalendarEventInputDto;
 use Sherl\Sdk\Calendar\Dto\UpdateCalendarInputDto;
 use Sherl\Sdk\Calendat\Dto\GetCalendarEventByOwnerInputDto as DtoGetCalendarEventByOwnerInputDto;
@@ -170,7 +165,7 @@ class UserProvider
         );
     }
 
-    public function checksDateAvailabilities(CheckDatesInputDto $dates): ?bool
+    public function checksDateAvailabilities(CheckDatesInputDto $dates): ?array
     {
         $response = $this->client->get('/api/user/password/forgot-validate', [
           "headers" => [
@@ -188,8 +183,11 @@ class UserProvider
             return $this->throwSherlUserException($response);
         }
 
-        return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
-    }
+        return SerializerFactory::getInstance()->deserialize(
+          $response->getBody()->getContents(),
+          "array<AvailabilityOutputDto>",
+          'json'
+      );    }
 
     public function checkLocationAvailabilities(CheckLocationInputDto $location): ?array
     {

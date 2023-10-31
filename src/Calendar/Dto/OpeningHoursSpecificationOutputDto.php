@@ -19,6 +19,12 @@ class OpeningHoursSpecificationOutputDto
     public $dayOfWeek;
 
     /**
+    * @var string
+    * @Serializer\Type("array<string>")
+    */
+    public $weekDays;
+
+    /**
      * @var string
      * @Serializer\Type("string")
      */
@@ -37,8 +43,32 @@ class OpeningHoursSpecificationOutputDto
     public $validFrom;
 
     /**
+     * @var number
+     * @Serializer\Type("number")
+     */
+    public $validFromMonthDay;
+
+    /**
      * @var string
      * @Serializer\Type("string")
      */
     public $validThrough;
+
+    /**
+     * @var number
+     * @Serializer\Type("number")
+     */
+    public $validThroughMonthDay;
+
+    /**
+     * @var boolean
+     * @Serializer\Type("boolean")
+     */
+    public $annualy;
+
+    /**
+     * @var HoursSpecificationRulesetEnum
+     * @Serializer\Type("Sherl\Sdk\Calendar\Enum\HoursSpecificationRulesetEnum")
+     */
+    public $ruleset;
 }

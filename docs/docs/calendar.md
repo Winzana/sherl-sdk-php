@@ -3,9 +3,11 @@ id: calendar
 title: Calendar
 ---
 
-## Create calendar
+## Create a calendar
 
+Create a calendar entry in database.
 <span class="badge badge--warning">Require authentication</span>
+
 
 ```php
 $sherlClient->calendar->createCalendar(CreateCalendarInputDto $createCalendar);
@@ -16,11 +18,11 @@ $sherlClient->calendar->createCalendar(CreateCalendarInputDto $createCalendar);
 
 | Fields           |                        Type                        |      Required      | Description                       |
 | :--------------- | :------------------------------------------------: | :----------------: | :-------------------------------- |
-| **id**           |                       string                       | :x: | The calendar id             |
-| **aboutUri**   |                       string                       | :x: | TODO                    |
-| **ownerUri** |                       string                       | :x: | The uri of the owner                   |
-| **availabilities**     |                       [OpenHoursSpecification](calendar-types#openHoursSpecification)                       | :x: | Availabilities of the calendar |
-| **metadatas**    | TODO | :white_check_mark: | Metadata information about the calendar                 |
+| **id**           |                       string                       | :white_check_mark: | The calendar id             |
+| **aboutUri**   |                       string                       | :white_check_mark: | TODO                    |
+| **ownerUri** |                       string                       | :white_check_mark: | The uri of the owner                   |
+| **availabilities**     |                       [OpeningHoursSpecificationOutputDto[]](calendar-types#OpeningHoursSpecificationOutputDto)                       | :white_check_mark: | Availabilities of the calendar |
+| **metadatas**    | TODO | :x: | Metadata information about the calendar                 |
 
 </details>
 
@@ -39,10 +41,10 @@ $sherlClient->claim->updateClaim(string $claimId, UpdateClaimInputDto $updateCla
 
 | Fields      |                  Type                  |      Required      | Description                 |
 | :---------- | :------------------------------------: | :----------------: | :-------------------------- |
-| **aboutUri**   |                       string                       | :white_check_mark: | TODO                    |
-| **ownerUri** |                       string                       | :white_check_mark: | The uri of the owner                   |
-| **availabilities**     |                       [OpenHoursSpecification](calendar-types#openHoursSpecification)                       | :white_check_mark: | Availabilities of the calendar |
-| **metadatas**    | TODO | :white_check_mark: | Metadata information about the calendar                 |
+| **aboutUri**   |                       string                       | :x: | TODO                    |
+| **ownerUri** |                       string                       | :x: | The uri of the owner                   |
+| **availabilities**     |                       [OpeningHoursSpecificationOutputDto](calendar-types#OpeningHoursSpecificationOutputDto)                       | :x: | Availabilities of the calendar |
+| **metadatas**    | TODO | :x: | Metadata information about the calendar                 |
 
 </details>
 
@@ -67,6 +69,10 @@ This call returns true if calendar calendar is successfully deleted.
 ```php
 $sherlClient->claim->getCalendarWithId(string $calendarId);
 ```
+| Fields      |                  Type                  |      Required      | Description                 |
+| :---------- | :------------------------------------: | :----------------: | :-------------------------- |
+| **calendarId**   |                       string                       | :white_check_mark: | The id of the calendar to delete                    |
+This call returns true if calendar calendar is successfully deleted.
 
 This call returns a [CalendarOutputDto](calendar-types#calendaroutputdto) class.
 
@@ -96,7 +102,7 @@ $sherlClient->calendar->findCalendarAvailabilities(FindAvailabilitiesInputDto $f
 
 </details>
 
-This call returns a array of [IAvailability](calendar-type#iavailability) class.
+This call returns a array of [IAvailability](calendar-types#iavailability) class.
 
 ## Check Dates Availability
 
@@ -118,7 +124,7 @@ $sherlClient->calendar->checksDateAvailabilities(CheckDatesInputDto $dates);
 
 </details>
 
-This call returns a boolean
+This call returns a array of [IAvailability](calendar-types#iavailability) class.
 
 ## Check for location availability
 
@@ -142,7 +148,7 @@ $sherlClient->calendar->checkLocationAvailabilities(CheckLocationInputDto $locat
 
 </details>
 
-This call returns a [ClaimOutputDto](claim-types#claimoutputdto) class.
+This call returns a boolean to indicate the availability of the location.
 
 
 

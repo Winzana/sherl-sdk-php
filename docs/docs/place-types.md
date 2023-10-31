@@ -24,7 +24,8 @@ title: Place types
 | **latitude**                   |  float   | Geographic coordinate                   |
 | **longitude**                  |  float   | Geographic coordinate                   |
 
-### PlaceOutpuDto
+
+### PlaceOutputDto
 | Fields                     | Type     | Description                                    |
 |----------------------------|:--------:|------------------------------------------------|
 | id                         | string   | The id of the place                            |

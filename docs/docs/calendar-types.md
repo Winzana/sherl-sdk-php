@@ -1,19 +1,18 @@
 ---
-id: calendar-type
+id: calendar-types
 title: Calendar Types
 ---
 
-### CalendatOutputDto
+### CalendarOutputDto
 | Fields           | Type                     | Description                          |
 |------------------|:------------------------:|--------------------------------------|
 | id               | string                   | The id of the calendar               |
 | uri              | string                   | The uri of the calendar              |
-| availabilities   | OpenHoursSpecification[] | The availabilities of the calendar   |
-| unavailabilities | OpenHoursSpecification[] | The unavailabilities of the calendar |
+| availabilities   | [OpeningHoursSpecificationOutputDto[]](calendar-types#OpeningHoursSpecificationOutputDto) | The availabilities of the calendar   |
+| unavailabilities | [OpeningHoursSpecificationOutputDto[]](calendar-types#OpeningHoursSpecificationOutputDto) | The unavailabilities of the calendar |
 | ownerUri         | string                   | The uri of the owner                 |
-| aboutUri         | string                   | TODO                                 |
+| aboutUri         | string                   | The uri to a resources associated to the calendar                                 |
 | enabled          | boolean                  | Indicates if the calendar is enabled |
-| consumerId       | string                   | TODO                                 |
 | createdAt        | string                   | The creation date of the calendar    |
 | UpdatedAt        | string                   | The last update date of the calendar |
 | metadatas        | mixed                    | Metadata about the calendar          |
@@ -23,13 +22,12 @@ title: Calendar Types
 |-------------|:---------------:|--------------------------------------------|
 | id          | string          | The id of the calendar event               |
 | uri         | string          | The uri of the calendar event              |
-| aboutUri    | string          | TODO                                       |
+| aboutUri         | string                   | The uri to a resources associated to the calendar                                 |
 | ownerUri    | string          | The uri of the owner                       |
 | calendarUri | string          | The uri of the associated calendar         |
 | startDate   | string          | The start date of the event                |
-| endDate     | boolean         | The end date of the event                  |
-| location    | IGeoCoordinates | The coordinates of the event               |
-| consumerId  | string          | TODO                                       |
+| endDate     | string         | The end date of the event                  |
+| location    | [AddressInfoDto](place-types#AddressInfoDto) | The address of the event               |
 | createdAt   | string          | The creation date of the calendar event    |
 | UpdatedAt   | string          | The last update date of the calendar event |
 | metadatas   | mixed           | Metadata about the calendar event          |
@@ -55,3 +53,6 @@ title: Calendar Types
 | view    | pagination#viewoutputdto)                                        | View information        |
 
 ### GetCalendarEventForCurrentPersonInputDto
+
+
+### OpeningHoursSpecificationOutputDto
