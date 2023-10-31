@@ -15,7 +15,6 @@ $quota = $sherlClient->quotas->getQuotaFindByOne(?QuotaFilterDto $filter = null)
 
 <details>
  <summary><b>QuotaFilterDto</b></summary>
-
 |      Fields      |  Type   |      Required      |            Description            |
 | :--------------: | :-----: | :----------------: | :-------------------------------: |
 |     **page**     | integer |        :x:         |            Page number            |
@@ -24,7 +23,6 @@ $quota = $sherlClient->quotas->getQuotaFindByOne(?QuotaFilterDto $filter = null)
 |     **uri**      | string  | :white_check_mark: |         Uri for the quota         |
 |  **consumerId**  | string  | :white_check_mark: | Consumer ID associated with quota |
 |   **ownerUri**   | string  | :white_check_mark: |      Owner Uri for the quota      |
+</details>
 
-<details>
-
-This call returns a [QuotaDto](quotas-types#QuotaDto) object.
+This call returns a [QuotaOutputDto](quotas-types#QuotaOutputDto) object.

@@ -1,6 +1,6 @@
 ---
 id: quotas-types
-title: Quota types
+title: Quotas types
 ---
 
 ## QuotaOutputDto
