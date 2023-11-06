@@ -26,17 +26,26 @@ class PersonProvider
 
     public function getConfig(): ?ConfigDto
     {
-        $response = $this->client->get('/api/persons/config');
+        try {
+            $response = $this->client->get('/api/persons/config', [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ]
+          ]);
 
-        if ($response->getStatusCode() >= 300) {
-            throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+            if ($response->getStatusCode() >= 300) {
+                throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+            }
+
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ConfigDto::class,
+                'json'
+            );
+        } catch (\Exception $e) {
+            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
         }
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ConfigDto::class,
-            'json'
-        );
     }
 
     /**
@@ -44,17 +53,27 @@ class PersonProvider
     */
     public function getCurrentAddress(GeoCoordinatesDto $position)
     {
-        $response = $this->client->get('/api/persons/me');
+        try {
+            $response = $this->client->get('/api/persons/current-address', [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => $position
+          ]);
 
-        if ($response->getStatusCode() >= 300) {
-            throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+            if ($response->getStatusCode() >= 300) {
+                throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+            }
+
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                LocationDto::class,
+                'json'
+            );
+        } catch (\Exception $e) {
+            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
         }
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            LocationDto::class,
-            'json'
-        );
     }
 
     /**
@@ -65,220 +84,296 @@ class PersonProvider
         $itemsPerPage = 10,
         PersonFiltersDto $filters
     ) {
-        $response = $fetcher->get(
-            '/api/persons',
-            [
-              'page' => $page,
-              'itemsPerPage' => $itemsPerPage,
-              ...$filters,
-      ]
-        );
+        try {
+            $response = $fetcher->get(
+                '/api/persons',
+                [
+                    RequestOptions::QUERY => [
+                        'filters' => $filters,
+                        'page' => $page,
+                        'itemsPerPage' => $itemsPerPage,
+                      ]
+          ]
+            );
 
-        if ($response->getStatusCode() >= 300) {
-            throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+            if ($response->getStatusCode() >= 300) {
+                throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+            }
+
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                PersonOutputDto::class,
+                'json'
+            );
+        } catch (\Exception $e) {
+            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
         }
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PersonOutputDto::class,
-            'json'
-        );
     }
 
     public function getPersonById(
         string $id,
     ): ?PersonOuputDto {
-        $response = $fetcher->get(
-            '/api/persons/:id',
-            [
-              'id' => $id
-      ]
-        );
+        try {
+            $response = $fetcher->get(
+                "/api/persons/$id"
+            );
 
-        if ($response->getStatusCode() >= 300) {
-            throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+            if ($response->getStatusCode() >= 300) {
+                throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+            }
+
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                PersonOutputDto::class,
+                'json'
+            );
+        } catch (\Exception $e) {
+            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
         }
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PersonOutputDto::class,
-            'json'
-        );
     }
 
     public function createAddress(AddressInputDto $address): ?PersonOutputDto
     {
-        $response = $fetcher->post(
-            '/api/persons/addresses',
-            $address
-        );
-
-        if ($response->getStatusCode() >= 300) {
-            throw new SherlException(
-                PersonProvider::DOMAIN,
-                $response->getBody()->getContents(),
-                $response->getStatusCode()
+        try {
+            $response = $fetcher->post(
+                '/api/persons/addresses',
+                [
+                    "headers" => [
+                      "Content-Type" => "application/json",
+                    ],
+                    RequestOptions::JSON => $address
+                  ]
             );
+
+            if ($response->getStatusCode() >= 300) {
+                throw new SherlException(
+                    PersonProvider::DOMAIN,
+                    $response->getBody()->getContents(),
+                    $response->getStatusCode()
+                );
+            }
+
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                PersonOutputDto::class,
+                'json'
+            );
+        } catch (\Exception $e) {
+            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
         }
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PersonOutputDto::class,
-            'json'
-        );
     }
 
     public function deleteAddress(string $id): ?PersonOutputDto
     {
-        $response = $fetcher->delete(
-            '/api/persons/addresses',
-            $id
-        );
-
-        if ($response->getStatusCode() >= 300) {
-            throw new SherlException(
-                PersonProvider::DOMAIN,
-                $response->getBody()->getContents(),
-                $response->getStatusCode()
+        try {
+            $response = $fetcher->delete(
+                "/api/persons/addresses/$id",
+                [
+                    "headers" => [
+                      "Content-Type" => "application/json",
+                    ],
+                  ]
             );
-        }
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PersonOutputDto::class,
-            'json'
-        );
+            if ($response->getStatusCode() >= 300) {
+                throw new SherlException(
+                    PersonProvider::DOMAIN,
+                    $response->getBody()->getContents(),
+                    $response->getStatusCode()
+                );
+            }
+
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                PersonOutputDto::class,
+                'json'
+            );
+        } catch (\Exception $e) {
+            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        }
     }
 
     public function updateAddress(string $addressId, AddressInputDto $address): ?PersonOutputDto
     {
-        $response = $fetcher->put(
-            ['/api/persons/addresses/:id', $addressId],
-            $address
-        );
-
-        if ($response->getStatusCode() >= 300) {
-            throw new SherlException(
-                PersonProvider::DOMAIN,
-                $response->getBody()->getContents(),
-                $response->getStatusCode()
+        try {
+            $response = $fetcher->put(
+                "/api/persons/addresses/$addressId",
+                [
+                    "headers" => [
+                      "Content-Type" => "application/json",
+                    ],
+                    RequestOptions::JSON => $address
+                ]
             );
-        }
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PersonOutputDto::class,
-            'json'
-        );
+            if ($response->getStatusCode() >= 300) {
+                throw new SherlException(
+                    PersonProvider::DOMAIN,
+                    $response->getBody()->getContents(),
+                    $response->getStatusCode()
+                );
+            }
+
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                PersonOutputDto::class,
+                'json'
+            );
+        } catch (\Exception $e) {
+            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        }
     }
 
     public function createPerson(PersonCreateInputDto $person): ?PersonOutputDto
     {
-        $response = $fetcher->post(
-            '/api/persons',
-            $person
-        );
-
-        if ($response->getStatusCode() >= 300) {
-            throw new SherlException(
-                PersonProvider::DOMAIN,
-                $response->getBody()->getContents(),
-                $response->getStatusCode()
+        try {
+            $response = $fetcher->post(
+                '/api/persons',
+                [
+                    "headers" => [
+                      "Content-Type" => "application/json",
+                    ],
+                    RequestOptions::JSON => $person
+                ]
             );
+
+            if ($response->getStatusCode() >= 300) {
+                throw new SherlException(
+                    PersonProvider::DOMAIN,
+                    $response->getBody()->getContents(),
+                    $response->getStatusCode()
+                );
+            }
+
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                PersonOutputDto::class,
+                'json'
+            );
+        } catch (\Exception $e) {
+            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
         }
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PersonOutputDto::class,
-            'json'
-        );
     }
 
     public function registerWithEmailAndPassword(PersonCreateInputDto $person): ?PersonOutputDto
     {
-        $response = $fetcher->post(
-            '/api/persons/register-with-email-and-password',
-            $person
-        );
-
-        if ($response->getStatusCode() >= 300) {
-            throw new SherlException(
-                PersonProvider::DOMAIN,
-                $response->getBody()->getContents(),
-                $response->getStatusCode()
+        try {
+            $response = $fetcher->post(
+                '/api/persons/register-with-email-and-password',
+                [
+                    "headers" => [
+                      "Content-Type" => "application/json",
+                    ],
+                    RequestOptions::JSON => $person
+                ]
             );
+
+            if ($response->getStatusCode() >= 300) {
+                throw new SherlException(
+                    PersonProvider::DOMAIN,
+                    $response->getBody()->getContents(),
+                    $response->getStatusCode()
+                );
+            }
+
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                PersonOutputDto::class,
+                'json'
+            );
+        } catch (\Exception $e) {
+            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
         }
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PersonOutputDto::class,
-            'json'
-        );
     }
 
     public function addPersonPicture(PictureRegisterInputDto $picture): ?PersonOutputDto
     {
         $form = new \CURLFile($picture['file']->getRealPath(), $picture['file']->getClientMimeType(), $picture['file']->getClientOriginalName());
-        $response = $fetcher->post(
-            '/api/persons/:userId/picture/create/:mediaId',
-            $picture
-        );
+        $userId = $picture['person'];
+        $mediaId = $picture['mediaId'];
+        try {
+            $response = $fetcher->post("/api/persons/$userId/picture/create/$mediaId", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                  ],
+                  RequestOptions::JSON => $form
+            ]);
 
-        $response = $fetcher->post('/api/persons/:userId/picture/create/:mediaId', [
-          'userId' => $picture['person'],
-          'mediaId' => $picture['mediaId'],
-  ], [
-          $form,
-  ]);
+            if ($response->getStatusCode() >= 300) {
+                throw new SherlException(
+                    PersonProvider::DOMAIN,
+                    $response->getBody()->getContents(),
+                    $response->getStatusCode()
+                );
+            }
 
-        if ($response->getStatusCode() >= 300) {
-            throw new SherlException(
-                PersonProvider::DOMAIN,
+            return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
-                $response->getStatusCode()
+                PersonOutputDto::class,
+                'json'
             );
+        } catch (\Exception $e) {
+            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
         }
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PersonOutputDto::class,
-            'json'
-        );
     }
 
     public function updatePersonById(string $id, PersonUpdateInputDto $person): ?PersonOutputDto
     {
-        $response = $fetcher->put(
-            ['/api/persons/:id', $id],
-            $person
-        );
-
-        if ($response->getStatusCode() >= 300) {
-            throw new SherlException(
-                PersonProvider::DOMAIN,
-                $response->getBody()->getContents(),
-                $response->getStatusCode()
+        try {
+            $response = $fetcher->put(
+                "/api/persons/$id",
+                [
+                    "headers" => [
+                      "Content-Type" => "application/json",
+                    ],
+                    RequestOptions::JSON => $person
+                ]
             );
+
+            if ($response->getStatusCode() >= 300) {
+                throw new SherlException(
+                    PersonProvider::DOMAIN,
+                    $response->getBody()->getContents(),
+                    $response->getStatusCode()
+                );
+            }
+
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                PersonOutputDto::class,
+                'json'
+            );
+        } catch (\Exception $e) {
+            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
         }
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PersonOutputDto::class,
-            'json'
-        );
     }
     public function getMe(): ?PersonOutputDto
     {
-        $response = $this->client->get('/api/persons/me');
+        try {
+            $response = $this->client->get('/api/persons/me', [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ]]);
 
-        if ($response->getStatusCode() >= 300) {
-            throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+            if ($response->getStatusCode() >= 300) {
+                throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+            }
+
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                PersonOutputDto::class,
+                'json'
+            );
+        } catch (\Exception $e) {
+            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
         }
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PersonOutputDto::class,
-            'json'
-        );
     }
 }

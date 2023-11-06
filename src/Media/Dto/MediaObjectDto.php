@@ -38,13 +38,13 @@ class ImageObjectDto
 
     /**
      * @var string
-     * @Serializer\Type("integer")
+     * @Serializer\Type("string")
      */
     public $name;
 
     /**
      * @var string
-     * @Serializer\Type("integer")
+     * @Serializer\Type("string")
      */
     public $id;
 }

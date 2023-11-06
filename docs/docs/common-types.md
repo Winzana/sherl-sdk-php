@@ -23,16 +23,6 @@ To access these properties, you need to have activated the domains on which the 
 </details>
 
 <details>
- <summary>Pagination</summary>
-
-| Field       |  Type   | Description                                                |
-| :---------- | :-----: | ---------------------------------------------------------- |
-| **results** | `array` | Les résultats paginés (par défaut, un tableau vide).       |
-| **view**    |         | La vue de pagination (le type dépend de l'implémentation). |
-
-</details>
-
-<details>
  <summary>LocationDto</summary>
 
 | Champs            |   Type   | Description                           |

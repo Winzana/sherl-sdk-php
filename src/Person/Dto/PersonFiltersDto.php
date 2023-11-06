@@ -83,11 +83,13 @@ class PersonFiltersDto
 
     /**
      * @var mixed
+     * @Serializer\Type("mixed")
      */
     public $location;
 
     /**
      * @var mixed
+     * @Serializer\Type("mixed")
      */
     public $subOrganizations;
 
@@ -104,8 +106,8 @@ class PersonFiltersDto
     public $email;
 
     /**
-     * @var string
-     * @Serializer(Type("string"))
+     * @var Gender
+     * @Serializer\Type("Sherl\Sdk\Person\Enum\Gender")
      */
     public $gender;
 

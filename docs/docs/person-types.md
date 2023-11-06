@@ -156,8 +156,8 @@ To access these properties, you need to have activated the domains on which the 
 
 | Fields                  |   Type    | Description                                       |
 | :---------------------- | :-------: | :------------------------------------------------ |
-| **id**                  |   `int`   | The id of the Lemonway card                       |
-| **transactionId**       |   `int`   | The transaction id of the Lemonway card           |
+| **id**                  | `string`  | The id of the Lemonway card                       |
+| **transactionId**       | `string`  | The transaction id of the Lemonway card           |
 | **is3DS**               | `boolean` | The 3DS status of the Lemonway card               |
 | **country**             | `string`  | The registered country of the Lemonway card       |
 | **authorizationNumber** | `string`  | The authorization number of the Lemonway card     |
@@ -195,7 +195,7 @@ To access these properties, you need to have activated the domains on which the 
 | **Validity**       | `string`  | The validity of the Mangopay card           |
 | **Id**             | `string`  | The id of the Mangopay card                 |
 | **Tag**            | `string`  | The tag of the Mangopay card                |
-| **CreationDate**   |   `int`   | The creation date of the Mangopay card      |
+| **CreationDate**   | `string`  | The creation date of the Mangopay card      |
 | **FingerPrint**    | `string`  | The finger print of the Mangopay card       |
 | **default**        | `boolean` | The default status of the Mangopay card     |
 
@@ -556,8 +556,8 @@ To access these properties, you need to have activated the domains on which the 
 | **customer**            | `string`  | The customer of the stripe card            |
 | **cvc_check**           | `string`  | The cvc check of the stripe card           |
 | **dynamic_last4**       | `string`  | The dynamic last4 of the stripe card       |
-| **exp_month**           |   `int`   | The exp month of the stripe card           |
-| **exp_year**            |   `int`   | The exp year of the stripe card            |
+| **exp_month**           | `string`  | The exp month of the stripe card           |
+| **exp_year**            | `string`  | The exp year of the stripe card            |
 | **fingerprint**         | `string`  | The fingerprint of the stripe card         |
 | **funding**             | `string`  | The funding of the stripe card             |
 | **last4**               | `string`  | The last4 of the stripe card               |
