@@ -21,9 +21,14 @@ class QuotaProvider
 
     public function getQuotaFindOneBy(?array $filters = null): ?QuotaOutputDto
     {
-        $response = $this->client->get('/api/quotas/findOneBy', [
-            'query' => $filters
-        ]);
+        $response = $this->client->post("/api/quotas/findOneBy", [
+            "headers" => [
+            "Content-Type" => "application/json",
+            ],
+            RequestOptions::JSON => [
+            "query" => $filters
+            ]
+            ]);
 
         if ($response->getStatusCode() >= 300) {
             throw new SherlException(QuotaProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());

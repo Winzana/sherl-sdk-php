@@ -19,7 +19,7 @@ $quota = $sherlClient->quotas->getQuotaFindByOne(?QuotaFilterDto $filter = null)
 | :--------------: | :-----: | :----------------: | :-------------------------------: |
 |     **page**     | integer |        :x:         |            Page number            |
 | **itemsPerPage** | integer |        :x:         |     Number of items per page      |
-|      **id**      | integer | :white_check_mark: |  Unique identifier for the quota  |
+|      **id**      | string  | :white_check_mark: |  Unique identifier for the quota  |
 |     **uri**      | string  | :white_check_mark: |         Uri for the quota         |
 |  **consumerId**  | string  | :white_check_mark: | Consumer ID associated with quota |
 |   **ownerUri**   | string  | :white_check_mark: |      Owner Uri for the quota      |
