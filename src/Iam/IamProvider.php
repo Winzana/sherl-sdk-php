@@ -49,12 +49,12 @@ class IamProvider
     {
         try {
 
-              $response = $this->client->get("/api/iam/profiles/$id", [
-                "headers" => [
-                  "Content-Type" => "application/json",
-                ],
-              ]);
-      
+            $response = $this->client->get("/api/iam/profiles/$id", [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+            ]);
+
 
             if ($response->getStatusCode() !== 200) {
                 $this->throwSherlIamException($response);
