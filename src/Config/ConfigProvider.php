@@ -31,48 +31,48 @@ class ConfigProvider
 
     public function getPublicConfig(string $code): ?NotificationListOutputDto
     {
-      try {
-        $response = $this->client->get("/api/public/configs/$code", [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-        ]);
+        try {
+            $response = $this->client->get("/api/public/configs/$code", [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+            ]);
 
-        if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlNotificationException($response);
+            if ($response->getStatusCode() >= 300) {
+                return $this->throwSherlNotificationException($response);
+            }
+
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ConfigOutputDto::class,
+                'json'
+            );
+        } catch (\Exception $e) {
+            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ConfigOutputDto::class,
-            'json'
-        );
-      } catch (\Exception $e) {
-        throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
-      }
     }
 
     public function setPublicConfig(SetConfigInputDto $request): ?ConfigOutputDto
     {
-      try {
-        $response = $this->client->get("/api/configs", [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => $request,
-        ]);
+        try {
+            $response = $this->client->get("/api/configs", [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::JSON => $request,
+            ]);
 
-        if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlNotificationException($response);
+            if ($response->getStatusCode() >= 300) {
+                return $this->throwSherlNotificationException($response);
+            }
+
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ConfigOutputDto::class,
+                'json'
+            );
+        } catch (\Exception $e) {
+            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ConfigOutputDto::class,
-            'json'
-        );
-      } catch (\Exception $e) {
-        throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
-      }
     }
-  }
+}
