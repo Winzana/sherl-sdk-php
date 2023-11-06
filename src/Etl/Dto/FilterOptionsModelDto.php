@@ -7,20 +7,20 @@ use JMS\Serializer\Annotation as Serializer;
 class FilterOptionsModel
 {
     /**
-     * @var int|null
-     * @Serializer\Type("number")
+     * @var integer
+     * @Serializer\Type("integer")
      */
     public $fuzziness;
 
     /**
-     * @var int|null
-     * @Serializer\Type("number")
+     * @var integer
+     * @Serializer\Type("integer")
      */
     public $prefix_length;
 
     /**
-     * @var int|null
-     * @Serializer\Type("number")
+     * @var integer
+     * @Serializer\Type("integer")
      */
     public $boost;
 }

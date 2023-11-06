@@ -33,7 +33,7 @@ class SchemaDestinationModel
     public $pattern;
 
     /**
-     * @var bool
+     * @var boolean
      * @Serializer\Type("boolean")
      */
     public $indexed;

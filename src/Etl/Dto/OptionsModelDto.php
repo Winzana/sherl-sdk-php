@@ -15,14 +15,14 @@ class OptionsModel
     public $endpoint;
 
     /**
-     * @var array
-     * @Serializer\Type("array")
+     * @var string[]
+     * @Serializer\Type("string[]")
      */
     public $header;
 
     /**
-     * @var array
-     * @Serializer\Type("array")
+     * @var string[]
+     * @Serializer\Type("string[]")
      */
     public $query;
 
@@ -45,7 +45,7 @@ class OptionsModel
     public $itemPerPageAttribute;
 
     /**
-     * @var int
+     * @var integer
      * @Serializer\Type("integer")
      */
     public $itemsPerPageValue;
@@ -75,13 +75,13 @@ class OptionsModel
     public $totalItemsAttribute;
 
     /**
-     * @var bool
+     * @var boolean
      * @Serializer\Type("boolean")
      */
     public $isPaginationZeroBased;
 
     /**
-     * @var bool
+     * @var boolean
      * @Serializer\Type("boolean")
      */
     public $isPaginationOffsetBased;

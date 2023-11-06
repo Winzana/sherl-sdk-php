@@ -33,7 +33,7 @@ class DestinationModel
     public $entity;
 
     /**
-     * @var bool
+     * @var boolean
      * @Serializer\Type("boolean")
      */
     public $indexed;

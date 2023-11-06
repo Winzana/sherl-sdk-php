@@ -13,7 +13,7 @@ class FilterFieldModel
     public $field;
 
     /**
-     * @var float|null
+     * @var float
      * @Serializer\Type("float")
      */
     public $boost;

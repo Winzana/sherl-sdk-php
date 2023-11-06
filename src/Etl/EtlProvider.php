@@ -38,10 +38,14 @@ class EtlProvider
             if ($response->getStatusCode() >= 300) {
                 $this->throwSherlEtlException($response);
             }
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                LeTypeAttendu::class,
+                'json'
+            );
 
-            return json_decode($response->getBody()->getContents(), true);
         } catch (\Exception $e) {
-            throw new SherlException(EtlErr::EXTRACT_TRANSFORM_LOAD_FAILED, $e->getMessage());
+            throw new SherlException(EtlErr::FETCH_FAILED, $e->getMessage());
         }
     }
 
@@ -52,14 +56,19 @@ class EtlProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::JSON => $config,
+                RequestOptions::JSON => RequestOptions::QUERY,
             ]);
 
             if ($response->getStatusCode() >= 300) {
                 $this->throwSherlEtlException($response);
             }
 
-            return json_decode($response->getBody()->getContents(), true);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                LeTypeAttendu::class,
+                'json'
+            );
+
         } catch (\Exception $e) {
             throw new SherlException(EtlErr::EXTRACT_TRANSFORM_LOAD_FAILED, $e->getMessage());
         }
@@ -72,16 +81,21 @@ class EtlProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::JSON => $config,
+                RequestOptions::JSON => RequestOptions::QUERY,
             ]);
 
             if ($response->getStatusCode() >= 300) {
                 $this->throwSherlEtlException($response);
             }
 
-            return json_decode($response->getBody()->getContents(), true);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                LeTypeAttendu::class,
+                'json'
+            );
+
         } catch (\Exception $e) {
-            throw new SherlException(EtlErr::SAVE_CONFIG_FAILED, $e->getMessage());
+            throw new SherlException(EtlErr::FETCH_FAILED, $e->getMessage());
         }
     }
 }

@@ -7,8 +7,8 @@ use JMS\Serializer\Annotation as Serializer;
 class EtlResponseDto
 {
     /**
+     * @var boolean
      *  @Serializer\Type("boolean")
-     * @var bool
      */
     public $status;
 }

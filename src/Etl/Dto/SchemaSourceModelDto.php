@@ -33,7 +33,7 @@ class SchemaSourceModel
     public $defaultValue;
 
     /**
-     * @var bool
+     * @var boolean
      * @Serializer\Type("boolean")
      */
     public $ignoreEmpty;
