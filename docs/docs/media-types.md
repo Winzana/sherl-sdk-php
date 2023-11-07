@@ -1,6 +1,6 @@
 ---
-id: notification-types
-title: Notification types
+id: media-types
+title: media types
 ---
 
 ## ImageObjectOutputDto
