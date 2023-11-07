@@ -11,14 +11,14 @@ title: Config
 $sherlClient->config->getPublicConfig(string $code);
 ```
 
-This call return a [ConfigOuputDto](#configoutputdto) object.
+This call return a [ConfigOuputDto](config-types#configoutputdto) object.
 
 ## Set Public Config
 
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$sherlClient->config->contactPerson(SetConfigInputDto $request);
+$sherlClient->config->setPublicConfig(SetConfigInputDto $request);
 ```
 
 <details>
@@ -33,4 +33,4 @@ $sherlClient->config->contactPerson(SetConfigInputDto $request);
 
 </details>
 
-This call return a [ConfigOuputDto](#configoutputdto) object.
+This call return a [ConfigOuputDto](config-types#configoutputdto) object.
