@@ -18,7 +18,7 @@ class MediaQueryDto
      * @Serializer\Type("string")
      */
     public $domain;
-    
+
     /**
      * @var TypeEnum
      * @Serializer\Type("Sher\Sdk\Media\Enum\TypeEnum")

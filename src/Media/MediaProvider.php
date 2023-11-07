@@ -55,7 +55,7 @@ class MediaProvider
 
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
-                ImageObjectOutputDto::class, 
+                ImageObjectOutputDto::class,
                 'json'
             );
 
