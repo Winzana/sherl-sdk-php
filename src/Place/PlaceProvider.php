@@ -37,14 +37,14 @@ class PlaceProvider
             );
 
         } catch (\Exception $e) {
-            throw new SherlException(EtlErr::FETCH_FAILED, $e->getMessage());
+            throw new SherlException(PlaceErr::FETCH_FAILED, $e->getMessage());
         }
     }
 
     private function handleResponse(ResponseInterface $response)
     {
         if ($response->getStatusCode() !== 200) {
-            throw new SherlException(EtlErr::FETCH_FAILED, $e->getMessage());
+            throw new SherlException(PlaceErr::FETCH_FAILED, $e->getMessage());
         }
     }
 }
