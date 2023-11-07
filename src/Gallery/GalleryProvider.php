@@ -30,7 +30,7 @@ class GalleryProvider
         throw new SherlException(GalleryProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
 
-    public function createGallery(CreateDynamicBackgroundInputDto $gallery): ?GalleryOutputDto
+    public function createGallery(CreateGalleryInputDto $gallery): ?GalleryOutputDto
     {
         try {
             $response = $this->client->post('/api/galleries', [
@@ -165,7 +165,7 @@ class GalleryProvider
 
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
-                GalleryOutputDto::class,
+                DynamicBackgroundOutputDto::class,
                 'json'
             );
         } catch (\Exception $e) {
@@ -189,7 +189,7 @@ class GalleryProvider
 
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
-                GalleryOutputDto::class,
+                DynamicBackgroundOutputDto::class,
                 'json'
             );
         } catch (\Exception $e) {
