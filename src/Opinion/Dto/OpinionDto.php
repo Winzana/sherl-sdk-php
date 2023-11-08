@@ -34,7 +34,7 @@ class OpinionDto
      * @var string
      * @Serializer\Type("string")
      */
-    public  $opinionFromUri;
+    public $opinionFromUri;
 
     /**
      * @var string
@@ -58,7 +58,7 @@ class OpinionDto
      * @var mixed
      * @Serializer\Type("mixed")
      */
-    public $opinionFrom; 
+    public $opinionFrom;
 
     /**
      * @var string
@@ -70,7 +70,7 @@ class OpinionDto
      * @var mixed
      * @Serializer\Type("mixed")
      */
-    public $opinionTo; 
+    public $opinionTo;
 
     /**
      * @var boolean

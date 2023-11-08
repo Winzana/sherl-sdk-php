@@ -3,12 +3,21 @@
 namespace Sherl\Sdk\Opinion\Media;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
+
 use Sherl\Sdk\Common\Error\MediaException;
+use Sherl\Sdk\Common\SerializerFactory;
+
+use Sherl\Sdk\Opinion\Media\Dto\OpinionInputDto;
+use Sherl\Sdk\Opinion\Media\Dto\OpinionOutputDto;
+use Sherl\Sdk\Opinion\Media\Dto\OpinionAverageOutputDto;
+use Sherl\Sdk\Opinion\Media\Dto\OpinionListOutputDto;
 
 class MediaProvider
 {
+    public const DOMAIN = "Media";
+
     private Client $client;
 
     public function __construct(Client $client)
@@ -16,95 +25,82 @@ class MediaProvider
         $this->client = $client;
     }
 
-    private function processResponse(ResponseInterface $response)
+    private function throwMediaException(ResponseInterface $response)
     {
-        if ($response->getStatusCode() !== 200) {
-            throw new MediaException($response->getBody()->getContents(), $response->getStatusCode());
-        }
-        return json_decode($response->getBody()->getContents(), true);
+        throw new MediaException(MediaProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
 
-    private function getUriWithId(string $uri, string $id): string
+    public function createOpinion(string $opinionId, OpinionInputDto $opinionData): ?OpinionOutputDto
     {
-        return str_replace(':id', $id, $uri);
+        $response = $this->client->post("/api/opinions/$opinionId", [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::JSON => $opinionData,
+        ]);
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwMediaException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            OpinionOutputDto::class,
+            'json'
+        );
     }
 
-    public function createOpinionClaim(string $opinionId, array $claim)
+    public function getOpinionsAverage(string $opinionToUri): ?OpinionAverageOutputDto
     {
-        try {
-            $response = $this->client->post(
-                $this->getUriWithId('/api/opinions/:id/claim', $opinionId),
-                ['json' => $claim]
-            );
-            return $this->processResponse($response);
-        } catch (GuzzleException $e) {
-            throw new MediaException(MediaException::CREATE_OPINION_CLAIM_FAILED, $e->getMessage());
+        $response = $this->client->get('/api/opinions/average', [
+            RequestOptions::QUERY => ['opinionToUri' => $opinionToUri],
+        ]);
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwMediaException($response);
         }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            OpinionAverageOutputDto::class,
+            'json'
+        );
     }
 
-    public function createOpinion(string $opinionId, array $opinionData)
+    public function getOpinionsList(OpinionInputDto $filtersInput): ?OpinionListOutputDto
     {
-        try {
-            $response = $this->client->post(
-                $this->getUriWithId('/api/opinions/:id', $opinionId),
-                ['json' => $opinionData]
-            );
-            return $this->processResponse($response);
-        } catch (GuzzleException $e) {
-            throw new MediaException(MediaException::CREATE_OPINION_FAILED, $e->getMessage());
+        $response = $this->client->get('/api/opinions', [
+            RequestOptions::QUERY => $filtersInput,
+        ]);
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwMediaException($response);
         }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            OpinionListOutputDto::class,
+            'json'
+        );
     }
 
-    public function getOpinionsAverage(string $opinionToUri)
+    public function updateOpinion(string $id, OpinionInputDto $updatedOpinion): ?OpinionOutputDto
     {
-        try {
-            $response = $this->client->get('/api/opinions/average', ['query' => ['opinionToUri' => $opinionToUri]]);
-            return $this->processResponse($response);
-        } catch (GuzzleException $e) {
-            throw new MediaException(MediaException::FETCH_OPINION_AVERAGE_FAILED, $e->getMessage());
-        }
-    }
+        $response = $this->client->put("/api/opinions/$id/status", [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::JSON => $updatedOpinion,
+        ]);
 
-    public function getOpinionsIGive(array $filters)
-    {
-        try {
-            $response = $this->client->get('/api/opinions/i-give', ['query' => $filters]);
-            return $this->processResponse($response);
-        } catch (GuzzleException $e) {
-            throw new MediaException(MediaException::FETCH_FAILED, $e->getMessage());
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwMediaException($response);
         }
-    }
 
-    public function getOpinions(array $filters)
-    {
-        try {
-            $response = $this->client->get('/api/opinions', ['query' => $filters]);
-            return $this->processResponse($response);
-        } catch (GuzzleException $e) {
-            throw new MediaException(MediaException::FETCH_FAILED, $e->getMessage());
-        }
-    }
-
-    public function getPublicOpinions(array $filters)
-    {
-        try {
-            $response = $this->client->get('/api/public/opinions', ['query' => $filters]);
-            return $this->processResponse($response);
-        } catch (GuzzleException $e) {
-            throw new MediaException(MediaException::FETCH_FAILED, $e->getMessage());
-        }
-    }
-
-    public function updateOpinion(string $id, array $updatedOpinion)
-    {
-        try {
-            $response = $this->client->put(
-                $this->getUriWithId('/api/opinions/:id/status', $id),
-                ['json' => $updatedOpinion]
-            );
-            return $this->processResponse($response);
-        } catch (GuzzleException $e) {
-            throw new MediaException(MediaException::UPDATE_OPINION_FAILED, $e->getMessage());
-        }
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            OpinionOutputDto::class,
+            'json'
+        );
     }
 }
