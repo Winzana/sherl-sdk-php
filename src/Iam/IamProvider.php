@@ -25,7 +25,7 @@ class IamProvider
         throw new SherlException(SherlException::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
 
-    public function getAllIamProfiles(array $filters): array
+    public function getAllIamProfiles(array $filters): IamProfilesFilterDto
     {
         try {
             $response = $this->client->get('/api/iam/profiles', [
@@ -45,7 +45,7 @@ class IamProvider
         }
     }
 
-    public function getIamProfileById(string $id): array
+    public function getIamProfileById(string $id): ProfileDto
     {
         try {
 
@@ -71,7 +71,7 @@ class IamProvider
     }
 
 
-    public function getIamRoleById(string $id): array
+    public function getIamRoleById(string $id): ProfileDto
     {
         try {
             $response = $this->client->get("/api/iam/roles/$id", [
@@ -82,6 +82,11 @@ class IamProvider
             if ($response->getStatusCode() !== 200) {
                 $this->throwSherlIamException($response);
             }
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ProfileDto::class,
+                'json'
+            );
         } catch (\Exception $e) {
             throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
         }
