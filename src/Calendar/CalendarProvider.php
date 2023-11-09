@@ -184,10 +184,11 @@ class UserProvider
         }
 
         return SerializerFactory::getInstance()->deserialize(
-          $response->getBody()->getContents(),
-          "array<AvailabilityOutputDto>",
-          'json'
-      );    }
+            $response->getBody()->getContents(),
+            "array<AvailabilityOutputDto>",
+            'json'
+        );
+    }
 
     public function checkLocationAvailabilities(CheckLocationInputDto $location): ?array
     {

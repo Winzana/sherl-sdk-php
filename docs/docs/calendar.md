@@ -44,6 +44,7 @@ $sherlClient->claim->updateClaim(string $claimId, UpdateClaimInputDto $updateCla
 | **aboutUri**   |                       string                       | :x: | TODO                    |
 | **ownerUri** |                       string                       | :x: | The uri of the owner                   |
 | **availabilities**     |                       [OpeningHoursSpecificationOutputDto](calendar-types#OpeningHoursSpecificationOutputDto)                       | :x: | Availabilities of the calendar |
+| **enabled**    | boolean | :x: | Indicates if the calendar is enabled or not.                |
 | **metadatas**    | TODO | :x: | Metadata information about the calendar                 |
 
 </details>
@@ -72,7 +73,6 @@ $sherlClient->claim->getCalendarWithId(string $calendarId);
 | Fields      |                  Type                  |      Required      | Description                 |
 | :---------- | :------------------------------------: | :----------------: | :-------------------------- |
 | **calendarId**   |                       string                       | :white_check_mark: | The id of the calendar to delete                    |
-This call returns true if calendar calendar is successfully deleted.
 
 This call returns a [CalendarOutputDto](calendar-types#calendaroutputdto) class.
 
@@ -167,7 +167,7 @@ $sherlClient->calendar->createCalendarEvent(CreateCalendarEventInputDto $createC
 
 | Fields    | Type   | Required           | Description                   |
 |-----------|:------:|:------------------:|-------------------------------|
-| id        | string | :white_check_mark: | The id of the calendar event  |
+| id        | string | :x: | The id of the calendar event  |
 | uri       | string | :x:                | The uri of the calendar event |
 | aboutUri  | string | :x:                | TODO                          |
 | ownerUri  | string | :x:                | The uri of the owner          |
@@ -191,11 +191,11 @@ $sherlClient->claim->updateCalendarEventRequest(string $calendarId, string $even
 
 | Fields      | Type    | Required | Description                        |
 |-------------|:-------:|:--------:|------------------------------------|
-| aboutUri    | string  | ::       | TODO                               |
-| ownerUri    | string  |          | The uri of the owner               |
-| calendarUri | string  |          | The uri of the associated calendar |
-| startDate   | string  |          | The start date of the event        |
-| endDate     | boolean |          | The end date of the event          |              |
+| aboutUri    | string  |    :x:   | TODO                               |
+| ownerUri    | string  |    :x:   | The uri of the owner               |
+| calendarUri | string  |    :x:   | The uri of the associated calendar |
+| startDate   | string  |    :x:   | The start date of the event        |
+| endDate     | boolean |    :x:   | The end date of the event          |              |
 
 </details>
 
@@ -243,7 +243,7 @@ $sherlClient->calendar->getAllCalendarEvents(string $eventId, GetCalendarEventFo
 | aboutUri     | string                                                 | :x:        | The uri of the event ressource |
 | ownerUri     | string                                                 | :x:        | The uri of the owner           |
 | startDate    | [DateFilterOutputDto](date-filter#datefilteroutputdto) | :x:        | Start date of the event        |
-| endDate      | [DateFilterOutputDto](date-filter#datefilteroutputdto  | :x:        | End date of the event          |
+| endDate      | [DateFilterOutputDto](date-filter#datefilteroutputdto)  | :x:        | End date of the event          |
 
 </details>
 

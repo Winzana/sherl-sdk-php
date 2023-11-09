@@ -42,9 +42,6 @@ title: Calendar Types
 | isRoaming | boolean | Specify if the availability is a roaming or not   |
 | place     | [PlaceOutputDto](place-types#placeoutputdto)  | The place associated to the calendar availability |
 
-### GetCalendarEventForCalendarInputDto
-
-
 ### GetCalendarEventForCalendarOutputDto
 
 | Field   | Type                                                             | Description             |
@@ -52,7 +49,17 @@ title: Calendar Types
 | results | [CalendarEventOutputDto[]](calendar-types#calendareventoutputdto) | Array of Calendar Event |
 | view    | pagination#viewoutputdto)                                        | View information        |
 
-### GetCalendarEventForCurrentPersonInputDto
-
 
 ### OpeningHoursSpecificationOutputDto
+| Field                         | Type                                                                         | Description                                                 |
+|-------------------------------|:----------------------------------------------------------------------------:|-------------------------------------------------------------|
+| id                            | string                                                                       | Array of Calendar Event                                     |
+| daysOfWeek                    | string                                                                       | The concerned day                                           |
+| weekDays                      | string[]                                                                     | List of concerned days                                      |
+| closes                        | string                                                                       | The closing time                                            |
+| opens                         | string                                                                       | The opening time                                            |
+| validFrom                     | string                                                                       | The start date of this opening hours specification          |
+| validFromMonthDay             | number                                                                       | The month day number which this opening specification start |
+| validThrough                  | string                                                                       | The end date of this opening hours specification            |
+| validThroughMonthDay          | string                                                                       | The month day number which this opening specification stop  |
+| HoursSpecificationRulesetEnum | [HoursSpecificationRulesetEnum](calendar-enum#HoursSpecificationRulesetEnum) | The rules to apply to the opening hours specification       |
