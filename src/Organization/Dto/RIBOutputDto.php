@@ -6,16 +6,16 @@ use JMS\Serializer\Annotation as Serializer;
 
 class RIBOutputDto
 {
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $iban;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $iban;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $bic;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $bic;
 
 }

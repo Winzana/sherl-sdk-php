@@ -8,16 +8,16 @@ use Sherl\Sdk\Organization\Dto\MediaInputDto;
 
 class UpdateDocumentInputDto
 {
-  /**
-   * @var MediaInputDto
-   * @Serializer\Type("Sherl\Sdk\Organization\Dto\MediaInputDto")
-   */
-  public $media;
+    /**
+     * @var MediaInputDto
+     * @Serializer\Type("Sherl\Sdk\Organization\Dto\MediaInputDto")
+     */
+    public $media;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $domain;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $domain;
 
 }

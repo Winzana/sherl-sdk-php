@@ -8,28 +8,28 @@ use Sherl\Sdk\Organization\Dto\MediaInputDto;
 
 class MediaInputDto
 {
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $id;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $id;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $uri;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $uri;
 
-  /**
-   * @var CaptionInputDto
-   * @Serializer\Type("CaptionInputDto")
-   */
-  public $caption;
+    /**
+     * @var CaptionInputDto
+     * @Serializer\Type("CaptionInputDto")
+     */
+    public $caption;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $domain;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $domain;
 
 }

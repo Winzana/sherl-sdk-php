@@ -4,9 +4,9 @@ namespace Sherl\Sdk\Organization\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-use Sherl\Sdk\Place\Dto\PlaceOutputDto; 
+use Sherl\Sdk\Place\Dto\PlaceOutputDto;
 
-class OrganizationDocumentsOutputDto
+class OrganizationFiltersDto
 {
     /**
      * @var string
@@ -27,8 +27,8 @@ class OrganizationDocumentsOutputDto
     public $sponsorshipCode;
 
     /**
-     * @var array
-     * @Serializer\Type("array")
+     * @var string[]
+     * @Serializer\Type("array<string>")
      */
     public $ids;
 
@@ -183,8 +183,8 @@ class OrganizationDocumentsOutputDto
     public $noBind;
 
     /**
-     * @var array
-     * @Serializer\Type("array")
+     * @var string[]
+     * @Serializer\Type("array<string>")
      */
     public $sort;
 

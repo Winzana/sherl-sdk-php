@@ -9,28 +9,28 @@ use Sherl\Sdk\Person\Dto\PersonOutputDto;
 
 class RegisterOrganizationRequestInputDto
 {
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $sponsoredByCode;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $sponsoredByCode;
 
-  /**
-   * @var OrganizationInputDto
-   * @Serializer\Type("Sherl\Sdk\Organization\Dto\OrganizationInputDto")
-   */
-  public $organization;
+    /**
+     * @var OrganizationInputDto
+     * @Serializer\Type("Sherl\Sdk\Organization\Dto\OrganizationInputDto")
+     */
+    public $organization;
 
-  /**
-   * @var PersonOutputDto
-   * @Serializer\Type("Sherl\Sdk\Person\Dto\PersonOutputDto")
-   */
-  public $person;
+    /**
+     * @var PersonOutputDto
+     * @Serializer\Type("Sherl\Sdk\Person\Dto\PersonOutputDto")
+     */
+    public $person;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $password;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $password;
 
 }

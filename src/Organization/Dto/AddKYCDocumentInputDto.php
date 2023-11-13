@@ -9,21 +9,21 @@ use Sherl\Sdk\Media\Dto\ImageObjectOutputDto;
 
 class AddKYCDocumentInputDto
 {
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $id;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $id;
 
-  /**
-   * @var KYCDocumentTypeEnum
-   * @Serializer\Type("Sherl\Sdk\Organization\Enum\KYCDocumentTypeEnum")
-   */
-  public $type;
+    /**
+     * @var KYCDocumentTypeEnum
+     * @Serializer\Type("Sherl\Sdk\Organization\Enum\KYCDocumentTypeEnum")
+     */
+    public $type;
 
-  /**
-   * @var ImageObjectOutputDto
-   * @Serializer(Type("Sherl\Sdk\Media\Dto\ImageObjectOutputDto"))
-   */
-  public $media;
+    /**
+     * @var ImageObjectOutputDto
+     * @Serializer(Type("Sherl\Sdk\Media\Dto\ImageObjectOutputDto"))
+     */
+    public $media;
 }
