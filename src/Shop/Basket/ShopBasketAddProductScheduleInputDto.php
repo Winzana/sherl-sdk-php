@@ -4,7 +4,7 @@ namespace Sherl\Sdk\Shop\Basket\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class IShopBasketAddProductScheduleInputDto
+class ShopBasketAddProductScheduleInputDto
 {
     /**
      * @var string
