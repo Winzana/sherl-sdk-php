@@ -6,7 +6,6 @@ use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Shop\Enum\DisplayZoneEnum;
 use Sherl\Sdk\Common\Dto\PaginationFilterInputDto;
 
-
 class FindAdvertisementInputDto extends PaginationFilterInputDto
 {
     /**

@@ -28,7 +28,7 @@ class ShopProvider
 
     public function createAdvertisement(CreateAdvertisementInputDto $createAdvertisement): ?AdvertismentOutputDto
     {
-        
+
 
         $response = $this->client->post(
             "/api/shop/advertisements",
@@ -111,8 +111,8 @@ class ShopProvider
     public function getAdvertisement(string $advertisementId): ?AdvertisementOutputDto
     {
         $response = $this->client->get(
-          "/api/shop/advertisements/$advertisementId",
-          [
+            "/api/shop/advertisements/$advertisementId",
+            [
             "headers" => [
               "Content-Type" => "application/json",
             ],
@@ -133,8 +133,8 @@ class ShopProvider
     public function getAdvertisements(FindAdvertisementInptuDto $filter): ?FindAdvertisementsOutputDto
     {
         $response = $this->client->get(
-          "/api/shop/advertisements",
-          [
+            "/api/shop/advertisements",
+            [
             "headers" => [
               "Content-Type" => "application/json",
             ],
@@ -155,8 +155,8 @@ class ShopProvider
     public function getPublicAdvertisements(FindAdvertisementInptuDto $filter): ?FindAdvertisementsOutputDto
     {
         $response = $this->client->get(
-          "/api/public/shop/advertisements",
-          [
+            "/api/public/shop/advertisements",
+            [
             "headers" => [
               "Content-Type" => "application/json",
             ],
@@ -175,6 +175,26 @@ class ShopProvider
     }
 
 
-    //Basket 
-  
+    //Basket
+    public function addProductToBasket(AddProductInputDto $productToAdd): ?FindAdvertisementsOutputDto
+    {
+        $response = $this->client->get(
+            "/api/public/shop/advertisements",
+            [
+            "headers" => [
+              "Content-Type" => "application/json",
+            ],
+      ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlClaimException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            FindAdvertisementsOutputDto::class,
+            'json'
+        );
+    }
 }
