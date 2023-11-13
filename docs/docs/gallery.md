@@ -111,7 +111,7 @@ $sherlClient->gallery->createDynamicBackground(CreateDynamicBackgroundInputDto $
 | Fields           |          Type          |      Required      | Description                                                                     |
 | :--------------- | :--------------------: | :----------------: | ------------------------------------------------------------------------------- |
 | **media**        | `ImageObjectOutputDto` | :white_check_mark: | The image object associated with the dynamic background.                        |
-| **metadatas**    |       `string[]`       |        :x:         | Dynamic background metadata.                                                    |
+| **metadatas**    | `array<string, mixed>` |        :x:         | Dynamic background metadata.                                                    |
 | **displayZones** |   `DisplayZonesEnum`   | :white_check_mark: | Display zones (TODO: import to be adjusted).                                    |
 | **locations**    |   `PoiZoneInputDto`    |        :x:         | POI zones associated with the dynamic background (TODO: import to be adjusted). |
 
@@ -133,7 +133,7 @@ $sherlClient->gallery->updateDynamicBackground(string $dynamicBackgroundId, Crea
 | Fields           |          Type          |      Required      | Description                                                                     |
 | :--------------- | :--------------------: | :----------------: | ------------------------------------------------------------------------------- |
 | **media**        | `ImageObjectOutputDto` | :white_check_mark: | The image object associated with the dynamic background                         |
-| **metadatas**    |       `string[]`       |        :x:         | Dynamic background metadata                                                     |
+| **metadatas**    | `array<string, mixed>` |        :x:         | Dynamic background metadata                                                     |
 | **displayZones** |   `DisplayZonesEnum`   | :white_check_mark: | Display zones (TODO: import to be adjusted).                                    |
 | **locations**    |   `PoiZoneInputDto`    |        :x:         | POI zones associated with the dynamic background (TODO: import to be adjusted). |
 

@@ -23,7 +23,7 @@ title: Gallery types
 | **id**               |         `string`         | The identifier of the dynamic background.                                                     |
 | **uri**              |         `string`         | The URI of the dynamic background.                                                            |
 | **medias**           | `ImageObjectOutputDto[]` | The image objects associated with the dynamic background.                                     |
-| **metadatas**        |        `string[]`        | The metadata of the dynamic background.                                                       |
+| **metadatas**        |  `array<string, mixed>`  | The metadata of the dynamic background.                                                       |
 | **createdAt**        |         `string`         | The date of dynamic background creation.                                                      |
 | **versionCreatedAt** |         `string`         | The date of creation of the dynamic background version.                                       |
 | **updatedAt**        |         `string`         | The date of dynamic background update.                                                        |
