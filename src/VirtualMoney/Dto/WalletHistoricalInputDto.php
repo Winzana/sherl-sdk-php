@@ -55,8 +55,8 @@ class WalletHistoricalInputDto
     public $walletId;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
     public $createdAt;
 }
