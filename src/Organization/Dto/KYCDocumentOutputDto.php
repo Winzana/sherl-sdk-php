@@ -51,14 +51,14 @@ class KYCDocumentOutputDto
   public $originId;
 
   /**
-   * @var string
-   * @Serializer(Type("string"))
+   * @var DateTime
+   * @Serializer(Type("DateTime"))
    */
   public $creationDate;
 
   /**
-   * @var string
-   * @Serializer(Type("string"))
+   * @var DateTime
+   * @Serializer(Type("DateTime"))
    */
   public $processedDate;
 

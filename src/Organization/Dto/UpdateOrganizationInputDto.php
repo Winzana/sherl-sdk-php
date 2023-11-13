@@ -42,8 +42,8 @@ class UpdateOrganizationInputDto
     public $isComingSoon;
 
     /**
-     * @var string[]
-     * @Serializer\Type("array<string>")
+     * @var array<string,mixed>
+     * @Serializer\Type("array<string,mixed>")
      */
     public $metadatas;
 

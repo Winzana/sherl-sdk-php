@@ -35,6 +35,4 @@ class OrganizationDocumentsOutputDto
      * @Serializer\Type("string")
      */
     public $status;
-
-
 }

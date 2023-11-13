@@ -19,8 +19,8 @@ class FacebookThirdPartOutputDto
     public $longLivedUserAccessToken;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
     public $expirationDate;
 
