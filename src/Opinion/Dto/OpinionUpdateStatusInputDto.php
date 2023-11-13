@@ -4,17 +4,17 @@ namespace Sherl\Sdk\Opinion\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class AverageDto
+class OpinionUpdateStatusInputDto
 {
     /**
-     * @var float
-     * @Serializer\Type("float")
+     * @var OpinionStatusEnum
+     * @Serializer\Type("Sherl\Sdk\Opinion\Dto\OpinionStatusEnum")
      */
-    public $average;
+    public $status;
 
     /**
-     * @var integer
-     * @Serializer\Type("integer")
+     * @var string
+     * @Serializer\Type("string")
      */
-    public $count;
+    public $refusedComment;
 }

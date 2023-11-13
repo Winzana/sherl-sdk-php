@@ -14,9 +14,9 @@ use Sherl\Sdk\Opinion\Media\Dto\OpinionOutputDto;
 use Sherl\Sdk\Opinion\Media\Dto\OpinionAverageOutputDto;
 use Sherl\Sdk\Opinion\Media\Dto\OpinionListOutputDto;
 
-class MediaProvider
+class OpinionProvider
 {
-    public const DOMAIN = "Media";
+    public const DOMAIN = "Opinion";
 
     private Client $client;
 

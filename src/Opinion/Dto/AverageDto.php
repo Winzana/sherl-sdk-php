@@ -20,3 +20,18 @@ class OpinionUpdateStatusInputDto
      */
     public $refusedComment;
 }
+
+class AverageDto
+{
+    /**
+     * @var float
+     * @Serializer\Type("float")
+     */
+    public $average;
+
+    /**
+     * @var integer
+     * @Serializer\Type("integer")
+     */
+    public $count;
+}

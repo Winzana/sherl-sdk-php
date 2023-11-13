@@ -8,31 +8,48 @@ title: Opinion
 <span class="badge badge--warning">Required authentication</span>
 
 ```php
-$opinions = $opinionClient->getOpinions(array $filters);
+$opinions = $sherlClient->opinion->getOpinions(array $filters);
 ```
 
 <span class="badge badge--success">Public</span>
 
 ```php
-$publicOpinions = $opinionClient->getPublicOpinions(array $filters);
+$publicOpinions = $sherlClient->opinion->getPublicOpinions(array $filters);
 ```
 
-filters is an associative array that should include pagination and other filter criteria.
-
 This call returns a paginated array of [OpinionDto](opinion-types#OpinionDto) objects.
+
+## Get Opinions with Filters
+
+<span class="badge badge--warning">Required authentication</span>
+
+```php
+$opinions = $sherlClient->opinion->getOpinions(array $OpinionFiltersDto);
+```
+
+<details>
+<summary><b>OpinionFiltersDto</b></summary>
+
+| Fields           |  Type  |      Required      | Description                          |
+| :--------------- | :----: | :----------------: | :----------------------------------- |
+| **opinionToUri** | string | :white_check_mark: | URI to which the opinion is directed |
+
+</details>
+
+This call returns a collection of opinions, filtered based on the provided criteria in [OpinionFiltersDto](opinion#OpinionFiltersDto).
 
 ## Create opinion
 
 <span class="badge badge--warning">Required authentication</span>
 
 ```php
-$newOpinion = $opinionClient->createOpinion(array $data);
+$newOpinion = $sherlClient->opinion->createOpinion(array $data);
 ```
 
 data is an associative array with the following keys:
 
 ```php
-data = [
+$data = [
 'comment' => 'string',
 'id' => 'string',
 'opinionToUri' => 'string',
@@ -47,7 +64,7 @@ This call returns an [OpinionDto](opinion-types#OpinionDto) object.
 <span class="badge badge--warning">Required authentication</span>
 
 ```php
-$opinionUpdated = $opinionClient->updateOpinion(string $opinionId, array $status);
+$opinionUpdated = $sherlClient->opinion->updateOpinion(string $opinionId, array $status);
 ```
 
 status is an associative array with the following keys:
@@ -66,7 +83,7 @@ This call returns an [OpinionDto](opinion-types#OpinionDto) object.
 <span class="badge badge--warning">Required authentication</span>
 
 ```php
-$claim = $opinionClient->createOpinionClaim(string $opinionId, array $data);
+$claim = $sherlClient->opinion->createOpinionClaim(string $opinionId, array $data);
 ```
 
 data is an associative array with the following key:
@@ -84,7 +101,7 @@ This call returns an [OpinionDto](opinion-types#OpinionDto) object.
 <span class="badge badge--warning">Required authentication</span>
 
 ```php
-$averageScore = $opinionClient->getOpinionsAverage(string $opinionToUri);
+$averageScore = $sherlClient->opinion->getOpinionsAverage(string $opinionToUri);
 ```
 
 This call returns an [averageScore](notification-types#averageScore) object.
@@ -94,7 +111,7 @@ This call returns an [averageScore](notification-types#averageScore) object.
 <span class="badge badge--warning">Required authentication</span>
 
 ```php
-$givenOpinions = $opinionClient->getOpinionsIGive(array $filters);
+$givenOpinions = $sherlClient->opinion->getOpinionsIGive(array $filters);
 ```
 
 This call returns a paginated array of [OpinionDto](opinion-types#OpinionDto) objects.
