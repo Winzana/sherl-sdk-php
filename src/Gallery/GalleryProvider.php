@@ -149,7 +149,7 @@ class GalleryProvider
         }
     }
 
-    public function registerDynamicBackground(CreateDynamicBackgroundInputDto $dynamicBackground): ?DynamicBackgroundOutputDto
+    public function createDynamicBackground(CreateDynamicBackgroundInputDto $dynamicBackground): ?DynamicBackgroundOutputDto
     {
         try {
             $response = $this->client->post('/api/galleries/dynamic-background', [
@@ -176,7 +176,7 @@ class GalleryProvider
     public function updateDynamicBackground(string $dynamicBackgroundId, CreateDynamicBackgroundInputDto $dynamicBackground): ?DynamicBackgroundOutputDto
     {
         try {
-            $response = $this->client->post("/api/galleries/dynamic-background/$dynamicBackgroundId", [
+            $response = $this->client->put("/api/galleries/dynamic-background/$dynamicBackgroundId", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],

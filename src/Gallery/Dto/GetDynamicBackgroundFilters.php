@@ -49,8 +49,8 @@ class GetDynamicBackgroundFilters extends PaginationFilterInputDto
     public $streetAddress;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
     public $createdAt;
 

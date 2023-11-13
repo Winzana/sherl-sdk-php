@@ -5,34 +5,34 @@ title: Gallery types
 
 ## GalleryOutputDto
 
-| Champs          |          Type          | Description                                                    |
-| :-------------- | :--------------------: | -------------------------------------------------------------- |
-| **id**          |        `string`        | L'identifiant de la galerie.                                   |
-| **uri**         |        `string`        | L'URI de la galerie.                                           |
-| **consumerId**  |        `string`        | L'identifiant du consommateur.                                 |
-| **categoryUri** |        `string`        | L'URI de la catégorie associée à la galerie.                   |
-| **category**    |   `CategoryResponse`   | La catégorie associée à la galerie (TODO : import à corriger). |
-| **media**       | `ImageObjectOutputDto` | L'objet image associé à la galerie.                            |
-| **createdAt**   |        `string`        | La date de création de la galerie.                             |
-| **updatedAt**   |        `string`        | La date de mise à jour de la galerie.                          |
+| Fields          |          Type          | Description                                                              |
+| :-------------- | :--------------------: | ------------------------------------------------------------------------ |
+| **id**          |        `string`        | The identifier of the gallery.                                           |
+| **uri**         |        `string`        | The URI of the gallery.                                                  |
+| **consumerId**  |        `string`        | The identifier of the consumer.                                          |
+| **categoryUri** |        `string`        | The URI of the category associated with the gallery.                     |
+| **category**    |   `CategoryResponse`   | The category associated with the gallery (TODO: import to be corrected). |
+| **media**       | `ImageObjectOutputDto` | The image object associated with the gallery.                            |
+| **createdAt**   |        `string`        | The date of gallery creation.                                            |
+| **updatedAt**   |        `string`        | The date of gallery update.                                              |
 
 ## DynamicBackgroundOutputDto
 
-| Champs               |           Type           | Description                                                                            |
-| :------------------- | :----------------------: | -------------------------------------------------------------------------------------- |
-| **id**               |         `string`         |   L'identifiant de l'arrière-plan dynamique.                                           |
-| **uri**              |         `string`         | L'URI de l'arrière-plan dynamique.                                                     |
-| **medias**           | `ImageObjectOutputDto[]` | Les objets image associés à l'arrière-plan dynamique.                                  |
-| **metadatas**        |        `string[]`        | Les métadonnées de l'arrière-plan dynamique.                                           |
-| **createdAt**        |         `string`         | La date de création de l'arrière-plan dynamique.                                       |
-| **versionCreatedAt** |         `string`         | La date de création de la version de l'arrière-plan dynamique.                         |
-| **updatedAt**        |         `string`         | La date de mise à jour de l'arrière-plan dynamique.                                    |
-| **deleted**          |        `boolean`         | Indique si l'arrière-plan dynamique est supprimé.                                      |
-| **displayZones**     |    `DisplayZonesEnum`    | Les zones d'affichage (import à ajuster).                                              |
-| **locations**        |    `PoiZoneInputDto`     | Les zones "Point Of Interest" associées à l'arrière-plan dynamique (import à ajuster). |
-| **geoShapes**        |    `GeoShapeInputDto`    | Les formes géographiques associées à l'arrière-plan dynamique (import à ajuster).      |
-| **version**          |        `integer`         | La version de l'arrière-plan dynamique.                                                |
-| **parentUri**        |         `string`         | L'URI du parent de l'arrière-plan dynamique.                                           |
-| **updatedBy**        |         `string`         | L'identifiant de l'utilisateur ayant effectué la mise à jour.                          |
-| **createdBy**        |         `string`         | L'identifiant de l'utilisateur ayant créé l'arrière-plan dynamique.                    |
-| **versionCreatedBy** |         `string`         | L'identifiant de l'utilisateur ayant créé la version de l'arrière-plan dynamique.      |
+| Fields               |           Type           | Description                                                                                   |
+| :------------------- | :----------------------: | --------------------------------------------------------------------------------------------- |
+| **id**               |         `string`         | The identifier of the dynamic background.                                                     |
+| **uri**              |         `string`         | The URI of the dynamic background.                                                            |
+| **medias**           | `ImageObjectOutputDto[]` | The image objects associated with the dynamic background.                                     |
+| **metadatas**        |        `string[]`        | The metadata of the dynamic background.                                                       |
+| **createdAt**        |         `string`         | The date of dynamic background creation.                                                      |
+| **versionCreatedAt** |         `string`         | The date of creation of the dynamic background version.                                       |
+| **updatedAt**        |         `string`         | The date of dynamic background update.                                                        |
+| **deleted**          |        `boolean`         | Indicates whether the dynamic background is deleted.                                          |
+| **displayZones**     |    `DisplayZonesEnum`    | The display zones (import to be adjusted).                                                    |
+| **locations**        |    `PoiZoneInputDto`     | The "Point Of Interest" zones associated with the dynamic background (import to be adjusted). |
+| **geoShapes**        |    `GeoShapeInputDto`    | The geographical shapes associated with the dynamic background (import to be adjusted).       |
+| **version**          |        `integer`         | The version of the dynamic background.                                                        |
+| **parentUri**        |         `string`         | The URI of the parent of the dynamic background.                                              |
+| **updatedBy**        |         `string`         | The identifier of the user who performed the update.                                          |
+| **createdBy**        |         `string`         | The identifier of the user who created the dynamic background.                                |
+| **versionCreatedBy** |         `string`         | The identifier of the user who created the version of the dynamic background.                 |
