@@ -14,10 +14,10 @@ $sherlClient->search->getPublicSearchAutocomplete(SearchFiltersInputDto $filters
 <details>
 <summary><b>SearchFiltersInputDto</b></summary>
 
-| Champs      |    Type    | Requis | Description                                  |
-| :---------- | :--------: | :----: | -------------------------------------------- |
-| **q**       |  `string`  |  :x:   | Terme de recherche (query).                  |
-| **indexes** | `string[]` |  :x:   | Tableau d'indexes pour limiter la recherche. |
+| Fields      |    Type    | Required | Description                          |
+| :---------- | :--------: | :------: | ------------------------------------ |
+| **q**       |  `string`  |   :x:    | Search term (query).                 |
+| **indexes** | `string[]` |   :x:    | Array of indexes to limit the search |
 
 This call returns a [SearchResultOutputDto](search-types#searchresultoutputdto) class object.
 

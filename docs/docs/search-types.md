@@ -5,7 +5,7 @@ title: Search types
 
 ## SearchResultOutputDto
 
-| Champs           | Type                                                                              | Description                       |
-| :--------------- | :-------------------------------------------------------------------------------- | --------------------------------- |
-| **organization** | [OrganizationOutputDto[]](search-types#organizationoutputdto) (TODO: change link) | Liste des organisations           |
-| **category**     | [CategoryOutputDto[]](search-types#categoryoutputdto) (TODO: change link)         | Liste des catégories de produits. |
+| Fields           | Type                                                                              | Description             |
+| :--------------- | :-------------------------------------------------------------------------------- | ----------------------- |
+| **organization** | [OrganizationOutputDto[]](search-types#organizationoutputdto) (TODO: change link) | Organizations list      |
+| **category**     | [CategoryOutputDto[]](search-types#categoryoutputdto) (TODO: change link)         | Product categories list |
