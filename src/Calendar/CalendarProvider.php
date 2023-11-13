@@ -113,7 +113,7 @@ class UserProvider
         return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
     }
 
-    public function getCalendarWithId(string $calendarId): ?CalendarOutputDto
+    public function getCalendarById(string $calendarId): ?CalendarOutputDto
     {
         $response = $this->client->get('/api/calendar/' + $calendarId, [
           "headers" => [
@@ -216,7 +216,7 @@ class UserProvider
 
 
 
-    public function findCalandarWithFilter(CalendarFilterInputDto $calendarFilter): ?CalendarOutputDto
+    public function findCalendarWithFilter(CalendarFilterInputDto $calendarFilter): ?CalendarOutputDto
     {
         $response = $this->client->get('/api/calendar/find-one', [
           "headers" => [

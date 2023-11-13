@@ -33,7 +33,7 @@ This call returns a [CalendarOutputDto](calendar-types#calendaroutputdto) class.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$sherlClient->claim->updateClaim(string $claimId, UpdateClaimInputDto $updateClaim);
+$sherlClient->calendar->updateCalendar(string $calendarId, UpdateCalendarInputDto $calendarData);
 ```
 
 <details>
@@ -56,7 +56,7 @@ This call returns the updated [CalendarOutputDto](calendar-types#calendaroutputd
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$sherlClient->claim->deleteCalendar(string $calendarId);
+$sherlClient->calendar->deleteCalendar(string $calendarId);
 ```
 | Fields      |                  Type                  |      Required      | Description                 |
 | :---------- | :------------------------------------: | :----------------: | :-------------------------- |
@@ -68,7 +68,7 @@ This call returns true if calendar calendar is successfully deleted.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$sherlClient->claim->getCalendarWithId(string $calendarId);
+$sherlClient->calendar->getCalendarWithId(string $calendarId);
 ```
 | Fields      |                  Type                  |      Required      | Description                 |
 | :---------- | :------------------------------------: | :----------------: | :-------------------------- |
@@ -117,9 +117,9 @@ $sherlClient->calendar->checksDateAvailabilities(CheckDatesInputDto $dates);
 
 | Fields         |  Type  | Description                            |
 | :------------- | :----: | :------------------------------------- |
-| **id**         | string | Claim's id                             |
-| **personId**   | string | ID of person which associated to claim |
-| **orderId**    | string | ID of order which associated to claim  |
+| **id**         | string | calendar's id                             |
+| **personId**   | string | ID of person which associated to calendar |
+| **orderId**    | string | ID of order which associated to calendar  |
 | **consumerId** | string | Internal API ID to identify a project  |
 
 </details>
@@ -183,7 +183,7 @@ This call returns a [CalendarEventOutputDto](calendar-types#calendareventoutputd
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$sherlClient->claim->updateCalendarEventRequest(string $calendarId, string $eventId,UpdateCalendarEventInputDto $calendarEventData);
+$sherlClient->calendar->updateCalendarEventRequest(string $calendarId, string $eventId,UpdateCalendarEventInputDto $calendarEventData);
 ```
 
 <details>
@@ -206,7 +206,7 @@ This call returns the updated [CalendarEventOutputDto](calendar-types#calendarou
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$sherlClient->claim->deleteCalendarEventRequest(string $calendarEventId);
+$sherlClient->calendar->deleteCalendarEventRequest(string $calendarEventId);
 ```
 
 This call returns true if calendar calendar with id was successfully deleted.
@@ -216,7 +216,7 @@ This call returns true if calendar calendar with id was successfully deleted.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$sherlClient->claim->getCalendarEventRequest(string $eventId);
+$sherlClient->calendar->getCalendarEventRequest(string $eventId);
 ```
 
 This call returns a [CalendarEventOutputDto](calendar-types#calendareventoutputdto) class.
