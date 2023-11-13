@@ -15,7 +15,11 @@ class CreateDynamicBackgroundInputDto
      */
     public $media;
 
-    public $metadatas = ['key' => 'string'];
+    /**
+     * @var array<string, mixed>
+     * @Serializer\Type("array<string, mixed>")
+     */
+    public $metadatas;
 
     /**
      * @var DisplayZonesEnum

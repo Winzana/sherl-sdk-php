@@ -28,8 +28,8 @@ class DynamicBackgroundOutputDto
     public $medias;
 
     /**
-     * @var string[]
-     * @Serializer\Type("array<string>")
+     * @var array<string, mixed>
+     * @Serializer\Type("array<string, mixed>")
      */
     public $metadatas;
 
