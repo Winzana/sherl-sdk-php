@@ -7,7 +7,7 @@ use Sherl\Sdk\Shop\Product\Enum\ProductTags;
 use Sherl\Sdk\Shop\Product\Enum\ProductDisplayMode;
 use Sherl\Sdk\Shop\Product\Enum\ProductTypeEnum;
 
-class ProductFindByDto extends PaginationFilters
+class ProductFindByDto extends PaginationFiltersInputDto
 {
     /**
      * @var array
