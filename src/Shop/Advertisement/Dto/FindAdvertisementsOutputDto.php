@@ -1,6 +1,6 @@
 <?php
 
-namespace Sherl\Sdk\Claim\Dto;
+namespace Sherl\Sdk\Shop\Advertisement\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementOutputDto;

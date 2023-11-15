@@ -6,8 +6,11 @@ use JMS\Serializer\Annotation as Serializer;
 
 use Sherl\Sdk\Organization\Dto\OrganizationOutputDto;
 use Sherl\Sdk\Person\Dto\PersonOutputDto;
-use Sherl\Sdk\Shop\Product\Enum;
-use Sherl\Sdk\Shop\Order\Enum;
+use Sherl\Sdk\Shop\Order\Dto\OrderItemDto;
+use Sherl\Sdk\Shop\Order\Dto\OrderStatusHistoryDto;
+
+
+use Sherl\Sdk\Place\Dto\AddressOutputDto;
 
 class OrderResponse
 {
@@ -52,15 +55,15 @@ class OrderResponse
      */
     public $orderNumberOfDay;
 
-                /**
+    /**
      * @var OrderStatusEnum
      * @Serializer\Type("Sherl\Sdk\Shop\Order\Enum\OrderStatusEnum")
      */
     public $orderStatus;
 
-                /**
-     * @var ----ShopProductTypeEnum
-     * @Serializer\Type("Sherl\Sdk\Shop\Dto\ShopBasketAddProductOptionInputDto")
+    /**
+     * @var ShopProductType
+     * @Serializer\Type("Sherl\Sdk\Shop\Product\Enum\ShopProductType")
      */
     public $type;
 
@@ -69,14 +72,14 @@ class OrderResponse
     */
    public $meansOfPayment;
 
-   /** @var array----IPayment
-   * @Serializer\Type("string")
+   /** @var array
+   * @Serializer\Type("array<Sherl\Sdk\Shop\Order\Dto\PaymentOutputDto>")
    */
   public $payments;
 
       /**
-     * @var array---IOffer
-     * @Serializer\Type("mixed")
+     * @var array
+     * @Serializer\Type("array<Sherl\Sdk\Shop\Product\OfferDto>")
      */
     public $acceptedOffer;
 
@@ -123,80 +126,80 @@ class OrderResponse
     public $numberOfCredit;
 
     /**
-     * @var IAddress ----
-     * @Serializer\Type(IAddress)
+     * @var AddressOutputDto
+     * @Serializer\Type("Sherl\Sdk\Place\Dto\AddressOutputDto")
      */
-    public billingAddress;
+    public $billingAddress;
 
     /**
-     * @var array IOrderItem ----
-     * @Serializer\Type(IOrderItem)
+     * @var array<OrderItemDto>
+     * @Serializer\Type("array<Sherl\Sdk\Shop\Order\Dto\OrderItemDto>")
      */
-    public orderedItems;
+    public $orderedItems;
 
     /**
-     * @var array IOrderStatusHistory ----
-     * @Serializer\Type("array<IOrderStatusHistory>")
+     * @var array<OrderStatusHistoryDto>
+     * @Serializer\Type("array<Sherl\Sdk\Shop\Order\Dto\OrderStatusHistoryDto>")
      */
-    public orderStatusHistory;
+    public $orderStatusHistory;
 
     /**
-     * @var IOrderCommission ----
-     * @Serializer\Type(IOrderCommission)
+     * @var OrderComissionDto
+     * @Serializer\Type("Sherl\Sdk\Shop\Order\Dto\OrderComissionDto")
      */
-    public commission;
+    public $commission;
 
     /**
-     * @var array IShopOrderRefund ----
-     * @Serializer\Type("array<IShopOrderRefund>")
+     * @var array ShopOrderRefundDto
+     * @Serializer\Type("array<Sherl\Sdk\Shop\Order\Dto\ShopOrderRefundDto>")
      */
-    public refunds;
+    public $refunds;
 
         /**
      * @var mixed
      * @Serializer\Type("mixed")
      */
-    public metadatas: any;
+    public $metadatas;
 
             /**
      * @var string
      * @Serializer\Type("string")
      */
-    public sponsorshipCode:;
+    public $sponsorshipCode;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public discountCode: string;
+    public $discountCode;
 
         /**
-     * @var array IDiscount ----
-     * @Serializer\Type("array<IDiscount>")
+     * @var array DiscountOutputDto
+     * @Serializer\Type("array<Sherl\Sdk\Shop\Discount\Dto\DiscountOutputDto>")
      */
-    public discountToUsefull;
+    public $discountToUsefull;
 
         /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
-    public subscriptionBeginDate;
+    public $subscriptionBeginDate;
 
             /**
      * @var boolean
      * @Serializer\Type("boolean")
      */
-    public isFreeTrial: boolean;
+    public $isFreeTrial;
 
             /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
-    public createdAt;
+    public $createdAt;
 
             /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
-    public updatedAt;
+    public $updatedAt;
 }

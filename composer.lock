@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f62da80c6d003db6318322aaf9f0c6cd",
+    "content-hash": "bfce1166adf8829c2f8c7e735b1601e1",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -716,16 +716,16 @@
         },
         {
             "name": "mangopay/php-sdk-v2",
-            "version": "3.23.0",
+            "version": "3.24.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Mangopay/mangopay2-php-sdk.git",
-                "reference": "29ec2c4ccc7227be5e24edf9210c2c2ca95c90a6"
+                "reference": "db8110b727de1c58cc02b18dbf72f9cdb3098897"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Mangopay/mangopay2-php-sdk/zipball/29ec2c4ccc7227be5e24edf9210c2c2ca95c90a6",
-                "reference": "29ec2c4ccc7227be5e24edf9210c2c2ca95c90a6",
+                "url": "https://api.github.com/repos/Mangopay/mangopay2-php-sdk/zipball/db8110b727de1c58cc02b18dbf72f9cdb3098897",
+                "reference": "db8110b727de1c58cc02b18dbf72f9cdb3098897",
                 "shasum": ""
             },
             "require": {
@@ -752,9 +752,9 @@
             "description": "PHP SDK for MANGOPAY",
             "support": {
                 "issues": "https://github.com/Mangopay/mangopay2-php-sdk/issues",
-                "source": "https://github.com/Mangopay/mangopay2-php-sdk/tree/3.23.0"
+                "source": "https://github.com/Mangopay/mangopay2-php-sdk/tree/3.24.1"
             },
-            "time": "2023-09-29T07:48:30+00:00"
+            "time": "2023-11-09T15:18:39+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
@@ -1395,16 +1395,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.35.1",
+            "version": "v3.38.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "ec1ccc264994b6764882669973ca435cf05bab08"
+                "reference": "d872cdd543797ade030aaa307c0a4954a712e081"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/ec1ccc264994b6764882669973ca435cf05bab08",
-                "reference": "ec1ccc264994b6764882669973ca435cf05bab08",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/d872cdd543797ade030aaa307c0a4954a712e081",
+                "reference": "d872cdd543797ade030aaa307c0a4954a712e081",
                 "shasum": ""
             },
             "require": {
@@ -1476,7 +1476,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.35.1"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.38.2"
             },
             "funding": [
                 {
@@ -1484,7 +1484,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-12T13:47:26+00:00"
+            "time": "2023-11-14T00:19:22+00:00"
         },
         {
             "name": "psr/container",
@@ -1658,16 +1658,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v6.3.4",
+            "version": "v6.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "eca495f2ee845130855ddf1cf18460c38966c8b6"
+                "reference": "0d14a9f6d04d4ac38a8cea1171f4554e325dae92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/eca495f2ee845130855ddf1cf18460c38966c8b6",
-                "reference": "eca495f2ee845130855ddf1cf18460c38966c8b6",
+                "url": "https://api.github.com/repos/symfony/console/zipball/0d14a9f6d04d4ac38a8cea1171f4554e325dae92",
+                "reference": "0d14a9f6d04d4ac38a8cea1171f4554e325dae92",
                 "shasum": ""
             },
             "require": {
@@ -1728,7 +1728,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v6.3.4"
+                "source": "https://github.com/symfony/console/tree/v6.3.8"
             },
             "funding": [
                 {
@@ -1744,7 +1744,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-16T10:10:12+00:00"
+            "time": "2023-10-31T08:09:35+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -2795,16 +2795,16 @@
         },
         {
             "name": "symfony/string",
-            "version": "v6.3.5",
+            "version": "v6.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "13d76d0fb049051ed12a04bef4f9de8715bea339"
+                "reference": "13880a87790c76ef994c91e87efb96134522577a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/13d76d0fb049051ed12a04bef4f9de8715bea339",
-                "reference": "13d76d0fb049051ed12a04bef4f9de8715bea339",
+                "url": "https://api.github.com/repos/symfony/string/zipball/13880a87790c76ef994c91e87efb96134522577a",
+                "reference": "13880a87790c76ef994c91e87efb96134522577a",
                 "shasum": ""
             },
             "require": {
@@ -2861,7 +2861,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/v6.3.5"
+                "source": "https://github.com/symfony/string/tree/v6.3.8"
             },
             "funding": [
                 {
@@ -2877,7 +2877,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-09-18T10:38:32+00:00"
+            "time": "2023-11-09T08:28:21+00:00"
         }
     ],
     "aliases": [],

@@ -5,7 +5,7 @@ namespace Sherl\Sdk\Shop\Advertisement\Dto;
 use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Shop\Enum\DisplayZoneEnum;
 
-class AdvertismentOutputDto
+class AdvertisementOutputDto
 {
     /**
      * @var string
