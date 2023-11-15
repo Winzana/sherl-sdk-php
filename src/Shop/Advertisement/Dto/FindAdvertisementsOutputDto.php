@@ -1,6 +1,6 @@
 <?php
 
-namespace Sherl\Sdk\Claim\Dto;
+namespace Sherl\Sdk\Shop\Advertisement\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementOutputDto;
@@ -10,7 +10,7 @@ use Sherl\Sdk\Common\Dto\ViewOutputDto;
 class FindAdvertisementsOutputDto extends Pagination
 {
     /**
-     * @var AdvertisementOutputDto[]
+     * @var array<AdvertisementOutputDto>
      * @Serializer\Type("array<Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementOutputDto>")
      */
     public $results;

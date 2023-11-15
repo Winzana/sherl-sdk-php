@@ -5,15 +5,25 @@ namespace Sherl\Sdk\Shop\Order\Dto;
 use JMS\Serializer\Annotation as Serializer;
 
 use Sherl\Sdk\Organization\Dto\OrganizationOutputDto;
+
 use Sherl\Sdk\Person\Dto\PersonOutputDto;
-use Sherl\Sdk\Shop\Product\Dto;
+
+use Sherl\Sdk\Shop\Discount\Dto\DiscountOutputDto;
+
 use Sherl\Sdk\Shop\Order\Dto\OrderItemDto;
 use Sherl\Sdk\Shop\Order\Dto\OrderStatusHistoryDto;
+use Sherl\Sdk\Shop\Order\Dto\PaymentOutputDto;
+use Sherl\Sdk\Shop\Order\Dto\OrderComissionDto;
+use Sherl\Sdk\Shop\Order\Dto\ShopOrderRefundDto;
 
-use Sherl\Sdk\Shop\Product\Enum;
-use Sherl\Sdk\Shop\Order\Enum;
+use Sherl\Sdk\Shop\Order\Enum\OrderStatusEnum;
+use Sherl\Sdk\Shop\Order\Enum\ShopMeansOfPaymentEnum;
 
-use Sherl\Sdk\Place\Dto\AddressOutputDto
+use Sherl\Sdk\Shop\Product\Enum\ShopProductType;
+use Sherl\Sdk\Shop\Product\Dto\OfferDto;
+
+use Sherl\Sdk\Place\Dto\AddressOutputDto;
+
 
 class OrderResponse
 {
@@ -47,14 +57,14 @@ class OrderResponse
     public $customer;
 
         /**
-     * @var number
-     * @Serializer\Type("number")
+     * @var integer
+     * @Serializer\Type("integer")
      */
     public $orderNumber;
 
             /**
-     * @var number
-     * @Serializer\Type("number")
+     * @var integer
+     * @Serializer\Type("integer")
      */
     public $orderNumberOfDay;
 
@@ -71,60 +81,60 @@ class OrderResponse
     public $type;
 
     /** @var ShopMeansOfPaymentEnum
-    * @Serializer\Type("Sherl\Sdk\Shop\Dto\ShopBasketAddProductScheduleInputDto")
+    * @Serializer\Type("Sherl\Sdk\Shop\Order\Enum\ShopMeansOfPaymentEnum")
     */
    public $meansOfPayment;
 
-   /** @var array
+   /** @var array<PaymentOutputDto>
    * @Serializer\Type("array<Sherl\Sdk\Shop\Order\Dto\PaymentOutputDto>")
    */
   public $payments;
 
       /**
-     * @var array
-     * @Serializer\Type("array<Sherl\Sdk\Shop\Product\OfferDto>")
+     * @var array<OfferDto>
+     * @Serializer\Type("array<Sherl\Sdk\Shop\Product\Dto\OfferDto>")
      */
     public $acceptedOffer;
 
     /**
-     * @var number
-     * @Serializer\Type("number")
+     * @var float
+     * @Serializer\Type("float")
      */
     public $price;
 
         /**
-     * @var number
-     * @Serializer\Type("number")
+     * @var float
+     * @Serializer\Type("float")
      */
     public $priceTaxIncluded;
 
         /**
-     * @var number
-     * @Serializer\Type("number")
+     * @var float
+     * @Serializer\Type("float")
      */
     public $priceAdvancePayment;
 
         /**
-     * @var number
-     * @Serializer\Type("number")
+     * @var float
+     * @Serializer\Type("float")
      */
     public $priceCommission;
 
         /**
-     * @var number
-     * @Serializer\Type("number")
+     * @var float
+     * @Serializer\Type("float")
      */
     public $priceTaxIncludedWithCommission;
 
         /**
-     * @var number
-     * @Serializer\Type("number")
+     * @var float
+     * @Serializer\Type("float")
      */
     public $priceToPay;
 
         /**
-     * @var number
-     * @Serializer\Type("number")
+     * @var float
+     * @Serializer\Type("float")
      */
     public $numberOfCredit;
 
@@ -147,14 +157,14 @@ class OrderResponse
     public $orderStatusHistory;
 
     /**
-     * @var IOrderCommission ----
-     * @Serializer\Type(IOrderCommission)
+     * @var OrderComissionDto
+     * @Serializer\Type("Sherl\Sdk\Shop\Order\Dto\OrderComissionDto")
      */
-    public commission;
+    public $commission;
 
     /**
-     * @var array IShopOrderRefund ----
-     * @Serializer\Type("array<IShopOrderRefund>")
+     * @var array<ShopOrderRefundDto>
+     * @Serializer\Type("array<Sherl\Sdk\Shop\Order\Dto\ShopOrderRefundDto>")
      */
     public $refunds;
 
@@ -168,41 +178,41 @@ class OrderResponse
      * @var string
      * @Serializer\Type("string")
      */
-    public $sponsorshipCode:;
+    public $sponsorshipCode;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public discountCode: string;
+    public $discountCode;
 
         /**
-     * @var array IDiscount ----
-     * @Serializer\Type("array<IDiscount>")
+     * @var array<DiscountOutputDto>
+     * @Serializer\Type("array<Sherl\Sdk\Shop\Discount\Dto\DiscountOutputDto>")
      */
-    public discountToUsefull;
+    public $discountToUsefull;
 
         /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
-    public subscriptionBeginDate;
+    public $subscriptionBeginDate;
 
             /**
      * @var boolean
      * @Serializer\Type("boolean")
      */
-    public isFreeTrial: boolean;
+    public $isFreeTrial;
 
             /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
-    public createdAt;
+    public $createdAt;
 
             /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
-    public updatedAt;
+    public $updatedAt;
 }

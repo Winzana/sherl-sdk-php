@@ -3,9 +3,13 @@
 namespace Sherl\Sdk\Shop\Advertisement\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
-use Sherl\Sdk\Shop\Enum\DisplayZoneEnum;
 
-class AdvertismentOutputDto
+use Sher\Sdk\Media\Dto\MediaObjectOutputDto;
+
+use Sherl\Sdk\Shop\Advertisement\Enum\DisplayZoneEnum;
+use Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementTranslationOutputDto;
+
+class AdvertisementOutputDto
 {
     /**
      * @var string
@@ -31,7 +35,7 @@ class AdvertismentOutputDto
     public $description;
 
     /**
-     * @var array
+     * @var array<DisplayZoneEnum>
      * @Serializer\Type("array<Sherl\Sdk\Shop\Enum\DisplayZoneEnum>")
      */
     public $displayZones;
@@ -55,13 +59,13 @@ class AdvertismentOutputDto
     public $redirectUrl;
 
     /**
-     * @var string
+     * @var MediaObjectOutputDto
      * @Serializer\Type("Sher\Sdk\Media\Dto\MediaObjectOutputDto")
      */
     public $backgroundImage;
 
     /**
-     * @var array
+     * @var array<AdvertisementTranslationOutputDto>
      * @Serializer\Type("array<Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementTranslationOutputDto>")
      */
     public $translations;

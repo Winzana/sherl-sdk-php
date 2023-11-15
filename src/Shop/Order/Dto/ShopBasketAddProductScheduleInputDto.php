@@ -4,18 +4,17 @@ namespace Sherl\Sdk\Shop\Order\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class OrderItemProductScheduteDto
+class ShopBasketAddProductScheduleInputDto
 {
     /**
-       * @var DateTime
-       * @Serializer\Type("DateTime")
-    */
+     * @var string
+     * @Serializer\Type("string")
+     */
     public $allowedFromDate;
 
-
     /**
-     * @var DateTime
-     * @Serializer\Type("DateTime")
-  */
+     * @var string
+     * @Serializer\Type("string")
+     */
     public $allowedUntilDate;
 }

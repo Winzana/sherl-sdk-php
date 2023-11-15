@@ -127,32 +127,32 @@ class DiscountOutputDto
     public $quantityPerUser;
 
     /**
-     * @var string[]
+     * @var array<string>
      * @Serializer\Type("array<string>")
      */
     public $customers;
 
     /**
-     * @var ProductRestrictionOutputDto[]
+     * @var array<ProductRestrictionOutputDto>
      * @Serializer\Type("array<Sherl\Sdk\Shop\Discount\Dto\ProductRestrictionOutputDto>")
      */
     public $productRestrictions;
 
     /**
-     * @var DateRestrictionOutputDto[]
+     * @var array<DateRestrictionOutputDto>
      * @Serializer\Type("array<Sherl\Sdk\Shop\Discount\Dto\DateRestrictionOutputDto>")
      */
     public $dateRestrictions;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
     public $createdAt;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
     public $updatedAt;
 }

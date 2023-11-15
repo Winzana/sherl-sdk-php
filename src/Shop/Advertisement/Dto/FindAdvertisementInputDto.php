@@ -15,7 +15,7 @@ class FindAdvertisementInputDto extends PaginationFilterInputDto
     public $displayDeleted;
 
     /**
-     * @var array
+     * @var array<DisplayZoneEnum>
      * @Serializer\Type("array<Sherl\Sdk\Shop\Enum\DisplayZoneEnum>")
      */
     public $displayZones;
@@ -45,7 +45,7 @@ class FindAdvertisementInputDto extends PaginationFilterInputDto
     public $panel;
 
     /**
-     * @var array
+     * @var array<string>
      * @Serializer\Type("array<string>")
      */
     public $uriOfPanels;

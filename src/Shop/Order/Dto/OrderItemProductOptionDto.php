@@ -2,7 +2,7 @@
 
 namespace Sherl\Sdk\Shop\Order\Dto;
 
-use Sherl\Sdk\Place\Dto\AddressOutputDto;
+use Sherl\Sdk\Shop\Order\Dto\OrderItemProductOptionItemDto;
 
 use JMS\Serializer\Annotation as Serializer;
 

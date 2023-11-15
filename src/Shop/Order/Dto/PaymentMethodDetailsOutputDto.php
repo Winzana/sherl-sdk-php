@@ -4,6 +4,8 @@ namespace Sherl\Sdk\Shop\Order\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
+use Sherl\Sdk\Shop\Order\Dto\CardOutputDto;
+
 class PaymentMethodDetailOutputDto
 {
     /**

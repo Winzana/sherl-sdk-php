@@ -10,6 +10,12 @@ use Psr\Http\Message\ResponseInterface;
 use Sherl\Sdk\Common\Error\SherlException;
 use Sherl\Sdk\Common\SerializerFactory;
 
+use Sherl\Sdk\Shop\Advertisement\Dto\CreateAdvertisementInputDto;
+use Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementOutputDto;
+use Sherl\Sdk\Shop\Advertisement\Dto\FindAdvertisementInputDto;
+use Sherl\Sdk\Shop\Advertisement\Dto\FindAdvertisementsOutputDto;
+
+
 class ShopProvider
 {
     public const DOMAIN = "Shop";
@@ -26,7 +32,7 @@ class ShopProvider
         throw new SherlException(ShopProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
 
-    public function createAdvertisement(CreateAdvertisementInputDto $createAdvertisement): ?AdvertismentOutputDto
+    public function createAdvertisement(CreateAdvertisementInputDto $createAdvertisement): ?AdvertisementOutputDto
     {
 
 
@@ -43,13 +49,13 @@ class ShopProvider
               'name' => $createAdvertisement->name,
               'redirectUrl' => $createAdvertisement->redirectUrl,
               'translations' => $createAdvertisement->translations,
-              'metadatas' => $createAdvertisment->metadatas
+              'metadatas' => $createAdvertisement->metadatas
             ]
       ]
         );
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlClaimException($response);
+            return $this->throwSherlShopException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -59,7 +65,7 @@ class ShopProvider
         );
     }
 
-    public function updateAdvertisement(string $advertisementId, CreateAdvertisementInputDto $updateAdvertisement): ?AdvertismentOutputDto
+    public function updateAdvertisement(string $advertisementId, CreateAdvertisementInputDto $updateAdvertisement): ?AdvertisementOutputDto
     {
         $response = $this->client->put(
             "/api/shop/advertisements/:" + $advertisementId,
@@ -79,7 +85,7 @@ class ShopProvider
         );
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlClaimException($response);
+            return $this->throwSherlShopException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -89,7 +95,7 @@ class ShopProvider
         );
     }
 
-    public function deleteAdvertisement(string $advertisementId): ?boolean
+    public function deleteAdvertisement(string $advertisementId): ?bool
     {
         $response = $this->client->delete(
             "/api/shop/advertisements/$advertisementId",
@@ -102,7 +108,7 @@ class ShopProvider
         );
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlClaimException($response);
+            return $this->throwSherlShopException($response);
         }
 
         return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
@@ -120,7 +126,7 @@ class ShopProvider
         );
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlClaimException($response);
+            return $this->throwSherlShopException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -130,7 +136,7 @@ class ShopProvider
         );
     }
 
-    public function getAdvertisements(FindAdvertisementInptuDto $filter): ?FindAdvertisementsOutputDto
+    public function getAdvertisements(FindAdvertisementInputDto $filter): ?FindAdvertisementsOutputDto
     {
         $response = $this->client->get(
             "/api/shop/advertisements",
@@ -142,7 +148,7 @@ class ShopProvider
         );
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlClaimException($response);
+            return $this->throwSherlShopException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -152,7 +158,7 @@ class ShopProvider
         );
     }
 
-    public function getPublicAdvertisements(FindAdvertisementInptuDto $filter): ?FindAdvertisementsOutputDto
+    public function getPublicAdvertisements(FindAdvertisementInputDto $filter): ?FindAdvertisementsOutputDto
     {
         $response = $this->client->get(
             "/api/public/shop/advertisements",
@@ -164,7 +170,7 @@ class ShopProvider
         );
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlClaimException($response);
+            return $this->throwSherlShopException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -188,7 +194,7 @@ class ShopProvider
         );
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlClaimException($response);
+            return $this->throwSherlShopException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(

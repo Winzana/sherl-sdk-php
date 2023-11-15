@@ -4,10 +4,11 @@ namespace Sherl\Sdk\Shop\Order\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-use Sherl\Sdk\Organization\Dto\OrganizationOutputDto;
 use Sherl\Sdk\Person\Dto\PersonOutputDto;
-use Sherl\Sdk\Shop\Product\Enum;
-use Sherl\Sdk\Shop\Order\Enum;
+use Sherl\Sdk\Shop\Order\Dto\ExchangeValueOutputDto;
+use Sherl\Sdk\Shop\Order\Dto\BillingOutputDto;
+use Sherl\Sdk\Shop\Order\Dto\PaymentMethodDetailsOutputDto;
+use Sherl\Sdk\Shop\Order\Dto\OrderRefundsOutputDto;
 
 class PaymentOutputDto
 {
@@ -32,43 +33,43 @@ class PaymentOutputDto
      * @var string
      * @Serializer\Type("string")
      */
-    pubic $customerUri;
+    public $customerUri;
 
         /**
      * @var PersonOutputDto
      * @Serializer\Type("Sherl\Sdk\Person\Dto\PersonOutputDto")
      */
-    pubic $customer;
+    public $customer;
 
         /**
      * @var string
      * @Serializer\Type("string")
      */
-    pubic $organizationUri;
+    public $organizationUri;
 
         /**
      * @var string
      * @Serializer\Type("string")
      */
-    pubic $Id;
+    public $Id;
 
         /**
      * @var DateTime
      * @Serializer\Type("DateTime")
      */
-    pubic $CreationDate;
+    public $CreationDate;
 
         /**
      * @var string
      * @Serializer\Type("string")
      */
-    pubic $Tag;
+    public $Tag;
 
         /**
      * @var ExchangeValueOutputDto
      * @Serializer\Type("Sherl\Sdk\Shop\Order\Dto\ExchangeValueOutputDto")
      */
-    pubic $DebitedFunds;
+    public $DebitedFunds;
 
         /**
      * @var ExchangeValueOutputDto
@@ -86,7 +87,7 @@ class PaymentOutputDto
      * @var string
      * @Serializer\Type("string")
      */
-    public $public $DebitedWalletId;
+    public $DebitedWalletId;
 
         /**
      * @var string
@@ -294,7 +295,7 @@ class PaymentOutputDto
     public $payment_method;
     /**
      * @var PaymentMethodDetailsOutputDto
-     * @Serializer\Type("Sherl\Sdk\Shop\Order\PaymentMethodDetailsOutputDto")
+     * @Serializer\Type("Sherl\Sdk\Shop\Order\Dto\PaymentMethodDetailsOutputDto")
      */
     public $payment_method_details;
     /**
@@ -318,8 +319,8 @@ class PaymentOutputDto
      */
     public $refunded;
     /**
-     * @var RefundsOutputDto
-     * @Serializer\Type("Sherl\Sdk\Shop\OrderRefundsOutputDto")
+     * @var OrderRefundsOutputDto
+     * @Serializer\Type("Sherl\Sdk\Shop\Dto\OrderRefundsOutputDto")
      */
     public $refunds;
     /**
