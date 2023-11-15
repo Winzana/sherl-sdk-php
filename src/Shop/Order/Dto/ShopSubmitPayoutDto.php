@@ -4,15 +4,15 @@ namespace Sherl\Sdk\Shop\Order\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class ExchangeValueOutputDto
+class ShopSubmitPayoutDto
 {
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $currency;
+    public $organizationUri;
 
-    /**
+        /**
      * @var float
      * @Serializer\Type("float")
      */

@@ -10,19 +10,19 @@ class RefundsOutputDto
      * @var string
      * @Serializer\Type("string")
      */
-    public $object: string;
+    public $object;
 
     /**
-     * @var array
+     * @var array<mixed>
      * @Serializer\Type("array<mixed>")
      */
-    public $data: any[];
+    public $data;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var boolean
+     * @Serializer\Type("boolean")
      */
-    public $has_more: boolean;
+    public $has_more;
 
     /**
      * @var string

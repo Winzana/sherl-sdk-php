@@ -6,39 +6,39 @@ use JMS\Serializer\Annotation as Serializer;
 
 class OrderStatusHistoryDto
 {
-  /**
-     * @var string
-     * @Serializer\Type("string")
+    /**
+       * @var string
+       * @Serializer\Type("string")
+    */
+    public $id;
+    /**
+       * @var string
+       * @Serializer\Type("string")
+    */
+    public $message;
+    /**
+      * @var integer
+      * @Serializer\Type("integer")
   */
-  public $id;
-  /**
-     * @var string
-     * @Serializer\Type("string")
+    public $status;
+    /**
+      * @var string
+      * @Serializer\Type("string")
   */
-  public $message;
-   /**
-     * @var integer
-     * @Serializer\Type("integer")
+    public $userUri;
+    /**
+      * @var DateTime
+      * @Serializer\Type("DateTime")
   */
-  public $status;
-   /**
-     * @var string
-     * @Serializer\Type("string")
+    public $createdAt;
+    /**
+      * @var float
+      * @Serializer\Type("float")
   */
-  public $userUri;
-   /**
-     * @var DateTime
-     * @Serializer\Type("DateTime")
+    public $latitude;
+    /**
+      * @var float
+      * @Serializer\Type("float")
   */
-  public $createdAt;
-   /**
-     * @var float
-     * @Serializer\Type("float")
-  */
-  public $latitude;
-   /**
-     * @var float
-     * @Serializer\Type("float")
-  */
-  public $longitude;
+    public $longitude;
 }

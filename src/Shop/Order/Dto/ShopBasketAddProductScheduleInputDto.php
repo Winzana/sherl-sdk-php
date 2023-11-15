@@ -4,17 +4,17 @@ namespace Sherl\Sdk\Shop\Order\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class ExchangeValueOutputDto
+class ShopBasketAddProductScheduleInputDto
 {
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $currency;
+    public $allowedFromDate;
 
     /**
-     * @var float
-     * @Serializer\Type("float")
+     * @var string
+     * @Serializer\Type("string")
      */
-    public $amount;
+    public $allowedUntilDate;
 }
