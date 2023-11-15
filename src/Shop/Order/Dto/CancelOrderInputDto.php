@@ -12,7 +12,7 @@ class CancelOrderInputDto
      */
     public $allowedFromDate;
 
-        /**
+    /**
      * @var string
      * @Serializer\Type("string")
      */

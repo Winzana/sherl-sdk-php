@@ -12,7 +12,7 @@ class ShopBasketValidatePaymentInputDto
      */
     public $orderId;
 
-        /**
+    /**
      * @var string
      * @Serializer\Type("string")
      */

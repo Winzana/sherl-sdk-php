@@ -12,7 +12,7 @@ class DateRestrictionOutputDto
      */
     public $from;
 
-        /**
+    /**
      * @var DateTime
      * @Serializer\Type("DateTime")
      */

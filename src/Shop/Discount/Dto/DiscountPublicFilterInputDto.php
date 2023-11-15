@@ -4,7 +4,6 @@ namespace Sherl\Sdk\Shop\Discount\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-
 class DiscountPublicFilterInputDto
 {
     /**
@@ -13,12 +12,12 @@ class DiscountPublicFilterInputDto
      */
     public $ownerUri;
 
-       /**
+    /**
      * @var DateTime
      * @Serializer\Type("DateTime")
      */
     public $availableFrom;
-       /**
+    /**
      * @var DateTime
      * @Serializer\Type("DateTime")
      */

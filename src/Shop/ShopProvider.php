@@ -15,6 +15,14 @@ use Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementOutputDto;
 use Sherl\Sdk\Shop\Advertisement\Dto\FindAdvertisementInputDto;
 use Sherl\Sdk\Shop\Advertisement\Dto\FindAdvertisementsOutputDto;
 
+// PRODUCT
+use Sherl\Sdk\Shop\Product\Dto\CategoryOutputDto;
+use Sherl\Sdk\Shop\Product\Dto\ShopProductCategoryCreateInputDto;
+use Sherl\Sdk\Shop\Product\Dto\CommentDto;
+use Sherl\Sdk\Shop\Product\Dto\ProductOutputDto;
+use Sherl\Sdk\Shop\Product\Dto\ShopProductSubCategoryCreateInputDto;
+use Sherl\Sdk\Shop\Product\Dto\ShopProductCategoryFindByQuery;
+use Sherl\Sdk\Shop\Product\Dto\PublicCategoryAndSubCategoryFindByDto;
 
 class ShopProvider
 {
@@ -203,105 +211,708 @@ class ShopProvider
             'json'
         );
     }
-// order
+    // order
     public function cancelOrder(string $orderId, CancelOrderInputDto $cancelOrderDates): ?OrderResponse
-{
-    $response = $this->client->post(
-        "/api/shop/orders/{$orderId}/cancel",
-        [
-            "headers" => [
-                "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => $cancelOrderDates
-        ]
-    );
-    if ($response->getStatusCode() >= 300) {
-        return $this->throwSherlShopException($response);
+    {
+        $response = $this->client->post(
+            "/api/shop/orders/{$orderId}/cancel",
+            [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => $cancelOrderDates
+            ]
+        );
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            OrderResponse::class,
+            'json'
+        );
     }
 
-    return SerializerFactory::getInstance()->deserialize(
-        $response->getBody()->getContents(),
-        OrderResponse::class,
-        'json'
-    );
-}
+    public function getOrder(string $orderId): ?OrderResponse
+    {
+        $response = $this->client->get("/api/shop/orders/{$orderId}");
 
-public function getOrder(string $orderId): ?OrderResponse
-{
-    $response = $this->client->get("/api/shop/orders/{$orderId}");
+        if ($response->getStatusCode() != 200) {
+            return $this->throwSherlShopException($response);
+        }
 
-    if ($response->getStatusCode() != 200) {
-        return $this->throwSherlShopException($response);
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            OrderResponse::class,
+            'json'
+        );
     }
 
-    return SerializerFactory::getInstance()->deserialize(
-        $response->getBody()->getContents(),
-        OrderResponse::class,
-        'json'
-    );
-}
+    public function getOrders(OrderFindByDto $filters): ?Pagination
+    {
 
-public function getOrders(OrderFindByDto $filters): ?Pagination
-{
-
-    $response = $this->client->get("/api/shop/orders", [
-        'query' => $filters
-    ]);
-
-    if ($response->getStatusCode() != 200) {
-        return $this->throwSherlShopException($response);
-    }
-
-    return SerializerFactory::getInstance()->deserialize(
-        $response->getBody()->getContents(),
-        Pagination::class,
-        'json'
-    );
-}
-public function getOrganizationOrders(string $organizationId, OrderFindByDto $filters): ?Pagination
-{
-
-    $response = $this->client->get(
-        "/api/shop/orders/list-to/{$organizationId}",
-        [
-            "headers" => [
-                "Content-Type" => "application/json",
-            ],
+        $response = $this->client->get("/api/shop/orders", [
             'query' => $filters
-        ]
-    );
+        ]);
 
-    if ($response->getStatusCode() != 200) {
-        return $this->throwSherlShopException($response);
+        if ($response->getStatusCode() != 200) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            Pagination::class,
+            'json'
+        );
+    }
+    public function getOrganizationOrders(string $organizationId, OrderFindByDto $filters): ?Pagination
+    {
+
+        $response = $this->client->get(
+            "/api/shop/orders/list-to/{$organizationId}",
+            [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                'query' => $filters
+            ]
+        );
+
+        if ($response->getStatusCode() != 200) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            Pagination::class,
+            'json'
+        );
+    }
+    public function updateOrderStatus(string $orderId, OrderStatusEnum $status): ?OrderResponse
+    {
+        $response = $this->client->post(
+            "/api/shop/orders/{$orderId}/status/:status",
+            [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => ['status' => $status]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            OrderResponse::class,
+            'json'
+        );
     }
 
-    return SerializerFactory::getInstance()->deserialize(
-        $response->getBody()->getContents(),
-        Pagination::class,
-        'json'
-    );
-}
-public function updateOrderStatus(string $orderId, OrderStatusEnum $status): ?OrderResponse
-{
-    $response = $this->client->post(
-        "/api/shop/orders/{$orderId}/status/:status",
-        [
+    // PRODUCT
+    public function addCategoryOrganization(ShopProductCategoryCreateInputDto $category): ?CategoryOutputDto
+    {
+        $response = $this->client->post(
+            "/api/shop/products/categories",
+            [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => ['category' => $category]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            CategoryOutputDto::class,
+            'json'
+        );
+    }
+
+    public function addCommentOnProduct(AddCommentOnProductDto $productComment): ?CommentDto
+    {
+        $response = $this->client->post(
+            "/api/shop/products/comments",
+            [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => ['productComment' => $productComment]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            CommentDto::class,
+            'json'
+        );
+    }
+
+    public function addOptionToProduct(string $productId, mixed $option): ?ProductOutputDto
+    {
+        $response = $this->client->post(
+            "/api/shop/products/$productId/options",
+            [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["productId" => $productId],
+                RequestOptions::JSON => ['option' => $option]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            ProductOutputDto::class,
+            'json'
+        );
+    }
+
+    public function addLikeToProduct(string $productId): ?integer
+    {
+        $response = $this->client->post(
+            "/api/shop/products/$productId/like",
+            [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["productId" => $productId]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            integer,
+            'json'
+        );
+    }
+
+    public function addProductViews(string $productId): ?integer
+    {
+        $response = $this->client->post(
+            "/api/shop/products/$productId/views",
+            [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["productId" => $productId]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            integer,
+            'json'
+        );
+    }
+
+    public function addSubCategoryToCategory(string $categoryId, ShopProductSubCategoryCreateInputDto $subCategory): ?CategoryOutputDto
+    {
+        $response = $this->client->post(
+            "/api/shop/products/categories/$categoryId",
+            [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["categoryId" => $categoryId],
+                RequestOptions::JSON => ['subCategory' => $subCategory]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            CategoryOutputDto::class,
+            'json'
+        );
+    }
+
+    public function deleteCategory(string $categoryId): ?CategoryOutputDto
+    {
+        $response = $this->client->delete(
+            "/api/shop/products/categories/$categoryId",
+            [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["categoryId" => $categoryId]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            CategoryOutputDto::class,
+            'json'
+        );
+    }
+
+    public function removeProductOption(string $productId, string $optionId): ?ProductOutputDto
+    {
+        $response = $this->client->delete(
+            "/api/shop/products/$productId/options/$optionId",
+            [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => [
+                    "categoryId" => $categoryId,
+                    "optionId" => $optionId
+                ]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            ProductOutputDto::class,
+            'json'
+        );
+    }
+
+    public function updateCategory(string $categoryId, ShopProductCategoryCreateInputDto $updatedCategory): ?CategoryOutputDto
+    {
+        $response = $this->client->put(
+            "/api/shop/products/categories/$categoryId",
+            [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["categoryId" => $categoryId],
+                RequestOptions::JSON => ['updatedCategory' => $updatedCategory]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            CategoryOutputDto::class,
+            'json'
+        );
+    }
+
+    public function getCategories(ShopProductCategoryFindByQuery $filters): ?CategoryOutputDto
+    {
+        $response = $this->client->get(
+            "/api/shop/products/categories/all",
+            [
             "headers" => [
                 "Content-Type" => "application/json",
             ],
-            RequestOptions::JSON => ['status' => $status]
-        ]
-    );
+            ]
+        );
 
-    if ($response->getStatusCode() >= 300) {
-        return $this->throwSherlShopException($response);
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            CategoryOutputDto::class,
+            'json'
+        );
     }
 
-    return SerializerFactory::getInstance()->deserialize(
-        $response->getBody()->getContents(),
-        OrderResponse::class,
-        'json'
-    );
+    public function getCategoryById(string $categoryId): ?CategoryOutputDto
+    {
+        $response = $this->client->get(
+            "/api/shop/products/categories/$categoryId",
+            [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::QUERY => ["categoryId" => $categoryId]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            CategoryOutputDto::class,
+            'json'
+        );
+    }
+
+    public function getOrganizationCategories(string $organizationId): ?CategoryOutputDto
+    {
+        $response = $this->client->get(
+            "/api/shop/products/categories", // TODO: CHECK ROUTE
+            [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::QUERY => ["categoryId" => $categoryId]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            CategoryOutputDto::class,
+            'json'
+        );
+    }
+
+    public function getOrganizationSubCategories(string $categoryId): ?CategoryOutputDto
+    {
+        $response = $this->client->get(
+            "/api/shop/products/categories/$categoryId",
+            [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::QUERY => ["categoryId" => $categoryId]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            CategoryOutputDto::class,
+            'json'
+        );
+    }
+
+    public function getProductComments(string $productId, FindProductCommentsInputDto $filters): ?CommentDto // TODO: <ISearchResult<IComment>>
+    {
+        $response = $this->client->get(
+            "/api/shop/products/$productId/comments",
+            [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::QUERY => ["productId" => $productId]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            CommentDto::class, // TODO: <ISearchResult<IComment>>
+            'json'
+        );
+    }
+
+    public function getProductLikes(string $productId): ?integer
+    {
+        $response = $this->client->get(
+            "/api/shop/products/$productId/like",
+            [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::QUERY => ["productId" => $productId]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            integer,
+            'json'
+        );
+    }
+
+    public function getProductViews(string $productId): ?integer
+    {
+        $response = $this->client->get(
+            "/api/shop/products/$productId/views",
+            [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::QUERY => ["productId" => $productId]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            integer,
+            'json'
+        );
+    }
+
+    public function getProduct(string $productId): ?ProductResponseDto
+    {
+        $response = $this->client->get(
+            "/api/shop/products/$productId",
+            [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::QUERY => ["productId" => $productId]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            ProductResponseDto::class,
+            'json'
+        );
+    }
+
+    public function getProducts(ProductFindByDto $filters): ?ProductResponseDto //TODO: Pagination<ProductResponseDto>
+    {
+        $response = $this->client->get(
+            "/api/shop/products",
+            [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::JSON => ["filters" => $filters]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            ProductResponseDto::class,
+            'json'
+        );
+    }
+
+    public function getPublicCategoriesAndSub(PublicCategoryAndSubCategoryFindByDto $filters): ?PublicCategoryResponseDto // TODO: PublicCategoryResponseDto[]
+    {
+        $response = $this->client->get(
+            "/api/public/shop/products/categories-and-subcategories",
+            [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::JSON => ["filters" => $filters]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            PublicCategoryResponseDto::class,
+            'json'
+        );
+    }
+
+    public function getPublicCategories(): ?PublicCategoryResponseDto // TODO: PublicCategoryResponseDto[]
+    {
+        $response = $this->client->get(
+            "/api/public/shop/products/categories",
+            [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            PublicCategoryResponseDto::class,
+            'json'
+        );
+    }
+
+    public function getPublicCategoryBySlug(string $slug): ?PublicCategoryResponseDto
+    {
+        $response = $this->client->get(
+            "/api/public/shop/products/categories/find-one-by-slug/$slug",
+            [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::QUERY => ["slug" => $slug]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            PublicCategoryResponseDto::class,
+            'json'
+        );
+    }
+
+    public function getPublicProductBySlug(string $slug): ?PublicProductResponseDto
+    {
+        $response = $this->client->get(
+            "/api/public/shop/products/find-one-by-slug/$slug",
+            [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::QUERY => ["slug" => $slug]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            PublicProductResponseDto::class,
+            'json'
+        );
+    }
+
+    public function getPublicProduct(string $id): ?PublicProductResponseDto
+    {
+        $response = $this->client->get(
+            "/api/public/shop/products/$id",
+            [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::QUERY => ["id" => $id]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            PublicProductResponseDto::class,
+            'json'
+        );
+    }
+
+    public function getPublicProductsWithFilters(ProductFindByDto $filters): ?Pagination // TODO: Pagination<ProductResponseDto>
+    {
+        $response = $this->client->get(
+            "/api/shop/products/public",
+            [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::JSON => ["filters" => $filters]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            Pagination::class,
+            'json'
+        );
+    }
+
+    public function getPublicProducts(ProductFindByDto $filters): ?Pagination // TODO: Pagination<ProductResponseDto>
+    {
+        $response = $this->client->get(
+            "/api/public/shop/products",
+            [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::JSON => ["filters" => $filters]
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            Pagination::class,
+            'json'
+        );
+    }
+
+    public function getUnrestrictedCategories(): ?CategoryOutputDto
+    {
+        $response = $this->client->get(
+            "/api/shop/products/categories/public",
+            [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            CategoryOutputDto::class,
+            'json'
+        );
+    }
 }
     //Payment
     public function deleteCard(string $cardId): ?PersonInputDto
