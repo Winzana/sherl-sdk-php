@@ -303,4 +303,197 @@ public function updateOrderStatus(string $orderId, OrderStatusEnum $status): ?Or
         'json'
     );
 }
+    //Payment
+    public function deleteCard(string $cardId): ?PersonInputDto
+{
+    $response = $this->client->delete("/api/shop/payments/card/{$cardId}");
+
+    if ($response->getStatusCode() >= 300) {
+        return $this->throwSherlShopException($response);
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        PersonInputDto::class,
+        'json'
+    );
+}
+public function requestCredentialsToAddCard(): ?CreditCardDto
+{
+    $response = $this->client->post("/api/shop/payments/request-credentials-to-add-card");
+
+    if ($response->getStatusCode() >= 300) {
+        return $this->throwSherlShopException($response);
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        CreditCardDto::class,
+        'json'
+    );
+}
+public function saveCard(string $cardId, string $token): ?PersonInputDto
+{
+    $response = $this->client->post(
+        "/api/shop/payments/card/{$cardId}/default",
+        [
+            RequestOptions::JSON => ['id' => $cardId, 'token' => $token]
+        ]
+    );
+
+    if ($response->getStatusCode() >= 300) {
+        return $this->throwSherlShopException($response);
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        PersonInputDto::class,
+        'json'
+    );
+}
+public function setDefaultCard(string $cardId): ?PersonInputDto
+{
+    $response = $this->client->post("/api/shop/payments/card/{$cardId}/default");
+
+    if ($response->getStatusCode() >= 300) {
+        return $this->throwSherlShopException($response);
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        PersonInputDto::class,
+        'json'
+    );
+}
+public function validateCard(string $cardId): ?CreditCardDto
+{
+    $response = $this->client->get("/api/shop/payments/validate-card/{$cardId}");
+
+    if ($response->getStatusCode() >= 300) {
+        return $this->throwSherlShopException($response);
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        CreditCardDto::class,
+        'json'
+    );
+}
+//Payout
+public function generatePayout(): ?array
+{
+    $response = $this->client->post("/api/shop/generate-payout");
+
+    if ($response->getStatusCode() >= 300) {
+        return $this->throwSherlShopException($response);
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        'array<PayoutDto>',
+        'json'
+    );
+}
+public function submitPayout(): ?PayoutDto
+{
+    $response = $this->client->post("/api/shop/submit-payout");
+
+    if ($response->getStatusCode() >= 300) {
+        return $this->throwSherlShopException($response);
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        PayoutDto::class,
+        'json'
+    );
+}
+//picture
+public function addPictureToProduct(string $productId, string $mediaId): ?ProductResponseDto
+{
+    $response = $this->client->post(
+        "/api/shop/products/{$productId}/pictures/{$mediaId}",
+        [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::JSON => [
+                'productId' => $productId,
+                'idMedia' => $mediaId,
+            ]
+        ]
+    );
+
+    if ($response->getStatusCode() >= 300) {
+        return $this->throwSherlShopException($response);
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        ProductResponseDto::class,
+        'json'
+    );
+}
+public function removePictureToProduct(string $productId, string $mediaId): ?ProductResponseDto
+{
+    $response = $this->client->delete(
+        "/api/shop/products/{$productId}/pictures/{$mediaId}"
+    );
+
+    if ($response->getStatusCode() >= 300) {
+        return $this->throwSherlShopException($response);
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        ProductResponseDto::class,
+        'json'
+    );
+}
+//subcription
+public function cancelSubscription(string $subscriptionId): ?SubscriptionOutputDto
+{
+    $response = $this->client->post(
+        "/api/shop/subscriptions/{$subscriptionId}/cancel",
+        [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::JSON => []
+        ]
+    );
+
+    if ($response->getStatusCode() >= 300) {
+        return $this->throwSherlShopException($response);
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        SubscriptionOutputDto::class,
+        'json'
+    );
+}
+public function getSubscriptionFindOneBy(SubscriptionFindOnByDto $filters): ?SubscriptionOutputDto
+{
+    $response = $this->client->get(
+        "/api/shop/subscriptions/find-one-by", 
+        [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            'query' => $filters
+        ]
+    );
+
+    if ($response->getStatusCode() >= 300) {
+        return $this->throwSherlShopException($response);
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        SubscriptionOutputDto::class,
+        'json'
+    );
+}
+
 }
