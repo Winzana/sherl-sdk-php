@@ -871,54 +871,6 @@ class ShopProvider
 
     // ORDER
 
-    public function cancelOrder(string $id, CancelOrderInputDto $cancelOrderDates): OrderResponse
-    {
-        $response = $this->client->post(
-            "/api/shop/orders/$id/cancel",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              'allowedFromDate' => $cancelOrderDates->allowedFromDate,
-              'allowedFromDate' => $cancelOrderDates->allowedUntilDate,
-            ]
-      ]
-        );
-
-        if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlShopException($response);
-        }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderResponse::class,
-            'json'
-        );
-    }
-
-    public function getOrder(string $id): ?OrderResponse
-    {
-        $response = $this->client->get(
-            "/api/shop/orders/$id",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ]
-  ]
-        );
-
-        if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlShopException($response);
-        }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderResponse::class,
-            'json'
-        );
-    }
-
     public function getOrders(OrderFindInputDto $filter): ?OrderFindOutputDto
     {
         $response = $this->client->get(
@@ -1030,4 +982,41 @@ class ShopProvider
             'json'
         );
     }
+// order
+    public function cancelOrder(string $orderId, CancelOrderInputDto $cancelOrderDates): ?OrderResponse
+{
+    $response = $this->client->post(
+        "/api/shop/orders/{$orderId}/cancel",
+        [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::JSON => $cancelOrderDates
+        ]
+    );
+    if ($response->getStatusCode() >= 300) {
+        return $this->throwSherlShopException($response);
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        OrderResponse::class,
+        'json'
+    );
+}
+
+public function getOrder(string $orderId): ?OrderResponse
+{
+    $response = $this->client->get("/api/shop/orders/{$orderId}");
+
+    if ($response->getStatusCode() != 200) {
+        return $this->throwSherlShopException($response);
+    }
+
+    return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        OrderResponse::class,
+        'json'
+    );
+}
 }
