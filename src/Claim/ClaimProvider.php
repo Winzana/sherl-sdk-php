@@ -119,7 +119,11 @@ class ClaimProvider
               "Content-Type" => "application/json",
             ],
             RequestOptions::QUERY => [
-              'filters' => $filters->filters,
+              'id' => $filters->id,
+              'personId' => $filters->personId,
+              'orderId' => $filters->orderId,
+              'consumerId' => $filters->consumerId,
+              'status' => $filters->status,
               'page' => $filters->page,
               'itemsPerPage' => $filters->itemsPerPage,
             ]
