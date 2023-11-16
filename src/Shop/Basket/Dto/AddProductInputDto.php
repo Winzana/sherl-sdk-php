@@ -40,8 +40,8 @@ class AddProductInputDto
     public $productId;
 
     /**
-     * @var number
-     * @Serializer\Type("string")
+     * @var integer
+     * @Serializer\Type("integer")
      */
     public $orderQuantity;
 

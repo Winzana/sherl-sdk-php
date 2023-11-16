@@ -1,6 +1,6 @@
 <?php
 
-namespace Sherl\Sdk\Shop\Order\Dto;
+namespace Sherl\Sdk\Shop\Loyalty\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 

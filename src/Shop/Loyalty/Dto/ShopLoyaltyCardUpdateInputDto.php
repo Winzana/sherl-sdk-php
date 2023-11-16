@@ -1,12 +1,12 @@
 <?php
 
-namespace Sherl\Sdk\Shop\Order\Dto;
+namespace Sherl\Sdk\Shop\Loyalty\Dto;
 
 use Sherl\Sdk\Shop\Discount\Enum\DiscountType;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class LoyaltyCardFindByDto
+class ShopLoyaltyCardUpdateInputDto
 {
     /**
     * @var float

@@ -7,7 +7,7 @@ use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Shop\Discount\Dto\ProductRestrictionsDto;
 use Sherl\Sdk\Shop\Discount\Dto\DateRestrictionsDto;
 
-class DiscountOutputDto
+class DiscountParameterDto
 {
     /**
      * @var string
