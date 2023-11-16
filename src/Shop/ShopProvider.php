@@ -8,7 +8,7 @@ use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 use Sherl\Sdk\Common\Error\SherlException;
 use Sherl\Sdk\Common\SerializerFactory;
-
+use Sherl\Sdk\Order\Enum\OrderStatus;
 use Sherl\Sdk\Shop\Advertisement\Dto\CreateAdvertisementInputDto;
 use Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementOutputDto;
 use Sherl\Sdk\Shop\Advertisement\Dto\FindAdvertisementInputDto;
@@ -23,12 +23,15 @@ use Sherl\Sdk\Shop\Discount\Dto\DiscountPaginatedResultOutputDto;
 
 use Sherl\Sdk\Shop\Loyalty\Dto\LoyaltyCardDto;
 use Sherl\Sdk\Shop\Loyalty\Dto\LoyaltyCardFindByDto;
-use Sherl\Sdk\Shop\Loyalty\Dto\OrderResponse;
-use Sherl\Sdk\Shop\Loyalty\Dto\ShopBasketValidateAndPayInputDto;
-use Sherl\Sdk\Shop\Loyalty\Dto\ShopBasketValidatePaymentInputDto;
-
 use Sherl\Sdk\Shop\Loyalty\Dto\LoyaltySearchResultOutputDto;
 use Sherl\Sdk\Shop\Loyalty\Dto\ShopLoyaltyCardUpdateInputDto;
+
+use Sherl\Sdk\Shop\Order\Dto\ShopBasketValidateAndPayInputDto;
+use Sherl\Sdk\Shop\Order\Dto\ShopBasketValidatePaymentInputDto;
+use Sherl\Sdk\Shop\Order\Dto\CancelOrderInputDto;
+use Sherl\Sdk\Shop\Order\Dto\OrderResponse;
+use Sherl\Sdk\Shop\Order\Dto\OrderFindInputDto;
+use Sherl\Sdk\Shop\Order\Dto\OrderFindOutputDto;
 
 class ShopProvider
 {
@@ -836,6 +839,7 @@ class ShopProvider
             'json'
         );
     }
+
     public function updateLoyaltyCard(string $cardId, ShopLoyaltyCardUpdateInputDto $updateInfo): ?LoyaltyCardDto
     {
         $response = $this->client->get(
@@ -861,6 +865,168 @@ class ShopProvider
         return SerializerFactory::getInstance()->deserialize(
             $response->getBody()->getContents(),
             LoyaltyCardDto::class,
+            'json'
+        );
+    }
+
+    // ORDER
+
+    public function cancelOrder(string $id, CancelOrderInputDto $cancelOrderDates): OrderResponse
+    {
+        $response = $this->client->post(
+            "/api/shop/orders/$id/cancel",
+            [
+            "headers" => [
+              "Content-Type" => "application/json",
+            ],
+            RequestOptions::JSON => [
+              'allowedFromDate' => $cancelOrderDates->allowedFromDate,
+              'allowedFromDate' => $cancelOrderDates->allowedUntilDate,
+            ]
+      ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            OrderResponse::class,
+            'json'
+        );
+    }
+
+    public function getOrder(string $id): ?OrderResponse
+    {
+        $response = $this->client->get(
+            "/api/shop/orders/$id",
+            [
+            "headers" => [
+              "Content-Type" => "application/json",
+            ]
+  ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            OrderResponse::class,
+            'json'
+        );
+    }
+
+    public function getOrders(OrderFindInputDto $filter): ?OrderFindOutputDto
+    {
+        $response = $this->client->get(
+            "/api/shop/orders",
+            [
+            "headers" => [
+              "Content-Type" => "application/json",
+            ],
+                        RequestOptions::JSON => [
+                          "id" => $filter->id,
+                          "type" => $filter->type,
+                          "q" => $filter->q,
+                          "date" => $filter->date,
+                          "dateRangeMin" => $filter->dateRangeMin,
+                          "dateRangeMax" => $filter->dateRangeMax,
+                          "scheduleDateRangeMin" => $filter->scheduleDateRangeMin,
+                          "scheduleDateRangeMax" => $filter->scheduleDateRangeMax,
+                          "orderNumber" => $filter->orderNumber,
+                          "orderStatus" => $filter->orderStatus,
+                          "orderStatusTab" => $filter->orderStatusTab,
+                          "customerId" => $filter->customerId,
+                          "customerName" => $filter->customerName,
+                          "meansOfPayment" => $filter->meansOfPayment,
+                          "serviceType" => $filter->serviceType,
+                          "amount" => $filter->amount,
+                          "filterByUsage" => $filter->filterByUsage,
+                          "sort" => $filter->sort,
+
+                        ]
+
+  ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            OrderResponse::class,
+            'json'
+        );
+    }
+
+
+    public function getOrganizationOrders(string $organisationId, OrderFindInputDto $filter): ?OrderFindOutputDto
+    {
+        $response = $this->client->get(
+            "/api/shop/orders/list-to/$organisationId",
+            [
+            "headers" => [
+              "Content-Type" => "application/json",
+            ],
+                        RequestOptions::JSON => [
+                          "id" => $filter->id,
+                          "type" => $filter->type,
+                          "q" => $filter->q,
+                          "date" => $filter->date,
+                          "dateRangeMin" => $filter->dateRangeMin,
+                          "dateRangeMax" => $filter->dateRangeMax,
+                          "scheduleDateRangeMin" => $filter->scheduleDateRangeMin,
+                          "scheduleDateRangeMax" => $filter->scheduleDateRangeMax,
+                          "orderNumber" => $filter->orderNumber,
+                          "orderStatus" => $filter->orderStatus,
+                          "orderStatusTab" => $filter->orderStatusTab,
+                          "customerId" => $filter->customerId,
+                          "customerName" => $filter->customerName,
+                          "meansOfPayment" => $filter->meansOfPayment,
+                          "serviceType" => $filter->serviceType,
+                          "amount" => $filter->amount,
+                          "filterByUsage" => $filter->filterByUsage,
+                          "sort" => $filter->sort,
+
+                        ]
+
+  ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            OrderResponse::class,
+            'json'
+        );
+    }
+
+    public function updateOrderStatus(string $id, OrderStatus $status): ?OrderFindOutputDto
+    {
+        $response = $this->client->get(
+            "/api/shop/orders/$id/status/$status",
+            [
+            "headers" => [
+              "Content-Type" => "application/json",
+            ],
+
+  ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            OrderResponse::class,
             'json'
         );
     }
