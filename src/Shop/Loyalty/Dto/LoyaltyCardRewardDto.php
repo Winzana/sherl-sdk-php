@@ -13,22 +13,22 @@ class LoyaltyCardRewardDto
     * @Serializer\Type("float")
     */
     public $requiredValue;
-        /**
+    /**
     * @var DiscountType
     * @Serializer\Type("Sherl\Sdk\Shop\Discount\Enum\DiscountType")
     */
     public $discountType;
-        /**
+    /**
     * @var float
     * @Serializer\Type("float")
     */
     public $amount;
-        /**
+    /**
     * @var float
     * @Serializer\Type("float")
     */
     public $percentage;
-        /**
+    /**
     * @var string
     * @Serializer\Type("string")
     */

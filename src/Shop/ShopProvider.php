@@ -30,7 +30,6 @@ use Sherl\Sdk\Shop\Loyalty\Dto\ShopBasketValidatePaymentInputDto;
 use Sherl\Sdk\Shop\Loyalty\Dto\LoyaltySearchResultOutputDto;
 use Sherl\Sdk\Shop\Loyalty\Dto\ShopLoyaltyCardUpdateInputDto;
 
-
 class ShopProvider
 {
     public const DOMAIN = "Shop";
@@ -295,10 +294,10 @@ class ShopProvider
         }
 
         return SerializerFactory::getInstance()->deserialize(
-          $response->getBody()->getContents(),
-          OrderResponse::class,
-          'json'
-      );
+            $response->getBody()->getContents(),
+            OrderResponse::class,
+            'json'
+        );
     }
 
     public function getBasket(string $customerUri): bool
@@ -320,10 +319,10 @@ class ShopProvider
         }
 
         return SerializerFactory::getInstance()->deserialize(
-          $response->getBody()->getContents(),
-          OrderResponse::class,
-          'json'
-      );
+            $response->getBody()->getContents(),
+            OrderResponse::class,
+            'json'
+        );
     }
 
     public function removeItemFromBasket(string $itemId): bool
@@ -342,10 +341,10 @@ class ShopProvider
         }
 
         return SerializerFactory::getInstance()->deserialize(
-          $response->getBody()->getContents(),
-          OrderResponse::class,
-          'json'
-      );
+            $response->getBody()->getContents(),
+            OrderResponse::class,
+            'json'
+        );
     }
 
     public function addDiscountCodeToBasket(string $code): bool
@@ -368,10 +367,10 @@ class ShopProvider
         }
 
         return SerializerFactory::getInstance()->deserialize(
-          $response->getBody()->getContents(),
-          OrderResponse::class,
-          'json'
-      );
+            $response->getBody()->getContents(),
+            OrderResponse::class,
+            'json'
+        );
     }
 
     public function addSponsorCodeToBasket(string $code): bool
@@ -394,10 +393,10 @@ class ShopProvider
         }
 
         return SerializerFactory::getInstance()->deserialize(
-          $response->getBody()->getContents(),
-          OrderResponse::class,
-          'json'
-      );
+            $response->getBody()->getContents(),
+            OrderResponse::class,
+            'json'
+        );
     }
 
     public function validateAndPayBasket(ShopBasketValidateAndPayInputDto $validation): bool
@@ -422,10 +421,10 @@ class ShopProvider
         }
 
         return SerializerFactory::getInstance()->deserialize(
-          $response->getBody()->getContents(),
-          OrderResponse::class,
-          'json'
-      );
+            $response->getBody()->getContents(),
+            OrderResponse::class,
+            'json'
+        );
     }
 
     public function validatePaymentBasket(ShopBasketValidatePaymentInputDto $validation): bool
@@ -448,10 +447,10 @@ class ShopProvider
         }
 
         return SerializerFactory::getInstance()->deserialize(
-          $response->getBody()->getContents(),
-          OrderResponse::class,
-          'json'
-      );
+            $response->getBody()->getContents(),
+            OrderResponse::class,
+            'json'
+        );
     }
 
     // Discount
@@ -498,7 +497,7 @@ class ShopProvider
         );
     }
 
-    public function updateDiscount(string $discountId,  DiscountParameterDto $discountParameter): ?DiscountOutputDto
+    public function updateDiscount(string $discountId, DiscountParameterDto $discountParameter): ?DiscountOutputDto
     {
 
 
@@ -558,10 +557,10 @@ class ShopProvider
         }
 
         return SerializerFactory::getInstance()->deserialize(
-          $response->getBody()->getContents(),
-          DiscountOutputDto::class,
-          'json'
-      );
+            $response->getBody()->getContents(),
+            DiscountOutputDto::class,
+            'json'
+        );
     }
 
     public function findOneDiscountByParams(DiscountFilterInputDto $filter): ?DiscountOutputDto
@@ -702,167 +701,167 @@ class ShopProvider
             DiscountPaginatedResultOutputDto::class,
             'json'
         );
-}
-
-public function getPublicDiscountsWithFilter(DiscountPublicFilterInputDto $filter): ?DiscountPaginatedResultOutputDto
-{
-    $response = $this->client->get(
-        "/api/shop/advertisements/",
-        [
-        "headers" => [
-          "Content-Type" => "application/json",
-        ],
-                    RequestOptions::JSON => [
-                      "ownerUri" => $filter->ownerUri,
-                      "availableFrom" => $filter->availableFrom,
-                      "availableUntil" => $filter->availableUntil,
-                    ]
-
-  ]
-    );
-
-    if ($response->getStatusCode() >= 300) {
-        return $this->throwSherlShopException($response);
     }
 
-    return SerializerFactory::getInstance()->deserialize(
-        $response->getBody()->getContents(),
-        DiscountPaginatedResultOutputDto::class,
-        'json'
-    );
-}
-
-public function validateDiscountCode(string $code, string $productUri): ?bool
-{
-    $response = $this->client->post(
-        "/api/shop/discounts/validate-code",
-        [
-        "headers" => [
-          "Content-Type" => "application/json",
-        ],
-                    RequestOptions::JSON => [
-                      "code" => $code,
-                      "productUri" => $productUri,
-                    ]
-  ]
-    );
-
-    if ($response->getStatusCode() >= 300) {
-        return $this->throwSherlShopException($response);
-    }
-
-    return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
-}
-
-// Invoice
-public function sendLinkToPaidOnline(string $invoiceId): bool
-{
-    $response = $this->client->post(
-        "/api/shop/invoices/$invoiceId/send-link-to-payed-online/",
-        [
-        "headers" => [
-          "Content-Type" => "application/json",
-        ],
-  ]
-    );
-
-    if ($response->getStatusCode() >= 300) {
-        return $this->throwSherlShopException($response);
-    }
-
-    return SerializerFactory::getInstance()->deserialize(
-      $response->getBody()->getContents(),
-      OrderResponse::class,
-      'json'
-  );
-}
-
-// Loyalty
-public function getLoyaltiesCardToMe(LoyaltyCardFindByDto $filter): ?LoyaltySearchResultOutputDto
-{
-    $response = $this->client->get(
-        "/api/shop/advertisements/",
-        [
-        "headers" => [
-          "Content-Type" => "application/json",
-        ],
-                    RequestOptions::JSON => [
-                      "id" => $filter->id,
-                      "uri" => $filter->uri,
-                      "ownerUri" => $filter->ownerUri,
-                      "owner" => $filter->owner,
-                      "discountType" => $filter->discountType,
-                      "percentage" => $filter->percentage,
-                      "amount" => $filter->amount,
-                      "amountUsed" => $filter->amountUsed,
-                      "rewards" => $filter->rewards,
-                      "enabled" => $filter->enabled,
-                      "consumerId" => $filter->consumerId,
-                      "createdAt" => $filter->createdAt,
-                      "updatedAt" => $filter->updatedAt,
-                    ]
+    public function getPublicDiscountsWithFilter(DiscountPublicFilterInputDto $filter): ?DiscountPaginatedResultOutputDto
+    {
+        $response = $this->client->get(
+            "/api/shop/advertisements/",
+            [
+            "headers" => [
+              "Content-Type" => "application/json",
+            ],
+                        RequestOptions::JSON => [
+                          "ownerUri" => $filter->ownerUri,
+                          "availableFrom" => $filter->availableFrom,
+                          "availableUntil" => $filter->availableUntil,
+                        ]
 
   ]
-    );
+        );
 
-    if ($response->getStatusCode() >= 300) {
-        return $this->throwSherlShopException($response);
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            DiscountPaginatedResultOutputDto::class,
+            'json'
+        );
     }
 
-    return SerializerFactory::getInstance()->deserialize(
-        $response->getBody()->getContents(),
-        LoyaltySearchResultOutputDto::class,
-        'json'
-    );
-}
-
-public function getOrganizationLoyaltyCard(STRING $organizationId): ?LoyaltyCardDto
-{
-    $response = $this->client->get(
-        "/api/shop/loyalties/organizations/$organizationId",
-        [
-        "headers" => [
-          "Content-Type" => "application/json",
-        ],
+    public function validateDiscountCode(string $code, string $productUri): ?bool
+    {
+        $response = $this->client->post(
+            "/api/shop/discounts/validate-code",
+            [
+            "headers" => [
+              "Content-Type" => "application/json",
+            ],
+                        RequestOptions::JSON => [
+                          "code" => $code,
+                          "productUri" => $productUri,
+                        ]
   ]
-    );
+        );
 
-    if ($response->getStatusCode() >= 300) {
-        return $this->throwSherlShopException($response);
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
     }
 
-    return SerializerFactory::getInstance()->deserialize(
-        $response->getBody()->getContents(),
-        LoyaltyCardDto::class,
-        'json'
-    );
-}
-public function updateLoyaltyCard(string $cardId, ShopLoyaltyCardUpdateInputDto $updateInfo): ?LoyaltyCardDto
-{
-    $response = $this->client->get(
-        "/api/shop/loyalties/$cardId",
-        [
-        "headers" => [
-          "Content-Type" => "application/json",
-        ],
-                    RequestOptions::JSON => [
-                      "amount" => $updateInfo->amount,
-                      "discountType" => $updateInfo->discountType,
-                      "percentage" => $updateInfo->percentage,
-                      "enabled" => $updateInfo->enabled
-                    ]
+    // Invoice
+    public function sendLinkToPaidOnline(string $invoiceId): bool
+    {
+        $response = $this->client->post(
+            "/api/shop/invoices/$invoiceId/send-link-to-payed-online/",
+            [
+            "headers" => [
+              "Content-Type" => "application/json",
+            ],
+  ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            OrderResponse::class,
+            'json'
+        );
+    }
+
+    // Loyalty
+    public function getLoyaltiesCardToMe(LoyaltyCardFindByDto $filter): ?LoyaltySearchResultOutputDto
+    {
+        $response = $this->client->get(
+            "/api/shop/advertisements/",
+            [
+            "headers" => [
+              "Content-Type" => "application/json",
+            ],
+                        RequestOptions::JSON => [
+                          "id" => $filter->id,
+                          "uri" => $filter->uri,
+                          "ownerUri" => $filter->ownerUri,
+                          "owner" => $filter->owner,
+                          "discountType" => $filter->discountType,
+                          "percentage" => $filter->percentage,
+                          "amount" => $filter->amount,
+                          "amountUsed" => $filter->amountUsed,
+                          "rewards" => $filter->rewards,
+                          "enabled" => $filter->enabled,
+                          "consumerId" => $filter->consumerId,
+                          "createdAt" => $filter->createdAt,
+                          "updatedAt" => $filter->updatedAt,
+                        ]
 
   ]
-    );
+        );
 
-    if ($response->getStatusCode() >= 300) {
-        return $this->throwSherlShopException($response);
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            LoyaltySearchResultOutputDto::class,
+            'json'
+        );
     }
 
-    return SerializerFactory::getInstance()->deserialize(
-        $response->getBody()->getContents(),
-        LoyaltyCardDto::class,
-        'json'
-    );
-}
+    public function getOrganizationLoyaltyCard(STRING $organizationId): ?LoyaltyCardDto
+    {
+        $response = $this->client->get(
+            "/api/shop/loyalties/organizations/$organizationId",
+            [
+            "headers" => [
+              "Content-Type" => "application/json",
+            ],
+  ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            LoyaltyCardDto::class,
+            'json'
+        );
+    }
+    public function updateLoyaltyCard(string $cardId, ShopLoyaltyCardUpdateInputDto $updateInfo): ?LoyaltyCardDto
+    {
+        $response = $this->client->get(
+            "/api/shop/loyalties/$cardId",
+            [
+            "headers" => [
+              "Content-Type" => "application/json",
+            ],
+                        RequestOptions::JSON => [
+                          "amount" => $updateInfo->amount,
+                          "discountType" => $updateInfo->discountType,
+                          "percentage" => $updateInfo->percentage,
+                          "enabled" => $updateInfo->enabled
+                        ]
+
+  ]
+        );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlShopException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            LoyaltyCardDto::class,
+            'json'
+        );
+    }
 }

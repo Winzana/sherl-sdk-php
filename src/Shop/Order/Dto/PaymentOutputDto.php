@@ -12,12 +12,12 @@ use Sherl\Sdk\Shop\Order\Dto\OrderRefundsOutputDto;
 
 class PaymentOutputDto
 {
-      /**
+    /**
      * @var string
      * @Serializer\Type("string")
      */
     public $id;
-      /**
+    /**
      * @var string
      * @Serializer\Type("string")
      */
@@ -29,85 +29,85 @@ class PaymentOutputDto
      */
     public $consumerId;
 
-        /**
+    /**
      * @var string
      * @Serializer\Type("string")
      */
     public $customerUri;
 
-        /**
+    /**
      * @var PersonOutputDto
      * @Serializer\Type("Sherl\Sdk\Person\Dto\PersonOutputDto")
      */
     public $customer;
 
-        /**
+    /**
      * @var string
      * @Serializer\Type("string")
      */
     public $organizationUri;
 
-        /**
+    /**
      * @var string
      * @Serializer\Type("string")
      */
     public $Id;
 
-        /**
+    /**
      * @var DateTime
      * @Serializer\Type("DateTime")
      */
     public $CreationDate;
 
-        /**
+    /**
      * @var string
      * @Serializer\Type("string")
      */
     public $Tag;
 
-        /**
+    /**
      * @var ExchangeValueOutputDto
      * @Serializer\Type("Sherl\Sdk\Shop\Order\Dto\ExchangeValueOutputDto")
      */
     public $DebitedFunds;
 
-        /**
+    /**
      * @var ExchangeValueOutputDto
      * @Serializer\Type("Sherl\Sdk\Shop\Order\Dto\ExchangeValueOutputDto")
      */
     public $CreditedFunds;
 
-        /**
+    /**
      * @var ExchangeValueOutputDto
      * @Serializer\Type("Sherl\Sdk\Shop\Order\Dto\ExchangeValueOutputDto")
      */
     public $Fees;
 
-        /**
+    /**
      * @var string
      * @Serializer\Type("string")
      */
     public $DebitedWalletId;
 
-        /**
+    /**
      * @var string
      * @Serializer\Type("string")
      */
     public $CreditedWalletId;
 
-        /**
+    /**
      * @var string
      * @Serializer\Type("string")
      */
     public $AuthorId;
 
-        /**
+    /**
      * @var string
      * @Serializer\Type("string")
      */
     public $CreditedUserId;
 
-        /**
+    /**
      * @var string
      * @Serializer\Type("string")
      */

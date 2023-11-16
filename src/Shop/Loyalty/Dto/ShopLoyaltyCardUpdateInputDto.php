@@ -13,17 +13,17 @@ class ShopLoyaltyCardUpdateInputDto
     * @Serializer\Type("float")
     */
     public $amount;
-        /**
+    /**
     * @var DiscountType
     * @Serializer\Type("Sherl\Sdk\Shop\Discount\Enum\DiscountType")
     */
     public $discountType;
-        /**
+    /**
     * @var float
     * @Serializer\Type("float")
     */
     public $percentage;
-        /**
+    /**
     * @var boolean
     * @Serializer\Type("boolean")
     */

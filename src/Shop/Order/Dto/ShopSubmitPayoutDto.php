@@ -12,7 +12,7 @@ class ShopSubmitPayoutDto
      */
     public $organizationUri;
 
-        /**
+    /**
      * @var float
      * @Serializer\Type("float")
      */

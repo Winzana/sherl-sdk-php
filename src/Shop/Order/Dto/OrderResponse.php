@@ -24,15 +24,14 @@ use Sherl\Sdk\Shop\Product\Dto\OfferDto;
 
 use Sherl\Sdk\Place\Dto\AddressOutputDto;
 
-
 class OrderResponse
 {
-      /**
+    /**
      * @var string
      * @Serializer\Type("string")
      */
     public $id;
-      /**
+    /**
      * @var string
      * @Serializer\Type("string")
      */
@@ -44,7 +43,7 @@ class OrderResponse
      */
     public $consumerId;
 
-        /**
+    /**
      * @var OrganizationOutputDto
      * @Serializer\Type("Sherl\Sdk\Organization\Dto\OrganizationOutputDto")
      */
@@ -56,13 +55,13 @@ class OrderResponse
      */
     public $customer;
 
-        /**
+    /**
      * @var integer
      * @Serializer\Type("integer")
      */
     public $orderNumber;
 
-            /**
+    /**
      * @var integer
      * @Serializer\Type("integer")
      */
@@ -83,14 +82,14 @@ class OrderResponse
     /** @var ShopMeansOfPaymentEnum
     * @Serializer\Type("Sherl\Sdk\Shop\Order\Enum\ShopMeansOfPaymentEnum")
     */
-   public $meansOfPayment;
+    public $meansOfPayment;
 
-   /** @var array<PaymentOutputDto>
-   * @Serializer\Type("array<Sherl\Sdk\Shop\Order\Dto\PaymentOutputDto>")
-   */
-  public $payments;
+    /** @var array<PaymentOutputDto>
+    * @Serializer\Type("array<Sherl\Sdk\Shop\Order\Dto\PaymentOutputDto>")
+    */
+    public $payments;
 
-      /**
+    /**
      * @var array<OfferDto>
      * @Serializer\Type("array<Sherl\Sdk\Shop\Product\Dto\OfferDto>")
      */
@@ -102,37 +101,37 @@ class OrderResponse
      */
     public $price;
 
-        /**
+    /**
      * @var float
      * @Serializer\Type("float")
      */
     public $priceTaxIncluded;
 
-        /**
+    /**
      * @var float
      * @Serializer\Type("float")
      */
     public $priceAdvancePayment;
 
-        /**
+    /**
      * @var float
      * @Serializer\Type("float")
      */
     public $priceCommission;
 
-        /**
+    /**
      * @var float
      * @Serializer\Type("float")
      */
     public $priceTaxIncludedWithCommission;
 
-        /**
+    /**
      * @var float
      * @Serializer\Type("float")
      */
     public $priceToPay;
 
-        /**
+    /**
      * @var float
      * @Serializer\Type("float")
      */
@@ -168,13 +167,13 @@ class OrderResponse
      */
     public $refunds;
 
-        /**
+    /**
      * @var mixed
      * @Serializer\Type("mixed")
      */
     public $metadatas;
 
-            /**
+    /**
      * @var string
      * @Serializer\Type("string")
      */
@@ -186,31 +185,31 @@ class OrderResponse
      */
     public $discountCode;
 
-        /**
+    /**
      * @var array<DiscountOutputDto>
      * @Serializer\Type("array<Sherl\Sdk\Shop\Discount\Dto\DiscountOutputDto>")
      */
     public $discountToUsefull;
 
-        /**
+    /**
      * @var DateTime
      * @Serializer\Type("DateTime")
      */
     public $subscriptionBeginDate;
 
-            /**
+    /**
      * @var boolean
      * @Serializer\Type("boolean")
      */
     public $isFreeTrial;
 
-            /**
+    /**
      * @var DateTime
      * @Serializer\Type("DateTime")
      */
     public $createdAt;
 
-            /**
+    /**
      * @var DateTime
      * @Serializer\Type("DateTime")
      */
