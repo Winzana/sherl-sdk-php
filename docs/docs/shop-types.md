@@ -3,6 +3,62 @@ id: shop-types
 title: Shop types
 ---
 
+### Advertisements
+
+## AdvertisementsOutpuDto
+| Fields           | Type                                                                                 | Description                                                      |
+|------------------|:------------------------------------------------------------------------------------:|------------------------------------------------------------------|
+| id               | string                                                                               | The identifier of the advertisement                              |
+| uri              |                                                                                      | The uri of the advertisment                                      |
+| name             | string                                                                               | The name of the advertisement                                    |
+| description      | string                                                                               | Description of the advertisement                                 |
+| redirectUrl      | string                                                                               | The redirect url                                                 |
+| displayZones     | [DisplayZoneEnum[]](shop-types#displayzoneenum)                                      | Zones to display the advertisement                               |
+| numberOfDisplay  | integer                                                                              | The number of time the advertisements was displayed              |
+| delete           | boolean                                                                              | Indicates if the advertisement is deleted or not                 |
+| backgroundImage  | [MediaObjectOutputDto](shop-types#MediaObjectOutputDto)                              | The background image to display                                  |
+| translations     | [AdvertisementTranslationOutputDto[]](shope-types#AdvertisementTranslationOutputDto) | The translations available for this advertisement.               |
+| version          | integer                                                                              | The version of the advertisement                                 |
+| parentUri        | string                                                                               | Tue uri parent of the advertisement                              |
+| updatedAt        | string                                                                               | Date of the last update of the advertisement                     |
+| createdAt        | string                                                                               | Date of the creation of the advertisement                        |
+| versionCreatedAt | string                                                                               | Date of the creation of the current version of the advertisement |
+| updatedBy        | string                                                                               | The user who updated this version                                |
+| createdBy        | string                                                                               | THe user who created the first veresion of the advertisement     |
+| versionCreatedBy | string                                                                               | The user who created this version                                |
+| metadatas        | mixed                                                                                | TODO                                                             |
+
+## DisplayZoneEnum
+| Value         | Description                          |
+|---------------|--------------------------------------|
+| HOME_PAGE     | Display content on the home page     |
+| MENU          | Display content on the menu          |
+| EVENT_LIST    | Display content on the event list    |
+| MAP_LIST      | Display content on the map list      |
+| LAUNCHSCREEN  | Display content on the launchscreen  |
+| ACTIVITY_FORM | Display content on the activity form |
+
+## AdvertisementTranslationOutputDto
+| Field       | Type     | Description                     |
+|-------------|:--------:|---------------------------------|
+| lang        | string   | The language of the translation |
+| name        | string   | The name of the translation     |
+| description | string[] | Description of the translation  |
+
+## FindAdvertisementInputDto
+
+| Fields             | Type                                               | Required | Description                                    |
+|--------------------|:--------------------------------------------------:|:--------:|------------------------------------------------|
+| displayDeleted     | boolean                                            | :x:      | Display or not deleted advertisements          |
+| displayZones       | [DisplayZoneEnum[]](../shop-types#displayZoneEnum) | :x:      | Display only advertisements in specified zones |
+| shuffle            | boolean                                            | :x:      | Shuffle results                                |
+| q                  | string                                             | :x:      | TODO                                           |
+| displayAllVersions | boolean                                            | :x:      | Display all version or the last one            |
+| panel              | string                                             | :x:      | TODO                                           |
+| uriOfPanels        | string[]                                           | :x:      | TODO                                           |
+| SortBy             | string                                             | :x:      | TODO                                           |
+| sortOrder          | string                                             | :x:      | TODO                                           |
+
 ### Wallet
 
 ## WalletOutputDto

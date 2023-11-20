@@ -49,6 +49,7 @@ class ShopProvider
         throw new SherlException(ShopProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
 
+    // Advertisements
     public function createAdvertisement(CreateAdvertisementInputDto $createAdvertisement): ?AdvertisementOutputDto
     {
 
@@ -131,6 +132,7 @@ class ShopProvider
         return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
 
     }
+    
     public function getAdvertisement(string $advertisementId): ?AdvertisementOutputDto
     {
         $response = $this->client->get(
@@ -303,7 +305,7 @@ class ShopProvider
         );
     }
 
-    public function getBasket(string $customerUri): bool
+    public function getCustomerBasket(string $customerUri): bool
     {
         $response = $this->client->get(
             "/api/shop/baskets",
@@ -327,6 +329,7 @@ class ShopProvider
             'json'
         );
     }
+    
 
     public function removeItemFromBasket(string $itemId): bool
     {

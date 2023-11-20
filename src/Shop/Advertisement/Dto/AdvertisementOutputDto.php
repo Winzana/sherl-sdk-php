@@ -71,13 +71,13 @@ class AdvertisementOutputDto
     public $translations;
 
     /**
-     * @var number
-     * @Serializer\Type("number")
+     * @var integer
+     * @Serializer\Type("integer")
      */
     public $version;
 
     /**
-     * @var number
+     * @var string
      * @Serializer\Type("string")
      */
     public $parentUri;

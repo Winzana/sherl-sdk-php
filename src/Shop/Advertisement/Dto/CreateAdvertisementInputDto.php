@@ -3,7 +3,7 @@
 namespace Sherl\Sdk\Shop\Advertisement\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
-use Sherl\Sdk\Shop\Enum\DisplayZoneEnum;
+use Sherl\Sdk\Shop\Advertisement\Enum\DisplayZoneEnum;
 
 use Sher\Sdk\Media\Dto\MediaObjectOutputDto;
 
@@ -42,8 +42,8 @@ class CreateAdvertisementInputDto
     public $redirectUrl;
 
     /**
-     * @var AdvertisementTranslationOutputDto
-     * @Serializer\Type("Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementTranslationOutputDto")
+     * @var array<AdvertisementTranslationOutputDto>
+     * @Serializer\Type("array<Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementTranslationOutputDto>")
      */
     public $translations;
 

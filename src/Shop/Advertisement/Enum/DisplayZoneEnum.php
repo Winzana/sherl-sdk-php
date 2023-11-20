@@ -1,6 +1,6 @@
 <?php
 
-namespace Sherl\Sdk\Shop\Advertisment\Enum;
+namespace Sherl\Sdk\Shop\Advertisement\Enum;
 
 enum DisplayZoneEnum: string
 {
