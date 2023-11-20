@@ -2,6 +2,8 @@
 use PHPUnit\Framework\TestCase;
 use Sherl\Sdk\Common\SherlClient;
 
+use Sherl\Sdk\Common\Error\SherlException;
+
 class SherlClientTest extends TestCase
 {
     private $sherlClient;
@@ -50,7 +52,7 @@ class SherlClientTest extends TestCase
 
     public function testInitWithInvalidArguments()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(\SherlException::class);
         new SherlClient(null, null, null);
     }
 }
