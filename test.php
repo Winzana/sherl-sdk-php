@@ -35,33 +35,22 @@ class SherlClientTest extends TestCase
     {
         $me = $this->sherlClient->person->getMe();
         $this->assertNotNull($me);
-        // Ajoutez plus d'assertions ici en fonction de ce que vous attendez de la réponse
+        // Ajouter plus d'assertions ?
     }
 
     public function testInitSDK()
     {
-        // Supposons que la méthode init() est une méthode de SherlClient
-        // et retourne des options de configuration
-
         $options = $this->sherlClient->getOptions();
 
         $env = parse_ini_file('.env');
         $this->assertEquals($env['API_KEY'], $options['apiKey']);
         $this->assertEquals($env['API_SECRET'], $options['apiSecret']);
         $this->assertEquals("http://localhost:4200", $options['referer']);
-        
-        // Assurez-vous que la méthode initializeApi a été appelée si nécessaire
-        // Cela peut nécessiter un mock si initializeApi est une méthode externe
     }
 
     public function testInitWithInvalidArguments()
     {
-        $this->expectException(\Exception::class); // Ou une autre exception spécifique
-
-        // Vous devrez adapter cette partie en fonction de la façon dont votre méthode init est implémentée
-        // new SherlClient avec des arguments invalides, par exemple
+        $this->expectException(\Exception::class);
         new SherlClient(null, null, null);
     }
-
-    // Ajoutez d'autres méthodes de test pour les autres fonctionnalités de SherlClient
 }
