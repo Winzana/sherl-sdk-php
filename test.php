@@ -67,4 +67,13 @@ class SherlClientTest extends TestCase
 
       new SherlClient(null, null, null);
     }
+
+    public function testRegisterBearerToken(): void
+{
+    $result = $this->mockAuthProvider->signInWithEmailAndPassword('fake_user', 'fake_pass');
+
+    $this->assertInstanceOf(LoginOutputDto::class, $result);
+    $this->assertEquals('fake_token', $result->access_token);
+}
+
 }
