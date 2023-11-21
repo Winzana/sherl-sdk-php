@@ -20,18 +20,27 @@ class PersonProvider
         $this->client = $client;
     }
 
+    private function throwSherlPersonException(ResponseInterface $response)
+    {
+        throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+    }
+
     public function getMe(): ?PersonOutputDto
     {
-        $response = $this->client->get('/api/persons/me');
-
-        if ($response->getStatusCode() >= 300) {
-            throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
-        }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PersonOutputDto::class,
-            'json'
-        );
+        $response = $this->client->get('/api/persons/me', [
+            "headers" => [
+              "Content-Type" => "application/json",
+            ]
+          ]);
+  
+          if ($response->getStatusCode() >= 300) {
+              return $this->throwSherlPersonException($response);
+          }
+  
+          return SerializerFactory::getInstance()->deserialize(
+              $response->getBody()->getContents(),
+              PersonOutputDto::class,
+              'json'
+          );
     }
 }

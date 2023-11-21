@@ -27,7 +27,7 @@ use Sherl\Sdk\Notification\NotificationProvider;
 
 use Sherl\Sdk\User\UserProvider;
 
-final class SherlClient
+class SherlClient
 {
     private ?Client $client = null;
 
