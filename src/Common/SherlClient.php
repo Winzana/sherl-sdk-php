@@ -90,14 +90,14 @@ class SherlClient
         $this->options->apiUrl = $apiUrl;
         $this->options->referer = $referer;
 
-        // $this->person = new PersonProvider($client);
+        $this->person = new PersonProvider($client);
         $this->auth = new AuthProvider($client);
-        // $this->contact = new ContactProvider($client);
-        // $this->claim = new ClaimProvider($client);
-        // $this->bugReport = new BugReportProvider($client);
-        // $this->account = new AccountProvider($client);
-        // $this->user = new UserProvider($client);
-        // $this->notification = new NotificationProvider($client);
+        $this->contact = new ContactProvider($client);
+        $this->claim = new ClaimProvider($client);
+        $this->bugReport = new BugReportProvider($client);
+        $this->account = new AccountProvider($client);
+        $this->user = new UserProvider($client);
+        $this->notification = new NotificationProvider($client);
     }
 
     public function getClient(): Client
