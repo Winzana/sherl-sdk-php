@@ -7,131 +7,122 @@ title: Basket
 
 <span class="badge badge--warning">Require authentication</span>
 
-```ts
-await shop(client).getCustomerBasket(customerUri: string);
+```php
+$order = $shopClient->getCustomerBasket(customerUri: string)
 ```
 
-This call returns an [IOrderResponse](../shop-types#iorderresponse) object.
+This call returns an [OrderResponse](../shop-types#orderresponse) object.
 
 ## Add product to basket
 
 <span class="badge badge--warning">Require authentication</span>
 
-```ts
-await shop(client).addProductToBasket(product: IShopBasketAddProductInputDto);
+```php
+$order = $shopClient->addProductToBasket(product: AddProductInputDto);
 ```
 
-```ts
-interface IShopBasketAddProductInputDto {
-  organizationUri: string;
-  orderId?: string;
-  latitude?: number;
-  longitude?: number;
-  productId: string;
-  orderQuantity: number;
-  options?: IShopBasketAddProductOptionInputDto[];
-  schedules?: IShopBasketAddProductScheduleInputDto[];
-  offerId?: number;
-  metadatas?: { [key: string]: any };
-  customerUri?: string;
-  isFreeTrial?: boolean;
-}
+<details>
+<summary><b>AddProductInputDto</b></summary>
 
-interface IShopBasketAddProductScheduleInputDto {
-  allowedFromDate: Date;
-  allowedUntilDate: Date;
-}
+| Fields          | Type                                                                                         | Required           | Description                                |
+|-----------------|:--------------------------------------------------------------------------------------------:|:------------------:|--------------------------------------------|
+| organizationUri | string                                                                                       | :white_check_mark: | The identifier of the advertisement        |
+| orderId         | string                                                                                       | :x:                | The uri of the advertisment                |
+| lattitude       | float                                                                                        | :x:                | The name of the advertisement              |
+| longitude       | float                                                                                        | :x:                | TODO                                       |
+| productId       | [OrganizationOutputDto](../shop-types#OrganizationOutputDto)                                 | :white_check_mark: | The organization associated to the order   |
+| orderQuantity   | integer                                                                                      | :white_check_mark: | The customer associated to the order       |
+| options         | [ShopBasketAddProductOptionInputDto[]](../shop-types#ShopBasketAddProductOptionInputDto)     | :x:                | The number of the order                    |
+| schedules       | [ShopBasketAddProductScheduleInputDto[]](../shop-types#ShopBasketAddProductScheduleInputDto) | :x:                | Number of day of the order                 |
+| offerId         | string                                                                                       | :x:                | Type of the order                          |
+| metadatas       | mixed                                                                                        | :x:                | The means of payment  used                 |
+| customerUri     | string                                                                                       | :x:                | Payments associated to the order           |
+| isFreeTrial     | boolean                                                                                      | :x:                | The accepted offer associated to the order |
 
-interface IShopBasketAddProductOptionInputDto {
-  id: string;
-  items?: IShopBasketAddProductOptionItemInputDto[];
-}
+</details>
 
-interface IShopBasketAddProductOptionItemInputDto {
-  name: string;
-  quantity: number;
-}
-```
+This call returns an [OrderResponse](../shop-types#orderresponse) object.
 
 ## Remove product to basket
-
+Removes an item identified by its id from the basket.
 <span class="badge badge--warning">Require authentication</span>
 
-```ts
-await shop(client).removeItemToBasket(itemId: string);
+```php
+$order = $shopClient->removeItemFromBasket(itemId: string);
 ```
 
-This call returns an [IOrderResponse](../shop-types#iorderresponse) object.
+This call returns an [OrderResponse](../shop-types#OrderResponse) object.
 
 ## Clear basket
+Clears basket for a customer.
 
 <span class="badge badge--warning">Require authentication</span>
 
-```ts
-await shop(client).clearBasket(customerId: string);
+```php
+$result = $shopClient->clearBasket(customerId: string);
 ```
 
-This call returns an [IOrderResponse](../shop-types#iorderresponse) object.
+This call returns an [OrderResponse](../shop-types#OrderResponse) object.
 
 ## Add comment to basket
 
 <span class="badge badge--warning">Require authentication</span>
 
-```ts
-await shop(client).addCommentToBasket(comment: string);
+```php
+$order = $shopClient->addCommentToBasket(comment: string);
 ```
 
-This call returns an [IOrderResponse](../shop-types#iorderresponse) object.
+This call returns an [OrderResponse](../shop-types#OrderResponse) object.
 
 ## Add discount code to basket
 
 <span class="badge badge--warning">Require authentication</span>
 
-```ts
-await shop(client).addDiscountCodeToBasket(code: string);
+```php
+$order = $shopClient->addDiscountCodeToBasket(strng $code);
 ```
 
-This call returns an [IOrderResponse](../shop-types#iorderresponse) object.
+This call returns an [OrderResponse](../shop-types#OrderResponse) object.
 
 ## Add sponsor code to basket
 
 <span class="badge badge--warning">Require authentication</span>
 
-```ts
-await shop(client).addSponsorCodeToBasket(code: string);
+```php
+$order = $shopClient->addSponsorCodeToBasket(string $code);
 ```
 
-This call returns an [IOrderResponse](../shop-types#iorderresponse) object.
-
-## Validate pending payment to basket
-
-<span class="badge badge--warning">Require authentication</span>
-
-```ts
-await shop(client).validatePaymentBasket(validationInfo: IShopBasketValidatePaymentInputDto);
-```
-
-```ts
-interface IShopBasketValidatePaymentInputDto {
-  orderId: string;
-  customerUri: string;
-}
-```
-
-This call returns an [IOrderResponse](../shop-types#iorderresponse) object.
+This call returns an [OrderResponse](../shop-types#OrderResponse) object.
 
 ## Validate and pay current basket
 
 <span class="badge badge--warning">Require authentication</span>
 
-```ts
-await shop(client).validateAndPayBasket(validationInfo: IShopBasketValidateAndPayDto);
+```php
+$order = $shopClient->validateAndPayBasket(ShopBasketValidateAndPayInputDto $validation)
 ```
 
-```ts
-interface IShopBasketValidateAndPayDto extends IShopBasketValidatePaymentInputDto {
-  meansOfPayment: ShopMeansOfPaymentEnum;
-}
-```
+<details>
+<summary><b>ShopBasketValidateAndPayInputDto</b></summary>
 
-This call returns an [IOrderResponse](../shop-types#iorderresponse) object.
+ShopBasketValidateAndPayInputDto extends [ShopBasketValidatePaymentInputDto](../shop-types#ShopBasketValidatePaymentInputDto)
+
+| Fields         | Type                                                        | Required           | Description                         |
+|----------------|:-----------------------------------------------------------:|:------------------:|-------------------------------------|
+| meansOfPayment | [ShopMeansOfPaymentEnum](shop-types#ShopMeansOfPaymentEnum) | :white_check_mark: | The identifier of the advertisement |
+
+</details>
+
+This call returns an [OrderResponse](../shop-types#OrderResponse) object.
+
+## Validate pending payment to basket
+
+<span class="badge badge--warning">Require authentication</span>
+
+```php
+$order = $shopClient->validatePaymentBasket(ShopBasketValidatePaymentInputDto $validation)
+
+```
+Parameter is an instance of [ShopBasketValidatePaymentInputDto](../shop-types#ShopBasketValidatePaymentInputDto)
+
+This call returns an [OrderResponse](../shop-types#OrderResponse) object.

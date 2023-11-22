@@ -45,7 +45,7 @@ $orders = $shopClient->getOrders(OrderFindByDto $filters);
 $order = $shopClient->getOrder(string $orderId);
 ```
 
-This call returns an [OrderResponseDto](../shop-types#OrderResponseDto) object.
+This call returns an [OrderResponse](../shop-types#OrderResponse) object.
 
 ## Cancel Order
 
@@ -55,7 +55,7 @@ This call returns an [OrderResponseDto](../shop-types#OrderResponseDto) object.
 $cancelledOrder = $shopClient->cancelOrder(string $orderId,CancelOrderInputDto $cancelOrderDates);
 ```
 
-This call returns an [OrderResponseDto](../shop-types#OrderResponseDto) object.
+This call returns an [OrderResponse](../shop-types#OrderResponse) object.
 
 ## Update Order Status
 
@@ -65,7 +65,7 @@ This call returns an [OrderResponseDto](../shop-types#OrderResponseDto) object.
 $updatedOrder = $shopClient->updateOrderStatus(string $orderId, OrderStatusEnum $status);
 ```
 
-This call returns an [OrderResponseDto](../shop-types#OrderResponseDto) object.
+This call returns an [OrderResponse](../shop-types#OrderResponse) object.
 
 ## Get Organization Orders
 
@@ -75,4 +75,4 @@ This call returns an [OrderResponseDto](../shop-types#OrderResponseDto) object.
 $organizationOrders = $shopClient->getOrganizationOrders(string $organizationId, OrderFindByDto $filters);
 ```
 
-This call returns a [paginated](../pagination#pagination) array of [OrderResponseDto](../shop-types#OrderResponseDto)
+This call returns a [OrderFindOutputDto](../shop-types#OrderFindOutputDto).

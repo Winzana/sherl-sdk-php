@@ -4,8 +4,8 @@ namespace Sherl\Sdk\Shop\Basket\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-use Sherl\Sdk\Shop\Dto\ShopBasketAddProductOptionInputDto;
-use Sherl\Sdk\Shop\Dto\ShopBasketAddProductScheduleInputDto;
+use Sherl\Sdk\Shop\Order\Dto\ShopBasketAddProductOptionInputDto;
+use Sherl\Sdk\Shop\Order\Dto\ShopBasketAddProductScheduleInputDto;
 
 class AddProductInputDto
 {
@@ -22,14 +22,14 @@ class AddProductInputDto
     public $orderId;
 
     /**
-     * @var number
-     * @Serializer\Type("string")
+     * @var float
+     * @Serializer\Type("float")
      */
     public $latitude;
 
     /**
-     * @var number
-     * @Serializer\Type("string")
+     * @var float
+     * @Serializer\Type("float")
      */
     public $longitude;
 

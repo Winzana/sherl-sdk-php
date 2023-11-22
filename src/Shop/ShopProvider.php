@@ -289,7 +289,7 @@ class ShopProvider
 
     }
 
-    public function commentBasket(string $comment): bool
+    public function addCommentToBasket(string $comment): OrderResponse
     {
         $response = $this->client->post(
             "/api/shop/baskets/comment",
@@ -362,7 +362,7 @@ class ShopProvider
         );
     }
 
-    public function addDiscountCodeToBasket(string $code): bool
+    public function addDiscountCodeToBasket(string $code): OrderResponse
     {
         $response = $this->client->post(
             "/api/shop/baskets/set-discount-code",
@@ -388,7 +388,7 @@ class ShopProvider
         );
     }
 
-    public function addSponsorCodeToBasket(string $code): bool
+    public function addSponsorCodeToBasket(string $code): OrderResponse
     {
         $response = $this->client->post(
             "/api/shop/baskets/set-sponsorship-code",
@@ -414,7 +414,7 @@ class ShopProvider
         );
     }
 
-    public function validateAndPayBasket(ShopBasketValidateAndPayInputDto $validation): bool
+    public function validateAndPayBasket(ShopBasketValidateAndPayInputDto $validation): OrderResponse
     {
         $response = $this->client->post(
             "/api/shop/baskets/validate-and-pay",
@@ -442,7 +442,7 @@ class ShopProvider
         );
     }
 
-    public function validatePaymentBasket(ShopBasketValidatePaymentInputDto $validation): bool
+    public function validatePaymentBasket(ShopBasketValidatePaymentInputDto $validation): OrderResponse
     {
         $response = $this->client->post(
             "/api/shop/baskets/validate-and-pay",
@@ -769,7 +769,7 @@ class ShopProvider
     }
 
     // Invoice
-    public function sendLinkToPaidOnline(string $invoiceId): bool
+    public function sendLinkToPaidOnline(string $invoiceId): OrderResponse
     {
         $response = $this->client->post(
             "/api/shop/invoices/$invoiceId/send-link-to-payed-online/",
@@ -795,7 +795,7 @@ class ShopProvider
     public function getLoyaltiesCardToMe(LoyaltyCardFindByDto $filter): ?LoyaltySearchResultOutputDto
     {
         $response = $this->client->get(
-            "/api/shop/advertisements/",
+            "/api/shop/loyalties/to-me",
             [
             "headers" => [
               "Content-Type" => "application/json",
@@ -830,7 +830,7 @@ class ShopProvider
         );
     }
 
-    public function getOrganizationLoyaltyCard(STRING $organizationId): ?LoyaltyCardDto
+    public function getOrganizationLoyaltyCard(string $organizationId): ?LoyaltyCardDto
     {
         $response = $this->client->get(
             "/api/shop/loyalties/organizations/$organizationId",
