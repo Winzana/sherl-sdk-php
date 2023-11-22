@@ -31,8 +31,8 @@ class MediaObjectOutputDto
     public $encodingFormat;
 
     /**
-     * @var integer
-     * @Serializer\Type("integer")
+     * @var float
+     * @Serializer\Type("float")
      */
     public $size;
 

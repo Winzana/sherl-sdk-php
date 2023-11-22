@@ -56,8 +56,8 @@ class ImageObjectOutputDto
     public $thumbnail;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
     public $createdAt;
 }

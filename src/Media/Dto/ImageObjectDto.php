@@ -2,6 +2,7 @@
 
 namespace Sherl\Sdk\Media\Dto;
 
+use Sherl\Sdk\Media\Dto\MediaObjectDto;
 use Sherl\Sdk\Media\Dto\ImageObjectDto;
 
 use JMS\Serializer\Annotation as Serializer;
@@ -39,8 +40,8 @@ class ImageObjectDto
     public $height;
 
     /**
-   * @var ImageObjectDto
-   * @Serializer\Type("Sherl\Sdk\Media\Dto\ImageObjectDto")
+   * @var MediaObjectDto
+   * @Serializer\Type("Sherl\Sdk\Media\Dto\MediaObjectDto")
    */
     public $caption;
 
@@ -51,8 +52,8 @@ class ImageObjectDto
     public $thumbnail;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
     public $createdAt;
 }

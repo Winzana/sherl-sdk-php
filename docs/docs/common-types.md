@@ -10,30 +10,30 @@ To access these properties, you need to have activated the domains on which the 
 <details>
  <summary>ConfigDto</summary>
 
-| Field         |   Type    | Description                                      |
-| :------------ | :-------: | ------------------------------------------------ |
-| **id**        | `string`  | L'identifiant de la configuration.               |
-| **code**      | `string`  | Le code de la configuration.                     |
-| **value**     | `string`  | La valeur de la configuration.                   |
-| **consumer**  | `string`  | Le consommateur de la configuration.             |
-| **position**  |  `float`  | La position de la configuration.                 |
-| **appliedTo** | `string`  | La cible d'application de la configuration.      |
-| **isPublic**  | `boolean` | Indique si la configuration est publique ou non. |
+| Field         |   Type    | Description                         |
+| :------------ | :-------: | ----------------------------------- |
+| **id**        | `string`  | The configuration ID                |
+| **code**      | `string`  | The configuration code              |
+| **value**     | `string`  | The configuration value             |
+| **consumer**  | `string`  | The configuration consumer          |
+| **position**  |  `float`  | The configuration position          |
+| **appliedTo** | `string`  | The target configuration applied to |
+| **isPublic**  | `boolean` | The configuration public status     |
 
 </details>
 
 <details>
  <summary>LocationDto</summary>
 
-| Champs            |   Type   | Description                           |
-| :---------------- | :------: | ------------------------------------- |
-| **id**            | `string` | L'identifiant de l'emplacement.       |
-| **country**       | `string` | Le pays de l'emplacement.             |
-| **locality**      | `string` | La localité de l'emplacement.         |
-| **region**        | `string` | La région de l'emplacement.           |
-| **postalCode**    | `string` | Le code postal de l'emplacement.      |
-| **streetAddress** | `string` | L'adresse de la rue de l'emplacement. |
-| **latitude**      | `float`  | La latitude de l'emplacement.         |
-| **longitude**     | `float`  | La longitude de l'emplacement.        |
+| Champs            |   Type   | Description                  |
+| :---------------- | :------: | ---------------------------- |
+| **id**            | `string` | The location ID              |
+| **country**       | `string` | The location country         |
+| **locality**      | `string` | The location locality        |
+| **region**        | `string` | The location region          |
+| **postalCode**    | `string` | The location postal code     |
+| **streetAddress** | `string` | The location address         |
+| **latitude**      | `float`  | The location latitude point  |
+| **longitude**     | `float`  | The location longitude point |
 
 </details>

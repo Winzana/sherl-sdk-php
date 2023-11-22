@@ -2,10 +2,6 @@
 
 namespace Sherl\Sdk\Common;
 
-/**
- * @template T
- */
-
 class Sort
 {
     /**

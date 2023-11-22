@@ -33,7 +33,7 @@ class PersonProvider
                 ]
           ]);
 
-            if ($response->getStatusCode() >= 300) {
+            if ($response->getStatusCode() >= 400) {
                 throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
             }
 
@@ -61,7 +61,7 @@ class PersonProvider
                 RequestOptions::QUERY => $position
           ]);
 
-            if ($response->getStatusCode() >= 300) {
+            if ($response->getStatusCode() >= 400) {
                 throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
             }
 
@@ -85,7 +85,7 @@ class PersonProvider
         PersonFiltersDto $filters
     ) {
         try {
-            $response = $fetcher->get(
+            $response = $this->client->get(
                 '/api/persons',
                 [
                     RequestOptions::QUERY => [
@@ -96,7 +96,7 @@ class PersonProvider
           ]
             );
 
-            if ($response->getStatusCode() >= 300) {
+            if ($response->getStatusCode() >= 400) {
                 throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
             }
 
@@ -115,11 +115,11 @@ class PersonProvider
         string $id,
     ): ?PersonOuputDto {
         try {
-            $response = $fetcher->get(
+            $response = $this->client->get(
                 "/api/persons/$id"
             );
 
-            if ($response->getStatusCode() >= 300) {
+            if ($response->getStatusCode() >= 400) {
                 throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
             }
 
@@ -137,7 +137,7 @@ class PersonProvider
     public function createAddress(AddressInputDto $address): ?PersonOutputDto
     {
         try {
-            $response = $fetcher->post(
+            $response = $this->client->post(
                 '/api/persons/addresses',
                 [
                     "headers" => [
@@ -147,7 +147,7 @@ class PersonProvider
                   ]
             );
 
-            if ($response->getStatusCode() >= 300) {
+            if ($response->getStatusCode() >= 400) {
                 throw new SherlException(
                     PersonProvider::DOMAIN,
                     $response->getBody()->getContents(),
@@ -169,7 +169,7 @@ class PersonProvider
     public function deleteAddress(string $id): ?PersonOutputDto
     {
         try {
-            $response = $fetcher->delete(
+            $response = $this->client->delete(
                 "/api/persons/addresses/$id",
                 [
                     "headers" => [
@@ -178,7 +178,7 @@ class PersonProvider
                   ]
             );
 
-            if ($response->getStatusCode() >= 300) {
+            if ($response->getStatusCode() >= 400) {
                 throw new SherlException(
                     PersonProvider::DOMAIN,
                     $response->getBody()->getContents(),
@@ -199,7 +199,7 @@ class PersonProvider
     public function updateAddress(string $addressId, AddressInputDto $address): ?PersonOutputDto
     {
         try {
-            $response = $fetcher->put(
+            $response = $this->client->put(
                 "/api/persons/addresses/$addressId",
                 [
                     "headers" => [
@@ -209,7 +209,7 @@ class PersonProvider
                 ]
             );
 
-            if ($response->getStatusCode() >= 300) {
+            if ($response->getStatusCode() >= 400) {
                 throw new SherlException(
                     PersonProvider::DOMAIN,
                     $response->getBody()->getContents(),
@@ -230,7 +230,7 @@ class PersonProvider
     public function createPerson(PersonCreateInputDto $person): ?PersonOutputDto
     {
         try {
-            $response = $fetcher->post(
+            $response = $this->client->post(
                 '/api/persons',
                 [
                     "headers" => [
@@ -240,7 +240,7 @@ class PersonProvider
                 ]
             );
 
-            if ($response->getStatusCode() >= 300) {
+            if ($response->getStatusCode() >= 400) {
                 throw new SherlException(
                     PersonProvider::DOMAIN,
                     $response->getBody()->getContents(),
@@ -262,7 +262,7 @@ class PersonProvider
     public function registerWithEmailAndPassword(PersonCreateInputDto $person): ?PersonOutputDto
     {
         try {
-            $response = $fetcher->post(
+            $response = $this->client->post(
                 '/api/persons/register-with-email-and-password',
                 [
                     "headers" => [
@@ -272,7 +272,7 @@ class PersonProvider
                 ]
             );
 
-            if ($response->getStatusCode() >= 300) {
+            if ($response->getStatusCode() >= 400) {
                 throw new SherlException(
                     PersonProvider::DOMAIN,
                     $response->getBody()->getContents(),
@@ -293,18 +293,21 @@ class PersonProvider
 
     public function addPersonPicture(PictureRegisterInputDto $picture): ?PersonOutputDto
     {
-        $form = new \CURLFile($picture['file']->getRealPath(), $picture['file']->getClientMimeType(), $picture['file']->getClientOriginalName());
         $userId = $picture['person'];
         $mediaId = $picture['mediaId'];
         try {
-            $response = $fetcher->post("/api/persons/$userId/picture/create/$mediaId", [
-                "headers" => [
-                    "Content-Type" => "application/json",
-                  ],
-                  RequestOptions::JSON => $form
+            $response = $this->client->post("/api/persons/$userId/picture/create/$mediaId", [
+            'multipart' => [
+                [
+                    'name'     => 'file',
+                    'contents' => fopen($picture['file']->getRealPath(), 'r'),
+                    'filename' => $picture['file']->getClientOriginalName(),
+                    'headers'  => ['Content-Type' => $picture['file']->getClientMimeType()]
+                ]
+            ]
             ]);
 
-            if ($response->getStatusCode() >= 300) {
+            if ($response->getStatusCode() >= 400) {
                 throw new SherlException(
                     PersonProvider::DOMAIN,
                     $response->getBody()->getContents(),
@@ -326,7 +329,7 @@ class PersonProvider
     public function updatePersonById(string $id, PersonUpdateInputDto $person): ?PersonOutputDto
     {
         try {
-            $response = $fetcher->put(
+            $response = $this->client->put(
                 "/api/persons/$id",
                 [
                     "headers" => [
@@ -336,7 +339,7 @@ class PersonProvider
                 ]
             );
 
-            if ($response->getStatusCode() >= 300) {
+            if ($response->getStatusCode() >= 400) {
                 throw new SherlException(
                     PersonProvider::DOMAIN,
                     $response->getBody()->getContents(),
@@ -362,7 +365,7 @@ class PersonProvider
                   "Content-Type" => "application/json",
                 ]]);
 
-            if ($response->getStatusCode() >= 300) {
+            if ($response->getStatusCode() >= 400) {
                 throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
             }
 
