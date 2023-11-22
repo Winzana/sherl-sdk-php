@@ -7,281 +7,298 @@ title: Shop types
 
 ## AdvertisementsOutpuDto
 
-| Fields           |                                         Type                                         | Description                                                      |
-| ---------------- | :----------------------------------------------------------------------------------: | ---------------------------------------------------------------- |
-| id               |                                        string                                        | The identifier of the advertisement                              |
-| uri              |                                                                                      | The uri of the advertisment                                      |
-| name             |                                        string                                        | The name of the advertisement                                    |
-| description      |                                        string                                        | Description of the advertisement                                 |
-| redirectUrl      |                                        string                                        | The redirect url                                                 |
-| displayZones     |                   [DisplayZoneEnum[]](shop-types#displayzoneenum)                    | Zones to display the advertisement                               |
-| numberOfDisplay  |                                       integer                                        | The number of time the advertisements was displayed              |
-| delete           |                                       boolean                                        | Indicates if the advertisement is deleted or not                 |
-| backgroundImage  |               [MediaObjectOutputDto](shop-types#MediaObjectOutputDto)                | The background image to display                                  |
-| translations     | [AdvertisementTranslationOutputDto[]](shope-types#AdvertisementTranslationOutputDto) | The translations available for this advertisement.               |
-| version          |                                       integer                                        | The version of the advertisement                                 |
-| parentUri        |                                        string                                        | Tue uri parent of the advertisement                              |
-| updatedAt        |                                        string                                        | Date of the last update of the advertisement                     |
-| createdAt        |                                        string                                        | Date of the creation of the advertisement                        |
-| versionCreatedAt |                                        string                                        | Date of the creation of the current version of the advertisement |
-| updatedBy        |                                        string                                        | The user who updated this version                                |
-| createdBy        |                                        string                                        | THe user who created the first veresion of the advertisement     |
-| versionCreatedBy |                                        string                                        | The user who created this version                                |
-| metadatas        |                                        mixed                                         | TODO                                                             |
+| Fields               |                                   Type                                    | Description                                                      |
+| -------------------- | :-----------------------------------------------------------------------: | ---------------------------------------------------------------- |
+| **id**               |                                  string                                   | The identifier of the advertisement                              |
+| **uri**              |                                                                           | The uri of the advertisment                                      |
+| **name**             |                                  string                                   | The name of the advertisement                                    |
+| **description**      |                                  string                                   | Description of the advertisement                                 |
+| **redirectUrl**      |                                  string                                   | The redirect url                                                 |
+| **displayZones**     |              [DisplayZoneEnum[]](shop-types#displayzoneenum)              | Zones to display the advertisement                               |
+| **numberOfDisplay**  |                                  integer                                  | The number of time the advertisements was displayed              |
+| **delete**           |                                  boolean                                  | Indicates if the advertisement is deleted or not                 |
+| **backgroundImage**  |         [MediaObjectOutputDto](media-types#MediaObjectOutputDto)          | The background image to display                                  |
+| **translations**     | [AdvertisementTranslationOutputDto[]](#AdvertisementTranslationOutputDto) | The translations available for this advertisement.               |
+| **version**          |                                  integer                                  | The version of the advertisement                                 |
+| **parentUri**        |                                  string                                   | Tue uri parent of the advertisement                              |
+| **updatedAt**        |                                  string                                   | Date of the last update of the advertisement                     |
+| **createdAt**        |                                  string                                   | Date of the creation of the advertisement                        |
+| **versionCreatedAt** |                                  string                                   | Date of the creation of the current version of the advertisement |
+| **updatedBy**        |                                  string                                   | The user who updated this version                                |
+| **createdBy**        |                                  string                                   | THe user who created the first veresion of the advertisement     |
+| **versionCreatedBy** |                                  string                                   | The user who created this version                                |
+| **metadatas**        |                                   mixed                                   | TODO                                                             |
 
 ## DisplayZoneEnum
 
-| Value         | Description                          |
-| ------------- | ------------------------------------ |
-| HOME_PAGE     | Display content on the home page     |
-| MENU          | Display content on the menu          |
-| EVENT_LIST    | Display content on the event list    |
-| MAP_LIST      | Display content on the map list      |
-| LAUNCHSCREEN  | Display content on the launchscreen  |
-| ACTIVITY_FORM | Display content on the activity form |
+| Value             | Description                          |
+| ----------------- | ------------------------------------ |
+| **HOME_PAGE**     | Display content on the home page     |
+| **MENU**          | Display content on the menu          |
+| **EVENT_LIST**    | Display content on the event list    |
+| **MAP_LIST**      | Display content on the map list      |
+| **LAUNCHSCREEN**  | Display content on the launchscreen  |
+| **ACTIVITY_FORM** | Display content on the activity form |
 
 ## AdvertisementTranslationOutputDto
 
-| Field       |   Type   | Description                     |
-| ----------- | :------: | ------------------------------- |
-| lang        |  string  | The language of the translation |
-| name        |  string  | The name of the translation     |
-| description | string[] | Description of the translation  |
+| Field           |   Type   | Description                     |
+| --------------- | :------: | ------------------------------- |
+| **lang**        |  string  | The language of the translation |
+| **name**        |  string  | The name of the translation     |
+| **description** | string[] | Description of the translation  |
 
 ## FindAdvertisementInputDto
 
-| Fields             |                        Type                        | Required | Description                                    |
-| ------------------ | :------------------------------------------------: | :------: | ---------------------------------------------- |
-| displayDeleted     |                      boolean                       |   :x:    | Display or not deleted advertisements          |
-| displayZones       | [DisplayZoneEnum[]](../shop-types#displayZoneEnum) |   :x:    | Display only advertisements in specified zones |
-| shuffle            |                      boolean                       |   :x:    | Shuffle results                                |
-| q                  |                       string                       |   :x:    | TODO                                           |
-| displayAllVersions |                      boolean                       |   :x:    | Display all version or the last one            |
-| panel              |                       string                       |   :x:    | TODO                                           |
-| uriOfPanels        |                      string[]                      |   :x:    | TODO                                           |
-| SortBy             |                       string                       |   :x:    | TODO                                           |
-| sortOrder          |                       string                       |   :x:    | TODO                                           |
+| Fields                 |                        Type                        | Required | Description                                    |
+| ---------------------- | :------------------------------------------------: | :------: | ---------------------------------------------- |
+| **displayDeleted**     |                      boolean                       |   :x:    | Display or not deleted advertisements          |
+| **displayZones**       | [DisplayZoneEnum[]](../shop-types#displayZoneEnum) |   :x:    | Display only advertisements in specified zones |
+| **shuffle**            |                      boolean                       |   :x:    | Shuffle results                                |
+| **q**                  |                       string                       |   :x:    | TODO                                           |
+| **displayAllVersions** |                      boolean                       |   :x:    | Display all version or the last one            |
+| **panel**              |                       string                       |   :x:    | TODO                                           |
+| **uriOfPanels**        |                      string[]                      |   :x:    | TODO                                           |
+| **SortBy**             |                       string                       |   :x:    | TODO                                           |
+| **sortOrder**          |                       string                       |   :x:    | TODO                                           |
 
 ### Discount
 
 ## DiscountType
 
-|   Key   |   Value   |             Description              |
-| :-----: | :-------: | :----------------------------------: |
-| PERCENT | "PERCENT" | Define the discount as a percentage. |
-| AMOUNT  | "AMOUNT"  |   Define the discount as a amount.   |
+|     Key     |   Value   |             Description              |
+| :---------: | :-------: | :----------------------------------: |
+| **PERCENT** | "PERCENT" | Define the discount as a percentage. |
+| **AMOUNT**  | "AMOUNT"  |   Define the discount as a amount.   |
 
 ### Loyalty card
 
 ## LoyaltyCardDto
 
-| Fields       |                             Type                             | Description                                     |
-| ------------ | :----------------------------------------------------------: | ----------------------------------------------- |
-| id           |                            string                            | The identifier of the Loyalty card              |
-| uri          |                            string                            | The uri of the Loyalty card                     |
-| ownerUri     |                            string                            | The uri of the Loyalty card's owner             |
-| owner        | [OrganizationOutputDto](../shop-types#OrganizationOutputDto) | The owner of the loyalty card                   |
-| discountType |           [DiscountType](shop-types#DiscountType)            | Type of the discount                            |
-| percentage   |                            float                             | Percentage of the discount                      |
-| amount       |                            float                             | Amount collected in the loyalty card            |
-| amountUsed   |                            float                             | Amount used                                     |
-| rewards      |  [LoyaltyCardRewardDto](../shop-types#LoyaltyCardRewardDto)  | List of rewards associated to the loyalty card  |
-| enabled      |                           boolean                            | Indicates if the loyalty card is enabled or not |
-| consumerId   |                            string                            | TODO                                            |
-| createdAt    |                           DateTime                           | Creation date of the loyalty card               |
-| updatedAt    |                           DateTime                           | Date of the last update                         |
+| Fields           |                             Type                             | Description                                     |
+| ---------------- | :----------------------------------------------------------: | ----------------------------------------------- |
+| **id**           |                            string                            | The identifier of the Loyalty card              |
+| **uri**          |                            string                            | The uri of the Loyalty card                     |
+| **ownerUri**     |                            string                            | The uri of the Loyalty card's owner             |
+| **owner**        | [OrganizationOutputDto](../shop-types#OrganizationOutputDto) | The owner of the loyalty card                   |
+| **discountType** |           [DiscountType](shop-types#DiscountType)            | Type of the discount                            |
+| **percentage**   |                            float                             | Percentage of the discount                      |
+| **amount**       |                            float                             | Amount collected in the loyalty card            |
+| **amountUsed**   |                            float                             | Amount used                                     |
+| **rewards**      |  [LoyaltyCardRewardDto](../shop-types#LoyaltyCardRewardDto)  | List of rewards associated to the loyalty card  |
+| **enabled**      |                           boolean                            | Indicates if the loyalty card is enabled or not |
+| **consumerId**   |                            string                            | TODO                                            |
+| **createdAt**    |                           DateTime                           | Creation date of the loyalty card               |
+| **updatedAt**    |                           DateTime                           | Date of the last update                         |
 
 ## LoyaltyCardRewardDto
 
-| Fields        |                  Type                   | Description                                |
-| ------------- | :-------------------------------------: | ------------------------------------------ |
-| requiredValue |                  float                  | Value required to enable the reward        |
-| discountType  | [DiscountType](shop-types#DiscountType) | The discount type associated to the reward |
-| amount        |                  float                  | The amount of the discount                 |
-| percentage    |                  float                  | Percentage of the discount                 |
-| discountUri   |                 string                  | The uri of the discount                    |
+| Fields            |                  Type                   | Description                                |
+| ----------------- | :-------------------------------------: | ------------------------------------------ |
+| **requiredValue** |                  float                  | Value required to enable the reward        |
+| **discountType**  | [DiscountType](shop-types#DiscountType) | The discount type associated to the reward |
+| **amount**        |                  float                  | The amount of the discount                 |
+| **percentage**    |                  float                  | Percentage of the discount                 |
+| **discountUri**   |                 string                  | The uri of the discount                    |
 
 ## LoyaltySearchResultOutputDto
 
-| Fields       |                                  Type                                   | Description                                |
-| ------------ | :---------------------------------------------------------------------: | ------------------------------------------ |
-| results      |                   [LoyaltyCardDto[]](#LoyaltyCardDto)                   | Value required to enable the reward        |
-| view         |                [ViewOutputDto](pagination#viewoutputdto)                | The discount type associated to the reward |
-| aggregations | array<string,[AggregationsOutputDto](pagination#aggregationsoutputdto)> | The amount of the discount                 |
+| Fields           |                                  Type                                   | Description                                |
+| ---------------- | :---------------------------------------------------------------------: | ------------------------------------------ |
+| **results**      |                   [LoyaltyCardDto[]](#LoyaltyCardDto)                   | Value required to enable the reward        |
+| **view**         |                [ViewOutputDto](pagination#viewoutputdto)                | The discount type associated to the reward |
+| **aggregations** | array<string,[AggregationsOutputDto](pagination#aggregationsoutputdto)> | The amount of the discount                 |
 
 ### Orders
 
 ## OrderResponse
 
-| Fields                         |                             Type                              | Description                                 |
-| ------------------------------ | :-----------------------------------------------------------: | ------------------------------------------- |
-| id                             |                            string                             | The identifier of the advertisement         |
-| uri                            |                                                               | The uri of the advertisment                 |
-| name                           |                            string                             | The name of the advertisement               |
-| consumerId                     |                            string                             | TODO                                        |
-| organization                   | [OrganizationOutputDto](../shop-types#OrganizationOutputDto)  | The organization associated to the order    |
-| customer                       |       [PersonOutputDto](../shop-types#PersonOutputDto)        | The customer associated to the order        |
-| orderNumber                    |                            integer                            | The number of the order                     |
-| orderNumberOfDay               |                            integer                            | Number of day of the order                  |
-| orderStatus                    |       [OrderStatusEnum](../shop-types#OrderStatusEnum)        | The status of the order                     |
-| type                           |        [ShopProductType](../shop-type#shopproducttype)        | Type of the order                           |
-| meansOfPayment                 | [ShopMeansOfPaymentEnum](../shop-type#ShopMeansOfPaymentEnum) | The means of payment used                   |
-| payments                       |      [PaymentOutputDto[]](../shop-type#PaymentOutputDto)      | Payments associated to the order            |
-| acceptedOffer                  |              [OfferDto[]](../shop-type#OfferDto)              | The accepted offer associated to the order  |
-| price                          |                             float                             | Price of the order                          |
-| priceTaxIncluded               |                             float                             | Price of the order, all taxes included      |
-| priceAdvancePayment            |                             float                             | Amount to pay in advance                    |
-| priceCommission                |                             float                             | Amount of the commission                    |
-| priceTaxIncludedWithCommission |                             float                             | Price with taxes and comission included     |
-| priceToPay                     |                             float                             | Price to pay                                |
-| numberOfCredit                 |                             float                             | Amount of credit                            |
-| billingAddress                 |      [AddressOutputDto](../place-types#AddressOutputDto)      | The billing address                         |
-| orderedItems                   |          [OrderItemDto](../shop-types#OrderItemDto)           | List of the ordered items                   |
-| orderStatusHistory             | [OrderStatusHistoryDto](../shop-types#OrderStatusHistoryDto)  | List of the order status                    |
-| commission                     |           [OrderCommissionDto](#OrderCommissionDto)           | MangoPay Commision associated to the order  |
-| refund                         |           [ShopOrderRefundDto](#ShopOrderRefundDto)           | Refund associated to the order              |
-| metadatas                      |                             mixed                             | TODO                                        |
-| sponsorshipCode                |                            string                             | Sponsor ship code                           |
-| discountCode                   |                            string                             | Discount code                               |
-| discountToUsefull              |           [DiscountOutputDto[]](#DiscountOutputDto)           | Total discounts to be applied               |
-| subscriptionBeginDate          |                           DateTime                            | Begin date of the subscription              |
-| isFreeTrial                    |                            boolean                            | Indicates the order has a free trial period |
-| createdAt                      |                           DateTime                            | The creation date                           |
-| updatedAt                      |                           DateTime                            | The update date                             |
+| Fields                             |                               Type                                | Description                                 |
+| ---------------------------------- | :---------------------------------------------------------------: | ------------------------------------------- |
+| **id**                             |                              string                               | The identifier of the advertisement         |
+| **uri**                            |                                                                   | The uri of the advertisment                 |
+| **name**                           |                              string                               | The name of the advertisement               |
+| **consumerId**                     |                              string                               | TODO                                        |
+| **organization**                   | [OrganizationOutputDto](organization-types#OrganizationOutputDto) | The organization associated to the order    |
+| **customer**                       |          [PersonOutputDto](person-types#PersonOutputDto)          | The customer associated to the order        |
+| **orderNumber**                    |                              integer                              | The number of the order                     |
+| **orderNumberOfDay**               |                              integer                              | Number of day of the order                  |
+| **orderStatus**                    |                [OrderStatusEnum](#OrderStatusEnum)                | The status of the order                     |
+| **type**                           |                [ShopProductType](#ShopProductType)                | Type of the order                           |
+| **meansOfPayment**                 |         [ShopMeansOfPaymentEnum](#ShopMeansOfPaymentEnum)         | The means of payment used                   |
+| **payments**                       |              [PaymentOutputDto[]](#PaymentOutputDto)              | Payments associated to the order            |
+| **acceptedOffer**                  |                      [OfferDto[]](#OfferDto)                      | The accepted offer associated to the order  |
+| **price**                          |                               float                               | Price of the order                          |
+| **priceTaxIncluded**               |                               float                               | Price of the order, all taxes included      |
+| **priceAdvancePayment**            |                               float                               | Amount to pay in advance                    |
+| **priceCommission**                |                               float                               | Amount of the commission                    |
+| **priceTaxIncludedWithCommission** |                               float                               | Price with taxes and comission included     |
+| **priceToPay**                     |                               float                               | Price to pay                                |
+| **numberOfCredit**                 |                               float                               | Amount of credit                            |
+| **billingAddress**                 |        [AddressOutputDto](../place-types#AddressOutputDto)        | The billing address                         |
+| **orderedItems**                   |                   [OrderItemDto](#OrderItemDto)                   | List of the ordered items                   |
+| **orderStatusHistory**             |          [OrderStatusHistoryDto](#OrderStatusHistoryDto)          | List of the order status                    |
+| **commission**                     |             [OrderCommissionDto](#OrderCommissionDto)             | MangoPay Commision associated to the order  |
+| **refund**                         |             [ShopOrderRefundDto](#ShopOrderRefundDto)             | Refund associated to the order              |
+| **metadatas**                      |                               mixed                               | TODO                                        |
+| **sponsorshipCode**                |                              string                               | Sponsor ship code                           |
+| **discountCode**                   |                              string                               | Discount code                               |
+| **discountToUsefull**              |             [DiscountOutputDto[]](#DiscountOutputDto)             | Total discounts to be applied               |
+| **subscriptionBeginDate**          |                             DateTime                              | Begin date of the subscription              |
+| **isFreeTrial**                    |                              boolean                              | Indicates the order has a free trial period |
+| **createdAt**                      |                             DateTime                              | The creation date                           |
+| **updatedAt**                      |                             DateTime                              | The update date                             |
 
 ## OrderFindOutputDto
 
-| Fields       |                                  Type                                   | Description                                            |
-| ------------ | :---------------------------------------------------------------------: | ------------------------------------------------------ |
-| results      |             [OrderResponse[]](../shop-types#OrderResponse)              | List of [OrderResponse[]](../shop-types#OrderResponse) |
-| view         |                [ViewOutputDto](pagination#viewoutputdto)                | The discount type associated to the reward             |
-| aggregations | array<string,[AggregationsOutputDto](pagination#aggregationsoutputdto)> | The amount of the discount                             |
+| Fields           |                                  Type                                   | Description                                            |
+| ---------------- | :---------------------------------------------------------------------: | ------------------------------------------------------ |
+| **results**      |             [OrderResponse[]](../shop-types#OrderResponse)              | List of [OrderResponse[]](../shop-types#OrderResponse) |
+| **view**         |                [ViewOutputDto](pagination#viewoutputdto)                | The discount type associated to the reward             |
+| **aggregations** | array<string,[AggregationsOutputDto](pagination#aggregationsoutputdto)> | The amount of the discount                             |
 
 ## OrderItemDto
 
-| Fields            |                            Type                             | Description                                 |
-| ----------------- | :---------------------------------------------------------: | ------------------------------------------- |
-| id                |                           string                            | The identifier of the item                  |
-| product           |   [ProductResponseDto](product-types#ProductResponseDto)    | The product associated to the item          |
-| productId         |                           string                            | The id of the product                       |
-| orderQuantity     |                           integer                           | The quantity of product                     |
-| price             |                            float                            | The price of the order item                 |
-| priceTaxeIncluded |                            float                            | The price of the order item, taxes included |
-| priceDiscount     |                            float                            | The price with a discount of the order item |
-| totalPrice        |                            float                            | The total price of the order item           |
-| taxRate           |                            float                            | The taxes part of the order item            |
-| options           |   [OrderItemProductOptionDto](#OrderItemProductOptionDto)   | List of options                             |
-| schedules         | [OrderItemProductScheduleDto](#OrderItemProductScheduleDto) | List of schedules                           |
-| offerId           |           [PaymentOutputDto[]](#PaymentOutputDto)           | The offer associated to the order           |
-| refunded          |                           boolean                           | Indicates if the item was refunded or not   |
-| metadatas         |                            mixed                            | Metadata associated with the order item.    |
+| Fields                |                            Type                             | Description                                 |
+| --------------------- | :---------------------------------------------------------: | ------------------------------------------- |
+| **id**                |                           string                            | The identifier of the item                  |
+| **product**           |   [ProductResponseDto](product-types#ProductResponseDto)    | The product associated to the item          |
+| **productId**         |                           string                            | The id of the product                       |
+| **orderQuantity**     |                           integer                           | The quantity of product                     |
+| **price**             |                            float                            | The price of the order item                 |
+| **priceTaxeIncluded** |                            float                            | The price of the order item, taxes included |
+| **priceDiscount**     |                            float                            | The price with a discount of the order item |
+| **totalPrice**        |                            float                            | The total price of the order item           |
+| **taxRate**           |                            float                            | The taxes part of the order item            |
+| **options**           |   [OrderItemProductOptionDto](#OrderItemProductOptionDto)   | List of options                             |
+| **schedules**         | [OrderItemProductScheduleDto](#OrderItemProductScheduleDto) | List of schedules                           |
+| **offerId**           |           [PaymentOutputDto[]](#PaymentOutputDto)           | The offer associated to the order           |
+| **refunded**          |                           boolean                           | Indicates if the item was refunded or not   |
+| **metadatas**         |                            mixed                            | Metadata associated with the order item.    |
 
 ## OrderCommissionDto
 
-| Fields    |   Type   | Description                     |
-| --------- | :------: | ------------------------------- |
-| createdAt | DateTime | Creation date of the commission |
+| Fields        |   Type   | Description                     |
+| ------------- | :------: | ------------------------------- |
+| **createdAt** | DateTime | Creation date of the commission |
 
 ## OrderItemProductOptionDto
 
-| Fields |                               Type                                | Description                                       |
-| ------ | :---------------------------------------------------------------: | ------------------------------------------------- |
-| id     |                              string                               | The identifier of the option                      |
-| name   |                              string                               | The name of the option                            |
-| items  | [OrderItemProductOptionItemDto[]](#OrderItemProductOptionItemDto) | List of the option items associated to the option |
+| Fields    |                               Type                                | Description                                       |
+| --------- | :---------------------------------------------------------------: | ------------------------------------------------- |
+| **id**    |                              string                               | The identifier of the option                      |
+| **name**  |                              string                               | The name of the option                            |
+| **items** | [OrderItemProductOptionItemDto[]](#OrderItemProductOptionItemDto) | List of the option items associated to the option |
 
 ## OrderItemProductOptionItemDto
 
-| Fields           |  Type   | Description                     |
-| ---------------- | :-----: | ------------------------------- |
-| name             | string  | The name of the option          |
-| priceTaxIncluded |  float  | The price of the option         |
-| quantity         | integer | The quantity of the option item |
+| Fields               |  Type   | Description                     |
+| -------------------- | :-----: | ------------------------------- |
+| **name**             | string  | The name of the option          |
+| **priceTaxIncluded** |  float  | The price of the option         |
+| **quantity**         | integer | The quantity of the option item |
 
 ## OrderItemProductScheduleDto
 
-| Fields           |  Type  | Description           |
-| ---------------- | :----: | --------------------- |
-| allowedFromDate  | string | Start of the schedule |
-| allowedUntilDate | float  | End of the schedule   |
+| Fields               |  Type  | Description           |
+| -------------------- | :----: | --------------------- |
+| **allowedFromDate**  | string | Start of the schedule |
+| **allowedUntilDate** | float  | End of the schedule   |
 
 ## OrderStatusEnum
 
-| Fields                 | Value | Description                                  |
-| ---------------------- | :---: | -------------------------------------------- |
-| BASKET                 |   0   | In Basket                                    |
-| BASKET_VALIDATED       |  100  | In basket and validated                      |
-| WAITING_PAYMENT        |  200  | Waiting for payment                          |
-| PAYMENT_REFUSED        |  300  | Payment refused                              |
-| PAYED                  |  400  | Order payed                                  |
-| WAITING_VALIDATION     |  500  | Waiting for validation                       |
-| ORDER_REFUSED          |  600  | The order was refused                        |
-| ORDER_ACCEPTED         |  700  | The order was accepted                       |
-| ORDER_IN_PROGRESS      |  800  | Order is in progress                         |
-| ORDER_READY            |  900  | The order is ready                           |
-| FINISHED               | 1000  | Order finished                               |
-| REFUND                 | 1100  | The order was refund                         |
-| CONSUMER_CANCELLED     | 9000  | The order was cancelled by the consumer      |
-| ORGANIZATION_CANCELLED | 9100  | The order was cancelled by the oraganization |
+| Fields                     | Value | Description                                  |
+| -------------------------- | :---: | -------------------------------------------- |
+| **BASKET**                 |   0   | In Basket                                    |
+| **BASKET_VALIDATED**       |  100  | In basket and validated                      |
+| **WAITING_PAYMENT**        |  200  | Waiting for payment                          |
+| **PAYMENT_REFUSED**        |  300  | Payment refused                              |
+| **PAYED**                  |  400  | Order payed                                  |
+| **WAITING_VALIDATION**     |  500  | Waiting for validation                       |
+| **ORDER_REFUSED**          |  600  | The order was refused                        |
+| **ORDER_ACCEPTED**         |  700  | The order was accepted                       |
+| **ORDER_IN_PROGRESS**      |  800  | Order is in progress                         |
+| **ORDER_READY**            |  900  | The order is ready                           |
+| **FINISHED**               | 1000  | Order finished                               |
+| **REFUND**                 | 1100  | The order was refund                         |
+| **CONSUMER_CANCELLED**     | 9000  | The order was cancelled by the consumer      |
+| **ORGANIZATION_CANCELLED** | 9100  | The order was cancelled by the oraganization |
+
+## ShopMeansOfPaymentEnum
+
+| Fields                       |          Value           | Description                                  |
+| ---------------------------- | :----------------------: | -------------------------------------------- |
+| **CARD**                     |           CARD           | Payment by card                              |
+| **ADVANCE_PAYMENT**          |     ADVANCE_PAYMENT      | Advance on payment                           |
+| **ADVANCE_PAYMENT_EXTERNAL** | ADVANCE_PAYMENT_EXTERNAL | Advance on payment with an external solution |
+| **EXTERNAL**                 |         EXTERNAL         | Payment with an external solution            |
+| **CREDIT**                   |          CREDIT          | Payment on credit                            |
 
 ## PaymentOutputDto
 
+## FeesOutputDto
+
+| Fields       |  Type  | Description             |
+| ------------ | :----: | ----------------------- |
+| **Currency** | string | The currency of the fee |
+| **Amount**   | float  | The amount of the fee   |
+
 ## BillingDetailsOutputDto
 
-| Fields  |                       Type                       | Description                       |
-| ------- | :----------------------------------------------: | --------------------------------- |
-| address | [AddressOutputDto](place-types#AddressOutputDto) | The billing address               |
-| email   |                      string                      | The email to send the billing     |
-| name    |                      string                      | The complete name of the customer |
-| phone   |                      string                      | The phone number of the customer  |
+| Fields      |                       Type                       | Description                       |
+| ----------- | :----------------------------------------------: | --------------------------------- |
+| **address** | [AddressOutputDto](place-types#AddressOutputDto) | The billing address               |
+| **email**   |                      string                      | The email to send the billing     |
+| **name**    |                      string                      | The complete name of the customer |
+| **phone**   |                      string                      | The phone number of the customer  |
 
 ## PaymentMethodDetailsOutputDto
 
-| Fields |              Type               | Description                       |
-| ------ | :-----------------------------: | --------------------------------- |
-| card   | [CardOutputDto](#CardOutputDto) | Card object of the payment method |
-| type   |             string              | Kind of payment method            |
+| Fields   |              Type               | Description                       |
+| -------- | :-----------------------------: | --------------------------------- |
+| **card** | [CardOutputDto](#CardOutputDto) | Card object of the payment method |
+| **type** |             string              | Kind of payment method            |
 
 ## CardOutputDto
 
-| Fields         |                Type                 | Description                         |
-| -------------- | :---------------------------------: | ----------------------------------- |
-| brand          |               string                | Brand name of the card              |
-| checks         | [ChecksOutputDto](#ChecksOutputDto) | Check object associated to the card |
-| country        |               string                | Country of the card                 |
-| exp_month      |               integer               | Expiration month of the card        |
-| exp_year       |               integer               | Expriration year of the card        |
-| fingerprint    |               string                | Fingerprint of the card             |
-| funding        |               string                | Funding associated to the card      |
-| installments   |                mixed                | Installments associated to the card |
-| last4          |               string                | Last four number of the card        |
-| network        |               string                | Network associated to the card      |
-| three_d_secure |                mixed                | 3D secure information               |
-| wallet         |                mixed                | Wallet information                  |
+| Fields             |                Type                 | Description                         |
+| ------------------ | :---------------------------------: | ----------------------------------- |
+| **brand**          |               string                | Brand name of the card              |
+| **checks**         | [ChecksOutputDto](#ChecksOutputDto) | Check object associated to the card |
+| **country**        |               string                | Country of the card                 |
+| **exp_month**      |               integer               | Expiration month of the card        |
+| **exp_year**       |               integer               | Expriration year of the card        |
+| **fingerprint**    |               string                | Fingerprint of the card             |
+| **funding**        |               string                | Funding associated to the card      |
+| **installments**   |                mixed                | Installments associated to the card |
+| **last4**          |               string                | Last four number of the card        |
+| **network**        |               string                | Network associated to the card      |
+| **three_d_secure** |                mixed                | 3D secure information               |
+| **wallet**         |                mixed                | Wallet information                  |
 
 ## ChecksOutputDto
 
-| Fields                    | Type  | Description                                                        |
-| ------------------------- | :---: | ------------------------------------------------------------------ |
-| address_line1_check       | mixed | Gives information about the status of the address verification     |
-| address_postal_code_check | mixed | Gives information about the status of the postal code verification |
-| cvc_check                 | mixed | Gives information about the status of the cvc verification         |
+| Fields                        | Type  | Description                                                        |
+| ----------------------------- | :---: | ------------------------------------------------------------------ |
+| **address_line1_check**       | mixed | Gives information about the status of the address verification     |
+| **address_postal_code_check** | mixed | Gives information about the status of the postal code verification |
+| **cvc_check**                 | mixed | Gives information about the status of the cvc verification         |
 
 ## RefundOutputDto
 
-| Fields   |  Type   | Description                                 |
-| -------- | :-----: | ------------------------------------------- |
-| object   | string  | Subject of the refund                       |
-| data     |  array  | List of information about the refund object |
-| has_more | boolean | Indicates if there is more refund or not    |
-| url      | string  | Url to the refund information               |
+| Fields       |  Type   | Description                                 |
+| ------------ | :-----: | ------------------------------------------- |
+| **object**   | string  | Subject of the refund                       |
+| **data**     |  array  | List of information about the refund object |
+| **has_more** | boolean | Indicates if there is more refund or not    |
+| **url**      | string  | Url to the refund information               |
 
 ## ShopBasketValidatePaymentInputDto
 
-| Fields      |  Type  |      Required      | Description                    |
-| ----------- | :----: | :----------------: | ------------------------------ |
-| orderId     | string | :white_check_mark: | The identifier of the order    |
-| customerUri | string | :white_check_mark: | The identifier of the customer |
+| Fields          |  Type  |      Required      | Description                    |
+| --------------- | :----: | :----------------: | ------------------------------ |
+| **orderId**     | string | :white_check_mark: | The identifier of the order    |
+| **customerUri** | string | :white_check_mark: | The identifier of the customer |
 
 ### Wallet
 
@@ -347,12 +364,12 @@ title: Shop types
 
 ## SubscriptionStatus
 
-| Key      | Value | Description                                |
-| :------- | :---: | :----------------------------------------- |
-| NEW      |   0   | Status of new subscription                 |
-| ACTIVE   |  100  | Status when subscription has been active   |
-| FINISHED |  200  | Status when subscription has been finished |
-| ERROR    |  300  | Status when subscription is error          |
+| Key          | Value | Description                                |
+| :----------- | :---: | :----------------------------------------- |
+| **NEW**      |   0   | Status of new subscription                 |
+| **ACTIVE**   |  100  | Status when subscription has been active   |
+| **FINISHED** |  200  | Status when subscription has been finished |
+| **ERROR**    |  300  | Status when subscription is error          |
 
 ### Payout
 
@@ -554,11 +571,11 @@ title: Shop types
 
 ## ProductOfferFrequency
 
-| Key     |   Value   | Description       |
-| :------ | :-------: | :---------------- |
-| ONCE    |  "once"   | Frequency once    |
-| MONTHLY | "monthly" | Frequency monthly |
-| YEARLY  | "yearly"  | Frequency yearly  |
+| Key         |   Value   | Description       |
+| :---------- | :-------: | :---------------- |
+| **ONCE**    |  "once"   | Frequency once    |
+| **MONTHLY** | "monthly" | Frequency monthly |
+| **YEARLY**  | "yearly"  | Frequency yearly  |
 
 ## PublicCategoryResponseDto
 
@@ -584,16 +601,16 @@ title: Shop types
 
 ## ShopProductType
 
-|   Key   |   Value   | Description                                       |
-| :-----: | :-------: | :------------------------------------------------ |
-| CREDIT  | "CREDIT"  | Represents a credit-type product.                 |
-| DEFAULT | "DEFAULT" | Default product type.                             |
-|  ROOM   |  "ROOM"   | Represents a room-type product.                   |
-|   TIP   |   "TIP"   | Represents a tip or gratuity-type product.        |
-| SERVICE | "SERVICE" | Represents a service-type product.                |
-|  PLAN   |  "PLAN"   | Represents a plan or subscription-type product.   |
-|  QUOTA  |  "QUOTA"  | Represents a quota-type product.                  |
-| REFUND  | "REFUND"  | Represents a refund or credit note-type product . |
+|     Key     |   Value   | Description                                       |
+| :---------: | :-------: | :------------------------------------------------ |
+| **CREDIT**  | "CREDIT"  | Represents a credit-type product.                 |
+| **DEFAULT** | "DEFAULT" | Default product type.                             |
+|  **ROOM**   |  "ROOM"   | Represents a room-type product.                   |
+|   **TIP**   |   "TIP"   | Represents a tip or gratuity-type product.        |
+| **SERVICE** | "SERVICE" | Represents a service-type product.                |
+|  **PLAN**   |  "PLAN"   | Represents a plan or subscription-type product.   |
+|  **QUOTA**  |  "QUOTA"  | Represents a quota-type product.                  |
+| **REFUND**  | "REFUND"  | Represents a refund or credit note-type product . |
 
 ## ProductFindByDto
 
@@ -639,30 +656,30 @@ title: Shop types
 
 |        Key         |        Value         | Description            |
 | :----------------: | :------------------: | :--------------------- |
-|    BACK_OFFICE     |    "BACK_OFFICE"     | Tag back office.       |
+|  **BACK_OFFICE**   |    "BACK_OFFICE"     | Tag back office.       |
 | BACK_OFFICE_RESYNC | "BACK_OFFICE_RESYNC" | Tag back office resync |
 
 ## ProductDisplayMode
 
-|   Key   |   Value   | Description   |
-| :-----: | :-------: | :------------ |
-| DEFAULT | "default" | Mode default. |
-|  LIST   |  "list"   | Mode list.    |
-|   MAP   |   "map"   | Mode map.     |
+|     Key     |   Value   | Description   |
+| :---------: | :-------: | :------------ |
+| **DEFAULT** | "default" | Mode default. |
+|  **LIST**   |  "list"   | Mode list.    |
+|   **MAP**   |   "map"   | Mode map.     |
 
 ## ProductTypeEnum
 
-|   Key   |   Value   |                   Description                    |
-| :-----: | :-------: | :----------------------------------------------: |
-| CREDIT  | "CREDIT"  |        Represents a credit-type product.         |
-| DEFAULT | "DEFAULT" |        Default type for general products.        |
-|  ROOM   |  "ROOM"   |   Represents a room or accommodation product.    |
-|   TIP   |   "TIP"   |    Represents a tip or gratuity-type product.    |
-| SERVICE | "SERVICE" |        Represents a service-type product.        |
-|  PLAN   |  "PLAN"   | Represents a subscription or plan-type product.  |
-|  QUOTA  |  "QUOTA"  |    Represents a quota or limit-type product.     |
-| REFUND  | "REFUND"  | Represents a refund or credit note-type product. |
-|  EVENT  |  "EVENT"  |        Represents an event-type product.         |
+|     Key     |   Value   |                   Description                    |
+| :---------: | :-------: | :----------------------------------------------: |
+| **CREDIT**  | "CREDIT"  |        Represents a credit-type product.         |
+| **DEFAULT** | "DEFAULT" |        Default type for general products.        |
+|  **ROOM**   |  "ROOM"   |   Represents a room or accommodation product.    |
+|   **TIP**   |   "TIP"   |    Represents a tip or gratuity-type product.    |
+| **SERVICE** | "SERVICE" |        Represents a service-type product.        |
+|  **PLAN**   |  "PLAN"   | Represents a subscription or plan-type product.  |
+|  **QUOTA**  |  "QUOTA"  |    Represents a quota or limit-type product.     |
+| **REFUND**  | "REFUND"  | Represents a refund or credit note-type product. |
+|  **EVENT**  |  "EVENT"  |        Represents an event-type product.         |
 
 ## PublicCategoryAndSubCategoryFindByDto
 

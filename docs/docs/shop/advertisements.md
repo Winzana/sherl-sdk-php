@@ -14,18 +14,17 @@ $advertisement = $shopClient->createAdvertisement(CreateAdvertisementInputDto $c
 <details>
 <summary><b>CreateAdvertisementInputDto</b></summary>
 
-| Fields          | Type                                                                                 | Required           | Description                                        |
-|-----------------|:------------------------------------------------------------------------------------:|:------------------:|----------------------------------------------------|
-| name            | string                                                                               | :white_check_mark: | The name of the advertisement                      |
-| description     | string                                                                               | :white_check_mark: | Description of the advertisement                   |
-| redirectUrl     | string                                                                               | :white_check_mark: | The redirect url                                   |
-| displayZones    | [DisplayZoneEnum[]](../shop-types#displayzoneenum)                                      | :x:                | Zones to display the advertisement                 |
-| backgroundImage | [MediaObjectOutputDto](shop-types#MediaObjectOutputDto)                              | :x:                | The background image to display                    |
-| translations    | [AdvertisementTranslationOutputDto[]](../shop-types#AdvertisementTraslationOutputDto) | :x:                | The translations available for this advertisement. |
-| metadatas       | mixed                                                                                | :x:                | TODO                                               |
+| Fields              |                                         Type                                          |      Required      | Description                                        |
+| ------------------- | :-----------------------------------------------------------------------------------: | :----------------: | -------------------------------------------------- |
+| name                |                                        string                                         | :white_check_mark: | The name of the **advertisement**                  |
+| **description**     |                                        string                                         | :white_check_mark: | Description of the **advertisement**               |
+| **redirectUrl**     |                                        string                                         | :white_check_mark: | The redirect **url**                               |
+| **displayZones**    |                  [DisplayZoneEnum[]](../shop-types#displayzoneenum)                   |        :x:         | Zones to display the **advertisement**             |
+| **backgroundImage** |                [MediaObjectOutputDto](shop-types#MediaObjectOutputDto)                |        :x:         | The background image to **display**                |
+| **translations**    | [AdvertisementTranslationOutputDto[]](../shop-types#AdvertisementTraslationOutputDto) |        :x:         | The translations available for this advertisement. |
+| **metadatas**       |                                         mixed                                         |        :x:         | TODO                                               |
 
 </details>
-
 
 This call returns an [AdvertisementsOutpuDto](../shop-types#AdvertisementsOutpuDto) object.
 
@@ -37,7 +36,7 @@ Updates an advertisement identified by its advertisementId.
 
 ```php
 $advertisement = $shopClient->updateAdvertisement(
-  string $advertisementId, 
+  string $advertisementId,
   CreateAdvertisementInputDto $updateAdvertisement
   );
 ```
@@ -45,18 +44,17 @@ $advertisement = $shopClient->updateAdvertisement(
 <details>
 <summary><b>CreateAdvertisementInputDto</b></summary>
 
-| Fields          | Type                                                                                 | Required           | Description                                        |
-|-----------------|:------------------------------------------------------------------------------------:|:------------------:|----------------------------------------------------|
-| name            | string                                                                               | :white_check_mark: | The name of the advertisement                      |
-| description     | string                                                                               | :white_check_mark: | Description of the advertisement                   |
-| redirectUrl     | string                                                                               | :white_check_mark: | The redirect url                                   |
-| displayZones    | [DisplayZoneEnum[]](../shop-types#displayzoneenum)                                      | :x:                | Zones to display the advertisement                 |
-| backgroundImage | [MediaObjectOutputDto](shop-types#MediaObjectOutputDto)                              | :x:                | The background image to display                    |
-| translations    | [AdvertisementTranslationOutputDto[]](../shop-types#AdvertisementTraslationOutputDto) | :x:                | The translations available for this advertisement. |
-| metadatas       | mixed                                                                                | :x:                | TODO                                               |
+| Fields              |                                         Type                                          |      Required      | Description                                            |
+| ------------------- | :-----------------------------------------------------------------------------------: | :----------------: | ------------------------------------------------------ |
+| **name**            |                                        string                                         | :white_check_mark: | The name of the **advertisement**                      |
+| **description**     |                                        string                                         | :white_check_mark: | Description of the **advertisement**                   |
+| **redirectUrl**     |                                        string                                         | :white_check_mark: | The redirect **url**                                   |
+| **displayZones**    |                  [DisplayZoneEnum[]](../shop-types#displayzoneenum)                   |        :x:         | Zones to display the **advertisement**                 |
+| **backgroundImage** |                [MediaObjectOutputDto](shop-types#MediaObjectOutputDto)                |        :x:         | The background image to **display**                    |
+| **translations**    | [AdvertisementTranslationOutputDto[]](../shop-types#AdvertisementTraslationOutputDto) |        :x:         | The translations available for this **advertisement**. |
+| **metadatas**       |                                         mixed                                         |        :x:         | TODO                                                   |
 
 </details>
-
 
 This call returns the updated [AdvertisementsOutpuDto](../shop-types#AdvertisementsOutpuDto) object.
 
@@ -93,6 +91,7 @@ Updates an advertisement identified by its advertisementId.
 ```php
 $advertisements = $shopClient->getAdvertisements(FindAdvertisementInputDto $filter):;
 ```
+
 See [FindAdvertisementInputDto](../shop-types#FindAdvertisementInputDto)
 
 This call returns a [FindAdvertisementsOutputDto](../shop-types#FindAdvertisementsOutputDto) object.

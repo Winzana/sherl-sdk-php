@@ -4,7 +4,7 @@ namespace Sherl\Sdk\Place\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class AddressInfoDto extends AddressInfoDto
+class AddressInfoDto
 {
   /**
    * @var string
