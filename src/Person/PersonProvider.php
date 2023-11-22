@@ -32,15 +32,15 @@ class PersonProvider
               "Content-Type" => "application/json",
             ]
           ]);
-  
-          if ($response->getStatusCode() >= 300) {
-              return $this->throwSherlPersonException($response);
-          }
-  
-          return SerializerFactory::getInstance()->deserialize(
-              $response->getBody()->getContents(),
-              PersonOutputDto::class,
-              'json'
-          );
+
+        if ($response->getStatusCode() >= 300) {
+            return $this->throwSherlPersonException($response);
+        }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            PersonOutputDto::class,
+            'json'
+        );
     }
 }
