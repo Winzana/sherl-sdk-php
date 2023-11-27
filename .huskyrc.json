@@ -1,5 +1,5 @@
 {
   "hooks": {
-    "pre-commit": "echo 'husky-php-pre-commit'"
+    "pre-commit": "./vendor/bin/phpstan analyse src --level 7"
   }
 }
