@@ -2,7 +2,7 @@
 
 namespace Sherl\Sdk\Shop\Category\Dto;
 
-class CategoryOutputDto
+class ProductCategoryDto
 {
   /**
    * @var string
@@ -59,8 +59,8 @@ class CategoryOutputDto
   public $updatedAt;
 
   /**
-   * @var CategoryOutputDto[]
-   * @Serializer\Type("array<CategoryOutputDto>")
+   * @var ProductCategoryDto[]
+   * @Serializer\Type("array<ProductCategoryDto>")
    */
   public $subCategories;
 }

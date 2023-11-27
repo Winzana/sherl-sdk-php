@@ -9,7 +9,7 @@ use Sherl\Sdk\Shop\Product\Enum\ProductOfferFrequency;
 
 use Sherl\Sdk\Shop\Subscription\Enum\SubscriptionStatus;
 
-class SubscriptionOutputDto
+class SubscriptionDto
 {
   /**
    * @var string

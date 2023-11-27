@@ -7,7 +7,7 @@ use Sherl\Sdk\Shop\Advertisement\Enum\DisplayZoneEnum;
 
 use Sher\Sdk\Media\Dto\MediaObjectOutputDto;
 
-use Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementTranslationOutputDto;
+use Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementTranslationDto;
 
 class CreateAdvertisementInputDto
 {
@@ -42,8 +42,8 @@ class CreateAdvertisementInputDto
   public $redirectUrl;
 
   /**
-   * @var AdvertisementTranslationOutputDto[]
-   * @Serializer\Type("array<Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementTranslationOutputDto>")
+   * @var AdvertisementTranslationDto[]
+   * @Serializer\Type("array<Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementTranslationDto>")
    */
   public $translations;
 

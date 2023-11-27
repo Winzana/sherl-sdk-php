@@ -16,7 +16,7 @@ use Sherl\Sdk\Person\Dto\PersonOutputDto;
 
 use Sherl\Sdk\Place\Dto\AddressOutputDto;
 
-use Sherl\Sdk\Shop\Discount\Dto\DiscountOutputDto;
+use Sherl\Sdk\Shop\Discount\Dto\DiscountDto;
 
 use Sherl\Sdk\Shop\Product\Dto\OfferDto;
 
@@ -190,8 +190,8 @@ class OrderDto
   public $discountCode;
 
   /**
-   * @var DiscountOutputDto[]
-   * @Serializer\Type("array<Sherl\Sdk\Shop\Discount\Dto\DiscountOutputDto>")
+   * @var DiscountDto[]
+   * @Serializer\Type("array<Sherl\Sdk\Shop\Discount\Dto\DiscountDto>")
    */
   public $discountToUsefull;
 

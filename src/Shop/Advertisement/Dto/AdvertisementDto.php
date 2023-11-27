@@ -7,7 +7,7 @@ use JMS\Serializer\Annotation as Serializer;
 use Sher\Sdk\Media\Dto\MediaObjectOutputDto;
 
 use Sherl\Sdk\Shop\Advertisement\Enum\DisplayZoneEnum;
-use Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementTranslationOutputDto;
+use Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementTranslationDto;
 
 class AdvertisementDto
 {
@@ -65,8 +65,8 @@ class AdvertisementDto
   public $backgroundImage;
 
   /**
-   * @var array<AdvertisementTranslationOutputDto>
-   * @Serializer\Type("array<Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementTranslationOutputDto>")
+   * @var array<AdvertisementTranslationDto>
+   * @Serializer\Type("array<Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementTranslationDto>")
    */
   public $translations;
 

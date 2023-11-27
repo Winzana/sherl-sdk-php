@@ -5,12 +5,12 @@ namespace Sherl\Sdk\Shop\Discount\Dto;
 use JMS\Serializer\Annotation as Serializer;
 
 use Sherl\Sdk\Shop\Discount\Enum\DiscountType;
-use Sherl\Sdk\Shop\Discount\Dto\ProductRestrictionOutputDto;
-use Sherl\Sdk\Shop\Discount\Dto\DateRestrictionOutputDto;
+use Sherl\Sdk\Shop\Discount\Dto\ProductRestrictionDto;
+use Sherl\Sdk\Shop\Discount\Dto\DateRestrictionDto;
 
 use Sherl\Sdk\Organization\Dto\OrganizationOutputDto;
 
-class DiscountOutputDto
+class DiscountDto
 {
   /**
    * @var string
@@ -133,14 +133,14 @@ class DiscountOutputDto
   public $customers;
 
   /**
-   * @var ProductRestrictionOutputDto[]
-   * @Serializer\Type("array<Sherl\Sdk\Shop\Discount\Dto\ProductRestrictionOutputDto>")
+   * @var ProductRestrictionDto[]
+   * @Serializer\Type("array<Sherl\Sdk\Shop\Discount\Dto\ProductRestrictionDto>")
    */
   public $productRestrictions;
 
   /**
-   * @var DateRestrictionOutputDto[]
-   * @Serializer\Type("array<Sherl\Sdk\Shop\Discount\Dto\DateRestrictionOutputDto>")
+   * @var DateRestrictionDto[]
+   * @Serializer\Type("array<Sherl\Sdk\Shop\Discount\Dto\DateRestrictionDto>")
    */
   public $dateRestrictions;
 

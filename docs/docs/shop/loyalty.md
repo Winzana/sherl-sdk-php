@@ -24,7 +24,7 @@ $results = $shopClient->getLoyaltiesCardToMe(filters?: ILoyaltyCardFindByDto);
 | ownerownerUris | string[] |   :x:    | List of owner uris                              |
 | enabled        | boolean  |   :x:    | Indicates if the loyalty card is enabled or not |
 
-This call returns a [LoyaltySearchResultOutputDto](../shop-types#LoyaltySearchResultOutputDto) objects.
+This call returns a [LoyaltySearchResultDto](../shop-types#LoyaltySearchResultDto) objects.
 
 </details>
 

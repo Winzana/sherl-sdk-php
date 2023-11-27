@@ -7,8 +7,8 @@ use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Shop\Discount\DateRangeDto;
 use Sherl\Sdk\Shop\Discount\Enum\DiscountType;
 
-use Sherl\Sdk\Shop\Discount\Dto\ProductRestrictionOutputDto;
-use Sherl\Sdk\Shop\Discount\Dto\DateRestrictionOutputDto;
+use Sherl\Sdk\Shop\Discount\Dto\ProductRestrictionDto;
+use Sherl\Sdk\Shop\Discount\Dto\DateRestrictionDto;
 
 class DiscountFilterInputDto extends DiscountPublicFilterInputDto
 {
@@ -128,13 +128,13 @@ class DiscountFilterInputDto extends DiscountPublicFilterInputDto
    */
   public $noProduct;
   /**
-   * @var ProductRestrictionOutputDto
-   * @Serializer\Type("Sherl\Sdk\Shop\Discount\Dto\ProductRestrictionOutputDto")
+   * @var ProductRestrictionDto
+   * @Serializer\Type("Sherl\Sdk\Shop\Discount\Dto\ProductRestrictionDto")
    */
   public $productRestrictions;
   /**
-   * @var DateRestrictionOutputDto
-   * @Serializer\Type("Sherl\Sdk\Shop\Discount\Dto\DateRestrictionOutputDto")
+   * @var DateRestrictionDto
+   * @Serializer\Type("Sherl\Sdk\Shop\Discount\Dto\DateRestrictionDto")
    */
   public $dateRestrictions;
   /**

@@ -29,7 +29,7 @@ $subscription = $shopClient->getSubscriptionFindOneBy(ISubscriptionFindOnByDto $
 
 </details>
 
-This call returns an [SubscriptionOutputDto](../shop-types#SubscriptionOutputDto) object.
+This call returns an [SubscriptionDto](../shop-types#SubscriptionDto) object.
 
 ## Cancel subscription
 
@@ -39,4 +39,4 @@ This call returns an [SubscriptionOutputDto](../shop-types#SubscriptionOutputDto
 $cancelledSubscription = $shopClient->cancelSubscription(string $subscriptionId);
 ```
 
-This call returns an updated [SubscriptionOutputDto](../shop-types#SubscriptionOutputDto) object, typically reflecting its cancelled status.
+This call returns an updated [SubscriptionDto](../shop-types#SubscriptionDto) object, typically reflecting its cancelled status.

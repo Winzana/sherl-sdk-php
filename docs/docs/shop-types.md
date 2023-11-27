@@ -7,27 +7,27 @@ title: Shop types
 
 ## AdvertisementsOutpuDto
 
-| Fields               |                                   Type                                    | Description                                                      |
-| -------------------- | :-----------------------------------------------------------------------: | ---------------------------------------------------------------- |
-| **id**               |                                  string                                   | The identifier of the advertisement                              |
-| **uri**              |                                                                           | The uri of the advertisment                                      |
-| **name**             |                                  string                                   | The name of the advertisement                                    |
-| **description**      |                                  string                                   | Description of the advertisement                                 |
-| **redirectUrl**      |                                  string                                   | The redirect url                                                 |
-| **displayZones**     |              [DisplayZoneEnum[]](shop-types#displayzoneenum)              | Zones to display the advertisement                               |
-| **numberOfDisplay**  |                                  integer                                  | The number of time the advertisements was displayed              |
-| **delete**           |                                  boolean                                  | Indicates if the advertisement is deleted or not                 |
-| **backgroundImage**  |         [MediaObjectOutputDto](media-types#MediaObjectOutputDto)          | The background image to display                                  |
-| **translations**     | [AdvertisementTranslationOutputDto[]](#AdvertisementTranslationOutputDto) | The translations available for this advertisement.               |
-| **version**          |                                  integer                                  | The version of the advertisement                                 |
-| **parentUri**        |                                  string                                   | Tue uri parent of the advertisement                              |
-| **updatedAt**        |                                  string                                   | Date of the last update of the advertisement                     |
-| **createdAt**        |                                  string                                   | Date of the creation of the advertisement                        |
-| **versionCreatedAt** |                                  string                                   | Date of the creation of the current version of the advertisement |
-| **updatedBy**        |                                  string                                   | The user who updated this version                                |
-| **createdBy**        |                                  string                                   | THe user who created the first veresion of the advertisement     |
-| **versionCreatedBy** |                                  string                                   | The user who created this version                                |
-| **metadatas**        |                                   mixed                                   | TODO                                                             |
+| Fields               |                             Type                              | Description                                                      |
+| -------------------- | :-----------------------------------------------------------: | ---------------------------------------------------------------- |
+| **id**               |                            string                             | The identifier of the advertisement                              |
+| **uri**              |                                                               | The uri of the advertisment                                      |
+| **name**             |                            string                             | The name of the advertisement                                    |
+| **description**      |                            string                             | Description of the advertisement                                 |
+| **redirectUrl**      |                            string                             | The redirect url                                                 |
+| **displayZones**     |        [DisplayZoneEnum[]](shop-types#displayzoneenum)        | Zones to display the advertisement                               |
+| **numberOfDisplay**  |                            integer                            | The number of time the advertisements was displayed              |
+| **delete**           |                            boolean                            | Indicates if the advertisement is deleted or not                 |
+| **backgroundImage**  |   [MediaObjectOutputDto](media-types#MediaObjectOutputDto)    | The background image to display                                  |
+| **translations**     | [AdvertisementTranslationDto[]](#AdvertisementTranslationDto) | The translations available for this advertisement.               |
+| **version**          |                            integer                            | The version of the advertisement                                 |
+| **parentUri**        |                            string                             | Tue uri parent of the advertisement                              |
+| **updatedAt**        |                            string                             | Date of the last update of the advertisement                     |
+| **createdAt**        |                            string                             | Date of the creation of the advertisement                        |
+| **versionCreatedAt** |                            string                             | Date of the creation of the current version of the advertisement |
+| **updatedBy**        |                            string                             | The user who updated this version                                |
+| **createdBy**        |                            string                             | THe user who created the first veresion of the advertisement     |
+| **versionCreatedBy** |                            string                             | The user who created this version                                |
+| **metadatas**        |                             mixed                             | TODO                                                             |
 
 ## DisplayZoneEnum
 
@@ -40,7 +40,7 @@ title: Shop types
 | **LAUNCHSCREEN**  | Display content on the launchscreen  |
 | **ACTIVITY_FORM** | Display content on the activity form |
 
-## AdvertisementTranslationOutputDto
+## AdvertisementTranslationDto
 
 | Field           |   Type   | Description                     |
 | --------------- | :------: | ------------------------------- |
@@ -101,7 +101,7 @@ title: Shop types
 | **percentage**    |                  float                  | Percentage of the discount                 |
 | **discountUri**   |                 string                  | The uri of the discount                    |
 
-## LoyaltySearchResultOutputDto
+## LoyaltySearchResultDto
 
 | Fields           |                                  Type                                   | Description                                |
 | ---------------- | :---------------------------------------------------------------------: | ------------------------------------------ |
@@ -121,75 +121,75 @@ title: Shop types
 
 ## PaymentOutputDto
 
-| Fields                      |                                                             Type                                                              | Description                                            |
-| --------------------------- | :---------------------------------------------------------------------------------------------------------------------------: | ------------------------------------------------------ |
-| id                          |                                                            string                                                             | Id of the payment                                      |
-| uri                         |                                                            string                                                             | Internal API ID to identify a project                  |
-| consumerId                  |                                                            string                                                             | Uri of the customer                                    |
-| customerId                  |                                                            string                                                             | Uri of the customer                                    |
-| customer                    |                                        [PersonOutputDto](person-types#PersonOutputDto)                                        | The customer associated to the payment                 |
-| organizationUri             |                                                            string                                                             | The uri of the organization assiociated to the payment |
-| createdAt                   |                                                            string                                                             | Creation date of the payment object                    |
-| updatedAt                   |                                                            string                                                             | Update date of the payment object                      |
-|                             | **---- MangoPay Data ----**<br> For more information check the [MangoPay documentation](https://mangopay.com/docs/endpoints/) |                                                        |
-| Id                          |                                                            string                                                             | information                                            |
-| CreationDate                |                                                            integer                                                            | information                                            |
-| Tag                         |                                                            string                                                             | information                                            |
-| DebitedFunds                |                                           [FeesOutputDto](shop-types#FeesOutputDto)                                           | information                                            |
-| CreditedFunds               |                                           [FeesOutputDto](shop-types#FeesOutputDto)                                           | information                                            |
-| Fees                        |                                           [FeesOutputDto](shop-types#FeesOutputDto)                                           | information                                            |
-| DebitedWalletId             |                                                            string                                                             | information                                            |
-| CreditedWalletId            |                                                            string                                                             | information                                            |
-| AuthorId                    |                                                            string                                                             | information                                            |
-| CreditedUserId              |                                                            string                                                             | information                                            |
-| Nature                      |                                                            string                                                             | information                                            |
-| PaymentStatus               |                                                            string                                                             | information                                            |
-| ExecutionDate               |                                                            integer                                                            | information                                            |
-| ResultMessage               |                                                            string                                                             | information                                            |
-| Type                        |                                                            string                                                             | information                                            |
-| PaymentType                 |                                                            string                                                             | information                                            |
-| ExecutionType               |                                                            string                                                             | information                                            |
-|                             |     **---- Stripe Data ----**<br> For more information check the [Stripe documentation](https://stripe.com/docs/payments)     |                                                        |
-| object                      |                                                            string                                                             |                                                        |
-| amount                      |                                                             float                                                             |                                                        |
-| amount_refunded             |                                                             float                                                             | payment                                                |
-| application                 |                                                             mixed                                                             | Application information associated to the payment      |
-| application_fee             |                                                             mixed                                                             | Application fee associated to the payment              |
-| application_fee_amount      |                                                             mixed                                                             | Application fee amount associated to the payment       |
-| balance_transaction         |                                                             float                                                             | The transaction balance                                |
-| billing_details             |                                 [BillingDetailsOutputDto](shop-types#BillingDetailsOutputDto)                                 | Billing details                                        |
-| captured                    |                                                            boolean                                                            | Indicates if the payment was captured or not           |
-| created                     |                                                            integer                                                            |                                                        |
-| currency                    |                                                            string                                                             | The currency of the payment                            |
-| description                 |                                                            string                                                             | Description of the payment                             |
-| disputed                    |                                                            boolean                                                            | Indicates if the payment is disputed or not            |
-| fairelure_code              |                                                             mixed                                                             | The failure code                                       |
-| fairelure_message           |                                                             mixed                                                             | The failure message                                    |
-| fraud_details               |                                                             mixed                                                             | Details about fraud                                    |
-| invoice                     |                                                             mixed                                                             | The payment's invoice                                  |
-| livemode                    |                                                            boolean                                                            | Indicates if the payment is in live mode or not        |
-| metadata                    |                                                             mixed                                                             | Metadata associated with the payment item              |
-| on_behalf_of                |                                                             mixed                                                             | Name of the                                            |
-| order                       |                                                             mixed                                                             | Information about the order associated                 |
-| outcome                     |                                                             mixed                                                             | Information about the order associated                 |
-| paid                        |                                                            boolean                                                            | Information about the order associated                 |
-| payment_intent              |                                                             mixed                                                             |                                                        |
-| payment_method              |                                                            string                                                             |                                                        |
-| payment_method_details      |                                [PaymentMethodDetailsOutputDto](#PaymentMethodDetailsOutputDto)                                |                                                        |
-| receipt_email               |                                                             mixed                                                             |                                                        |
-| receipt_number              |                                                             mixed                                                             |                                                        |
-| receipt_url                 |                                                            string                                                             |                                                        |
-| refunded                    |                                                            boolean                                                            |                                                        |
-| refunds                     |                                              [RefundOutputDto](#RefundOutputDto)                                              |                                                        |
-| review                      |                                                             mixed                                                             |                                                        |
-| shipping                    |                                                             mixed                                                             |                                                        |
-| source_transfer             |                                                             mixed                                                             |                                                        |
-| statement_descriptor        |                                                             mixed                                                             |                                                        |
-| statement_descriptor_suffix |                                                             mixed                                                             |                                                        |
-| status                      |                                                            string                                                             | Status of the payment                                  |
-| transfer_data               |                                                             mixed                                                             |                                                        |
-| transfer_group              |                                                             mixed                                                             |                                                        |
-| source                      |                                                            string                                                             | Source of the payment                                  |
+| Fields                      |                                                              Type                                                              | Description                                                                                                            |
+| --------------------------- | :----------------------------------------------------------------------------------------------------------------------------: | ---------------------------------------------------------------------------------------------------------------------- | --- | --- |
+| id                          |                                                             string                                                             | Id of the payment                                                                                                      |
+| uri                         |                                                             string                                                             | Internal API ID to identify a project                                                                                  |
+| consumerId                  |                                                             string                                                             | Uri of the customer                                                                                                    |
+| customerId                  |                                                             string                                                             | Uri of the customer                                                                                                    |
+| customer                    |                                        [PersonOutputDto](person-types#PersonOutputDto)                                         | The customer associated to the payment                                                                                 |
+| organizationUri             |                                                             string                                                             | The uri of the organization assiociated to the payment                                                                 |
+| createdAt                   |                                                             string                                                             | Creation date of the payment object                                                                                    |
+| updatedAt                   |                                                             string                                                             | Update date of the payment object                                                                                      |
+|                             | **---- MangoPay Data ----**<\br> For more information check the [MangoPay documentation](https://mangopay.com/docs/endpoints/) |                                                                                                                        |
+| Id                          |                                                             string                                                             | information                                                                                                            |
+| CreationDate                |                                                            integer                                                             | information                                                                                                            |
+| Tag                         |                                                             string                                                             | information                                                                                                            |
+| DebitedFunds                |                                           [FeesOutputDto](shop-types#FeesOutputDto)                                            | information                                                                                                            |
+| CreditedFunds               |                                           [FeesOutputDto](shop-types#FeesOutputDto)                                            | information                                                                                                            |
+| Fees                        |                                           [FeesOutputDto](shop-types#FeesOutputDto)                                            | information                                                                                                            |
+| DebitedWalletId             |                                                             string                                                             | information                                                                                                            |
+| CreditedWalletId            |                                                             string                                                             | information                                                                                                            |
+| AuthorId                    |                                                             string                                                             | information                                                                                                            |
+| CreditedUserId              |                                                             string                                                             | information                                                                                                            |
+| Nature                      |                                                             string                                                             | information                                                                                                            |
+| PaymentStatus               |                                                             string                                                             | information                                                                                                            |
+| ExecutionDate               |                                                            integer                                                             | information                                                                                                            |
+| ResultMessage               |                                                             string                                                             | information                                                                                                            |
+| Type                        |                                                             string                                                             | information                                                                                                            |
+| PaymentType                 |                                                             string                                                             | information                                                                                                            |
+| ExecutionType               |                                                             string                                                             | information                                                                                                            |
+| <!--                        |                                                                                                                                | **---- Stripe Data ----**<\br> For more information check the [Stripe documentation](https://stripe.com/docs/payments) |     | --> |
+| object                      |                                                             string                                                             |                                                                                                                        |
+| amount                      |                                                             float                                                              |                                                                                                                        |
+| amount_refunded             |                                                             float                                                              | payment                                                                                                                |
+| application                 |                                                             mixed                                                              | Application information associated to the payment                                                                      |
+| application_fee             |                                                             mixed                                                              | Application fee associated to the payment                                                                              |
+| application_fee_amount      |                                                             mixed                                                              | Application fee amount associated to the payment                                                                       |
+| balance_transaction         |                                                             float                                                              | The transaction balance                                                                                                |
+| billing_details             |                                 [BillingDetailsOutputDto](shop-types#BillingDetailsOutputDto)                                  | Billing details                                                                                                        |
+| captured                    |                                                            boolean                                                             | Indicates if the payment was captured or not                                                                           |
+| created                     |                                                            integer                                                             |                                                                                                                        |
+| currency                    |                                                             string                                                             | The currency of the payment                                                                                            |
+| description                 |                                                             string                                                             | Description of the payment                                                                                             |
+| disputed                    |                                                            boolean                                                             | Indicates if the payment is disputed or not                                                                            |
+| fairelure_code              |                                                             mixed                                                              | The failure code                                                                                                       |
+| fairelure_message           |                                                             mixed                                                              | The failure message                                                                                                    |
+| fraud_details               |                                                             mixed                                                              | Details about fraud                                                                                                    |
+| invoice                     |                                                             mixed                                                              | The payment's invoice                                                                                                  |
+| livemode                    |                                                            boolean                                                             | Indicates if the payment is in live mode or not                                                                        |
+| metadata                    |                                                             mixed                                                              | Metadata associated with the payment item                                                                              |
+| on_behalf_of                |                                                             mixed                                                              | Name of the                                                                                                            |
+| order                       |                                                             mixed                                                              | Information about the order associated                                                                                 |
+| outcome                     |                                                             mixed                                                              | Information about the order associated                                                                                 |
+| paid                        |                                                            boolean                                                             | Information about the order associated                                                                                 |
+| payment_intent              |                                                             mixed                                                              |                                                                                                                        |
+| payment_method              |                                                             string                                                             |                                                                                                                        |
+| payment_method_details      |                                [PaymentMethodDetailsOutputDto](#PaymentMethodDetailsOutputDto)                                 |                                                                                                                        |
+| receipt_email               |                                                             mixed                                                              |                                                                                                                        |
+| receipt_number              |                                                             mixed                                                              |                                                                                                                        |
+| receipt_url                 |                                                             string                                                             |                                                                                                                        |
+| refunded                    |                                                            boolean                                                             |                                                                                                                        |
+| refunds                     |                                              [RefundOutputDto](#RefundOutputDto)                                               |                                                                                                                        |
+| review                      |                                                             mixed                                                              |                                                                                                                        |
+| shipping                    |                                                             mixed                                                              |                                                                                                                        |
+| source_transfer             |                                                             mixed                                                              |                                                                                                                        |
+| statement_descriptor        |                                                             mixed                                                              |                                                                                                                        |
+| statement_descriptor_suffix |                                                             mixed                                                              |                                                                                                                        |
+| status                      |                                                             string                                                             | Status of the payment                                                                                                  |
+| transfer_data               |                                                             mixed                                                              |                                                                                                                        |
+| transfer_group              |                                                             mixed                                                              |                                                                                                                        |
+| source                      |                                                             string                                                             | Source of the payment                                                                                                  |
 
 ## BillingDetailsOutputDto
 
@@ -289,7 +289,7 @@ title: Shop types
 |   **enabled**   | boolean | Optional flag indicating whether the subscription is enabled. |
 |  **sourceUri**  | string  |           Optional source URI of the subscription.            |
 
-## SubscriptionOutputDto
+## SubscriptionDto
 
 |     Fields      |                       Type                        |                     Description                      |
 | :-------------: | :-----------------------------------------------: | :--------------------------------------------------: |
@@ -396,20 +396,20 @@ title: Shop types
 | **MONTHLY** | MONTHLY | Each month  |
 | **YEARLY**  | YEARLY  |  Each year  |
 
-## CategoryOutputDto
+## ProductCategoryDto
 
-|       Fields        |                  Type                   |                        Description                        |
-| :-----------------: | :-------------------------------------: | :-------------------------------------------------------: |
-|       **id**        |                 string                  |            Unique identifier of the category.             |
-|       **uri**       |                 string                  |                   URI of the category.                    |
-|    **taxeValue**    |                  flat                   |          Tax value associated with the category.          |
-|   **consumerId**    |                 string                  | Identifier of the consumer associated with this category. |
-|    **parentUri**    |                 string                  |                URI of the parent category.                |
-|      **name**       |                 string                  |                   Name of the category.                   |
-| **organizationUri** |                 string                  |  URI of the organization associated with this category.   |
-|    **createdAt**    |                 string                  |        Timestamp of when the category was created.        |
-|    **updatedAt**    |                 string                  |     Timestamp of when the category was last updated.      |
-|  **subCategories**  | [CategoryOutputDto](#CategoryOutputDto) |                  Array of subcategories.                  |
+|       Fields        |                   Type                    |                        Description                        |
+| :-----------------: | :---------------------------------------: | :-------------------------------------------------------: |
+|       **id**        |                  string                   |            Unique identifier of the category.             |
+|       **uri**       |                  string                   |                   URI of the category.                    |
+|    **taxeValue**    |                   flat                    |          Tax value associated with the category.          |
+|   **consumerId**    |                  string                   | Identifier of the consumer associated with this category. |
+|    **parentUri**    |                  string                   |                URI of the parent category.                |
+|      **name**       |                  string                   |                   Name of the category.                   |
+| **organizationUri** |                  string                   |  URI of the organization associated with this category.   |
+|    **createdAt**    |                  string                   |        Timestamp of when the category was created.        |
+|    **updatedAt**    |                  string                   |     Timestamp of when the category was last updated.      |
+|  **subCategories**  | [ProductCategoryDto](#ProductCategoryDto) |                  Array of subcategories.                  |
 
 ## ProductResponseDto
 
@@ -469,7 +469,7 @@ title: Shop types
 | **organizationUri** |                         string                          |    URI of the organization associated with the product.     |
 |    **isCustom**     |                         boolean                         |          Indicates whether the product is custom.           |
 |     **photos**      |            [ImageObjectDto](#ImageObjectDto)            |     Array of image objects associated with the product.     |
-|  **restrictions**   |                      array<string>                      |          Restrictions associated with the product.          |
+|  **restrictions**   |                        string[]                         |          Restrictions associated with the product.          |
 |    **createdAt**    |                          Date                           |                Creation date of the product.                |
 |    **updatedAt**    |                          Date                           |           Date when the product was last updated.           |
 
@@ -710,12 +710,12 @@ title: Shop types
 
 ## ISEODto
 
-|     Fields      |     Type      |                 Description                 |
-| :-------------: | :-----------: | :-----------------------------------------: |
-|    **title**    |    string     |      Optional title for SEO purposes.       |
-| **description** |    string     |   Optional description for SEO purposes.    |
-|  **keywords**   |    string     |   Optional keywords for SEO optimization.   |
-|   **others**    | array<string> | Optional other SEO-related key-value pairs. |
+|     Fields      |   Type   |                 Description                 |
+| :-------------: | :------: | :-----------------------------------------: |
+|    **title**    |  string  |      Optional title for SEO purposes.       |
+| **description** |  string  |   Optional description for SEO purposes.    |
+|  **keywords**   |  string  |   Optional keywords for SEO optimization.   |
+|   **others**    | string[] | Optional other SEO-related key-value pairs. |
 
 ## ShopProductSubCategoryCreateInputDto
 
