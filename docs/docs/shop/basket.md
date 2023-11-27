@@ -109,9 +109,9 @@ $order = $shopClient->validateAndPayBasket(ShopBasketValidateAndPayInputDto $val
 
 ShopBasketValidateAndPayInputDto extends [ShopBasketValidatePaymentInputDto](../shop-types#ShopBasketValidatePaymentInputDto)
 
-| Fields             |                            Type                             |      Required      | Description                         |
-| ------------------ | :---------------------------------------------------------: | :----------------: | ----------------------------------- |
-| **meansOfPayment** | [ShopMeansOfPaymentEnum](shop-types#ShopMeansOfPaymentEnum) | :white_check_mark: | The identifier of the advertisement |
+| Fields             |                      Type                      |      Required      | Description                         |
+| ------------------ | :--------------------------------------------: | :----------------: | ----------------------------------- |
+| **meansOfPayment** | [MeansOfPayment](../shop-types#MeansOfPayment) | :white_check_mark: | The identifier of the advertisement |
 
 </details>
 

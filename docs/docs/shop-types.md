@@ -17,7 +17,7 @@ title: Shop types
 | **displayZones**     |        [DisplayZoneEnum[]](shop-types#displayzoneenum)        | Zones to display the advertisement                               |
 | **numberOfDisplay**  |                            integer                            | The number of time the advertisements was displayed              |
 | **delete**           |                            boolean                            | Indicates if the advertisement is deleted or not                 |
-| **backgroundImage**  |   [MediaObjectOutputDto](media-types#MediaObjectOutputDto)    | The background image to display                                  |
+| **backgroundImage**  |            **MediaObjectOutputDto** TODO: Add Link            | The background image to display                                  |
 | **translations**     | [AdvertisementTranslationDto[]](#AdvertisementTranslationDto) | The translations available for this advertisement.               |
 | **version**          |                            integer                            | The version of the advertisement                                 |
 | **parentUri**        |                            string                             | Tue uri parent of the advertisement                              |
@@ -50,17 +50,17 @@ title: Shop types
 
 ## FindAdvertisementInputDto
 
-| Fields                 |                        Type                        | Required | Description                                    |
-| ---------------------- | :------------------------------------------------: | :------: | ---------------------------------------------- |
-| **displayDeleted**     |                      boolean                       |   :x:    | Display or not deleted advertisements          |
-| **displayZones**       | [DisplayZoneEnum[]](../shop-types#displayZoneEnum) |   :x:    | Display only advertisements in specified zones |
-| **shuffle**            |                      boolean                       |   :x:    | Shuffle results                                |
-| **q**                  |                       string                       |   :x:    | TODO                                           |
-| **displayAllVersions** |                      boolean                       |   :x:    | Display all version or the last one            |
-| **panel**              |                       string                       |   :x:    | TODO                                           |
-| **uriOfPanels**        |                      string[]                      |   :x:    | TODO                                           |
-| **SortBy**             |                       string                       |   :x:    | TODO                                           |
-| **sortOrder**          |                       string                       |   :x:    | TODO                                           |
+| Fields                 |                 Type                  | Required | Description                                    |
+| ---------------------- | :-----------------------------------: | :------: | ---------------------------------------------- |
+| **displayDeleted**     |                boolean                |   :x:    | Display or not deleted advertisements          |
+| **displayZones**       | [DisplayZoneEnum[]](#displayZoneEnum) |   :x:    | Display only advertisements in specified zones |
+| **shuffle**            |                boolean                |   :x:    | Shuffle results                                |
+| **q**                  |                string                 |   :x:    | TODO                                           |
+| **displayAllVersions** |                boolean                |   :x:    | Display all version or the last one            |
+| **panel**              |                string                 |   :x:    | TODO                                           |
+| **uriOfPanels**        |               string[]                |   :x:    | TODO                                           |
+| **SortBy**             |                string                 |   :x:    | TODO                                           |
+| **sortOrder**          |                string                 |   :x:    | TODO                                           |
 
 ### Discount
 
@@ -75,21 +75,21 @@ title: Shop types
 
 ## LoyaltyCardDto
 
-| Fields           |                             Type                             | Description                                     |
-| ---------------- | :----------------------------------------------------------: | ----------------------------------------------- |
-| **id**           |                            string                            | The identifier of the Loyalty card              |
-| **uri**          |                            string                            | The uri of the Loyalty card                     |
-| **ownerUri**     |                            string                            | The uri of the Loyalty card's owner             |
-| **owner**        | [OrganizationOutputDto](../shop-types#OrganizationOutputDto) | The owner of the loyalty card                   |
-| **discountType** |           [DiscountType](shop-types#DiscountType)            | Type of the discount                            |
-| **percentage**   |                            float                             | Percentage of the discount                      |
-| **amount**       |                            float                             | Amount collected in the loyalty card            |
-| **amountUsed**   |                            float                             | Amount used                                     |
-| **rewards**      |  [LoyaltyCardRewardDto](../shop-types#LoyaltyCardRewardDto)  | List of rewards associated to the loyalty card  |
-| **enabled**      |                           boolean                            | Indicates if the loyalty card is enabled or not |
-| **consumerId**   |                            string                            | TODO                                            |
-| **createdAt**    |                           DateTime                           | Creation date of the loyalty card               |
-| **updatedAt**    |                           DateTime                           | Date of the last update                         |
+| Fields           |                      Type                       | Description                                     |
+| ---------------- | :---------------------------------------------: | ----------------------------------------------- |
+| **id**           |                     string                      | The identifier of the Loyalty card              |
+| **uri**          |                     string                      | The uri of the Loyalty card                     |
+| **ownerUri**     |                     string                      | The uri of the Loyalty card's owner             |
+| **owner**        | [OrganizationOutputDto](#OrganizationOutputDto) | The owner of the loyalty card                   |
+| **discountType** |     [DiscountType](shop-types#DiscountType)     | Type of the discount                            |
+| **percentage**   |                      float                      | Percentage of the discount                      |
+| **amount**       |                      float                      | Amount collected in the loyalty card            |
+| **amountUsed**   |                      float                      | Amount used                                     |
+| **rewards**      |  [LoyaltyCardRewardDto](#LoyaltyCardRewardDto)  | List of rewards associated to the loyalty card  |
+| **enabled**      |                     boolean                     | Indicates if the loyalty card is enabled or not |
+| **consumerId**   |                     string                      | TODO                                            |
+| **createdAt**    |                    DateTime                     | Creation date of the loyalty card               |
+| **updatedAt**    |                    DateTime                     | Date of the last update                         |
 
 ## LoyaltyCardRewardDto
 
@@ -109,7 +109,7 @@ title: Shop types
 | **view**         |                [ViewOutputDto](pagination#viewoutputdto)                | The discount type associated to the reward |
 | **aggregations** | array<string,[AggregationsOutputDto](pagination#aggregationsoutputdto)> | The amount of the discount                 |
 
-## ShopMeansOfPaymentEnum
+## MeansOfPayment
 
 | Fields                       |          Value           | Description                                  |
 | ---------------------------- | :----------------------: | -------------------------------------------- |
@@ -127,7 +127,7 @@ title: Shop types
 | uri                         |                                                             string                                                             | Internal API ID to identify a project                                                                                  |
 | consumerId                  |                                                             string                                                             | Uri of the customer                                                                                                    |
 | customerId                  |                                                             string                                                             | Uri of the customer                                                                                                    |
-| customer                    |                                        [PersonOutputDto](person-types#PersonOutputDto)                                         | The customer associated to the payment                                                                                 |
+| customer                    |                                               **PersonOutputDto** TODO: Add Link                                               | The customer associated to the payment                                                                                 |
 | organizationUri             |                                                             string                                                             | The uri of the organization assiociated to the payment                                                                 |
 | createdAt                   |                                                             string                                                             | Creation date of the payment object                                                                                    |
 | updatedAt                   |                                                             string                                                             | Update date of the payment object                                                                                      |

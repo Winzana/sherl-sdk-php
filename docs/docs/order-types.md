@@ -7,56 +7,56 @@ title: Order types
 
 ## OrderDto
 
-| Fields                             |                               Type                                | Description                                 |
-| ---------------------------------- | :---------------------------------------------------------------: | ------------------------------------------- |
-| **id**                             |                              string                               | The identifier of the advertisement         |
-| **uri**                            |                                                                   | The uri of the advertisment                 |
-| **name**                           |                              string                               | The name of the advertisement               |
-| **consumerId**                     |                              string                               | TODO                                        |
-| **organization**                   | [OrganizationOutputDto](organization-types#OrganizationOutputDto) | The organization associated to the order    |
-| **customer**                       |          [PersonOutputDto](person-types#PersonOutputDto)          | The customer associated to the order        |
-| **orderNumber**                    |                              integer                              | The number of the order                     |
-| **orderNumberOfDay**               |                              integer                              | Number of day of the order                  |
-| **orderStatus**                    |                    [OrderStatus](#OrderStatus)                    | The status of the order                     |
-| **type**                           |                [ShopProductType](#ShopProductType)                | Type of the order                           |
-| **meansOfPayment**                 |         [ShopMeansOfPaymentEnum](#ShopMeansOfPaymentEnum)         | The means of payment used                   |
-| **payments**                       |               [PaymentDto[]](shop-types#PaymentDto)               | Payments associated to the order            |
-| **acceptedOffer**                  |                 [OfferDto[]](shop-types#OfferDto)                 | The accepted offer associated to the order  |
-| **price**                          |                               float                               | Price of the order                          |
-| **priceTaxIncluded**               |                               float                               | Price of the order, all taxes included      |
-| **priceAdvancePayment**            |                               float                               | Amount to pay in advance                    |
-| **priceCommission**                |                               float                               | Amount of the commission                    |
-| **priceTaxIncludedWithCommission** |                               float                               | Price with taxes and comission included     |
-| **priceToPay**                     |                               float                               | Price to pay                                |
-| **numberOfCredit**                 |                               float                               | Amount of credit                            |
-| **billingAddress**                 |        [AddressOutputDto](../place-types#AddressOutputDto)        | The billing address                         |
-| **orderedItems**                   |                   [OrderItemDto](#OrderItemDto)                   | List of the ordered items                   |
-| **orderStatusHistory**             |          [OrderStatusHistoryDto](#OrderStatusHistoryDto)          | List of the order status                    |
-| **commission**                     |             [OrderCommissionDto](#OrderCommissionDto)             | MangoPay Commision associated to the order  |
-| **refund**                         |             [ShopOrderRefundDto](#ShopOrderRefundDto)             | Refund associated to the order              |
-| **metadatas**                      |                               mixed                               | TODO                                        |
-| **sponsorshipCode**                |                              string                               | Sponsor ship code                           |
-| **discountCode**                   |                              string                               | Discount code                               |
-| **discountToUsefull**              |                   [DiscountDto[]](#DiscountDto)                   | Total discounts to be applied               |
-| **subscriptionBeginDate**          |                             DateTime                              | Begin date of the subscription              |
-| **isFreeTrial**                    |                              boolean                              | Indicates the order has a free trial period |
-| **createdAt**                      |                             DateTime                              | The creation date                           |
-| **updatedAt**                      |                             DateTime                              | The update date                             |
+| Fields                             |                       Type                       | Description                                 |
+| ---------------------------------- | :----------------------------------------------: | ------------------------------------------- |
+| **id**                             |                      string                      | The identifier of the advertisement         |
+| **uri**                            |                                                  | The uri of the advertisment                 |
+| **name**                           |                      string                      | The name of the advertisement               |
+| **consumerId**                     |                      string                      | TODO                                        |
+| **organization**                   |     **OrganizationOutputDto** TODO: Add Link     | The organization associated to the order    |
+| **customer**                       |        **PersonOutputDto** TODO: Add Link        | The customer associated to the order        |
+| **orderNumber**                    |                     integer                      | The number of the order                     |
+| **orderNumberOfDay**               |                     integer                      | Number of day of the order                  |
+| **orderStatus**                    |           [OrderStatus](#OrderStatus)            | The status of the order                     |
+| **type**                           |       [ShopProductType](#ShopProductType)        | Type of the order                           |
+| **meansOfPayment**                 |        [MeansOfPayment](#MeansOfPayment)         | The means of payment used                   |
+| **payments**                       |      [PaymentDto[]](shop-types#PaymentDto)       | Payments associated to the order            |
+| **acceptedOffer**                  |        [OfferDto[]](shop-types#OfferDto)         | The accepted offer associated to the order  |
+| **price**                          |                      float                       | Price of the order                          |
+| **priceTaxIncluded**               |                      float                       | Price of the order, all taxes included      |
+| **priceAdvancePayment**            |                      float                       | Amount to pay in advance                    |
+| **priceCommission**                |                      float                       | Amount of the commission                    |
+| **priceTaxIncludedWithCommission** |                      float                       | Price with taxes and comission included     |
+| **priceToPay**                     |                      float                       | Price to pay                                |
+| **numberOfCredit**                 |                      float                       | Amount of credit                            |
+| **billingAddress**                 | [AddressOutputDto](place-types#AddressOutputDto) | The billing address                         |
+| **orderedItems**                   |          [OrderItemDto](#OrderItemDto)           | List of the ordered items                   |
+| **orderStatusHistory**             | [OrderStatusHistoryDto](#OrderStatusHistoryDto)  | List of the order status                    |
+| **commission**                     |    [OrderCommissionDto](#OrderCommissionDto)     | MangoPay Commision associated to the order  |
+| **refund**                         |    [ShopOrderRefundDto](#ShopOrderRefundDto)     | Refund associated to the order              |
+| **metadatas**                      |                      mixed                       | TODO                                        |
+| **sponsorshipCode**                |                      string                      | Sponsor ship code                           |
+| **discountCode**                   |                      string                      | Discount code                               |
+| **discountToUsefull**              |          [DiscountDto[]](#DiscountDto)           | Total discounts to be applied               |
+| **subscriptionBeginDate**          |                     DateTime                     | Begin date of the subscription              |
+| **isFreeTrial**                    |                     boolean                      | Indicates the order has a free trial period |
+| **createdAt**                      |                     DateTime                     | The creation date                           |
+| **updatedAt**                      |                     DateTime                     | The update date                             |
 
 ## OrderFindOutputDto
 
-| Fields           |                                  Type                                   | Description                                  |
-| ---------------- | :---------------------------------------------------------------------: | -------------------------------------------- |
-| **results**      |                  [OrderDto[]](../shop-types#OrderDto)                   | List of [OrderDto[]](../shop-types#OrderDto) |
-| **view**         |                [ViewOutputDto](pagination#viewoutputdto)                | The discount type associated to the reward   |
-| **aggregations** | array<string,[AggregationsOutputDto](pagination#aggregationsoutputdto)> | The amount of the discount                   |
+| Fields           |                                  Type                                   | Description                                |
+| ---------------- | :---------------------------------------------------------------------: | ------------------------------------------ |
+| **results**      |                    [OrderDto[]](shop-types#OrderDto)                    | List of [OrderDto[]](shop-types#OrderDto)  |
+| **view**         |                [ViewOutputDto](pagination#viewoutputdto)                | The discount type associated to the reward |
+| **aggregations** | array<string,[AggregationsOutputDto](pagination#aggregationsoutputdto)> | The amount of the discount                 |
 
 ## OrderItemDto
 
 | Fields                |                            Type                             | Description                                 |
 | --------------------- | :---------------------------------------------------------: | ------------------------------------------- |
 | **id**                |                           string                            | The identifier of the item                  |
-| **product**           |   [ProductResponseDto](product-types#ProductResponseDto)    | The product associated to the item          |
+| **product**           |     [ProductResponseDto](shop-types#ProductResponseDto)     | The product associated to the item          |
 | **productId**         |                           string                            | The id of the product                       |
 | **orderQuantity**     |                           integer                           | The quantity of product                     |
 | **price**             |                            float                            | The price of the order item                 |

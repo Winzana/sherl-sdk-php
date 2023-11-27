@@ -20,7 +20,7 @@ $advertisement = $shopClient->createAdvertisement(CreateAdvertisementInputDto $c
 | **description**     |                                   string                                   | :white_check_mark: | Description of the **advertisement**               |
 | **redirectUrl**     |                                   string                                   | :white_check_mark: | The redirect **url**                               |
 | **displayZones**    |             [DisplayZoneEnum[]](../shop-types#displayzoneenum)             |        :x:         | Zones to display the **advertisement**             |
-| **backgroundImage** |          [MediaObjectOutputDto](shop-types#MediaObjectOutputDto)           |        :x:         | The background image to **display**                |
+| **backgroundImage** |                  **MediaObjectOutputDto** TODO: Add Link                   |        :x:         | The background image to **display**                |
 | **translations**    | [AdvertisementTranslationDto[]](../shop-types#AdvertisementTranslationDto) |        :x:         | The translations available for this advertisement. |
 | **metadatas**       |                                   mixed                                    |        :x:         | TODO                                               |
 
@@ -50,7 +50,7 @@ $advertisement = $shopClient->updateAdvertisement(
 | **description**     |                                   string                                   | :white_check_mark: | Description of the **advertisement**                   |
 | **redirectUrl**     |                                   string                                   | :white_check_mark: | The redirect **url**                                   |
 | **displayZones**    |             [DisplayZoneEnum[]](../shop-types#displayzoneenum)             |        :x:         | Zones to display the **advertisement**                 |
-| **backgroundImage** |          [MediaObjectOutputDto](shop-types#MediaObjectOutputDto)           |        :x:         | The background image to **display**                    |
+| **backgroundImage** |                 **MediaObjectOutputDto** (TODO: Add Link)                  |        :x:         | The background image to **display**                    |
 | **translations**    | [AdvertisementTranslationDto[]](../shop-types#AdvertisementTranslationDto) |        :x:         | The translations available for this **advertisement**. |
 | **metadatas**       |                                   mixed                                    |        :x:         | TODO                                                   |
 
