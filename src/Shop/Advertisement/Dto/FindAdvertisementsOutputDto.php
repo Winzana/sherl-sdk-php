@@ -9,15 +9,15 @@ use Sherl\Sdk\Common\Dto\ViewOutputDto;
 
 class FindAdvertisementsOutputDto extends Pagination
 {
-    /**
-     * @var array<AdvertisementOutputDto>
-     * @Serializer\Type("array<Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementOutputDto>")
-     */
-    public $results;
+  /**
+   * @var AdvertisementOutputDto[]
+   * @Serializer\Type("array<Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementOutputDto>")
+   */
+  public $results;
 
-    /**
-     * @var ViewOutputDto
-     * @Serializer\Type("Sherl\Sdk\Common\Dto\ViewOutputDto")
-     */
-    public $view;
+  /**
+   * @var ViewOutputDto
+   * @Serializer\Type("Sherl\Sdk\Common\Dto\ViewOutputDto")
+   */
+  public $view;
 }

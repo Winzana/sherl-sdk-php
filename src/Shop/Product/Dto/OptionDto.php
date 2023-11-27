@@ -8,57 +8,57 @@ use Sherl\Sdk\Shop\Product\Dto\OptionItemDto;
 
 class OptionDto
 {
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $id;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $id;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $name;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $name;
 
-    /**
-     * @var array
-     * @Serializer\Type("array<Sherl\Sdk\Shop\Product\Dto\OptionItemDto>")
-     */
-    public $items;
+  /**
+   * @var OptionItemDto[]
+   * @Serializer\Type("array<Sherl\Sdk\Shop\Product\Dto\OptionItemDto>")
+   */
+  public $items;
 
-    /**
-     * @var boolean
-     * @Serializer\Type("boolean")
-     */
-    public $required;
+  /**
+   * @var boolean
+   * @Serializer\Type("boolean")
+   */
+  public $required;
 
-    /**
-     * @var boolean
-     * @Serializer\Type("boolean")
-     */
-    public $multiple;
+  /**
+   * @var boolean
+   * @Serializer\Type("boolean")
+   */
+  public $multiple;
 
-    /**
-     * @var float
-     * @Serializer\Type("float")
-     */
-    public $rangeMin;
+  /**
+   * @var float
+   * @Serializer\Type("float")
+   */
+  public $rangeMin;
 
-    /**
-     * @var float
-     * @Serializer\Type("float")
-     */
-    public $rangeMax;
+  /**
+   * @var float
+   * @Serializer\Type("float")
+   */
+  public $rangeMax;
 
-    /**
-     * @var boolean
-     * @Serializer\Type("boolean")
-     */
-    public $enabled;
+  /**
+   * @var boolean
+   * @Serializer\Type("boolean")
+   */
+  public $enabled;
 
-    /**
-     * @var array
-     * @Serializer\Type("array<Sherl\Sdk\Shop\Product\Dto\ProductOptionItemTranslationDto>")
-     */
-    public $translations;
+  /**
+   * @var ProductOptionItemTranslationDto[]
+   * @Serializer\Type("array<Sherl\Sdk\Shop\Product\Dto\ProductOptionItemTranslationDto>")
+   */
+  public $translations;
 }

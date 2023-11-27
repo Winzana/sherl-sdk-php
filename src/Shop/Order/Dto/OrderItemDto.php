@@ -56,13 +56,13 @@ class OrderItemDto
    */
   public $taxRate;
   /**
-   * @var array<OrderItemProductOptionDto>
+   * @var OrderItemProductOptionDto[]
    * @Serializer\Type("array<Sherl\Sdk\Shop\Order\Dto\OrderItemProductOptionDto>")
    */
   public $options;
   /**
-   * @var array<OrderItemProductScheduteDto>
-   * @Serializer\Type("Sherl\Sdk\Shop\Order\Dto\OrderItemProductScheduteDto")
+   * @var OrderItemProductScheduleDto[]
+   * @Serializer\Type("array<Sherl\Sdk\Shop\Order\Dto\OrderItemProductScheduleDto>")
    */
   public $schedules;
   /**

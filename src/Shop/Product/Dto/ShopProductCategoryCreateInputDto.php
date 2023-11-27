@@ -7,51 +7,51 @@ use Sherl\Sdk\Shop\Product\Dto\SEODto;
 
 class ShopProductCategoryCreateInputDto
 {
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $id;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $id;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $globalUri;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $globalUri;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $name;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $name;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $color;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $color;
 
-    /**
-     * @var float
-     * @Serializer\Type("float")
-     */
-    public $taxeValue;
+  /**
+   * @var float
+   * @Serializer\Type("float")
+   */
+  public $taxeValue;
 
-    /**
-     * @var integer
-     * @Serializer\Type("integer")
-     */
-    public $position;
+  /**
+   * @var integer
+   * @Serializer\Type("integer")
+   */
+  public $position;
 
-    /**
-     * @var SEODto
-     * @Serializer\Type("Sherl\Sdk\Shop\Category\Dto\SEODto")
-     */
-    public $seo;
+  /**
+   * @var SEODto
+   * @Serializer\Type("Sherl\Sdk\Shop\Category\Dto\SEODto")
+   */
+  public $seo;
 
-    /**
-     * @var boolean
-     * @Serializer\Type("boolean")
-     */
-    public $isPublic;
+  /**
+   * @var boolean
+   * @Serializer\Type("boolean")
+   */
+  public $isPublic;
 }

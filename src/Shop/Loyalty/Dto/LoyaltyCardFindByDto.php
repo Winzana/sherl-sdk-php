@@ -23,7 +23,7 @@ class LoyaltyCardFindByDto extends PaginationFiltersInputDto
    */
   public $ownerUri;
   /**
-   * @var array<string>
+   * @var string[]
    * @Serializer\Type("array<string>")
    */
   public $ownerUris;

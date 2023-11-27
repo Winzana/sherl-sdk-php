@@ -3,19 +3,19 @@
 namespace Sherl\Sdk\Shop\Order\Dto;
 
 use Sherl\Sdk\Common\Dto\Pagination;
-use Sherl\Sdk\Shop\Order\Dto\OrderResponse;
+use Sherl\Sdk\Order\Dto\OrderOutputDto;
 
 class OrderFindOutputDto extends Pagination
 {
-    /**
-     * @var OrderResponse[]
-     * @Serializer\Type("array<Sherl\Sdk\Shop\Order\Dto\OrderResponse>")
-     */
-    public $results;
+  /**
+   * @var OrderOutputDto[]
+   * @Serializer\Type("array<Sherl\Sdk\Order\Dto\OrderOutputDto>")
+   */
+  public $results;
 
-    /**
-     * @var ViewOutputDto
-     * @Serializer\Type("Sherl\Sdk\Common\Dto\ViewOutputDto")
-     */
-    public $view;
+  /**
+   * @var ViewOutputDto
+   * @Serializer\Type("Sherl\Sdk\Common\Dto\ViewOutputDto")
+   */
+  public $view;
 }

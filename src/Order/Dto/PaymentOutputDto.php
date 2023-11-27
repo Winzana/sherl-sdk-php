@@ -4,7 +4,10 @@ namespace Sherl\Sdk\Order\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
+use Sherl\Sdk\Order\Dto\Payment\CreditedFundsOutputDto;
+use Sherl\Sdk\Order\Dto\Payment\DebitedFundsOutputDto;
 use Sherl\Sdk\Order\Dto\Payment\FeesOutputDto;
+use Sherl\Sdk\Order\Dto\BillingDetailsOutputDto;
 use Sherl\Sdk\Order\Dto\RefundOutputDto;
 use Sherl\Sdk\Order\Dto\PaymentMethodDetailsOutputDto;
 
@@ -67,14 +70,14 @@ class PaymentOutputDto
   public $Tag;
 
   /**
-   * @var FeesOutputDto
-   * @Serializer\Type("Sherl\Sdk\Order\Dto\Payment\FeesOutputDto")
+   * @var DebitedFundsOutputDto
+   * @Serializer\Type("Sherl\Sdk\Order\Dto\Payment\DebitedFundsOutputDto")
    */
   public $DebitedFunds;
 
   /**
-   * @var FeesOutputDto
-   * @Serializer\Type("Sherl\Sdk\Order\Dto\Payment\FeesOutputDto")
+   * @var CreditedFundsOutputDto
+   * @Serializer\Type("Sherl\Sdk\Order\Dto\Payment\CreditedFundsOutputDto")
    */
   public $CreditedFunds;
 
@@ -217,7 +220,7 @@ class PaymentOutputDto
   public $balance_transaction;
 
   /**
-   * @var eta
+   * @var BillingDetailsOutputDto
    * @Serializer\Type("Sherl\Sdk\Order\Dto\BillingDetailsOutputDto")
    */
   public $billing_details;

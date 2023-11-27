@@ -11,45 +11,45 @@ use Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementTranslationOutputDto;
 
 class CreateAdvertisementInputDto
 {
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $description;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $description;
 
-    /**
-     * @var array<DisplayZoneEnum>
-     * @Serializer\Type("array<Sherl\Sdk\Shop\Enum\DisplayZoneEnum>")
-     */
-    public $displayZones;
+  /**
+   * @var DisplayZoneEnum[]
+   * @Serializer\Type("array<Sherl\Sdk\Shop\Enum\DisplayZoneEnum>")
+   */
+  public $displayZones;
 
-    /**
-     * @var MediaObjectOutputDto
-     * @Serializer\Type("Sher\Sdk\Media\Dto\MediaObjectOutputDto")
-     */
-    public $backgroundImage;
+  /**
+   * @var MediaObjectOutputDto
+   * @Serializer\Type("Sher\Sdk\Media\Dto\MediaObjectOutputDto")
+   */
+  public $backgroundImage;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $name;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $name;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $redirectUrl;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $redirectUrl;
 
-    /**
-     * @var array<AdvertisementTranslationOutputDto>
-     * @Serializer\Type("array<Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementTranslationOutputDto>")
-     */
-    public $translations;
+  /**
+   * @var AdvertisementTranslationOutputDto[]
+   * @Serializer\Type("array<Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementTranslationOutputDto>")
+   */
+  public $translations;
 
-    /**
-     * @var mixed
-     * @Serializer\Type("mixed")
-     */
-    public $metadatas;
+  /**
+   * @var mixed
+   * @Serializer\Type("mixed")
+   */
+  public $metadatas;
 }

@@ -8,93 +8,93 @@ use Sherl\Sdk\Shop\Product\Enum\ShopProductType;
 
 class OrderFindInputDto extends PaginationFiltersInputDto
 {
-    /**
-     * @var string
-     */
-    public $id;
+  /**
+   * @var string
+   */
+  public $id;
 
-    /**
-     * @var ShopProductType
-     */
-    public $type;
+  /**
+   * @var ShopProductType
+   */
+  public $type;
 
-    /**
-     * @var string
-     */
-    public $q;
+  /**
+   * @var string
+   */
+  public $q;
 
-    /**
-     * @var string
-     */
-    public $date;
+  /**
+   * @var string
+   */
+  public $date;
 
-    /**
-     * @var string
-     */
-    public $dateRangeMin;
+  /**
+   * @var string
+   */
+  public $dateRangeMin;
 
-    /**
-     * @var string
-     */
-    public $dateRangeMax;
+  /**
+   * @var string
+   */
+  public $dateRangeMax;
 
-    /**
-     * @var string
-     */
-    public $scheduleDateRangeMin;
+  /**
+   * @var string
+   */
+  public $scheduleDateRangeMin;
 
-    /**
-     * @var string
-     */
-    public $scheduleDateRangeMax;
+  /**
+   * @var string
+   */
+  public $scheduleDateRangeMax;
 
-    /**
-     * @var integer
-     */
-    public $orderNumber;
+  /**
+   * @var integer
+   */
+  public $orderNumber;
 
-    /**
-     * @var OrderStatusEnum
-     */
-    public $orderStatus;
+  /**
+   * @var OrderStatusEnum
+   */
+  public $orderStatus;
 
-    /**
-     * @var array<OrderStatusEnum>
-     */
-    public $orderStatusTab;
+  /**
+   * @var OrderStatusEnum[]
+   */
+  public $orderStatusTab;
 
-    /**
-     * @var string
-     */
-    public $customerId;
+  /**
+   * @var string
+   */
+  public $customerId;
 
-    /**
-     * @var string
-     */
-    public $customerName;
+  /**
+   * @var string
+   */
+  public $customerName;
 
-    /**
-     * @var string
-     */
-    public $meansOfPayment;
+  /**
+   * @var string
+   */
+  public $meansOfPayment;
 
-    /**
-     * @var OrganizationServiceType
-     */
-    public $serviceType;
+  /**
+   * @var OrganizationServiceType
+   */
+  public $serviceType;
 
-    /**
-     * @var float
-     */
-    public $amount;
+  /**
+   * @var float
+   */
+  public $amount;
 
-    /**
-     * @var OrganizationFilterByUsage
-     */
-    public $filterByUsage;
+  /**
+   * @var OrganizationFilterByUsage
+   */
+  public $filterByUsage;
 
-    /**
-     * @var SortDto
-     */
-    public $sort;
+  /**
+   * @var SortDto
+   */
+  public $sort;
 }

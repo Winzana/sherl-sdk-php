@@ -8,57 +8,57 @@ use Sherl\Sdk\Common\Dto\PaginationFilterInputDto;
 
 class FindAdvertisementInputDto extends PaginationFilterInputDto
 {
-    /**
-     * @var boolean
-     * @Serializer\Type("boolean")
-     */
-    public $displayDeleted;
+  /**
+   * @var boolean
+   * @Serializer\Type("boolean")
+   */
+  public $displayDeleted;
 
-    /**
-     * @var array<DisplayZoneEnum>
-     * @Serializer\Type("array<Sherl\Sdk\Shop\Enum\DisplayZoneEnum>")
-     */
-    public $displayZones;
+  /**
+   * @var DisplayZoneEnum[]
+   * @Serializer\Type("array<Sherl\Sdk\Shop\Enum\DisplayZoneEnum>")
+   */
+  public $displayZones;
 
-    /**
-     * @var boolean
-     * @Serializer\Type("boolean")
-     */
-    public $shuffle;
+  /**
+   * @var boolean
+   * @Serializer\Type("boolean")
+   */
+  public $shuffle;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $q;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $q;
 
-    /**
-     * @var boolean
-     * @Serializer\Type("boolean")
-     */
-    public $displayAllVersion;
+  /**
+   * @var boolean
+   * @Serializer\Type("boolean")
+   */
+  public $displayAllVersion;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $panel;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $panel;
 
-    /**
-     * @var array<string>
-     * @Serializer\Type("array<string>")
-     */
-    public $uriOfPanels;
+  /**
+   * @var string[]
+   * @Serializer\Type("array<string>")
+   */
+  public $uriOfPanels;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $sortBy;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $sortBy;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $sortOrder;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $sortOrder;
 }

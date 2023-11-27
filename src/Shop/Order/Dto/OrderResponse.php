@@ -4,25 +4,26 @@ namespace Sherl\Sdk\Shop\Order\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-use Sherl\Sdk\Organization\Dto\OrganizationOutputDto;
-
-use Sherl\Sdk\Person\Dto\PersonOutputDto;
-
-use Sherl\Sdk\Shop\Discount\Dto\DiscountOutputDto;
-
 use Sherl\Sdk\Shop\Order\Dto\OrderItemDto;
 use Sherl\Sdk\Shop\Order\Dto\OrderStatusHistoryDto;
 use Sherl\Sdk\Shop\Order\Dto\PaymentOutputDto;
 use Sherl\Sdk\Shop\Order\Dto\OrderCommissionDto;
 use Sherl\Sdk\Shop\Order\Dto\ShopOrderRefundDto;
-
 use Sherl\Sdk\Shop\Order\Enum\OrderStatusEnum;
 use Sherl\Sdk\Shop\Order\Enum\ShopMeansOfPaymentEnum;
 
-use Sherl\Sdk\Shop\Product\Enum\ShopProductType;
-use Sherl\Sdk\Shop\Product\Dto\OfferDto;
+use Sherl\Sdk\Organization\Dto\OrganizationOutputDto;
+
+use Sherl\Sdk\Person\Dto\PersonOutputDto;
 
 use Sherl\Sdk\Place\Dto\AddressOutputDto;
+
+use Sherl\Sdk\Shop\Discount\Dto\DiscountOutputDto;
+
+use Sherl\Sdk\Shop\Product\Dto\OfferDto;
+use Sherl\Sdk\Shop\Product\Enum\ShopProductType;
+
+
 
 class OrderResponse
 {
@@ -84,13 +85,13 @@ class OrderResponse
    */
   public $meansOfPayment;
 
-  /** @var array<PaymentOutputDto>
+  /** @var PaymentOutputDto[]
    * @Serializer\Type("array<Sherl\Sdk\Shop\Order\Dto\PaymentOutputDto>")
    */
   public $payments;
 
   /**
-   * @var array<OfferDto>
+   * @var OfferDto[]
    * @Serializer\Type("array<Sherl\Sdk\Shop\Product\Dto\OfferDto>")
    */
   public $acceptedOffer;
@@ -144,13 +145,13 @@ class OrderResponse
   public $billingAddress;
 
   /**
-   * @var array<OrderItemDto>
+   * @var OrderItemDto[]
    * @Serializer\Type("array<Sherl\Sdk\Shop\Order\Dto\OrderItemDto>")
    */
   public $orderedItems;
 
   /**
-   * @var array<OrderStatusHistoryDto>
+   * @var OrderStatusHistoryDto[]
    * @Serializer\Type("array<Sherl\Sdk\Shop\Order\Dto\OrderStatusHistoryDto>")
    */
   public $orderStatusHistory;
@@ -162,7 +163,7 @@ class OrderResponse
   public $commission;
 
   /**
-   * @var array<ShopOrderRefundDto>
+   * @var ShopOrderRefundDto[]
    * @Serializer\Type("array<Sherl\Sdk\Shop\Order\Dto\ShopOrderRefundDto>")
    */
   public $refunds;
@@ -186,7 +187,7 @@ class OrderResponse
   public $discountCode;
 
   /**
-   * @var array<DiscountOutputDto>
+   * @var DiscountOutputDto[]
    * @Serializer\Type("array<Sherl\Sdk\Shop\Discount\Dto\DiscountOutputDto>")
    */
   public $discountToUsefull;
