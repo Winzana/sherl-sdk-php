@@ -9,9 +9,9 @@ use Sherl\Sdk\Shop\Order\Dto\ShopBasketValidatePaymentInputDto;
 
 class ShopBasketValidateAndPayInputDto extends ShopBasketValidatePaymentInputDto
 {
-  /**
-   * @var MeansOfPayment
-   * @Serializer\Type("Sherl\Sdk\Shop\Order\Enum\MeansOfPayment")
-   */
-  public $meansOfPayment;
+    /**
+     * @var MeansOfPayment
+     * @Serializer\Type("Sherl\Sdk\Shop\Order\Enum\MeansOfPayment")
+     */
+    public $meansOfPayment;
 }

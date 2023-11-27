@@ -6,15 +6,15 @@ use JMS\Serializer\Annotation as Serializer;
 
 class ShopBasketAddProductOptionItemInputDto
 {
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $name;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $name;
 
-  /**
-   * @var integer
-   * @Serializer\Type("integer")
-   */
-  public $quantity;
+    /**
+     * @var integer
+     * @Serializer\Type("integer")
+     */
+    public $quantity;
 }

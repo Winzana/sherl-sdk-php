@@ -7,9 +7,9 @@ use MangoPay\Transfer;
 
 class OrderCommissionDto extends Transfer
 {
-  /**
-   * @var DateTime
-   * @Serializer\Type("DateTime")
-   */
-  public $createdAt;
+    /**
+     * @var DateTime
+     * @Serializer\Type("DateTime")
+     */
+    public $createdAt;
 }

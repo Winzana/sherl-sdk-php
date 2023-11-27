@@ -7,33 +7,33 @@ use Sherl\Sdk\Shop\Product\Dto\ProductOptionItemTranslationDto;
 
 class OptionItemDto
 {
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $name;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $name;
 
-  /**
-   * @var float
-   * @Serializer\Type("float")
-   */
-  public $priceTaxIncluded;
+    /**
+     * @var float
+     * @Serializer\Type("float")
+     */
+    public $priceTaxIncluded;
 
-  /**
-   * @var boolean
-   * @Serializer\Type("boolean")
-   */
-  public $available;
+    /**
+     * @var boolean
+     * @Serializer\Type("boolean")
+     */
+    public $available;
 
-  /**
-   * @var boolean
-   * @Serializer\Type("boolean")
-   */
-  public $enabled;
+    /**
+     * @var boolean
+     * @Serializer\Type("boolean")
+     */
+    public $enabled;
 
-  /**
-   * @var ProductOptionItemTranslationDto[]
-   * @Serializer\Type("array<Sherl\Sdk\Shop\Product\Dto\ProductOptionItemTranslationDto>")
-   */
-  public $translations;
+    /**
+     * @var ProductOptionItemTranslationDto[]
+     * @Serializer\Type("array<Sherl\Sdk\Shop\Product\Dto\ProductOptionItemTranslationDto>")
+     */
+    public $translations;
 }

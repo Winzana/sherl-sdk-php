@@ -6,15 +6,15 @@ use Sherl\Sdk\Common\Dto\Pagination;
 
 class DiscountPaginatedResultOutputDto extends Pagination
 {
-  /**
-   * @var DiscountDto[]
-   * @Serializer\Type("array<Sherl\Sdk\Shop\Discount\Dto\DiscountDto>")
-   */
-  public $results;
+    /**
+     * @var DiscountDto[]
+     * @Serializer\Type("array<Sherl\Sdk\Shop\Discount\Dto\DiscountDto>")
+     */
+    public $results;
 
-  /**
-   * @var ViewOutputDto
-   * @Serializer\Type("Sherl\Sdk\Common\Dto\ViewOutputDto")
-   */
-  public $view;
+    /**
+     * @var ViewOutputDto
+     * @Serializer\Type("Sherl\Sdk\Common\Dto\ViewOutputDto")
+     */
+    public $view;
 }

@@ -8,19 +8,19 @@ use JMS\Serializer\Annotation as Serializer;
 
 class OrderItemProductOptionDto
 {
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $id;
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $name;
-  /**
-   * @var OrderItemProductOptionItemDto[]
-   * @Serializer\Type("array<Sherl\Sdk\Shop\Order\Dto\OrderItemProductOptionItemDto>")
-   */
-  public $items;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $id;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $name;
+    /**
+     * @var OrderItemProductOptionItemDto[]
+     * @Serializer\Type("array<Sherl\Sdk\Shop\Order\Dto\OrderItemProductOptionItemDto>")
+     */
+    public $items;
 }
