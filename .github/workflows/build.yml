@@ -30,4 +30,4 @@ jobs:
         run: ./vendor/bin/php-cs-fixer fix --dry-run src
 
       - name: Run PHPStant Tests
-        run: ./vendor/bin/phpstan analyse src --level 7
+        run: ./vendor/bin/phpstan analyse src --level 8
