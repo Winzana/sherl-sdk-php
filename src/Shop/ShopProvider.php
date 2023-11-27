@@ -9,6 +9,9 @@ use Psr\Http\Message\ResponseInterface;
 use Sherl\Sdk\Common\Error\SherlException;
 use Sherl\Sdk\Common\SerializerFactory;
 use Sherl\Sdk\Order\Enum\OrderStatus;
+
+use Sherl\Sdk\Person\Dto\PersonOutputDto;
+
 use Sherl\Sdk\Shop\Advertisement\Dto\CreateAdvertisementInputDto;
 use Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementOutputDto;
 use Sherl\Sdk\Shop\Advertisement\Dto\FindAdvertisementInputDto;
@@ -41,7 +44,9 @@ use Sherl\Sdk\Shop\Product\Dto\ProductResponseDto;
 use Sherl\Sdk\Shop\Product\Dto\FindProductCommentsInputDto;
 use Sherl\Sdk\Shop\Product\Dto\ProductFindByDto;
 use Sherl\Sdk\Shop\Product\Dto\PublicProductResponseDto;
+use Sherl\Sdk\Shop\Product\Dto\ProductPaginatedResultDto;
 
+// Categpory (Product)
 use Sherl\Sdk\Shop\Category\Dto\CategoryOutputDto;
 use Sherl\Sdk\Shop\Category\Dto\ShopProductCategoryCreateInputDto;
 use Sherl\Sdk\Shop\Category\Dto\ShopProductSubCategoryCreateInputDto;
@@ -50,6 +55,16 @@ use Sherl\Sdk\Shop\Category\Dto\PublicCategoryAndSubCategoryFindByDto;
 use Sherl\Sdk\Shop\Category\Dto\PublicCategoryResponseDto;
 
 use Sherl\Sdk\Shop\Product\Dto\AddCommentOnProductDto;
+
+// SUBSCRIPTION
+use Sherl\Sdk\Shop\Subscription\Dto\SubscriptionOutputDto;
+use Sherl\Sdk\Shop\Subscription\Dto\SubscriptionFindOnByDto;
+
+// PAYEMENT
+use Sherl\Sdk\Shop\Payment\Dto\CreditCardDto;
+
+// PAYOUT 
+use Sherl\Sdk\Shop\Payout\Dto\PayoutDto;
 
 class ShopProvider
 {
@@ -1554,7 +1569,7 @@ class ShopProvider
     );
   }
 
-  public function getPublicProductsWithFilters(ProductFindByDto $filters): ?Pagination // TODO: Pagination<ProductResponseDto>
+  public function getPublicProductsWithFilters(ProductFindByDto $filters): ?ProductPaginatedResultDto // TODO: Pagination<ProductResponseDto>
   {
     $response = $this->client->get(
       "/api/shop/products/public",
@@ -1577,7 +1592,7 @@ class ShopProvider
     );
   }
 
-  public function getPublicProducts(ProductFindByDto $filters): ?Pagination // TODO: Pagination<ProductResponseDto>
+  public function getPublicProducts(ProductFindByDto $filters): ?ProductPaginatedResultDto // TODO: Pagination<ProductResponseDto>
   {
     $response = $this->client->get(
       "/api/public/shop/products",
@@ -1623,7 +1638,7 @@ class ShopProvider
   }
 
   //Payment
-  public function deleteCard(string $cardId): ?PersonInputDto
+  public function deleteCard(string $cardId): ?PersonOutputDto
   {
     $response = $this->client->delete("/api/shop/payments/card/{$cardId}");
 
@@ -1651,7 +1666,7 @@ class ShopProvider
       'json'
     );
   }
-  public function saveCard(string $cardId, string $token): ?PersonInputDto
+  public function saveCard(string $cardId, string $token): ?PersonOutputDto
   {
     $response = $this->client->post(
       "/api/shop/payments/card/{$cardId}/default",
@@ -1670,7 +1685,7 @@ class ShopProvider
       'json'
     );
   }
-  public function setDefaultCard(string $cardId): ?PersonInputDto
+  public function setDefaultCard(string $cardId): ?PersonOutputDto
   {
     $response = $this->client->post("/api/shop/payments/card/{$cardId}/default");
 
