@@ -5,7 +5,7 @@ title: Order types
 
 ### Orders
 
-## OrderResponse
+## OrderDto
 
 | Fields                             |                               Type                                | Description                                 |
 | ---------------------------------- | :---------------------------------------------------------------: | ------------------------------------------- |
@@ -17,10 +17,10 @@ title: Order types
 | **customer**                       |          [PersonOutputDto](person-types#PersonOutputDto)          | The customer associated to the order        |
 | **orderNumber**                    |                              integer                              | The number of the order                     |
 | **orderNumberOfDay**               |                              integer                              | Number of day of the order                  |
-| **orderStatus**                    |                  [OrderStatusEnum](#OrderStatus)                  | The status of the order                     |
+| **orderStatus**                    |                    [OrderStatus](#OrderStatus)                    | The status of the order                     |
 | **type**                           |                [ShopProductType](#ShopProductType)                | Type of the order                           |
 | **meansOfPayment**                 |         [ShopMeansOfPaymentEnum](#ShopMeansOfPaymentEnum)         | The means of payment used                   |
-| **payments**                       |         [PaymentOutputDto[]](shop-types#PaymentOutputDto)         | Payments associated to the order            |
+| **payments**                       |               [PaymentDto[]](shop-types#PaymentDto)               | Payments associated to the order            |
 | **acceptedOffer**                  |                 [OfferDto[]](shop-types#OfferDto)                 | The accepted offer associated to the order  |
 | **price**                          |                               float                               | Price of the order                          |
 | **priceTaxIncluded**               |                               float                               | Price of the order, all taxes included      |
@@ -30,14 +30,14 @@ title: Order types
 | **priceToPay**                     |                               float                               | Price to pay                                |
 | **numberOfCredit**                 |                               float                               | Amount of credit                            |
 | **billingAddress**                 |        [AddressOutputDto](../place-types#AddressOutputDto)        | The billing address                         |
-| **orderedItems**                   |             [OrderItemOutputDto](#OrderItemOutputDto)             | List of the ordered items                   |
-| **orderStatusHistory**             |    [OrderStatusHistoryOutputDto](#OrderStatusHistoryOutputDto)    | List of the order status                    |
-| **commission**                     |       [OrderCommissionOutputDto](#OrderCommissionOutputDto)       | MangoPay Commision associated to the order  |
+| **orderedItems**                   |                   [OrderItemDto](#OrderItemDto)                   | List of the ordered items                   |
+| **orderStatusHistory**             |          [OrderStatusHistoryDto](#OrderStatusHistoryDto)          | List of the order status                    |
+| **commission**                     |             [OrderCommissionDto](#OrderCommissionDto)             | MangoPay Commision associated to the order  |
 | **refund**                         |             [ShopOrderRefundDto](#ShopOrderRefundDto)             | Refund associated to the order              |
 | **metadatas**                      |                               mixed                               | TODO                                        |
 | **sponsorshipCode**                |                              string                               | Sponsor ship code                           |
 | **discountCode**                   |                              string                               | Discount code                               |
-| **discountToUsefull**              |             [DiscountOutputDto[]](#DiscountOutputDto)             | Total discounts to be applied               |
+| **discountToUsefull**              |                   [DiscountDto[]](#DiscountDto)                   | Total discounts to be applied               |
 | **subscriptionBeginDate**          |                             DateTime                              | Begin date of the subscription              |
 | **isFreeTrial**                    |                              boolean                              | Indicates the order has a free trial period |
 | **createdAt**                      |                             DateTime                              | The creation date                           |
@@ -45,13 +45,13 @@ title: Order types
 
 ## OrderFindOutputDto
 
-| Fields           |                                  Type                                   | Description                                            |
-| ---------------- | :---------------------------------------------------------------------: | ------------------------------------------------------ |
-| **results**      |             [OrderResponse[]](../shop-types#OrderResponse)              | List of [OrderResponse[]](../shop-types#OrderResponse) |
-| **view**         |                [ViewOutputDto](pagination#viewoutputdto)                | The discount type associated to the reward             |
-| **aggregations** | array<string,[AggregationsOutputDto](pagination#aggregationsoutputdto)> | The amount of the discount                             |
+| Fields           |                                  Type                                   | Description                                  |
+| ---------------- | :---------------------------------------------------------------------: | -------------------------------------------- |
+| **results**      |                  [OrderDto[]](../shop-types#OrderDto)                   | List of [OrderDto[]](../shop-types#OrderDto) |
+| **view**         |                [ViewOutputDto](pagination#viewoutputdto)                | The discount type associated to the reward   |
+| **aggregations** | array<string,[AggregationsOutputDto](pagination#aggregationsoutputdto)> | The amount of the discount                   |
 
-## OrderItemOutputDto
+## OrderItemDto
 
 | Fields                |                            Type                             | Description                                 |
 | --------------------- | :---------------------------------------------------------: | ------------------------------------------- |
@@ -66,11 +66,11 @@ title: Order types
 | **taxRate**           |                            float                            | The taxes part of the order item            |
 | **options**           |   [OrderItemProductOptionDto](#OrderItemProductOptionDto)   | List of options                             |
 | **schedules**         | [OrderItemProductScheduleDto](#OrderItemProductScheduleDto) | List of schedules                           |
-| **offerId**           |           [PaymentOutputDto[]](#PaymentOutputDto)           | The offer associated to the order           |
+| **offerId**           |                 [PaymentDto[]](#PaymentDto)                 | The offer associated to the order           |
 | **refunded**          |                           boolean                           | Indicates if the item was refunded or not   |
 | **metadatas**         |                            mixed                            | Metadata associated with the order item.    |
 
-## OrderCommissionOutputDto
+## OrderCommissionDto
 
 | Fields        |   Type   | Description                     |
 | ------------- | :------: | ------------------------------- |

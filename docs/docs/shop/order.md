@@ -25,8 +25,8 @@ $orders = $shopClient->getOrders(OrderFindByDto $filters);
 | **scheduleDateRangeMin** |            string             |   :x:    |   Optional minimum scheduled date range for the order.    |
 | **scheduleDateRangeMax** |            string             |   :x:    |   Optional maximum scheduled date range for the order.    |
 |     **orderNumber**      |             float             |   :x:    |           Optional order number for the order.            |
-|     **orderStatus**      |        OrderStatusEnum        |   :x:    |           Optional current status of the order.           |
-|    **orderStatusTab**    |       OrderStatusEnum[]       |   :x:    |      Optional array of order statuses for filtering.      |
+|     **orderStatus**      |          OrderStatus          |   :x:    |           Optional current status of the order.           |
+|    **orderStatusTab**    |         OrderStatus[]         |   :x:    |      Optional array of order statuses for filtering.      |
 |      **customerId**      |            string             |   :x:    | Optional identifier of the customer who placed the order. |
 |     **customerName**     |            string             |   :x:    |    Optional name of the customer who placed the order.    |
 |    **meansOfPayment**    |            string             |   :x:    |       Optional means of payment used for the order.       |
@@ -45,7 +45,7 @@ $orders = $shopClient->getOrders(OrderFindByDto $filters);
 $order = $shopClient->getOrder(string $orderId);
 ```
 
-This call returns an [OrderOutputDto](../order-types#OrderResponse) object.
+This call returns an [OrderOutputDto](../order-types#OrderDto) object.
 
 ## Cancel Order
 
@@ -55,17 +55,17 @@ This call returns an [OrderOutputDto](../order-types#OrderResponse) object.
 $cancelledOrder = $shopClient->cancelOrder(string $orderId,CancelOrderInputDto $cancelOrderDates);
 ```
 
-This call returns an [OrderOutputDto](../order-types#OrderResponse) object.
+This call returns an [OrderOutputDto](../order-types#OrderDto) object.
 
 ## Update Order Status
 
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$updatedOrder = $shopClient->updateOrderStatus(string $orderId, OrderStatusEnum $status);
+$updatedOrder = $shopClient->updateOrderStatus(string $orderId, OrderStatus $status);
 ```
 
-This call returns an [OrderOutputDto](../order-types#OrderResponse) object.
+This call returns an [OrderOutputDto](../order-types#OrderDto) object.
 
 ## Get Organization Orders
 

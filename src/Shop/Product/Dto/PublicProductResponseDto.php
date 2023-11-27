@@ -4,10 +4,10 @@ namespace Sherl\Sdk\Shop\Product\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Shop\Product\Enum\ShopProductType;
-use Sherl\Sdk\Shop\Product\Dto\PublicCategoryResponseDto;
+use Sherl\Sdk\Shop\Category\Dto\PublicCategoryResponseDto;
 use Sherl\Sdk\Shop\Product\Dto\OfferDto;
 use Sherl\Sdk\Shop\Product\Dto\OptionDto;
-use Sherl\Sdk\Media\Dto\ImageObjectDto;
+use Sherl\Sdk\Media\Dto\ImageObjectOutputDto;
 
 use Sherl\Sdk\Shop\Discount\Dto\ProductRestrictionsWithProductUriDto;
 
@@ -87,7 +87,7 @@ class PublicProductResponseDto
 
   /**
    * @var PublicCategoryResponseDto
-   * @Serializer\Type("Sherl\Sdk\Shop\Product\Dto\PublicCategoryResponseDto")
+   * @Serializer\Type("Sherl\Sdk\Shop\Category\Dto\PublicCategoryResponseDto")
    */
   public $category;
 
@@ -134,8 +134,8 @@ class PublicProductResponseDto
   public $isCustom;
 
   /**
-   * @var ImageObjectDto[]
-   * @Serializer\Type("array<Sherl\Sdk\Shop\Product\Dto\ImageObjectDto>")
+   * @var ImageObjectOutputDto[]
+   * @Serializer\Type("array<Sherl\Sdk\Media\Dto\ImageObjectOutputDto>")
    */
   public $photos;
 

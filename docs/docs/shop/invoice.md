@@ -13,4 +13,4 @@ This page list all actions available on shop invoices.
 $order = $shopClient->sendLinkToPaidOnline(string $invoiceId);
 ```
 
-This call returns an [OrderResponse](../shop-types#orderresponse) object.
+This call returns an [OrderDto](../shop-types#OrderDto) object.

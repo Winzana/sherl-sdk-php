@@ -8,12 +8,11 @@ use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 use Sherl\Sdk\Common\Error\SherlException;
 use Sherl\Sdk\Common\SerializerFactory;
-use Sherl\Sdk\Order\Enum\OrderStatus;
 
 use Sherl\Sdk\Person\Dto\PersonOutputDto;
 
+use Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementDto;
 use Sherl\Sdk\Shop\Advertisement\Dto\CreateAdvertisementInputDto;
-use Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementOutputDto;
 use Sherl\Sdk\Shop\Advertisement\Dto\FindAdvertisementInputDto;
 use Sherl\Sdk\Shop\Advertisement\Dto\FindAdvertisementsOutputDto;
 
@@ -32,16 +31,19 @@ use Sherl\Sdk\Shop\Loyalty\Dto\ShopLoyaltyCardUpdateInputDto;
 use Sherl\Sdk\Shop\Order\Dto\ShopBasketValidateAndPayInputDto;
 use Sherl\Sdk\Shop\Order\Dto\ShopBasketValidatePaymentInputDto;
 use Sherl\Sdk\Shop\Order\Dto\CancelOrderInputDto;
-use Sherl\Sdk\Order\Dto\OrderOutputDto;
+use Sherl\Sdk\Shop\Order\Dto\OrderDto;
 use Sherl\Sdk\Shop\Order\Dto\OrderFindInputDto;
 use Sherl\Sdk\Shop\Order\Dto\OrderFindOutputDto;
 
-// PRODUCT
+use Sherl\Sdk\Shop\Order\Enum\OrderStatus;
 
+
+// PRODUCT
 use Sherl\Sdk\Shop\Product\Dto\CommentDto;
 use Sherl\Sdk\Shop\Product\Dto\ProductOutputDto;
 use Sherl\Sdk\Shop\Product\Dto\ProductResponseDto;
 use Sherl\Sdk\Shop\Product\Dto\FindProductCommentsInputDto;
+use Sherl\Sdk\Shop\Product\Dto\ProductCommentsResult;
 use Sherl\Sdk\Shop\Product\Dto\ProductFindByDto;
 use Sherl\Sdk\Shop\Product\Dto\PublicProductResponseDto;
 use Sherl\Sdk\Shop\Product\Dto\ProductPaginatedResultDto;
@@ -83,7 +85,15 @@ class ShopProvider
   }
 
   // Advertisements
-  public function createAdvertisement(CreateAdvertisementInputDto $createAdvertisement): ?AdvertisementOutputDto
+
+  /**
+   * Create an advertisement.
+   *
+   * @param CreateAdvertisementInputDto $createAdvertisement The input data to create the advertisement.
+   * @throws SherlException If there is an error creating the advertisement.
+   * @return AdvertisementDto|null The created advertisement.
+   */
+  public function createAdvertisement(CreateAdvertisementInputDto $createAdvertisement): ?AdvertisementDto
   {
 
 
@@ -111,12 +121,19 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      Advertisement::class,
+      AdvertisementDto::class,
       'json'
     );
   }
-
-  public function updateAdvertisement(string $advertisementId, CreateAdvertisementInputDto $updateAdvertisement): ?AdvertisementOutputDto
+  /**
+   * Updates an advertisement.
+   *
+   * @param string $advertisementId The ID of the advertisement to update.
+   * @param CreateAdvertisementInputDto $updateAdvertisement The updated advertisement data.
+   * @throws SherlException If the API request fails.
+   * @return AdvertisementDto|null The updated advertisement, or null if the request was unsuccessful.
+   */
+  public function updateAdvertisement(string $advertisementId, CreateAdvertisementInputDto $updateAdvertisement): ?AdvertisementDto
   {
     $response = $this->client->put(
       "/api/shop/advertisements/:" + $advertisementId,
@@ -142,11 +159,18 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      AdvertismentOutputDto::class,
+      AdvertisementDto::class,
       'json'
     );
   }
 
+  /**
+   * Deletes an advertisement.
+   *
+   * @param string $advertisementId The ID of the advertisement to delete.
+   * @throws SherlException If the request to delete the advertisement fails.
+   * @return bool|null Returns `true` if the advertisement was deleted successfully, `false` otherwise.
+   */
   public function deleteAdvertisement(string $advertisementId): ?bool
   {
     $response = $this->client->delete(
@@ -166,7 +190,14 @@ class ShopProvider
     return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
   }
 
-  public function getAdvertisement(string $advertisementId): ?AdvertisementOutputDto
+  /**
+   * Retrieves an advertisement by its ID.
+   *
+   * @param string $advertisementId The ID of the advertisement.
+   * @throws SherlException If an error occurs during the request.
+   * @return AdvertisementDto|null The advertisement data or null if not found.
+   */
+  public function getAdvertisement(string $advertisementId): ?AdvertisementDto
   {
     $response = $this->client->get(
       "/api/shop/advertisements/$advertisementId",
@@ -183,11 +214,18 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      AdvertisementOutputDto::class,
+      AdvertisementDto::class,
       'json'
     );
   }
 
+  /**
+   * Retrieves advertisements based on the provided filter.
+   *
+   * @param FindAdvertisementInputDto $filter The filter to apply when retrieving advertisements.
+   * @throws SherlException If there is an error retrieving the advertisements.
+   * @return FindAdvertisementsOutputDto The retrieved advertisements.
+   */
   public function getAdvertisements(FindAdvertisementInputDto $filter): ?FindAdvertisementsOutputDto
   {
     $response = $this->client->get(
@@ -221,6 +259,13 @@ class ShopProvider
     );
   }
 
+  /**
+   * Retrieves public advertisements based on the given filter.
+   *
+   * @param FindAdvertisementInputDto $filter The filter to apply when retrieving advertisements.
+   * @throws SherlException If there is an error retrieving the advertisements.
+   * @return FindAdvertisementsOutputDto The output DTO containing the retrieved advertisements.
+   */
   public function getPublicAdvertisements(FindAdvertisementInputDto $filter): ?FindAdvertisementsOutputDto
   {
     $response = $this->client->get(
@@ -256,6 +301,14 @@ class ShopProvider
 
 
   //Basket
+
+  /**
+   * Adds a product to the basket.
+   *
+   * @param AddProductInputDto $productToAdd The product to add to the basket.
+   * @throws SherlException If an error occurs during the request.
+   * @return FindAdvertisementsOutputDto|null The output DTO for finding advertisements.
+   */
   public function addProductToBasket(AddProductInputDto $productToAdd): ?FindAdvertisementsOutputDto
   {
     $response = $this->client->post(
@@ -291,6 +344,13 @@ class ShopProvider
     );
   }
 
+  /**
+   * Clears the basket for a given customer.
+   *
+   * @param string $customerId The ID of the customer.
+   * @throws SherlException If an error occurs during the request.
+   * @return bool Whether the basket was cleared successfully.
+   */
   public function clearBasket(string $customerId): bool
   {
     $response = $this->client->post(
@@ -312,7 +372,14 @@ class ShopProvider
     return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
   }
 
-  public function addCommentToBasket(string $comment): OrderOutputDto
+  /**
+   * Adds a comment to the basket.
+   *
+   * @param string $comment The comment to be added to the basket.
+   * @throws SherlException If an error occurs during the request.
+   * @return OrderDto The associated OrderDto object updated.
+   */
+  public function addCommentToBasket(string $comment): OrderDto
   {
     $response = $this->client->post(
       "/api/shop/baskets/comment",
@@ -332,11 +399,18 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      OrderOutputDto::class,
+      OrderDto::class,
       'json'
     );
   }
 
+  /**
+   * Retrieves the customer basket.
+   *
+   * @param string $customerUri The URI of the customer.
+   * @throws SherlException If an error occurs during the request.
+   * @return bool The associated OrderDto object.
+   */
   public function getCustomerBasket(string $customerUri): bool
   {
     $response = $this->client->get(
@@ -357,12 +431,19 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      OrderOutputDto::class,
+      OrderDto::class,
       'json'
     );
   }
 
 
+  /**
+   * Remove an item from the basket.
+   *
+   * @param string $itemId The ID of the item to be removed.
+   * @throws SherlException If an error occurs during the request.
+   * @return bool Returns true if the item was successfully removed, otherwise false.
+   */
   public function removeItemFromBasket(string $itemId): bool
   {
     $response = $this->client->delete(
@@ -380,12 +461,19 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      OrderOutputDto::class,
+      OrderDto::class,
       'json'
     );
   }
 
-  public function addDiscountCodeToBasket(string $code): OrderOutputDto
+  /**
+   * Add a discount code to the basket.
+   *
+   * @param string $code The discount code to add.
+   * @throws SherlException If an error occurs during the request.
+   * @return OrderDto The updated order object.
+   */
+  public function addDiscountCodeToBasket(string $code): OrderDto
   {
     $response = $this->client->post(
       "/api/shop/baskets/set-discount-code",
@@ -406,12 +494,19 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      OrderOutputDto::class,
+      OrderDto::class,
       'json'
     );
   }
 
-  public function addSponsorCodeToBasket(string $code): OrderOutputDto
+  /**
+   * Adds a sponsor code to the basket.
+   *
+   * @param string $code The sponsor code to add.
+   * @throws SherlException If an error occurs during the request.
+   * @return OrderDto The updated OrderDto object.
+   */
+  public function addSponsorCodeToBasket(string $code): OrderDto
   {
     $response = $this->client->post(
       "/api/shop/baskets/set-sponsorship-code",
@@ -432,12 +527,19 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      OrderOutputDto::class,
+      OrderDto::class,
       'json'
     );
   }
 
-  public function validateAndPayBasket(ShopBasketValidateAndPayInputDto $validation): OrderOutputDto
+  /**
+   * Validates and pays the shop basket.
+   *
+   * @param ShopBasketValidateAndPayInputDto $validation the input data for validation and payment
+   * @throws SherlException If an error occurs during the request.
+   * @return OrderDto the updated order object.
+   */
+  public function validateAndPayBasket(ShopBasketValidateAndPayInputDto $validation): OrderDto
   {
     $response = $this->client->post(
       "/api/shop/baskets/validate-and-pay",
@@ -460,12 +562,19 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      OrderOutputDto::class,
+      OrderDto::class,
       'json'
     );
   }
 
-  public function validatePaymentBasket(ShopBasketValidatePaymentInputDto $validation): OrderOutputDto
+  /**
+   * Validates the payment basket using the provided input data.
+   *
+   * @param ShopBasketValidatePaymentInputDto $validation The input data for validating the payment basket.
+   * @throws SherlException If an error occurs during the request.
+   * @return OrderDto The order data after the payment basket is validated.
+   */
+  public function validatePaymentBasket(ShopBasketValidatePaymentInputDto $validation): OrderDto
   {
     $response = $this->client->post(
       "/api/shop/baskets/validate-and-pay",
@@ -487,16 +596,22 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      OrderOutputDto::class,
+      OrderDto::class,
       'json'
     );
   }
 
   // Discount
+
+  /**
+   * Creates a discount using the provided discount parameters.
+   *
+   * @param DiscountParameterDto $discountParameter The discount parameters.
+   * @throws SherlException If an error occurs during the request.
+   * @return DiscountOutputDto|null The created discount.
+   */
   public function createDiscount(DiscountParameterDto $discountParameter): ?DiscountOutputDto
   {
-
-
     $response = $this->client->post(
       "/api/shop/discounts",
       [
@@ -536,6 +651,14 @@ class ShopProvider
     );
   }
 
+  /**
+   * Updates a discount.
+   *
+   * @param string $discountId The ID of the discount to update.
+   * @param DiscountParameterDto $discountParameter The parameters for the discount.
+   * @throws SherlException If an error occurs during the request.
+   * @return DiscountOutputDto The updated discount.
+   */
   public function updateDiscount(string $discountId, DiscountParameterDto $discountParameter): ?DiscountOutputDto
   {
 
@@ -579,6 +702,13 @@ class ShopProvider
     );
   }
 
+  /**
+   * Deletes a discount by its ID.
+   *
+   * @param string $discountId The ID of the discount to delete.
+   * @throws SherlException If an error occurs during the request.
+   * @return DiscountOutputDto The deleted discount.
+   */
   public function deleteDiscount(string $discountId): ?DiscountOutputDto
   {
     $response = $this->client->delete(
@@ -602,6 +732,13 @@ class ShopProvider
     );
   }
 
+  /**
+   * Finds a single discount by the given parameters.
+   *
+   * @param DiscountFilterInputDto $filter The filter parameters for the discount.
+   * @throws SherlException If an error occurs during the request.
+   * @return DiscountOutputDto The output DTO representing the discount.
+   */
   public function findOneDiscountByParams(DiscountFilterInputDto $filter): ?DiscountOutputDto
   {
     $response = $this->client->get(
@@ -661,6 +798,13 @@ class ShopProvider
     );
   }
 
+  /**
+   * Retrieves a discount by its ID.
+   *
+   * @param string $discountId The ID of the discount to retrieve.
+   * @throws SherlException If the request to retrieve the discount fails.
+   * @return DiscountOutputDto|null The discount information, or null if it does not exist.
+   */
   public function getDiscountById(string $discountId): ?DiscountOutputDto
   {
     $response = $this->client->get(
@@ -683,6 +827,13 @@ class ShopProvider
     );
   }
 
+  /**
+   * Retrieves a paginated list of discounts based on the provided filter.
+   *
+   * @param DiscountFilterInputDto $filter The filter to apply to the discounts.
+   * @throws SherlException If an error occurs during the request.
+   * @return DiscountPaginatedResultOutputDto The paginated list of discounts.
+   */
   public function getDiscountsWithFilter(DiscountFilterInputDto $filter): ?DiscountPaginatedResultOutputDto
   {
     $response = $this->client->get(
@@ -742,6 +893,14 @@ class ShopProvider
     );
   }
 
+  /**
+   * Retrieves public discounts with filter.
+   *
+   * @param DiscountPublicFilterInputDto $filter The filter to apply to the discounts.
+   * @throws SherlException If an error occurs while retrieving the discounts.
+   * @return DiscountPaginatedResultOutputDto|null The paginated result of public discounts.
+   */
+
   public function getPublicDiscountsWithFilter(DiscountPublicFilterInputDto $filter): ?DiscountPaginatedResultOutputDto
   {
     $response = $this->client->get(
@@ -770,6 +929,14 @@ class ShopProvider
     );
   }
 
+  /**
+   * Validates a discount code for a given product.
+   *
+   * @param string $code The discount code to validate.
+   * @param string $productUri The URI of the product to validate the discount code for.
+   * @throws SherlException If there is an error validating the discount code.
+   * @return bool Returns true if the discount code is valid, false if it is not valid.
+   */
   public function validateDiscountCode(string $code, string $productUri): ?bool
   {
     $response = $this->client->post(
@@ -793,7 +960,15 @@ class ShopProvider
   }
 
   // Invoice
-  public function sendLinkToPaidOnline(string $invoiceId): OrderOutputDto
+
+  /**
+   * Sends a link to paid online for a given invoice ID.
+   *
+   * @param string $invoiceId The ID of the invoice.
+   * @throws SherlException If an error occurs during the request.
+   * @return OrderDto The updated OrderDto object.
+   */
+  public function sendLinkToPaidOnline(string $invoiceId): OrderDto
   {
     $response = $this->client->post(
       "/api/shop/invoices/$invoiceId/send-link-to-payed-online/",
@@ -810,13 +985,21 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      OrderOutputDto::class,
+      OrderDto::class,
       'json'
     );
   }
 
   // Loyalty
-  public function getLoyaltiesCardToMe(LoyaltyCardFindByDto $filter): ?LoyaltySearchResultOutputDto
+
+  /**
+   * Retrieves a loyalty card belonging to the current user.
+   *
+   * @param LoyaltyCardFindByDto $filter The filter to apply when searching for the loyalty card.
+   * @throws SherlException If an error occurs during the request.
+   * @return LoyaltySearchResultOutputDto The loyalty card belonging to the current user..
+   */
+  public function getLoyaltiesCardToMe(LoyaltyCardFindByDto $filter): LoyaltySearchResultOutputDto
   {
     $response = $this->client->get(
       "/api/shop/loyalties/to-me",
@@ -849,7 +1032,14 @@ class ShopProvider
     );
   }
 
-  public function getOrganizationLoyaltyCard(string $organizationId): ?LoyaltyCardDto
+  /**
+   * Retrieves the loyalty card for a given organization.
+   *
+   * @param string $organizationId The ID of the organization.
+   * @throws SherlException If an error occurs during the API call.
+   * @return LoyaltyCardDto The loyalty card DTO for the organization.
+   */
+  public function getOrganizationLoyaltyCard(string $organizationId): LoyaltyCardDto
   {
     $response = $this->client->get(
       "/api/shop/loyalties/organizations/$organizationId",
@@ -871,7 +1061,15 @@ class ShopProvider
     );
   }
 
-  public function updateLoyaltyCard(string $cardId, ShopLoyaltyCardUpdateInputDto $updateInfo): ?LoyaltyCardDto
+  /**
+   * Updates a loyalty card.
+   *
+   * @param string $cardId The ID of the loyalty card to update.
+   * @param ShopLoyaltyCardUpdateInputDto $updateInfo The updated information for the loyalty card.
+   * @throws SherlException If an error occurs during the request.
+   * @return LoyaltyCardDto The updated loyalty card.
+   */
+  public function updateLoyaltyCard(string $cardId, ShopLoyaltyCardUpdateInputDto $updateInfo): LoyaltyCardDto
   {
     $response = $this->client->get(
       "/api/shop/loyalties/$cardId",
@@ -902,7 +1100,14 @@ class ShopProvider
 
   // ORDER
 
-  public function getOrders(OrderFindInputDto $filter): ?OrderFindOutputDto
+  /**
+   * Retrieves orders based on the provided filter.
+   *
+   * @param OrderFindInputDto $filter The filter to apply when retrieving orders.
+   * @throws SherlException If an error occurs during the request.
+   * @return OrderFindOutputDto The result of the operation.
+   */
+  public function getOrders(OrderFindInputDto $filter): OrderFindOutputDto
   {
     $response = $this->client->get(
       "/api/shop/orders",
@@ -941,13 +1146,21 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      OrderOutputDto::class,
+      OrderDto::class,
       'json'
     );
   }
 
 
-  public function getOrganizationOrders(string $organisationId, OrderFindInputDto $filter): ?OrderFindOutputDto
+  /**
+   * Retrieves a list of orders for a specific organization.
+   *
+   * @param string $organisationId The ID of the organization.
+   * @param OrderFindInputDto $filter The filter to apply to the orders.
+   * @throws SherlException If the request fails.
+   * @return OrderFindOutputDto The list of orders that match the filter.
+   */
+  public function getOrganizationOrders(string $organisationId, OrderFindInputDto $filter): OrderFindOutputDto
   {
     $response = $this->client->get(
       "/api/shop/orders/list-to/$organisationId",
@@ -974,7 +1187,6 @@ class ShopProvider
           "amount" => $filter->amount,
           "filterByUsage" => $filter->filterByUsage,
           "sort" => $filter->sort,
-
         ]
 
       ]
@@ -986,15 +1198,23 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      OrderOutputDto::class,
+      OrderDto::class,
       'json'
     );
   }
 
-  public function updateOrderStatus(string $id, OrderStatus $status): ?OrderFindOutputDto
+  /**
+   * Updates the status of an order.
+   *
+   * @param string $id The ID of the order.
+   * @param OrderStatus $status The new status of the order.
+   * @throws SherlException If the request to update the order status fails.
+   * @return OrderFindOutputDto The updated order.
+   */
+  public function updateOrderStatus(string $id, OrderStatus $status): OrderFindOutputDto
   {
     $response = $this->client->get(
-      "/api/shop/orders/$id/status/$status",
+      "/api/shop/orders/$id/status/" . $status->value,
       [
         "headers" => [
           "Content-Type" => "application/json",
@@ -1009,12 +1229,21 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      OrderOutputDto::class,
+      OrderDto::class,
       'json'
     );
   }
-  // order
-  public function cancelOrder(string $orderId, CancelOrderInputDto $cancelOrderDates): ?OrderOutputDto
+  // Order
+
+  /**
+   * Cancels an order.
+   *
+   * @param string $orderId The ID of the order to cancel.
+   * @param CancelOrderInputDto $cancelOrderDates The cancellation details.
+   * @throws SherlException If an error occurs during the request.
+   * @return OrderDto The updated order object.
+   */
+  public function cancelOrder(string $orderId, CancelOrderInputDto $cancelOrderDates): OrderDto
   {
     $response = $this->client->post(
       "/api/shop/orders/{$orderId}/cancel",
@@ -1031,12 +1260,19 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      OrderOutputDto::class,
+      OrderDto::class,
       'json'
     );
   }
 
-  public function getOrder(string $orderId): ?OrderOutputDto
+  /**
+   * Retrieves an order by its ID.
+   *
+   * @param string $orderId The ID of the order to retrieve.
+   * @throws SherlException If an error occurs during the request.
+   * @return OrderDto The order object.
+   */
+  public function getOrder(string $orderId): OrderDto
   {
     $response = $this->client->get("/api/shop/orders/{$orderId}");
 
@@ -1046,13 +1282,21 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      OrderOutputDto::class,
+      OrderDto::class,
       'json'
     );
   }
 
   // PRODUCT
-  public function addCategoryOrganization(ShopProductCategoryCreateInputDto $category): ?CategoryOutputDto
+
+  /**
+   * Adds a product category.
+   *
+   * @param ShopProductCategoryCreateInputDto $category The category to be added.
+   * @throws SherlException If an error occurs during the request.
+   * @return CategoryOutputDto The added category.
+   */
+  public function addCategoryOrganization(ShopProductCategoryCreateInputDto $category): CategoryOutputDto
   {
     $response = $this->client->post(
       "/api/shop/products/categories",
@@ -1075,7 +1319,14 @@ class ShopProvider
     );
   }
 
-  public function addCommentOnProduct(AddCommentOnProductDto $productComment): ?CommentDto
+  /**
+   * Adds a comment on a product.
+   *
+   * @param AddCommentOnProductDto $productComment The product comment to be added.
+   * @throws SherlException If the API request fails.
+   * @return CommentDto The comment that was added.
+   */
+  public function addCommentOnProduct(AddCommentOnProductDto $productComment): CommentDto
   {
     $response = $this->client->post(
       "/api/shop/products/comments",
@@ -1098,7 +1349,15 @@ class ShopProvider
     );
   }
 
-  public function addOptionToProduct(string $productId, mixed $option): ?ProductOutputDto
+  /**
+   * Adds an option to a product.
+   *
+   * @param string $productId The ID of the product to add the option to.
+   * @param mixed $option The option to add to the product.
+   * @throws SherlException If an error occurs during the request.
+   * @return ProductOutputDto The updated product with the added option.
+   */
+  public function addOptionToProduct(string $productId, mixed $option): ProductOutputDto
   {
     $response = $this->client->post(
       "/api/shop/products/$productId/options",
@@ -1122,7 +1381,14 @@ class ShopProvider
     );
   }
 
-  public function addLikeToProduct(string $productId): ?int
+  /**
+   * Adds a like to a product.
+   *
+   * @param string $productId The ID of the product to like.
+   * @throws SherlException If the HTTP request fails.
+   * @return int The number of likes on the product.
+   */
+  public function addLikeToProduct(string $productId): int
   {
     $response = $this->client->post(
       "/api/shop/products/$productId/like",
@@ -1141,7 +1407,14 @@ class ShopProvider
     return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
   }
 
-  public function addProductViews(string $productId): ?int
+  /**
+   * Increments the number of views for a given product ID.
+   *
+   * @param string $productId The ID of the product.
+   * @throws SherlException If the API request fails.
+   * @return int The number of product views.
+   */
+  public function addProductViews(string $productId): int
   {
     $response = $this->client->post(
       "/api/shop/products/$productId/views",
@@ -1160,7 +1433,15 @@ class ShopProvider
     return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
   }
 
-  public function addSubCategoryToCategory(string $categoryId, ShopProductSubCategoryCreateInputDto $subCategory): ?CategoryOutputDto
+  /**
+   * Adds a subcategory to a category.
+   *
+   * @param string $categoryId The ID of the category.
+   * @param ShopProductSubCategoryCreateInputDto $subCategory The subcategory to be added.
+   * @throws SherlException If an error occurs during the request.
+   * @return CategoryOutputDto The output category.
+   */
+  public function addSubCategoryToCategory(string $categoryId, ShopProductSubCategoryCreateInputDto $subCategory): CategoryOutputDto
   {
     $response = $this->client->post(
       "/api/shop/products/categories/$categoryId",
@@ -1184,7 +1465,14 @@ class ShopProvider
     );
   }
 
-  public function deleteCategory(string $categoryId): ?CategoryOutputDto
+  /**
+   * Deletes a category by its ID.
+   *
+   * @param string $categoryId The ID of the category to delete.
+   * @throws SherlException If an error occurs during the request.
+   * @return CategoryOutputDto The deleted category.
+   */
+  public function deleteCategory(string $categoryId): CategoryOutputDto
   {
     $response = $this->client->delete(
       "/api/shop/products/categories/$categoryId",
@@ -1207,7 +1495,15 @@ class ShopProvider
     );
   }
 
-  public function removeProductOption(string $productId, string $optionId): ?ProductOutputDto
+  /**
+   * Removes a product option.
+   *
+   * @param string $productId The ID of the product.
+   * @param string $optionId The ID of the option.
+   * @throws SherlException If an error occurs during the request.
+   * @return ProductOutputDto The updated product.
+   */
+  public function removeProductOption(string $productId, string $optionId): ProductOutputDto
   {
     $response = $this->client->delete(
       "/api/shop/products/$productId/options/$optionId",
@@ -1233,7 +1529,16 @@ class ShopProvider
     );
   }
 
-  public function updateCategory(string $categoryId, ShopProductCategoryCreateInputDto $updatedCategory): ?CategoryOutputDto
+
+  /**
+   * Updates a category.
+   *
+   * @param string $categoryId The ID of the category to update.
+   * @param ShopProductCategoryCreateInputDto $updatedCategory The updated category data.
+   * @throws SherlException If an error occurs while updating the category.
+   * @return CategoryOutputDto The updated category.
+   */
+  public function updateCategory(string $categoryId, ShopProductCategoryCreateInputDto $updatedCategory): CategoryOutputDto
   {
     $response = $this->client->put(
       "/api/shop/products/categories/$categoryId",
@@ -1257,7 +1562,13 @@ class ShopProvider
     );
   }
 
-  public function getCategories(ShopProductCategoryFindByQueryDto $filters): ?CategoryOutputDto
+  /**
+   * Retrieves the categories of shop products based on the provided filters.
+   *
+   * @param ShopProductCategoryFindByQueryDto $filters The filters to apply when searching for categories.
+   * @throws SherlException If an error occurs during the request.+   * @return CategoryOutputDto The output DTO containing the categories.
+   */
+  public function getCategories(ShopProductCategoryFindByQueryDto $filter): CategoryOutputDto
   {
     $response = $this->client->get(
       "/api/shop/products/categories/all",
@@ -1265,7 +1576,12 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
+        RequestOptions::JSON => [
+          "organizationId" => $filter->organizationId,
+          "depth" => $filter->depth,
+        ]
       ]
+
     );
 
     if ($response->getStatusCode() >= 300) {
@@ -1279,7 +1595,14 @@ class ShopProvider
     );
   }
 
-  public function getCategoryById(string $categoryId): ?CategoryOutputDto
+  /**
+   * Retrieves a category by its ID.
+   *
+   * @param string $categoryId The ID of the category.
+   * @throws SherlException If the API request fails.
+   * @return CategoryOutputDto The category object.
+   */
+  public function getCategoryById(string $categoryId): CategoryOutputDto
   {
     $response = $this->client->get(
       "/api/shop/products/categories/$categoryId",
@@ -1302,10 +1625,17 @@ class ShopProvider
     );
   }
 
-  public function getOrganizationCategories(string $organizationId): ?CategoryOutputDto
+  /**
+   * Retrieves the categories for a given organization.
+   *
+   * @param string $organizationId The ID of the organization.
+   * @throws SherlException If the API request fails.
+   * @return CategoryOutputDto The categories for the organization.
+   */
+  public function getOrganizationCategories(string $organizationId): CategoryOutputDto
   {
     $response = $this->client->get(
-      "/api/shop/products/categories", // TODO: CHECK ROUTE
+      "/api/shop/products/categories",
       [
         "headers" => [
           "Content-Type" => "application/json",
@@ -1325,7 +1655,14 @@ class ShopProvider
     );
   }
 
-  public function getOrganizationSubCategories(string $categoryId): ?CategoryOutputDto
+  /**
+   * Retrieves the sub-categories of an organization's category.
+   *
+   * @param string $categoryId The ID of the category.
+   * @throws SherlException If the API request fails.
+   * @return CategoryOutputDto The sub-category found.
+   */
+  public function getOrganizationSubCategories(string $categoryId): CategoryOutputDto
   {
     $response = $this->client->get(
       "/api/shop/products/categories/$categoryId",
@@ -1348,7 +1685,15 @@ class ShopProvider
     );
   }
 
-  public function getProductComments(string $productId, FindProductCommentsInputDto $filters): ?CommentDto // TODO: <ISearchResult<IComment>>
+  /**
+   * Retrieves the comments for a specific product.
+   *
+   * @param string $productId The ID of the product.
+   * @param FindProductCommentsInputDto $filters The filters to apply when retrieving the comments.
+   * @throws SherlException If the API request fails.
+   * @return ProductCommentsResult The pagianated result containing the comments for the product.
+   */
+  public function getProductComments(string $productId, FindProductCommentsInputDto $filters): ProductCommentsResult
   {
     $response = $this->client->get(
       "/api/shop/products/$productId/comments",
@@ -1356,7 +1701,15 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::QUERY => ["productId" => $productId]
+        RequestOptions::QUERY => ["productId" => $productId],
+        RequestOptions::JSON => [
+          "page" => $filters->page,
+          "itemsPerPage" => $filters->itemsPerPage,
+          "productId" => $filters->productId,
+          "personId" => $filters->personId,
+          "organizationUri" => $filters->organizationUri,
+          "sort" => $filters->sort,
+        ]
       ]
     );
 
@@ -1366,12 +1719,19 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      CommentDto::class, // TODO: <ISearchResult<IComment>>
+      ProductCommentsResult::class,
       'json'
     );
   }
 
-  public function getProductLikes(string $productId): ?int
+  /**
+   * Retrieves the number of likes for a given product.
+   *
+   * @param string $productId The ID of the product.
+   * @throws SherlException If the API request fails.
+   * @return int The number of likes for the product.
+   */
+  public function getProductLikes(string $productId): int
   {
     $response = $this->client->get(
       "/api/shop/products/$productId/like",
@@ -1390,7 +1750,14 @@ class ShopProvider
     return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
   }
 
-  public function getProductViews(string $productId): ?int
+  /**
+   * Retrieves the number of views for a specific product.
+   *
+   * @param string $productId The ID of the product.
+   * @throws SherlException If the API request fails.
+   * @return int The number of views for the product.
+   */
+  public function getProductViews(string $productId): int
   {
     $response = $this->client->get(
       "/api/shop/products/$productId/views",
@@ -1409,7 +1776,14 @@ class ShopProvider
     return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
   }
 
-  public function getProduct(string $productId): ?ProductResponseDto
+  /**
+   * Retrieves a product by its ID.
+   *
+   * @param string $productId The ID of the product to retrieve.
+   * @throws SherlException If the API request fails.
+   * @return ProductResponseDto The product found.
+   */
+  public function getProduct(string $productId): ProductResponseDto
   {
     $response = $this->client->get(
       "/api/shop/products/$productId",
@@ -1432,7 +1806,14 @@ class ShopProvider
     );
   }
 
-  public function getProducts(ProductFindByDto $filters): ?ProductResponseDto //TODO: Pagination<ProductResponseDto>
+  /**
+   * Retrieves a paginated list of products based on the given filters.
+   *
+   * @param ProductFindByDto $filters The filters to apply when searching for products.
+   * @throws SherlException If the API request fails.
+   * @return ProductPaginatedResultDto The paginated result containing the products that match the filters.
+   */
+  public function getProducts(ProductFindByDto $filters): ProductPaginatedResultDto
   {
     $response = $this->client->get(
       "/api/shop/products",
@@ -1450,12 +1831,19 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      ProductResponseDto::class,
+      ProductPaginatedResultDto::class,
       'json'
     );
   }
 
-  public function getPublicCategoriesAndSub(PublicCategoryAndSubCategoryFindByDto $filters): ?PublicCategoryResponseDto // TODO: PublicCategoryResponseDto[]
+  /**
+   * Retrieves the public categories and subcategories based on the provided filters.
+   *
+   * @param PublicCategoryAndSubCategoryFindByDto $filters The filters to apply for retrieving the categories and subcategories.
+   * @throws SherlException If the API request fails.
+   * @return array Returns an array of PublicCategoryResponseDto objects representing the categories and subcategories.
+   */
+  public function getPublicCategoriesAndSub(PublicCategoryAndSubCategoryFindByDto $filters): array
   {
     $response = $this->client->get(
       "/api/public/shop/products/categories-and-subcategories",
@@ -1473,12 +1861,18 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      PublicCategoryResponseDto::class,
+      'array<Sherl\Sdk\Shop\Category\Dto\PublicCategoryResponseDto>',
       'json'
     );
   }
 
-  public function getPublicCategories(): ?PublicCategoryResponseDto // TODO: PublicCategoryResponseDto[]
+  /**
+   * Retrieves an array of public categories from the API.
+   *
+   * @throws SherlException if the API request fails
+   * @return array An array of PublicCategoryResponseDto objects
+   */
+  public function getPublicCategories(): array
   {
     $response = $this->client->get(
       "/api/public/shop/products/categories",
@@ -1495,12 +1889,19 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      PublicCategoryResponseDto::class,
+      'array<\Sherel\Sdk\Shop\Category\Dto\PublicCategoryResponseDto>',
       'json'
     );
   }
 
-  public function getPublicCategoryBySlug(string $slug): ?PublicCategoryResponseDto
+  /**
+   * Retrieves a public category by its slug.
+   *
+   * @param string $slug The slug of the category.
+   * @throws SherlException If the API request fails.
+   * @return PublicCategoryResponseDto The response DTO for the public category.
+   */
+  public function getPublicCategoryBySlug(string $slug): PublicCategoryResponseDto
   {
     $response = $this->client->get(
       "/api/public/shop/products/categories/find-one-by-slug/$slug",
@@ -1523,7 +1924,14 @@ class ShopProvider
     );
   }
 
-  public function getPublicProductBySlug(string $slug): ?PublicProductResponseDto
+  /**
+   * Retrieves a public product by its slug.
+   *
+   * @param string $slug The slug of the product.
+   * @throws SherlException If the API request fails.
+   * @return PublicProductResponseDto The response DTO of the product.
+   */
+  public function getPublicProductBySlug(string $slug): PublicProductResponseDto
   {
     $response = $this->client->get(
       "/api/public/shop/products/find-one-by-slug/$slug",
@@ -1546,7 +1954,14 @@ class ShopProvider
     );
   }
 
-  public function getPublicProduct(string $id): ?PublicProductResponseDto
+  /**
+   * Retrieves a public product by its ID.
+   *
+   * @param string $id The ID of the product.
+   * @throws SherlException If the API request fails.
+   * @return PublicProductResponseDto The public product response DTO.
+   */
+  public function getPublicProduct(string $id): PublicProductResponseDto
   {
     $response = $this->client->get(
       "/api/public/shop/products/$id",
@@ -1569,7 +1984,14 @@ class ShopProvider
     );
   }
 
-  public function getPublicProductsWithFilters(ProductFindByDto $filters): ?ProductPaginatedResultDto // TODO: Pagination<ProductResponseDto>
+  /**
+   * Retrieves public products with filters.
+   *
+   * @param ProductFindByDto $filters The filters to apply.
+   * @throws SherlException If there is an error retrieving the products.
+   * @return ProductPaginatedResultDto The paginated result of products.
+   */
+  public function getPublicProductsWithFilters(ProductFindByDto $filters): ProductPaginatedResultDto
   {
     $response = $this->client->get(
       "/api/shop/products/public",
@@ -1587,12 +2009,19 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      Pagination::class,
+      ProductPaginatedResultDto::class,
       'json'
     );
   }
 
-  public function getPublicProducts(ProductFindByDto $filters): ?ProductPaginatedResultDto // TODO: Pagination<ProductResponseDto>
+  /**
+   * Retrieves public products based on the given filters.
+   *
+   * @param ProductFindByDto $filters The filters to apply when retrieving the products.
+   * @throws SherlException If the API request fails.
+   * @return ProductPaginatedResultDto The paginated result of the retrieved products.
+   */
+  public function getPublicProducts(ProductFindByDto $filters): ProductPaginatedResultDto
   {
     $response = $this->client->get(
       "/api/public/shop/products",
@@ -1610,12 +2039,17 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      Pagination::class,
+      ProductPaginatedResultDto::class,
       'json'
     );
   }
 
-  public function getUnrestrictedCategories(): ?CategoryOutputDto
+  /**
+   * Retrieves an array of unrestricted categories from the API.
+   *
+   * @return array Returns an array of unrestricted categories.
+   */
+  public function getUnrestrictedCategories(): array
   {
     $response = $this->client->get(
       "/api/shop/products/categories/public",
@@ -1632,13 +2066,21 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      CategoryOutputDto::class,
+      'array<Sherl\Sdk\Shop\Category\DtoCategoryOutputDto>',
       'json'
     );
   }
 
   //Payment
-  public function deleteCard(string $cardId): ?PersonOutputDto
+
+  /**
+   * Deletes a card.
+   *
+   * @param string $cardId The ID of the card to delete.
+   * @throws SherlException If the API request fails.
+   * @return PersonOutputDto The updated person data.
+   */
+  public function deleteCard(string $cardId): PersonOutputDto
   {
     $response = $this->client->delete("/api/shop/payments/card/{$cardId}");
 
@@ -1648,11 +2090,17 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      PersonInputDto::class,
+      PersonOutputDto::class,
       'json'
     );
   }
-  public function requestCredentialsToAddCard(): ?CreditCardDto
+  /**
+   * Requests credentials to add a credit card.
+   *
+   * @return CreditCardDto The credit card data.
+   * @throws SherlException If there is an error in the API request.
+   */
+  public function requestCredentialsToAddCard(): CreditCardDto
   {
     $response = $this->client->post("/api/shop/payments/request-credentials-to-add-card");
 
@@ -1666,7 +2114,15 @@ class ShopProvider
       'json'
     );
   }
-  public function saveCard(string $cardId, string $token): ?PersonOutputDto
+  /**
+   * Saves a card with the specified card ID and token.
+   *
+   * @param string $cardId The ID of the card to be saved.
+   * @param string $token The token associated with the card.
+   * @throws SherlException If there is an error while saving the card.
+   * @return PersonOutputDto The updated person data.
+   */
+  public function saveCard(string $cardId, string $token): PersonOutputDto
   {
     $response = $this->client->post(
       "/api/shop/payments/card/{$cardId}/default",
@@ -1681,11 +2137,18 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      PersonInputDto::class,
+      PersonOutputDto::class,
       'json'
     );
   }
-  public function setDefaultCard(string $cardId): ?PersonOutputDto
+  /**
+   * Sets the default card for a person.
+   *
+   * @param string $cardId The ID of the card to set as default.
+   * @throws SherlException If the API request fails.
+   * @return PersonOutputDto The updated person information.
+   */
+  public function setDefaultCard(string $cardId): PersonOutputDto
   {
     $response = $this->client->post("/api/shop/payments/card/{$cardId}/default");
 
@@ -1695,11 +2158,18 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      PersonInputDto::class,
+      PersonOutputDto::class,
       'json'
     );
   }
-  public function validateCard(string $cardId): ?CreditCardDto
+  /**
+   * Validates a credit card.
+   *
+   * @param string $cardId The ID of the credit card to be validated.
+   * @throws SherlException If the API request fails.
+   * @return CreditCardDto The validated CreditCardDto object.
+   */
+  public function validateCard(string $cardId): CreditCardDto
   {
     $response = $this->client->get("/api/shop/payments/validate-card/{$cardId}");
 
@@ -1714,7 +2184,14 @@ class ShopProvider
     );
   }
   //Payout
-  public function generatePayout(): ?array
+
+  /**
+   * Generates a payout by making a POST request to "/api/shop/generate-payout".
+   *
+   * @throws SherlException If the API request fails.
+   * @return array An array of PayoutDto objects.
+   */
+  public function generatePayout(): array
   {
     $response = $this->client->post("/api/shop/generate-payout");
 
@@ -1724,11 +2201,17 @@ class ShopProvider
 
     return SerializerFactory::getInstance()->deserialize(
       $response->getBody()->getContents(),
-      'array<PayoutDto>',
+      'array<Sherl\Sdk\Shop\Payout\Dto\PayoutDto>',
       'json'
     );
   }
-  public function submitPayout(): ?PayoutDto
+  /**
+   * Submit a payout and return the PayoutDto.
+   *
+   * @throws SherlException if the response status code is >= 300
+   * @return PayoutDto The submitted PayoutDto.
+   */
+  public function submitPayout(): PayoutDto
   {
     $response = $this->client->post("/api/shop/submit-payout");
 
@@ -1743,7 +2226,16 @@ class ShopProvider
     );
   }
   //picture
-  public function addPictureToProduct(string $productId, string $mediaId): ?ProductResponseDto
+
+  /**
+   * Adds a picture to a product.
+   *
+   * @param string $productId The ID of the product.
+   * @param string $mediaId The ID of the media.
+   * @throws SherlException If the API request fails.
+   * @return ProductResponseDto The updated product data.
+   */
+  public function addPictureToProduct(string $productId, string $mediaId): ProductResponseDto
   {
     $response = $this->client->post(
       "/api/shop/products/{$productId}/pictures/{$mediaId}",
@@ -1768,7 +2260,15 @@ class ShopProvider
       'json'
     );
   }
-  public function removePictureToProduct(string $productId, string $mediaId): ?ProductResponseDto
+  /**
+   * Removes a picture from a product.
+   *
+   * @param string $productId The ID of the product.
+   * @param string $mediaId The ID of the picture to be removed.
+   * @throws SherlException If the API request fails.
+   * @return ProductResponseDto The updated product.
+   */
+  public function removePictureToProduct(string $productId, string $mediaId): ProductResponseDto
   {
     $response = $this->client->delete(
       "/api/shop/products/{$productId}/pictures/{$mediaId}"
@@ -1785,7 +2285,15 @@ class ShopProvider
     );
   }
   //subcription
-  public function cancelSubscription(string $subscriptionId): ?SubscriptionOutputDto
+
+  /**
+   * Cancels a subscription.
+   *
+   * @param string $subscriptionId The ID of the subscription to cancel.
+   * @throws SherlException If the API request fails.
+   * @return SubscriptionOutputDto The subscription that was cancelled.
+   */
+  public function cancelSubscription(string $subscriptionId): SubscriptionOutputDto
   {
     $response = $this->client->post(
       "/api/shop/subscriptions/{$subscriptionId}/cancel",
@@ -1807,7 +2315,14 @@ class ShopProvider
       'json'
     );
   }
-  public function getSubscriptionFindOneBy(SubscriptionFindOnByDto $filters): ?SubscriptionOutputDto
+  /**
+   * Retrieves a subscription using the provided filters.
+   *
+   * @param SubscriptionFindOnByDto $filters The filters to apply when searching for a subscription.
+   * @throws SherlException If an error occurs during the request.
+   * @return SubscriptionOutputDto The retrieved subscription.
+   */
+  public function getSubscriptionFindOneBy(SubscriptionFindOnByDto $filters): SubscriptionOutputDto
   {
     $response = $this->client->get(
       "/api/shop/subscriptions/find-one-by",

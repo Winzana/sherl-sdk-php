@@ -2,7 +2,7 @@
 
 namespace Sherl\Sdk\Shop\Order\Enum;
 
-enum ProgressOrderStatus: int
+enum OrderStatus: int
 {
   case BASKET = 0;
   case BASKET_VALIDATED = 100;

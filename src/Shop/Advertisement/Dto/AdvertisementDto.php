@@ -9,7 +9,7 @@ use Sher\Sdk\Media\Dto\MediaObjectOutputDto;
 use Sherl\Sdk\Shop\Advertisement\Enum\DisplayZoneEnum;
 use Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementTranslationOutputDto;
 
-class AdvertisementOutputDto
+class AdvertisementDto
 {
   /**
    * @var string

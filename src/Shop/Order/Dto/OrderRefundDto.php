@@ -4,7 +4,7 @@ namespace Sherl\Sdk\Shop\Order\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class OrderStatusHistoryDto
+class OrderRefundDto
 {
   /**
    * @var string
@@ -16,19 +16,19 @@ class OrderStatusHistoryDto
    * @var string
    * @Serializer\Type("string")
    */
-  public $message;
+  public $productId;
 
   /**
-   * @var integer
-   * @Serializer\Type("integer")
+   * @var float
+   * @Serializer\Type("float")
    */
-  public $status;
+  public $amount;
 
   /**
    * @var string
    * @Serializer\Type("string")
    */
-  public $userUri;
+  public $askedBy;
 
   /**
    * @var string
@@ -37,14 +37,8 @@ class OrderStatusHistoryDto
   public $createdAt;
 
   /**
-   * @var float
-   * @Serializer\Type("float")
+   * @var array
+   * @Serializer\Type("array")
    */
-  public $latitude;
-
-  /**
-   * @var float
-   * @Serializer\Type("float")
-   */
-  public $longitude;
+  public $metadatas;
 }

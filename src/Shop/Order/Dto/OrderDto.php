@@ -1,14 +1,14 @@
 <?php
 
-namespace Sherl\Sdk\Order\Dto;
+namespace Sherl\Sdk\Shop\Order\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-use Sherl\Sdk\Order\Dto\OrderStatusHistoryOutputDto;
-use Sherl\Sdk\Order\Dto\OrderItemOutputDto;
-use Sherl\Sdk\Order\Dto\OrderCommissionOutputDto;
-use Sherl\Sdk\Order\Dto\OrderRefundOutputDto;
-use Sherl\Sdk\Order\Dto\PaymentOutputDto;
+use Sherl\Sdk\Shop\Order\Dto\OrderStatusHistoryDto;
+use Sherl\Sdk\Shop\Order\Dto\OrderItemDto;
+use Sherl\Sdk\Shop\Order\Dto\OrderCommissionDto;
+use Sherl\Sdk\Shop\Order\Dto\OrderRefundDto;
+use Sherl\Sdk\Shop\Order\Dto\PaymentDto;
 
 use Sherl\Sdk\Organization\Dto\OrganizationOutputDto;
 
@@ -20,12 +20,12 @@ use Sherl\Sdk\Shop\Discount\Dto\DiscountOutputDto;
 
 use Sherl\Sdk\Shop\Product\Dto\OfferDto;
 
-use Sherl\Sdk\Order\Enum\OrderStatus;
-use Sherl\Sdk\Order\Enum\MeansOfPayment;
+use Sherl\Sdk\Shop\Order\Enum\OrderStatus;
+use Sherl\Sdk\Shop\Order\Enum\MeansOfPayment;
 
 use Sherl\Sdk\Shop\Product\Enum\ShopProductType;
 
-class OrderOutputDto
+class OrderDto
 {
   /**
    * @var string
@@ -71,7 +71,7 @@ class OrderOutputDto
 
   /**
    * @var OrderStatus
-   * @Serializer\Type("enum<'Sherl\Sdk\Order\Enum\OrderStatus', 'value'>")
+   * @Serializer\Type("enum<'Sherl\Sdk\Shop\Order\Enum\OrderStatus', 'value'>")
    */
   public $orderStatus;
 
@@ -83,12 +83,12 @@ class OrderOutputDto
 
   /**
    * @var MeansOfPayment
-   * @Serializer\Type("enum<'Sherl\Sdk\Order\Enum\MeansOfPayment', 'value'>")
+   * @Serializer\Type("enum<'Sherl\Sdk\Shop\Order\Enum\MeansOfPayment', 'value'>")
    */
   public $meansOfPayment;
 
   /**
-   * @var PaymentOutputDto[]
+   * @var PaymentDto[]
    * @Serializer\Type("array<Sherl\Sdk\Order\Dto\PaymentOutputDto>")
    */
   public $payments;
@@ -148,25 +148,25 @@ class OrderOutputDto
   public $billingAddress;
 
   /**
-   * @var OrderItemOutputDto[]
-   * @Serializer\Type("Sherl\Sdk\Order\Dto\OrderItemOutputDto")
+   * @var OrderItemDto[]
+   * @Serializer\Type("Sherl\Sdk\Order\Dto\OrderItemDto")
    */
   public $orderedItems;
 
   /**
-   * @var OrderStatusHistoryOutputDto[]
+   * @var OrderStatusHistoryDto[]
    * @Serializer\Type("array<Sherl\Sdk\Order\Dto\OrderStatusHistoryOutputDto>")
    */
   public $orderStatusHistory;
 
   /**
-   * @var OrderCommissionOutputDto
-   * @Serializer\Type("Sherl\Sdk\Order\Dto\OrderCommissionOutputDto")
+   * @var OrderCommissionDto
+   * @Serializer\Type("Sherl\Sdk\Order\Dto\OrderCommissionDto")
    */
   public $commission;
 
   /**
-   * @var OrderRefundOutputDto[]
+   * @var OrderRefundDto[]
    * @Serializer\Type("array<Sherl\Sdk\Order\Dto\OrderRefundOutputDto>")
    */
   public $refunds;

@@ -4,7 +4,13 @@ namespace Sherl\Sdk\Shop\Order\Dto;
 
 use Sherl\Sdk\Common\Dto\PaginationFiltersInputDto;
 
+
+use Sherl\Sdk\Shop\Order\Enum\OrderStatus;
+use Sherl\Sdk\Shop\Order\Enum\OrganizationServiceType;
+use Sherl\Sdk\Shop\Order\Enum\OrganizationFilterByUsage;
+
 use Sherl\Sdk\Shop\Product\Enum\ShopProductType;
+
 
 class OrderFindInputDto extends PaginationFiltersInputDto
 {
@@ -54,12 +60,12 @@ class OrderFindInputDto extends PaginationFiltersInputDto
   public $orderNumber;
 
   /**
-   * @var OrderStatusEnum
+   * @var OrderStatus
    */
   public $orderStatus;
 
   /**
-   * @var OrderStatusEnum[]
+   * @var OrderStatus[]
    */
   public $orderStatusTab;
 
