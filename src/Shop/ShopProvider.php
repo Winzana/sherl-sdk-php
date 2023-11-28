@@ -115,7 +115,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -153,7 +153,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -183,7 +183,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -208,7 +208,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -248,7 +248,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -288,7 +288,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -333,7 +333,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -365,7 +365,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -393,7 +393,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -425,7 +425,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -455,7 +455,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -488,7 +488,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -521,7 +521,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -556,7 +556,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -590,7 +590,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -640,7 +640,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -691,7 +691,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -721,7 +721,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -787,7 +787,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -816,7 +816,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -882,7 +882,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -918,7 +918,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -952,7 +952,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -979,7 +979,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1021,7 +1021,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1050,7 +1050,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1087,7 +1087,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1140,7 +1140,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1192,7 +1192,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1223,7 +1223,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1254,7 +1254,7 @@ class ShopProvider
             RequestOptions::JSON => $cancelOrderDates
       ]
         );
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1308,7 +1308,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1338,7 +1338,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1370,7 +1370,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1400,7 +1400,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1426,7 +1426,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1454,7 +1454,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1484,7 +1484,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1518,7 +1518,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1551,7 +1551,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1583,7 +1583,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1613,7 +1613,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1643,7 +1643,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1673,7 +1673,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1712,7 +1712,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1742,7 +1742,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1768,7 +1768,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1794,7 +1794,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1824,7 +1824,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1854,7 +1854,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1882,7 +1882,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1912,7 +1912,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1942,7 +1942,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -1972,7 +1972,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -2002,7 +2002,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -2032,7 +2032,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -2059,7 +2059,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -2083,7 +2083,7 @@ class ShopProvider
     {
         $response = $this->client->delete("/api/shop/payments/card/{$cardId}");
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -2103,7 +2103,7 @@ class ShopProvider
     {
         $response = $this->client->post("/api/shop/payments/request-credentials-to-add-card");
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -2130,7 +2130,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -2151,7 +2151,7 @@ class ShopProvider
     {
         $response = $this->client->post("/api/shop/payments/card/{$cardId}/default");
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -2172,7 +2172,7 @@ class ShopProvider
     {
         $response = $this->client->get("/api/shop/payments/validate-card/{$cardId}");
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -2194,7 +2194,7 @@ class ShopProvider
     {
         $response = $this->client->post("/api/shop/generate-payout");
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -2207,14 +2207,14 @@ class ShopProvider
     /**
      * Submit a payout and return the PayoutDto.
      *
-     * @throws SherlException if the response status code is >= 300
+     * @throws SherlException if the response status code is >= 400
      * @return PayoutDto The submitted PayoutDto.
      */
     public function submitPayout(): PayoutDto
     {
         $response = $this->client->post("/api/shop/submit-payout");
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -2249,7 +2249,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -2273,7 +2273,7 @@ class ShopProvider
             "/api/shop/products/{$productId}/pictures/{$mediaId}"
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -2304,7 +2304,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
@@ -2333,7 +2333,7 @@ class ShopProvider
       ]
         );
 
-        if ($response->getStatusCode() >= 300) {
+        if ($response->getStatusCode() >= 400) {
             return $this->throwSherlShopException($response);
         }
 
