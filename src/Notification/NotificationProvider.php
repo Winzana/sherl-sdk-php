@@ -29,7 +29,10 @@ class NotificationProvider
         $this->client = $client;
     }
 
-    private function throwSherlNotificationException(ResponseInterface $response)
+    /**
+     * @throws SherlException
+     */
+    private function throwSherlNotificationException(ResponseInterface $response): SherlException
     {
         throw new SherlException(NotificationProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
@@ -44,7 +47,7 @@ class NotificationProvider
         ]);
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlNotificationException($response);
+            $this->throwSherlNotificationException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -66,7 +69,7 @@ class NotificationProvider
         ]);
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlNotificationException($response);
+            $this->throwSherlNotificationException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -86,7 +89,7 @@ class NotificationProvider
         ]);
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlNotificationException($response);
+            $this->throwSherlNotificationException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -111,7 +114,7 @@ class NotificationProvider
         );
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlNotificationException($response);
+            $this->throwSherlNotificationException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -136,7 +139,7 @@ class NotificationProvider
         );
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlNotificationException($response);
+            $this->throwSherlNotificationException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -160,7 +163,7 @@ class NotificationProvider
         );
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlNotificationException($response);
+            $this->throwSherlNotificationException($response);
         }
 
         return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);

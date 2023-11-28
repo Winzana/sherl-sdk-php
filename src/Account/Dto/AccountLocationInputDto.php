@@ -4,15 +4,78 @@ namespace Sherl\Sdk\Account\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-use Sherl\Sdk\Account\Dto\AccountLocationInputDto;
-
-class AccountOutputDto
-{
+class AccountLocationInputDto {
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $id;
+    public $country;
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $locality;
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $region;
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $department;
+
+    /**
+     * @var string[]
+     * @Serializer\Type("array<string>")
+     */
+    public $types;
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $postalCode;
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $streetAddress;
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $complementaryStreetAddress;
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $name;
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $type;
+
+    /**
+     * @var bool
+     * @Serializer\Type("boolean")
+     */
+    public $isDefault;
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $googleToken;
 
     /**
      * @var string
@@ -21,68 +84,20 @@ class AccountOutputDto
     public $uri;
 
     /**
-     * @var string[]
-     * @Serializer\Type("array<string>")
-     */
-    public $projects;
-
-    /**
-     * @var string
+     * @var string|null
      * @Serializer\Type("string")
      */
-    public $firstName;
+    public $originId;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var float|null
+     * @Serializer\Type("float")
      */
-    public $lastName;
+    public $latitude;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var float|null
+     * @Serializer\Type("float")
      */
-    public $email;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $mobilePhoneNumber;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $birthDate;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $gender;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $legalName;
-
-    /**
-     * @var AccountLocationInputDto
-     * @Serializer\Type("Sherl\Sdk\Account\Dto\AccountLocationInputDto")
-     */
-    public $location;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $createdAt;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $updatedAt;
+    public $longitude;
 }

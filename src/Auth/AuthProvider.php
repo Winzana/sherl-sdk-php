@@ -22,7 +22,10 @@ class AuthProvider
         $this->client = $client;
     }
 
-    private function throwSherlAuthError(ResponseInterface $response)
+    /**
+     * @throws SherlException
+     */
+    private function throwSherlAuthError(ResponseInterface $response): SherlException
     {
         throw new SherlException(AuthProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }

@@ -23,7 +23,10 @@ class UserProvider
         $this->client = $client;
     }
 
-    private function throwSherlUserException(ResponseInterface $response)
+    /**
+     * @throws SherlException
+     */
+    private function throwSherlUserException(ResponseInterface $response): SherlException
     {
         throw new SherlException(UserProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
@@ -40,7 +43,7 @@ class UserProvider
         ]);
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlUserException($response);
+            $this->throwSherlUserException($response);
         }
 
         return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
@@ -60,7 +63,7 @@ class UserProvider
         ]);
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlUserException($response);
+            $this->throwSherlUserException($response);
         }
 
         return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
@@ -79,7 +82,7 @@ class UserProvider
         ]);
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlUserException($response);
+            $this->throwSherlUserException($response);
         }
 
         return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);

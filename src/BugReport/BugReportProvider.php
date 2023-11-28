@@ -25,7 +25,10 @@ class BugReportProvider
         $this->client = $client;
     }
 
-    private function throwSherlBugReportContactException(ResponseInterface $response)
+    /**
+     * @throws SherlException
+     */
+    private function throwSherlBugReportContactException(ResponseInterface $response): SherlException
     {
         throw new SherlException(BugReportProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
@@ -47,7 +50,7 @@ class BugReportProvider
         ]);
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlBugReportContactException($response);
+            $this->throwSherlBugReportContactException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -66,7 +69,7 @@ class BugReportProvider
         ]);
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlBugReportContactException($response);
+            $this->throwSherlBugReportContactException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -94,7 +97,7 @@ class BugReportProvider
         ]);
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlBugReportContactException($response);
+            $this->throwSherlBugReportContactException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(

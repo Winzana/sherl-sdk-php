@@ -28,7 +28,10 @@ class ClaimProvider
         $this->client = $client;
     }
 
-    private function throwSherlClaimException(ResponseInterface $response)
+    /**
+     * @throws SherlException
+     */
+    private function throwSherlClaimException(ResponseInterface $response): SherlException
     {
         throw new SherlException(ClaimProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
@@ -53,7 +56,7 @@ class ClaimProvider
         );
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlClaimException($response);
+            $this->throwSherlClaimException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -78,7 +81,7 @@ class ClaimProvider
         );
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlClaimException($response);
+            $this->throwSherlClaimException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -100,7 +103,7 @@ class ClaimProvider
         );
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlClaimException($response);
+            $this->throwSherlClaimException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -119,7 +122,7 @@ class ClaimProvider
               "Content-Type" => "application/json",
             ],
             RequestOptions::QUERY => [
-              'filters' => $filters->filters,
+              'filters' => $filters,
               'page' => $filters->page,
               'itemsPerPage' => $filters->itemsPerPage,
             ]
@@ -127,7 +130,7 @@ class ClaimProvider
         );
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlClaimException($response);
+            $this->throwSherlClaimException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -155,7 +158,7 @@ class ClaimProvider
         );
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlClaimException($response);
+            $this->throwSherlClaimException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -180,7 +183,7 @@ class ClaimProvider
         );
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlClaimException($response);
+            $this->throwSherlClaimException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -202,7 +205,7 @@ class ClaimProvider
         );
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlClaimException($response);
+            $this->throwSherlClaimException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
