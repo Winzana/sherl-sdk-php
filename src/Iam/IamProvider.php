@@ -25,6 +25,13 @@ class IamProvider
         throw new SherlException(SherlException::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
 
+    /**
+     * Retrieves all IAM profiles filtered by the provided parameters.
+     * 
+     * @param array $filters Array of filters to apply to the IAM profiles query.
+     * @return IamProfilesFilterDto The filtered IAM profiles data result.
+     * @throws SherlException If there is an error while fetching the IAM profiles.
+     */
     public function getAllIamProfiles(array $filters): IamProfilesFilterDto
     {
         try {
@@ -45,6 +52,13 @@ class IamProvider
         }
     }
 
+    /**
+     * Retrieves an IAM profile by its unique identifier.
+     * 
+     * @param string $id The unique identifier of the IAM profile.
+     * @return ProfileDto The profile data object.
+     * @throws SherlExcep tion If there is an error while fetching the IAM profile.
+     */
     public function getIamProfileById(string $id): ProfileDto
     {
         try {
@@ -70,7 +84,13 @@ class IamProvider
         }
     }
 
-
+    /**
+     * Retrieves an IAM role by its unique identifier.
+     * 
+     * @param string $id The unique identifier of the IAM role.
+     * @return ProfileDto The role data object.
+     * @throws SherlException If there is an error while fetching the IAM role.
+     */
     public function getIamRoleById(string $id): ProfileDto
     {
         try {
