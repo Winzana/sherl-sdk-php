@@ -56,7 +56,7 @@ class PersonProvider
 
     /**
      * Gets the current address based on geo-coordinates.
-     * 
+     *
      * @param GeoCoordinatesDto $position The geo-coordinates data object.
      * @return Pagination<LocationDto>|null A paginated list of location data transfer objects or null if not found.
      * @throws SherlException If there is an error while fetching the address.
@@ -88,7 +88,7 @@ class PersonProvider
 
     /**
      * Retrieves a paginated list of persons based on filters, page, and items per page.
-     * 
+     *
      * @param int $page The number of the current page.
      * @param int $itemsPerPage The number of items per page.
      * @param PersonFiltersDto $filters The filters to apply to the person list.
@@ -129,7 +129,7 @@ class PersonProvider
 
     /**
      * Retrieves a person by their unique identifier.
-     * 
+     *
      * @param string $id The unique identifier of the person.
      * @return PersonOutputDto|null A person data object or null if not found.
      * @throws SherlException If there is an error while fetching the person data.
@@ -159,7 +159,7 @@ class PersonProvider
 
     /**
      * Creates a new address for a person.
-     * 
+     *
      * @param AddressInputDto $address The address data object for address creation.
      * @return PersonOutputDto|null The person data object or null if the operation fails.
      * @throws SherlException If there is an error while creating the address.
@@ -198,7 +198,7 @@ class PersonProvider
 
     /**
      * Deletes an address by its unique identifier.
-     * 
+     *
      * @param string $id The unique identifier of the address to be deleted.
      * @return PersonOutputDto|null The person data object or null if the deletion fails.
      * @throws SherlException If there is an error while deleting the address.
@@ -235,7 +235,7 @@ class PersonProvider
 
     /**
      * Updates an existing address with new information.
-     * 
+     *
      * @param string $addressId The unique identifier of the address to update.
      * @param AddressInputDto $address The data object containing the new address details.
      * @return PersonOutputDto|null The person data object with the updated address or null if the update fails.
@@ -274,7 +274,7 @@ class PersonProvider
 
     /**
      * Creates a new person.
-     * 
+     *
      * @param PersonCreateInputDto $person The data object for person creation.
      * @return PersonOutputDto|null The newly created person data transfer object or null if the operation fails.
      * @throws SherlException If there is an error while creating the person.
@@ -313,7 +313,7 @@ class PersonProvider
 
     /**
      * Registers a person using their email and password.
-     * 
+     *
      * @param PersonCreateInputDto $person The data object containing registration details.
      * @return PersonOutputDto|null The registered person's data object or null if registration fails.
      * @throws SherlException If there is an error during registration.
@@ -352,7 +352,7 @@ class PersonProvider
 
     /**
      * Adds a picture to a person's profile.
-     * 
+     *
      * @param PictureRegisterInputDto $picture The data object containing the picture and associated details.
      * @return PersonOutputDto|null The person data object with the new picture or null if the operation fails.
      * @throws SherlException If there is an error while adding the picture.
@@ -394,7 +394,7 @@ class PersonProvider
 
     /**
      * Updates a person's information by their unique identifier.
-     * 
+     *
      * @param string $id The unique identifier of the person to update.
      * @param PersonUpdateInputDto $person The data object containing the person's new details.
      * @return PersonOutputDto|null The updated person data object or null if the update fails.
@@ -434,7 +434,7 @@ class PersonProvider
 
     /**
      * Retrieves the personal details of the current authenticated user.
-     * 
+     *
      * @return PersonOutputDto|null The person data object for the authenticated user or null if not found.
      * @throws SherlException If there is an error while fetching the user's details.
      */
