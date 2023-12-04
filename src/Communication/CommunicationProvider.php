@@ -29,6 +29,13 @@ class CommunicationProvider
         throw new SherlException(NotificationProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
 
+    /**
+     * Retrieves communication data based on the provided filters.
+     *
+     * @param CommunicationFindByInputDto $filters The filters to apply to the communication query.
+     * @return CommunicationOutputDto|null The communication output data object or null on failure.
+     * @throws SherlException If there is an error during the communication retrieval process.
+     */
     public function getCommunication(CommunicationFindByInputDto $filters): ?CommunicationOutputDto
     {
         $response = $this->client->get('/api/communications', [
