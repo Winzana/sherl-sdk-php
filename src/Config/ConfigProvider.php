@@ -12,6 +12,7 @@ use Sherl\Sdk\Common\SerializerFactory;
 
 use Sherl\Sdk\Config\Dto\ConfigOutputDto;
 use Sherl\Sdk\Config\Dto\SetConfigInputDto;
+use Sherl\Sdk\Config\Dto\NotificationListOutputDto;
 
 class ConfigProvider
 {
@@ -29,6 +30,13 @@ class ConfigProvider
         throw new SherlException(ConfigProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
 
+    /**
+     * Retrieves the public configuration for the given code.
+     *
+     * @param string $code The configuration code.
+     * @return ConfigOutputDto|null The configuration output data object or null on failure.
+     * @throws SherlException If there is an error during the config retrieval process.
+     */
     public function getPublicConfig(string $code): ?NotificationListOutputDto
     {
         try {
@@ -52,6 +60,13 @@ class ConfigProvider
         }
     }
 
+    /**
+     * Sets the public configuration with the given details.
+     *
+     * @param SetConfigInputDto $request The configuration input data transfer object.
+     * @return ConfigOutputDto|null The configuration output data object or null on failure.
+     * @throws SherlException If there is an error during the config setting process.
+     */
     public function setPublicConfig(SetConfigInputDto $request): ?ConfigOutputDto
     {
         try {
