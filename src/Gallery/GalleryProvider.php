@@ -16,7 +16,6 @@ use Sherl\Sdk\Gallery\Dto\GetDynamicBackgroundFilters;
 use Sherl\Sdk\Gallery\Dto\GalleryOutputDto;
 use Sherl\Sdk\Gallery\Dto\CreateDynamicBackgroundInputDto;
 
-
 class GalleryProvider
 {
     public const DOMAIN = "Gallery";
@@ -35,7 +34,7 @@ class GalleryProvider
 
     /**
      * Creates a new gallery with the given details.
-     * 
+     *
      * @param CreateGalleryInputDto $gallery The gallery input data transfer object.
      * @return GalleryOutputDto|null The gallery output data object or null on failure.
      * @throws SherlException If there is an error during the gallery creation process.
@@ -66,7 +65,7 @@ class GalleryProvider
 
     /**
      * Deletes a dynamic background by its unique identifier.
-     * 
+     *
      * @param string $dynamicBackgroundId The unique identifier of the dynamic background to delete.
      * @return DynamicBackgroundOutputDto|null The dynamic background output data object or null on failure.
      * @throws SherlException If there is an error during the dynamic background deletion process.
@@ -96,7 +95,7 @@ class GalleryProvider
 
     /**
      * Deletes a gallery by its unique identifier.
-     * 
+     *
      * @param string $galleryId The unique identifier of the gallery to delete.
      * @return GalleryOutputDto|null The gallery output data object or null on failure.
      * @throws SherlException If there is an error during the gallery deletion process.
@@ -126,7 +125,7 @@ class GalleryProvider
 
     /**
      * Retrieves dynamic backgrounds based on the provided filters.
-     * 
+     *
      * @param GetDynamicBackgroundFilters $filters The filters to apply to the dynamic background query.
      * @return DynamicBackgroundOutputDto|null A list of dynamic background output data objects or null on failure.
      * @throws SherlException If there is an error during the retrieval process.
@@ -158,7 +157,7 @@ class GalleryProvider
 
     /**
      * Retrieves galleries based on the provided filters.
-     * 
+     *
      * @param GetGalleriesFiltersDto $filters The filters to apply to the galleries query.
      * @return GalleryOutputDto|null A list of gallery output data objects or null on failure.
      * @throws SherlException If there is an error during the retrieval process.
@@ -213,7 +212,7 @@ class GalleryProvider
 
     /**
      * Creates a new dynamic background with the given details.
-     * 
+     *
      * @param CreateDynamicBackgroundInputDto $dynamicBackground The dynamic background input data transfer object.
      * @return DynamicBackgroundOutputDto|null The dynamic background output data object or null on failure.
      * @throws SherlException If there is an error during the dynamic background creation process.
