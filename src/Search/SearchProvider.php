@@ -28,6 +28,13 @@ class SearchProvider
         throw new SherlException(SearchProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
 
+    /**
+     * Retrieves autocomplete search results for a public search based on the provided filters.
+     * 
+     * @param SearchFiltersInputDto $filters The filters to apply to the search autocomplete query.
+     * @return SearchResultOutputDto|null A list of search result output data objects or null on failure.
+     * @throws SherlException If there is an error during the search autocomplete retrieval process.
+     */
     public function getPublicSearchAutocomplete(SearchFiltersInputDto $filters): ?SearchResultOutputDto
     {
         $response = $this->client->get('/api/public/search/autocomplete', [
