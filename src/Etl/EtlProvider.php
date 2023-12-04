@@ -21,10 +21,21 @@ class EtlProvider
         $this->client = $client;
     }
 
+      /**
+     * Throws a Sherl ETL exception.
+     * @param ResponseInterface $response - The response from the HTTP client.
+     * @throws SherlException
+     */
     private function throwSherlEtlException(ResponseInterface $response)
     {
         throw new SherlException(EtlProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
+    /**
+     * Executes an Extract Transform Load process by ID.
+     * @param string $id - The ID of the ETL process to execute.
+     * @return IEtlResponse - The response from the ETL process.
+     * @throws SherlException
+     */
 
     public function extractTransformLoadById(string $id): IEtlResponse
     {
@@ -48,7 +59,12 @@ class EtlProvider
             throw new SherlException(EtlErr::FETCH_FAILED, $e->getMessage());
         }
     }
-
+    /**
+     * Executes an Extract Transform Load process with a given configuration.
+     * @param array $config - The configuration for the ETL process.
+     * @return IEtlResponse - The response from the ETL process.
+     * @throws SherlException
+     */
     public function extractTransformLoad(array $config): IEtlResponse
     {
         try {
@@ -73,7 +89,12 @@ class EtlProvider
             throw new SherlException(EtlErr::EXTRACT_TRANSFORM_LOAD_FAILED, $e->getMessage());
         }
     }
-
+    /**
+     * Saves a configuration for the ETL process.
+     * @param array $config - The configuration to save.
+     * @return IConfigModel - The saved configuration model.
+     * @throws SherlException
+     */
     public function saveConfig(array $config): IConfigModel
     {
         try {
