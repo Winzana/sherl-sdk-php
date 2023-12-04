@@ -17,7 +17,6 @@ use Sherl\Sdk\VirtualMoney\Dto\WalletOuputDto;
 use Sherl\Sdk\VirtualMoney\Dto\TransferWalletInputDto;
 use Sherl\Sdk\VirtualMoney\Dto\WalletOutputDto;
 
-
 class VirtualMoneyProvider
 {
     public const DOMAIN = "VirtualMoney";
@@ -36,7 +35,7 @@ class VirtualMoneyProvider
 
     /**
      * Creates a wallet historical record for a specific wallet.
-     * 
+     *
      * @param string $walletId The unique identifier of the wallet.
      * @param CreateWalletHistoricalInputDto $walletHistorical The wallet historical input data transfer object.
      * @return WalletHistoricalOutputDto|null The wallet historical output data object or null on failure.
@@ -64,7 +63,7 @@ class VirtualMoneyProvider
 
     /**
      * Retrieves a wallet historical record by wallet and historical IDs.
-     * 
+     *
      * @param string $walletId The unique identifier of the wallet.
      * @param string $historicalId The unique identifier of the historical record.
      * @return WalletHistoricalOutputDto|null The wallet historical output data object or null on failure.
@@ -93,7 +92,7 @@ class VirtualMoneyProvider
 
     /**
      * Creates a new wallet with the given details.
-     * 
+     *
      * @param WalletInputDto $wallet The wallet input data object.
      * @return WalletOutputDto|null The wallet output data object or null on failure.
      * @throws SherlException If there is an error during the wallet creation process.
@@ -120,7 +119,7 @@ class VirtualMoneyProvider
 
     /**
      * Credits a wallet with a specified amount.
-     * 
+     *
      * @param string $walletId The unique identifier of the wallet to credit.
      * @param TransferWalletInputDto $transferWallet The transfer wallet input data object.
      * @return WalletOutputDto|null The wallet output data object or null on failure.
@@ -148,7 +147,7 @@ class VirtualMoneyProvider
 
     /**
      * Debits a wallet by a specified amount.
-     * 
+     *
      * @param string $walletId The unique identifier of the wallet to debit.
      * @param TransferWalletInputDto $transferWallet The transfer wallet input data object.
      * @return WalletOutputDto|null The wallet output data object or null on failure.
@@ -176,7 +175,7 @@ class VirtualMoneyProvider
 
     /**
      * Finds a single wallet based on the given identifiers.
-     * 
+     *
      * @param string $id The unique identifier of the wallet.
      * @param string $personId The unique identifier of the person associated with the wallet.
      * @param string $consumerId The unique identifier of the consumer associated with the wallet.
@@ -211,7 +210,7 @@ class VirtualMoneyProvider
 
     /**
      * Retrieves a wallet by its unique identifier.
-     * 
+     *
      * @param string $walletId The unique identifier of the wallet.
      * @return WalletOutputDto|null The wallet output data object or null on failure.
      * @throws SherlException If there is an error during the retrieval process.
