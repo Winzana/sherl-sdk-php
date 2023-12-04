@@ -13,6 +13,9 @@ use Sherl\Sdk\Common\SerializerFactory;
 use Sherl\Sdk\Gallery\Dto\NotificationFiltersInputDto;
 use Sherl\Sdk\Gallery\Dto\DynamicBackgroundOutputDto;
 use Sherl\Sdk\Gallery\Dto\GetDynamicBackgroundFilters;
+use Sherl\Sdk\Gallery\Dto\GalleryOutputDto;
+use Sherl\Sdk\Gallery\Dto\CreateDynamicBackgroundInputDto;
+
 
 class GalleryProvider
 {
@@ -30,6 +33,13 @@ class GalleryProvider
         throw new SherlException(GalleryProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
 
+    /**
+     * Creates a new gallery with the given details.
+     * 
+     * @param CreateGalleryInputDto $gallery The gallery input data transfer object.
+     * @return GalleryOutputDto|null The gallery output data object or null on failure.
+     * @throws SherlException If there is an error during the gallery creation process.
+     */
     public function createGallery(CreateGalleryInputDto $gallery): ?GalleryOutputDto
     {
         try {
@@ -54,6 +64,13 @@ class GalleryProvider
         }
     }
 
+    /**
+     * Deletes a dynamic background by its unique identifier.
+     * 
+     * @param string $dynamicBackgroundId The unique identifier of the dynamic background to delete.
+     * @return DynamicBackgroundOutputDto|null The dynamic background output data object or null on failure.
+     * @throws SherlException If there is an error during the dynamic background deletion process.
+     */
     public function deleteDynamicBackground(string $dynamicBakgroundId): ?DynamicBackgroundOutputDto
     {
         try {
@@ -77,6 +94,13 @@ class GalleryProvider
         }
     }
 
+    /**
+     * Deletes a gallery by its unique identifier.
+     * 
+     * @param string $galleryId The unique identifier of the gallery to delete.
+     * @return GalleryOutputDto|null The gallery output data object or null on failure.
+     * @throws SherlException If there is an error during the gallery deletion process.
+     */
     public function deleteGallery(string $galleryId): ?GalleryOutputDto
     {
         try {
@@ -100,6 +124,13 @@ class GalleryProvider
         }
     }
 
+    /**
+     * Retrieves dynamic backgrounds based on the provided filters.
+     * 
+     * @param GetDynamicBackgroundFilters $filters The filters to apply to the dynamic background query.
+     * @return DynamicBackgroundOutputDto|null A list of dynamic background output data objects or null on failure.
+     * @throws SherlException If there is an error during the retrieval process.
+     */
     public function getDynamicBackgrounds(GetDynamicBackgroundFilters $filters): ?DynamicBackgroundOutputDto
     {
         try {
@@ -125,7 +156,14 @@ class GalleryProvider
 
     }
 
-    public function getGalleries(GetGalleriesFiltersDto $filters): ?GalleyOutputDto
+    /**
+     * Retrieves galleries based on the provided filters.
+     * 
+     * @param GetGalleriesFiltersDto $filters The filters to apply to the galleries query.
+     * @return GalleryOutputDto|null A list of gallery output data objects or null on failure.
+     * @throws SherlException If there is an error during the retrieval process.
+     */
+    public function getGalleries(GetGalleriesFiltersDto $filters): ?GalleryOutputDto
     {
         try {
             $response = $this->client->get('/api/galleries', [
@@ -141,7 +179,7 @@ class GalleryProvider
 
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
-                GalleyOutputDto::class,
+                GalleryOutputDto::class,
                 'json'
             );
         } catch (\Exception $e) {
@@ -173,6 +211,13 @@ class GalleryProvider
         }
     }
 
+    /**
+     * Creates a new dynamic background with the given details.
+     * 
+     * @param CreateDynamicBackgroundInputDto $dynamicBackground The dynamic background input data transfer object.
+     * @return DynamicBackgroundOutputDto|null The dynamic background output data object or null on failure.
+     * @throws SherlException If there is an error during the dynamic background creation process.
+     */
     public function updateDynamicBackground(string $dynamicBackgroundId, CreateDynamicBackgroundInputDto $dynamicBackground): ?DynamicBackgroundOutputDto
     {
         try {
