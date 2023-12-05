@@ -13,12 +13,21 @@ class QuotaProvider
     public const DOMAIN = 'Quota';
 
     private Client $client;
-
+    /**
+     * Constructor for QuotaProvider.
+     * @param Client $client The HTTP client used to make requests.
+     */
     public function __construct(Client $client)
     {
         $this->client = $client;
     }
 
+    /**
+     * Retrieves quota information based on provided filters.
+     * @param array|null $filters The filters to apply when retrieving quota data.
+     * @return QuotaOutputDto|null The quota data transfer object if found, null otherwise.
+     * @throws SherlException If the response status code indicates an error.
+     */
     public function getQuotaFindOneBy(?array $filters = null): ?QuotaOutputDto
     {
         $response = $this->client->post("/api/quotas/findOneBy", [
