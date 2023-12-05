@@ -4,7 +4,7 @@ namespace Sherl\Sdk\Organization\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-use Sherl\Sdk\Calendar\Dto\CalendarEventOutputDto;
+use Sherl\Sdk\Calendar\Dto\CalendarEventDto;
 use Sherl\Sdk\Calendar\Dto\OpeningHoursSpecificationOutputDto;
 
 use Sherl\Sdk\Media\Dto\ImageObjectOutputDto;
@@ -216,45 +216,45 @@ class OrganizationOutputDto
     public $openNow;
 
     /**
-    * @var OpeningHoursSpecificationOutputDto[]
-    * @Serializer\Type("array<Sherl\Sdk\Calendar\Dto\OpeningHoursSpecificationOutputDto>")
-    */
+     * @var OpeningHoursSpecificationOutputDto[]
+     * @Serializer\Type("array<Sherl\Sdk\Calendar\Dto\OpeningHoursSpecificationOutputDto>")
+     */
     public $openingHoursSpecification;
 
     /**
-    * @var boolean
-    * @Serializer\Type("boolean")
-    */
+     * @var boolean
+     * @Serializer\Type("boolean")
+     */
     public $isAccessibleForFree;
 
     /**
-    * @var boolean
-    * @Serializer\Type("boolean")
-    */
+     * @var boolean
+     * @Serializer\Type("boolean")
+     */
     public $isComingSoon;
 
     /**
-    * @var ImageObjectOutputDto[]
-    * @Serializer\Type("array<Sherl\Sdk\Media\Dto\ImageObjectOutputDto>")
-    */
+     * @var ImageObjectOutputDto[]
+     * @Serializer\Type("array<Sherl\Sdk\Media\Dto\ImageObjectOutputDto>")
+     */
     public $photos;
 
     /**
-    * @var TaxonomyOutputDto[]
-    * @Serializer\Type("array<Sherl\Sdk\Organization\Dto\TaxonomyOutputDto>")
-    */
+     * @var TaxonomyOutputDto[]
+     * @Serializer\Type("array<Sherl\Sdk\Organization\Dto\TaxonomyOutputDto>")
+     */
     public $serviceType;
 
     /**
-    * @var string[]
-    * @Serializer\Type("array<string>")
-    */
+     * @var string[]
+     * @Serializer\Type("array<string>")
+     */
     public $types;
 
     /**
-    * @var string
-    * @Serializer\Type("string")
-    */
+     * @var string
+     * @Serializer\Type("string")
+     */
     public $advertisingText;
 
     /**
@@ -300,8 +300,8 @@ class OrganizationOutputDto
     public $products;
 
     /**
-     * @var CalendarEventOutputDto[]
-     * @Serializer\Type("array<Sherl\Sdk\Calendar\Dto\CalendarEventOutputDto>")
+     * @var CalendarEventDto[]
+     * @Serializer\Type("array<Sherl\Sdk\Calendar\Dto\CalendarEventDto>")
      */
     public $events;
 

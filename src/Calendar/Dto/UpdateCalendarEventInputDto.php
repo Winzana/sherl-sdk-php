@@ -1,0 +1,39 @@
+<?php
+
+namespace Sherl\Sdk\Calendar\Dto;
+
+use JMS\Serializer\Annotation as Serializer;
+use Sherl\Sdk\Calendar\Dto\OpenHoursSpecification;
+
+class UpdateCalendarEventInputDto
+{
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $aboutUri;
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $ownerUri;
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $calendarUri;
+
+    /**
+     * @var string
+     * @Serializer\Type("Sherl\Sdk\Common\Dto\DateFilterOutputDto")
+     */
+    public $startDate;
+
+    /**
+     * @var string
+     * @Serializer\Type("Sherl\Sdk\Common\Dto\DateFilterOutputDto")
+     */
+    public $endDate;
+}

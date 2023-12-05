@@ -3,9 +3,8 @@
 namespace Sherl\Sdk\Calendar\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
-use Sherl\Sdk\Place\Dto\AddressOutputDto;
 
-class CalendarEventOutputDto
+class FindAvailabilitiesOutputDto
 {
     /**
      * @var string
@@ -25,6 +24,13 @@ class CalendarEventOutputDto
      */
     public $aboutUri;
 
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $ownerUri;
+
     /**
      * @var string
      * @Serializer\Type("string")
@@ -38,26 +44,32 @@ class CalendarEventOutputDto
     public $startDate;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
-     */
+    * @var string
+    * @Serializer\Type("string")
+    */
     public $endDate;
 
     /**
-     * @var AddressOutputDto
-     * @Serializer\Type("Sherl\Sdk\Place\Dto\AddressOutputDto")
+     * @var GeoCoordinates
+     * @Serializer\Type("array<Sherl\Sdk\Place\Dto\GeoCoordinates>")
      */
     public $location;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
-     */
+    * @var string
+    * @Serializer\Type("string")
+    */
     public $createdAt;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
-     */
+    * @var string
+    * @Serializer\Type("string")
+    */
     public $updatedAt;
+
+    /**
+     * @var mixed
+     * @Serializer\Type("mixed")
+     */
+    public $metadatas;
 }

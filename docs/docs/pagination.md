@@ -4,6 +4,11 @@ title: Pagination
 ---
 
 This page list all classes in relation to pagination.
+## PaginationFilterInputDto
+| Fields           |  Type   | Description              |
+| :--------------- | :-----: | :----------------------- |
+| **page**         | integer | Current page             |
+| **itemsPerPage** | integer | Number of items per page |
 
 ## ViewOutputDto
 
