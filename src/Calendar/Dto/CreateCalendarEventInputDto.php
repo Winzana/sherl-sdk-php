@@ -6,45 +6,45 @@ use JMS\Serializer\Annotation as Serializer;
 
 class CreateCalendarEventInputDto
 {
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $id;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $id;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $uri;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $uri;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $aboutUri;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $aboutUri;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $ownerUri;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $ownerUri;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $startDate;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $startDate;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $endDate;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $endDate;
 
-  /**
-   * @var mixed
-   * @Serializer\Type("mixed")
-   */
-  public $metadatas;
+    /**
+     * @var mixed
+     * @Serializer\Type("mixed")
+     */
+    public $metadatas;
 }

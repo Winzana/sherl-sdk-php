@@ -9,15 +9,15 @@ use Sherl\Sdk\Common\Dto\ViewOutputDto;
 
 class CalendarEventsPaginatedResultDto extends Pagination
 {
-  /**
-   * @var CalendarEventDto[]
-   * @Serializer\Type("array<Sherl\Sdk\Calendar\Dto\CalendarEventDto>")
-   */
-  public $results;
+    /**
+     * @var CalendarEventDto[]
+     * @Serializer\Type("array<Sherl\Sdk\Calendar\Dto\CalendarEventDto>")
+     */
+    public $results;
 
-  /**
-   * @var ViewOutputDto
-   * @Serializer\Type("Sherl\Sdk\Common\Dto\ViewOutputDto")
-   */
-  public $view;
+    /**
+     * @var ViewOutputDto
+     * @Serializer\Type("Sherl\Sdk\Common\Dto\ViewOutputDto")
+     */
+    public $view;
 }
