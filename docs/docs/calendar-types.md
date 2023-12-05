@@ -44,12 +44,13 @@ title: Calendar Types
 | isRoaming |                   boolean                    | Specify if the availability is a roaming or not   |
 | place     | [PlaceOutputDto](place-types#placeoutputdto) | The place associated to the calendar availability |
 
-### GetCalendarEventForCalendarOutputDto
+## GetCalendarEventForCalendarResultsDto
 
-| Field   | Type                                                  | Description             |
-| ------- | ----------------------------------------------------- | ----------------------- |
-| results | [CalendarEventDto[]](calendar-types#CalendarEventDto) | Array of Calendar Event |
-| view    | pagination#viewoutputdto)                             | View information        |
+| Fields           |                                  Type                                   | Description                           |
+| :--------------- | :---------------------------------------------------------------------: | :------------------------------------ |
+| **results**      |                 [CalendarEventDto](#CalendarEventDto)[]                 | Array of calendar events              |
+| **view**         |                [ViewOutputDto](pagination#viewoutputdto)                | Pagination information                |
+| **aggregations** | array<string,[AggregationsOutputDto](pagination#aggregationsoutputdto)> | Aggregation info (related to MongoDB) |
 
 ### OpeningHoursSpecificationOutputDto
 

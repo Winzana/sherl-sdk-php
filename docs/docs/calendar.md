@@ -249,7 +249,7 @@ $sherlClient->calendar->getAllCalendarEvents(string $eventId, GetCalendarEventFo
 
 </details>
 
-This call returns a [GetCalendarEventForCalendarOutputDto](calendar-types#getcalendareventforcalendaroutputdto) class.
+This call returns a [GetCalendarEventForCalendarResultsDto](calendar-types#GetCalendarEventForCalendarResultsDto) class.
 
 ## Get all calendar events for current person
 
@@ -279,7 +279,7 @@ GetCalendarEventForCurrentPersonInputDto extends [PaginationFilterInputDto](pagi
 
 </details>
 
-This call returns a [GetCalendarEventForCalendarOutputDto](calendar-types#getcalendareventforcalendaroutputdto) class.
+This call returns a [GetCalendarEventForCalendarResultsDto](calendar-types#GetCalendarEventForCalendarResultsDto) class.
 
 ## Get all calendar events for owner
 
@@ -308,4 +308,4 @@ DtoGetCalendarEventByOwnerInputDto extends [PaginationFilterInputDto](pagination
 
 </details>
 
-This call returns a [GetCalendarEventForCalendarOutputDto](calendar-types#getcalendareventforcalendaroutputdto) class.
+This call returns a [GetCalendarEventForCalendarResultsDto](calendar-types#GetCalendarEventForCalendarResultsDto) class.
