@@ -21,7 +21,7 @@ class EtlProvider
         $this->client = $client;
     }
 
-      /**
+    /**
      * Throws a Sherl ETL exception.
      * @param ResponseInterface $response - The response from the HTTP client.
      * @throws SherlException
