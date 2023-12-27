@@ -2,16 +2,19 @@
 
 namespace Sherl\Sdk\Common\Error;
 
-class ErrorFactory {
+class ErrorFactory
+{
     private string $domainName;
     private mixed $errors;
 
-    public function __construct($domainName, $errors = null) {
+    public function __construct($domainName, $errors = null)
+    {
         $this->domainName = $domainName;
         $this->errors = $errors;
     }
 
-    public function create($code, $data = null): SherlException {
+    public function create($code, $data = null): SherlException
+    {
         $identifier = "{$code}";
 
         $template = isset($this->errors[$code]) ? $this->errors[$code] : null;
@@ -27,8 +30,9 @@ class ErrorFactory {
         return $error;
     }
 
-    public static function bindData($template, $data): string {
-        return preg_replace_callback('/\{\$([^}]+)}/', function($matches) use ($data) {
+    public static function bindData($template, $data): string
+    {
+        return preg_replace_callback('/\{\$([^}]+)}/', function ($matches) use ($data) {
             $key = $matches[1];
             $value = isset($data[$key]) ? $data[$key] : "<{$key}>";
             return $value;

@@ -42,29 +42,29 @@ class NotificationProvider
 
     public function getNotifications(NotificationFiltersInputDto $notificationFiltersInput): ?NotificationListOutputDto
     {
-      try {
-        $response = $this->client->get('/api/notifications', [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::QUERY => $notificationFiltersInput,
-        ]);
+        try {
+            $response = $this->client->get('/api/notifications', [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::QUERY => $notificationFiltersInput,
+            ]);
 
-        switch ($response->getStatusCode()) {
-          case 200:
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                IQuota::class,
-                'json'
-            );
-          case 403:
-            throw $this->errorFactory->create(NotificationErr::GET_NOTIFICATIONS_FORBIDDEN);
-          default:
-            throw $this->errorFactory->create(NotificationErr::FETCH_FAILED);
-      }
-      } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(NotificationErr::FETCH_FAILED));
-      }
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        IQuota::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(NotificationErr::GET_NOTIFICATIONS_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(NotificationErr::FETCH_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(NotificationErr::FETCH_FAILED));
+        }
     }
 
     public function registerFirebaseNotification(string $notificationRegistrationToken): ?NotificationRegistrationOutputDto
