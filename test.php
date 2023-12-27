@@ -3,6 +3,8 @@ require __DIR__  . '/vendor/autoload.php';
 
 use Sherl\Sdk\Common\SherlClient;
 
+use Sherl\Sdk\Notification\Dto\NotificationFiltersInputDto;
+
 $env = parse_ini_file('.env');
 
 $sherlClient = new SherlClient(
@@ -16,4 +18,10 @@ $login = $sherlClient->auth->signInWithEmailAndPassword($env['USERNAME'], $env['
 
 $sherlClient->registerAuthToken($login->access_token);
 
-$me = $sherlClient->person->getMe();
+$filters = new NotificationFiltersInputDto();
+$filters->sms = 1; // Supposons que vous voulez filtrer les notifications SMS
+$filters->email = 1; // Supposons que vous voulez aussi filtrer les notifications par email
+$filters->uri = "http://example.com"; // Mettez ici l'URI souhaité
+$filters->id = "some-unique-id"; // Mettez ici l'ID souhaité
+
+$me = $sherlClient->notification->getNotifications($filters);

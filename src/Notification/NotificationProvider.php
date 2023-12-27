@@ -8,6 +8,11 @@ use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 
 use Sherl\Sdk\Common\Error\SherlException;
+use Sherl\Sdk\Common\Error\ErrorFactory;
+use Sherl\Sdk\Common\Error\ErrorHelper;
+use Sherl\Sdk\Notification\Errors\NotificationErr;
+use Exception;
+
 use Sherl\Sdk\Common\SerializerFactory;
 
 use Sherl\Sdk\Notification\Dto\NotificationFiltersInputDto;
@@ -27,6 +32,7 @@ class NotificationProvider
     public function __construct(Client $client)
     {
         $this->client = $client;
+        $this->errorFactory = new ErrorFactory('Notification', NotificationErr::$errors);
     }
 
     private function throwSherlNotificationException(ResponseInterface $response)
@@ -36,6 +42,7 @@ class NotificationProvider
 
     public function getNotifications(NotificationFiltersInputDto $notificationFiltersInput): ?NotificationListOutputDto
     {
+      try {
         $response = $this->client->get('/api/notifications', [
           "headers" => [
             "Content-Type" => "application/json",
@@ -43,15 +50,21 @@ class NotificationProvider
           RequestOptions::QUERY => $notificationFiltersInput,
         ]);
 
-        if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlNotificationException($response);
-        }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            NotificationListOutputDto::class,
-            'json'
-        );
+        switch ($response->getStatusCode()) {
+          case 200:
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                IQuota::class,
+                'json'
+            );
+          case 403:
+            throw $this->errorFactory->create(NotificationErr::GET_NOTIFICATIONS_FORBIDDEN);
+          default:
+            throw $this->errorFactory->create(NotificationErr::FETCH_FAILED);
+      }
+      } catch (Exception $err) {
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(NotificationErr::FETCH_FAILED));
+      }
     }
 
     public function registerFirebaseNotification(string $notificationRegistrationToken): ?NotificationRegistrationOutputDto

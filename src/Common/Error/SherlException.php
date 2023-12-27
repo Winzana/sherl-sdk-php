@@ -4,10 +4,16 @@ namespace Sherl\Sdk\Common\Error;
 
 use Exception;
 
-class SherlException extends Exception
-{
-    public function __construct(string $domain, string $message, int $code = 0)
-    {
-        parent::__construct(ucfirst($domain) . ': ' . $message, $code);
+const ERROR_NAME = 'SherlError';
+
+class SherlException extends Exception {
+    public string $name = ERROR_NAME;
+    public $code;
+    public mixed $data;
+
+    public function __construct($code, $message, $data = null) {
+        parent::__construct($message);
+        $this->code = $code;
+        $this->data = $data;
     }
 }
