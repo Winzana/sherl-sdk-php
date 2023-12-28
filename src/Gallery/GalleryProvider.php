@@ -8,6 +8,11 @@ use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 
 use Sherl\Sdk\Common\Error\SherlException;
+use Sherl\Sdk\Common\Error\ErrorFactory;
+use Sherl\Sdk\Common\Error\ErrorHelper;
+use Sherl\Sdk\Notification\Errors\NotificationErr;
+use Exception;
+
 use Sherl\Sdk\Common\SerializerFactory;
 
 use Sherl\Sdk\Gallery\Dto\NotificationFiltersInputDto;
@@ -22,14 +27,12 @@ class GalleryProvider
 
     private Client $client;
 
+    private ErrorFactory $errorFactory;
+
     public function __construct(Client $client)
     {
         $this->client = $client;
-    }
-
-    private function throwSherlGalleryException(ResponseInterface $response)
-    {
-        throw new SherlException(GalleryProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        $this->errorFactory = new ErrorFactory(self::DOMAIN, GalleryErr::$errors);
     }
 
     /**
@@ -49,17 +52,20 @@ class GalleryProvider
               RequestOptions::JSON => $gallery,
             ]);
 
-            if ($response->getStatusCode() >= 300) {
-                return $this->throwSherlGalleryException($response);
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        GalleryOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(GalleryErr::CREATE_GALLERY_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(GalleryErr::CREATE_GALLERY_FAILED);
             }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                GalleryOutputDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(GalleryErr::CREATE_GALLERY_FAILED));
         }
     }
 
@@ -79,17 +85,22 @@ class GalleryProvider
               ],
             ]);
 
-            if ($response->getStatusCode() >= 300) {
-                return $this->throwSherlGalleryException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        DynamicBackgroundOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(GalleryErr::DELETE_DYNAMIC_BACKGROUND_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(GalleryErr::DYNAMIC_BACKGROUND_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(GalleryErr::DELETE_DYNAMIC_BACKGROUND_FAILED);
             }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                DynamicBackgroundOutputDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(GalleryErr::DELETE_DYNAMIC_BACKGROUND_FAILED));
         }
     }
 
@@ -109,17 +120,22 @@ class GalleryProvider
               ],
             ]);
 
-            if ($response->getStatusCode() >= 300) {
-                return $this->throwSherlGalleryException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        GalleryOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(GalleryErr::DELETE_GALLERY_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(GalleryErr::GALLERY_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(GalleryErr::DELETE_GALLERY_FAILED);
             }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                GalleryOutputDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(GalleryErr::DELETE_GALLERY_FAILED));
         }
     }
 
@@ -140,19 +156,21 @@ class GalleryProvider
               RequestOptions::QUERY => $filters,
             ]);
 
-            if ($response->getStatusCode() >= 300) {
-                return $this->throwSherlGalleryException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        DynamicBackgroundOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(GalleryErr::GET_DYNAMIC_BACKGROUNDS_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(GalleryErr::GET_DYNAMIC_BACKGROUNDS_FAILED);
             }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                DynamicBackgroundOutputDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(GalleryErr::GET_DYNAMIC_BACKGROUNDS_FAILED));
         }
-
     }
 
     /**
@@ -172,17 +190,20 @@ class GalleryProvider
               RequestOptions::QUERY => $filters,
             ]);
 
-            if ($response->getStatusCode() >= 300) {
-                return $this->throwSherlGalleryException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        GalleryOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(GalleryErr::GET_GALLERIES_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(GalleryErr::GET_GALLERIES_FAILED);
             }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                GalleryOutputDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(GalleryErr::GET_GALLERIES_FAILED));
         }
     }
 
@@ -196,17 +217,20 @@ class GalleryProvider
               RequestOptions::JSON => $dynamicBackground,
             ]);
 
-            if ($response->getStatusCode() >= 300) {
-                return $this->throwSherlGalleryException($response);
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        DynamicBackgroundOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(GalleryErr::ADD_DYNAMIC_BACKGROUND_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(GalleryErr::ADD_DYNAMIC_BACKGROUND_FAILED);
             }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                DynamicBackgroundOutputDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(GalleryErr::ADD_DYNAMIC_BACKGROUND_FAILED));
         }
     }
 
@@ -227,17 +251,22 @@ class GalleryProvider
               RequestOptions::JSON => $dynamicBackground,
             ]);
 
-            if ($response->getStatusCode() >= 300) {
-                return $this->throwSherlGalleryException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        DynamicBackgroundOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(GalleryErr::UPDATE_DYNAMIC_BACKGROUND_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(GalleryErr::DYNAMIC_BACKGROUND_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(GalleryErr::UPDATE_DYNAMIC_BACKGROUND_FAILED);
             }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                DynamicBackgroundOutputDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(GalleryErr::UPDATE_DYNAMIC_BACKGROUND_FAILED));
         }
     }
 }
