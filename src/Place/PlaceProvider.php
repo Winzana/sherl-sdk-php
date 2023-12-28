@@ -6,6 +6,10 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 
+use Sherl\Sdk\Common\Error\ErrorFactory;
+use Sherl\Sdk\Common\Error\ErrorHelper;
+use Sherl\Sdk\Place\Errors\PlaceErr;
+
 class PlaceProvider
 {
     private Client $client;
@@ -17,6 +21,7 @@ class PlaceProvider
     public function __construct(Client $client)
     {
         $this->client = $client;
+        $this->errorFactory = new ErrorFactory('Quotas', QuotasErr::$errors);
     }
     /**
      * Retrieves a list of places with pagination and optional filters.
@@ -40,15 +45,20 @@ class PlaceProvider
             ]);
 
             $this->handleResponse($response);
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                LeTypeAttendu::class,
-                'json'
-            );
-
-        } catch (\Exception $e) {
-            throw new SherlException(PlaceErr::FETCH_FAILED, $e->getMessage());
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        IPlace::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(PlaceErr::FETCH_PLACES_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(PlaceErr::FETCH_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PlaceErr::FETCH_FAILED));
         }
     }
     /**
