@@ -8,6 +8,10 @@ use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 
 use Sherl\Sdk\Common\Error\SherlException;
+use Sherl\Sdk\Common\Error\ErrorFactory;
+use Sherl\Sdk\Common\Error\ErrorHelper;
+use Sherl\Sdk\VirtualMoney\Errors\VirtualMoneyErr;
+use Exception;
 
 use Sherl\Sdk\VirtualMoney\Dto\CreateWalletHistoricalInputDto;
 use Sherl\Sdk\VirtualMoney\Dto\WalletHistoricalOutputDto;
@@ -23,9 +27,12 @@ class VirtualMoneyProvider
 
     private Client $client;
 
+    private ErrorFactory $errorFactory;
+
     public function __construct(Client $client)
     {
         $this->client = $client;
+        $this->errorFactory = new ErrorFactory(self::DOMAIN, NotificationErr::$errors);
     }
 
     private function throwSherlVirtualMoneyException(ResponseInterface $response)
@@ -43,22 +50,31 @@ class VirtualMoneyProvider
      */
     public function createWalletHistorical(string $walletId, CreateWalletHistoricalInputDto $walletHistorical): ?WalletHistoricalOutputDto
     {
-        $response = $this->client->post("/api/wallet/$walletId/historical", [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => $walletHistorical
-        ]);
+        try {
+            $response = $this->client->post("/api/wallet/$walletId/historical", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => $walletHistorical
+              ]);
 
-        if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlUserException($response);
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        WalletHistoricalOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(VirtualMoneyErr::CREATE_WALLET_HISTORICAL_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(VirtualMoneyErr::WALLET_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(VirtualMoneyErr::CREATE_WALLET_HISTORICAL_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(VirtualMoneyErr::CREATE_WALLET_HISTORICAL_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            WalletHistoricalOutputDto::class,
-            'json'
-        );
     }
 
     /**
@@ -73,21 +89,30 @@ class VirtualMoneyProvider
         string $walletId,
         string $historicalId
     ): ?WalletHistoricalOutputDto {
-        $response = $this->client->get("api/wallet/$walletId/historical/$historicalId", [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ]
-          ]);
+        try {
+            $response = $this->client->get("api/wallet/$walletId/historical/$historicalId", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ]
+              ]);
 
-        if ($response->getStatusCode() >= 300) {
-            throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        WalletHistoricalOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(VirtualMoneyErr::GET_WALLET_HISTORICAL_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(VirtualMoneyErr::WALLET_HISTORICAL_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(VirtualMoneyErr::GET_WALLET_HISTORICAL_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(VirtualMoneyErr::GET_WALLET_HISTORICAL_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            WalletHistoricalOutputDto::class,
-            'json'
-        );
     }
 
     /**
@@ -99,22 +124,30 @@ class VirtualMoneyProvider
      */
     public function createWallet(WalletInputDto $wallet): ?WalletOutputDto
     {
-        $response = $this->client->post("/api/wallet", [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => $wallet
-        ]);
+        try {
+            $response = $this->client->post("/api/wallet", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => $wallet
+              ]);
 
-        if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlUserException($response);
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        WalletOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(VirtualMoneyErr::CREATE_WALLET_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(VirtualMoneyErr::CREATE_WALLET_FAILED);
+            }
+
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(VirtualMoneyErr::CREATE_WALLET_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            WalletOutputDto::class,
-            'json'
-        );
     }
 
     /**
@@ -127,22 +160,31 @@ class VirtualMoneyProvider
      */
     public function creditWallet(string $walletId, TransferWalletInputDto $transferWallet): ?WalletOutputDto
     {
-        $response = $this->client->post("/api/wallet/$walletId/credit", [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => $transferWallet
-        ]);
+        try {
+            $response = $this->client->post("/api/wallet/$walletId/credit", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => $transferWallet
+              ]);
 
-        if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlUserException($response);
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        WalletOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(VirtualMoneyErr::CREDIT_WALLET_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(VirtualMoneyErr::WALLET_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(VirtualMoneyErr::CREDIT_WALLET_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(VirtualMoneyErr::CREDIT_WALLET_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            WalletOutputDto::class,
-            'json'
-        );
     }
 
     /**
@@ -155,22 +197,32 @@ class VirtualMoneyProvider
      */
     public function debitWalet(string $walletId, TransferWalletInputDto $transferWallet): ?WalletOutputDto
     {
-        $response = $this->client->post("/api/wallet/$walletId/debit", [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => $transferWallet
-        ]);
+        try {
+            $response = $this->client->post("/api/wallet/$walletId/debit", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => $transferWallet
+              ]);
 
-        if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlUserException($response);
+            switch ($response->getStatusCode()) {
+                case 201:
+
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        WalletOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(VirtualMoneyErr::DEBIT_WALLET_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(VirtualMoneyErr::WALLET_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(VirtualMoneyErr::DEBIT_WALLET_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(VirtualMoneyErr::DEBIT_WALLET_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            WalletOutputDto::class,
-            'json'
-        );
     }
 
     /**
@@ -187,25 +239,33 @@ class VirtualMoneyProvider
         string $personId,
         string $consumerId
     ): ?WalletOutputDto {
-        $response = $this->client->get("/api/wallet/find-one", [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ], [
-                "id" => $id,
-                "personId" => $personId,
-                "consumerId" => $consumerId
-              ]
-          ]);
 
-        if ($response->getStatusCode() >= 300) {
-            throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        try {
+            $response = $this->client->get("/api/wallet/find-one", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ], [
+                    "id" => $id,
+                    "personId" => $personId,
+                    "consumerId" => $consumerId
+                  ]
+              ]);
+
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        WalletOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(VirtualMoneyErr::FIND_ONE_WALLET_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(VirtualMoneyErr::FIND_ONE_WALLET_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(VirtualMoneyErr::FIND_ONE_WALLET_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            WalletOutputDto::class,
-            'json'
-        );
     }
 
     /**
@@ -218,20 +278,30 @@ class VirtualMoneyProvider
     public function getWalletById(
         string $walletId,
     ): ?WalletOutputDto {
-        $response = $this->client->get("api/wallet/$walletId", [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ]
-          ]);
 
-        if ($response->getStatusCode() >= 300) {
-            throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        try {
+            $response = $this->client->get("api/wallet/$walletId", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ]
+              ]);
+
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        WalletOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(VirtualMoneyErr::GET_ONE_WALLET_BY_ID_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(VirtualMoneyErr::WALLET_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(VirtualMoneyErr::GET_ONE_WALLET_BY_ID_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(VirtualMoneyErr::GET_ONE_WALLET_BY_ID_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            WalletOutputDto::class,
-            'json'
-        );
     }
 }
