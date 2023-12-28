@@ -1,6 +1,6 @@
 <?php
 
-namespace Sherl\Sdk\Contact;
+namespace Sherl\Sdk\BugReport;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
