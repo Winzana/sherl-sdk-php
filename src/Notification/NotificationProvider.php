@@ -34,7 +34,7 @@ class NotificationProvider
     public function __construct(Client $client)
     {
         $this->client = $client;
-        $this->errorFactory = new ErrorFactory('Notification', NotificationErr::$errors);
+        $this->errorFactory = new ErrorFactory(self::DOMAIN, NotificationErr::$errors);
     }
 
     private function throwSherlNotificationException(ResponseInterface $response)
