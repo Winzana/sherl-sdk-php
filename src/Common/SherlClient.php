@@ -15,7 +15,7 @@ use Sherl\Sdk\Auth\AuthProvider;
 
 use Sherl\Sdk\Claim\ClaimProvider;
 
-use Sherl\Sdk\Contact\BugReportProvider;
+use Sherl\Sdk\BugReport\BugReportProvider;
 
 use Sherl\Sdk\Person\PersonProvider;
 
