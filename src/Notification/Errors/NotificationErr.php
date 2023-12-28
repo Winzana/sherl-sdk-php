@@ -21,7 +21,7 @@ class NotificationErr
     public static $errors = [
       self::NOTIFICATION_NOT_FOUND => 'Notification not found',
       self::POST_FAILED => 'Failed to create notification',
-      self::FETCH_FAILED => 'Failed to fetch notification API',
+      self::FETCH_FAILED => 'Failed to fetch notification API {$errorCode}',
       self::UPDATE_FAILED => 'Failed to update notification',
       self::ENABLED_FAILED => 'Failed to enable notifications',
       self::DISABLED_FAILED => 'Failed to disabled notifications',

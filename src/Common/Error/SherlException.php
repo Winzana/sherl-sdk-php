@@ -7,13 +7,13 @@ use Exception;
 class SherlException extends Exception
 {
     public string $name = 'SherlError';
-    public $code;
+    public string $errorCode;
     public mixed $data;
 
-    public function __construct($code, $message, $data = null)
+    public function __construct($errorCode, $message, $data = null)
     {
         parent::__construct($message);
-        $this->code = $code;
+        $this->errorCode = $errorCode;
         $this->data = $data;
     }
 }

@@ -29,6 +29,8 @@ class NotificationProvider
 
     private Client $client;
 
+    private ErrorFactory $errorFactory;
+
     public function __construct(Client $client)
     {
         $this->client = $client;
@@ -54,7 +56,7 @@ class NotificationProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        NotificationListOutputDto::class,
+                        IQuota::class,
                         'json'
                     );
                 case 403:
