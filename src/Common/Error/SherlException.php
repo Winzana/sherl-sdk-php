@@ -6,8 +6,14 @@ use Exception;
 
 class SherlException extends Exception
 {
-    public function __construct(string $domain, string $message, int $code = 0)
+    public string $name = 'SherlError';
+    public string $errorCode;
+    public mixed $data;
+
+    public function __construct($errorCode, $message, $data = null)
     {
-        parent::__construct(ucfirst($domain) . ': ' . $message, $code);
+        parent::__construct($message);
+        $this->errorCode = $errorCode;
+        $this->data = $data;
     }
 }
