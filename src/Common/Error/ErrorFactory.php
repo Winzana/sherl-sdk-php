@@ -13,7 +13,7 @@ class ErrorFactory
         $this->errors = $errors;
     }
 
-    public function create($code, $data = null): SherlException
+    public function create(string $code, mixed $data = null): SherlException
     {
         $identifier = "{$code}";
 

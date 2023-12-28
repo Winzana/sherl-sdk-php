@@ -4,11 +4,9 @@ namespace Sherl\Sdk\Common\Error;
 
 use Exception;
 
-const ERROR_NAME = 'SherlError';
-
 class SherlException extends Exception
 {
-    public string $name = ERROR_NAME;
+    public string $name = 'SherlError';
     public $code;
     public mixed $data;
 
