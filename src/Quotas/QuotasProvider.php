@@ -8,6 +8,10 @@ use Sherl\Sdk\Common\SerializerFactory;
 use Sherl\Sdk\Quotas\Dto\QuotaOutputDto;
 use Sherl\Sdk\Common\Error\SherlException;
 
+use Sherl\Sdk\Common\Error\ErrorFactory;
+use Sherl\Sdk\Common\Error\ErrorHelper;
+use Sherl\Sdk\Quotas\Errors\QuotasErr;
+
 class QuotaProvider
 {
     public const DOMAIN = 'Quota';
@@ -20,6 +24,7 @@ class QuotaProvider
     public function __construct(Client $client)
     {
         $this->client = $client;
+        $this->errorFactory = new ErrorFactory('Quotas', QuotasErr::$errors);
     }
 
     /**
@@ -30,6 +35,7 @@ class QuotaProvider
      */
     public function getQuotaFindOneBy(?array $filters = null): ?QuotaOutputDto
     {
+        try {
         $response = $this->client->post("/api/quotas/findOneBy", [
             "headers" => [
             "Content-Type" => "application/json",
@@ -39,14 +45,21 @@ class QuotaProvider
             ]
             ]);
 
-        if ($response->getStatusCode() >= 300) {
-            throw new SherlException(QuotaProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+            switch ($response->getStatusCode()) {
+                case 200:
+                  return SerializerFactory::getInstance()->deserialize(
+                      $response->getBody()->getContents(),
+                      IQuota::class,
+                      'json'
+                  );
+                case 403:
+                  throw $this->errorFactory->create(QuotasErr::FETCH_QUOTA_FIND_ONE_BY_FORBIDDEN);
+                default:
+                  throw $this->errorFactory->create(QuotasErr::FETCH_FAILED);
+            }
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            QuotaOutputDto::class,
-            'json'
-        );
+        catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(QuotasErr::FETCH_FAILED));
+          }
     }
 }
