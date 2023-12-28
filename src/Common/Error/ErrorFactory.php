@@ -5,17 +5,9 @@ namespace Sherl\Sdk\Common\Error;
 class ErrorFactory
 {
     private string $domainName;
-
-    /**
-     * @var array<string, string>
-     */
     private array $errors;
 
-    /**
-     * @param string $domainName
-     * @param array<string, string> $errors
-     */
-    public function __construct(string $domainName, array $errors = [])
+    public function __construct(string $domainName, array $errors = null)
     {
         $this->domainName = $domainName;
         $this->errors = $errors;
@@ -25,9 +17,10 @@ class ErrorFactory
     {
         $identifier = "{$errorCode}";
 
-        $template = $this->errors[$errorCode] ?? 'Error';
+        $template = isset($this->errors[$errorCode]) ? $this->errors[$errorCode] : null;
+        $template = $template ?: 'Error';
 
-        if ($data) {
+        if ($template && $data) {
             $template = self::bindData($template, $data);
         }
 
@@ -37,23 +30,12 @@ class ErrorFactory
         return $error;
     }
 
-    /**
-     * @param string $template
-     * @param array<string, string> $data
-     * @return string
-     */
     public static function bindData(string $template, array $data): string
     {
-        $bindedTemplate = preg_replace_callback('/\{\$([^}]+)}/', function ($matches) use ($data) {
+        return preg_replace_callback('/\{\$([^}]+)}/', function ($matches) use ($data) {
             $key = $matches[1];
             $value = isset($data[$key]) ? $data[$key] : "<{$key}>";
             return $value;
         }, $template);
-
-        if (!$bindedTemplate) {
-            return $template;
-        }
-
-        return $bindedTemplate;
     }
 }
