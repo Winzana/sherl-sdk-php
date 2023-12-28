@@ -25,9 +25,10 @@ class ErrorFactory
     {
         $identifier = "{$errorCode}";
 
-        $template = $this->errors[$errorCode] ?? 'Error';
+        $template = isset($this->errors[$errorCode]) ? $this->errors[$errorCode] : null;
+        $template = $template ?: 'Error';
 
-        if ($data) {
+        if ($template && $data) {
             $template = self::bindData($template, $data);
         }
 
