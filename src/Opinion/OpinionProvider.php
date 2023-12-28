@@ -13,16 +13,22 @@ use Sherl\Sdk\Opinion\Media\Dto\OpinionInputDto;
 use Sherl\Sdk\Opinion\Media\Dto\OpinionOutputDto;
 use Sherl\Sdk\Opinion\Media\Dto\OpinionAverageOutputDto;
 use Sherl\Sdk\Opinion\Media\Dto\OpinionListOutputDto;
+use Exception;
+use Sherl\Sdk\Common\Error\ErrorFactory;
+use Sherl\Sdk\Common\Error\ErrorHelper;
+use Sherl\Sdk\Opinion\Errors\OpinionErr;
 
 class OpinionProvider
 {
     public const DOMAIN = "Opinion";
+
 
     private Client $client;
 
     public function __construct(Client $client)
     {
         $this->client = $client;
+        $this->errorFactory = new ErrorFactory('Opinion', QuotasErr::$errors);
     }
 
     private function throwMediaException(ResponseInterface $response)
@@ -32,75 +38,103 @@ class OpinionProvider
 
     public function createOpinion(string $opinionId, OpinionInputDto $opinionData): ?OpinionOutputDto
     {
-        $response = $this->client->post("/api/opinions/$opinionId", [
-            "headers" => [
-                "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => $opinionData,
-        ]);
+        try {
+            $response = $this->client->post("/api/opinions/$opinionId", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => $opinionData,
+            ]);
 
-        if ($response->getStatusCode() >= 300) {
-            return $this->throwMediaException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        IQuota::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OpinionErr::CREATE_OPINION_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(QuotasErr::CREATE_OPINION_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(QuotasErr::CREATE_OPINION_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OpinionOutputDto::class,
-            'json'
-        );
     }
 
     public function getOpinionsAverage(string $opinionToUri): ?OpinionAverageOutputDto
     {
-        $response = $this->client->get('/api/opinions/average', [
-            RequestOptions::QUERY => ['opinionToUri' => $opinionToUri],
-        ]);
+        try {
+            $response = $this->client->get('/api/opinions/average', [
+                RequestOptions::QUERY => ['opinionToUri' => $opinionToUri],
+            ]);
 
-        if ($response->getStatusCode() >= 300) {
-            return $this->throwMediaException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        IQuota::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OpinionErr::FETCH_OPINION_AVERAGE_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(QuotasErr::FETCH_OPINION_AVERAGE_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(QuotasErr::FETCH_OPINION_AVERAGE_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OpinionAverageOutputDto::class,
-            'json'
-        );
     }
 
     public function getOpinionsList(OpinionInputDto $filtersInput): ?OpinionListOutputDto
     {
-        $response = $this->client->get('/api/opinions', [
-            RequestOptions::QUERY => $filtersInput,
-        ]);
+        try {
+            $response = $this->client->get('/api/opinions', [
+                RequestOptions::QUERY => $filtersInput,
+            ]);
 
-        if ($response->getStatusCode() >= 300) {
-            return $this->throwMediaException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        IQuota::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OpinionErr::FETCH_OPINIONS_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(QuotasErr::FETCH_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(QuotasErr::FETCH_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OpinionListOutputDto::class,
-            'json'
-        );
     }
 
     public function updateOpinion(string $id, OpinionInputDto $updatedOpinion): ?OpinionOutputDto
     {
-        $response = $this->client->put("/api/opinions/$id/status", [
-            "headers" => [
-                "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => $updatedOpinion,
-        ]);
+        try {
+            $response = $this->client->put("/api/opinions/$id/status", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => $updatedOpinion,
+            ]);
 
-        if ($response->getStatusCode() >= 300) {
-            return $this->throwMediaException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        IQuota::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OpinionErr::FETCH_OPINIONS_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(QuotasErr::FETCH_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(QuotasErr::FETCH_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OpinionOutputDto::class,
-            'json'
-        );
     }
 }
