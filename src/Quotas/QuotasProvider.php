@@ -36,30 +36,29 @@ class QuotaProvider
     public function getQuotaFindOneBy(?array $filters = null): ?QuotaOutputDto
     {
         try {
-        $response = $this->client->post("/api/quotas/findOneBy", [
-            "headers" => [
-            "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-            "query" => $filters
-            ]
-            ]);
+            $response = $this->client->post("/api/quotas/findOneBy", [
+                "headers" => [
+                "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                "query" => $filters
+                ]
+                ]);
 
             switch ($response->getStatusCode()) {
                 case 200:
-                  return SerializerFactory::getInstance()->deserialize(
-                      $response->getBody()->getContents(),
-                      IQuota::class,
-                      'json'
-                  );
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        IQuota::class,
+                        'json'
+                    );
                 case 403:
-                  throw $this->errorFactory->create(QuotasErr::FETCH_QUOTA_FIND_ONE_BY_FORBIDDEN);
+                    throw $this->errorFactory->create(QuotasErr::FETCH_QUOTA_FIND_ONE_BY_FORBIDDEN);
                 default:
-                  throw $this->errorFactory->create(QuotasErr::FETCH_FAILED);
+                    throw $this->errorFactory->create(QuotasErr::FETCH_FAILED);
             }
-        }
-        catch (Exception $err) {
+        } catch (Exception $err) {
             throw ErrorHelper::getSherlError($err, $this->errorFactory->create(QuotasErr::FETCH_FAILED));
-          }
+        }
     }
 }
