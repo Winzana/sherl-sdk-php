@@ -54,7 +54,7 @@ class NotificationProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        IQuota::class,
+                        NotificationListOutputDto::class,
                         'json'
                     );
                 case 403:
