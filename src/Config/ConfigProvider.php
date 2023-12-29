@@ -8,6 +8,11 @@ use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 
 use Sherl\Sdk\Common\Error\SherlException;
+use Sherl\Sdk\Common\Error\ErrorFactory;
+use Sherl\Sdk\Common\Error\ErrorHelper;
+use Sherl\Sdk\Config\Errors\ConfigErr;
+use Exception;
+
 use Sherl\Sdk\Common\SerializerFactory;
 
 use Sherl\Sdk\Config\Dto\ConfigOutputDto;
@@ -20,14 +25,12 @@ class ConfigProvider
 
     private Client $client;
 
+    private ErrorFactory $errorFactory;
+
     public function __construct(Client $client)
     {
         $this->client = $client;
-    }
-
-    private function throwSherlConfigException(ResponseInterface $response)
-    {
-        throw new SherlException(ConfigProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        $this->errorFactory = new ErrorFactory(self::DOMAIN, ConfigErr::$errors);
     }
 
     /**
@@ -46,17 +49,22 @@ class ConfigProvider
               ],
             ]);
 
-            if ($response->getStatusCode() >= 300) {
-                return $this->throwSherlNotificationException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ConfigOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ConfigErr::GET_CONFIG_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ConfigErr::CONFIG_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ConfigErr::FETCH_FAILED);
             }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                ConfigOutputDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ConfigErr::FETCH_FAILED));
         }
     }
 
@@ -70,24 +78,27 @@ class ConfigProvider
     public function setPublicConfig(SetConfigInputDto $request): ?ConfigOutputDto
     {
         try {
-            $response = $this->client->get("/api/configs", [
+            $response = $this->client->post("/api/configs", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
               RequestOptions::JSON => $request,
             ]);
 
-            if ($response->getStatusCode() >= 300) {
-                return $this->throwSherlNotificationException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ConfigOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ConfigErr::SET_CONFIG_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ConfigErr::FETCH_FAILED);
             }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                ConfigOutputDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ConfigErr::FETCH_FAILED));
         }
     }
 }
