@@ -9,6 +9,10 @@ use Sherl\Sdk\Common\StringUtils;
 use Sherl\Sdk\Exceptions\MediaErr;
 use Sherl\Sdk\Exceptions\SherlException;
 use Sherl\Sdk\Common\SerializerFactory;
+use Exception;
+use Sherl\Sdk\Common\Error\ErrorFactory;
+use Sherl\Sdk\Common\Error\ErrorHelper;
+use Sherl\Sdk\Opinion\Errors\OpinionErr;
 
 class MediaProvider
 {
@@ -20,6 +24,7 @@ class MediaProvider
     public function __construct(Client $client)
     {
         $this->client = $client;
+        $this->errorFactory = new ErrorFactory('Media', MediaErr::$errors);
     }
     /**
      * Throws a SherlMediaException with a custom message.
@@ -43,14 +48,22 @@ class MediaProvider
             $endpoint = StringUtils::bindContext('/api/medias/' . $id, []);
             $response = $this->client->delete($endpoint);
 
-            if ($response->getStatusCode() >= 300) {
-                $this->throwSherlMediaException($response, "Failed to delete file.");
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        IMedia::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(MediaErr::DELETE_FILE_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(MediaErr::MEDIA_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(MediaErr::DELETE_FILE_FAILED);
             }
-
-            return $response->getBody()->getContents();
-
-        } catch (\Exception $e) {
-            throw new SherlException(MediaErr::DELETE_FILE_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(MediaErr::DELETE_FILE_FAILED));
         }
     }
     /**
@@ -67,19 +80,23 @@ class MediaProvider
             $response = $this->client->get($endpoint, [
                 'query' => $query
             ]);
-
-            if ($response->getStatusCode() >= 300) {
-                $this->throwSherlMediaException($response, "Failed to get file.");
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        IMedia::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(MediaErr::GET_FILE_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(MediaErr::MEDIA_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(MediaErr::GET_FILE_FAILED);
             }
 
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                ImageObjectOutputDto::class,
-                'json'
-            );
-
-        } catch (\Exception $e) {
-            throw new SherlException(MediaErr::GET_FILE_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(MediaErr::GET_FILE_FAILED));
         }
     }
     /**
@@ -96,18 +113,21 @@ class MediaProvider
                 'headers' => ['Content-Type' => 'multipart/form-data']
             ]);
 
-            if ($response->getStatusCode() >= 300) {
-                $this->throwSherlMediaException($response, "Failed to upload file.");
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        IMedia::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(MediaErr::UPLOAD_FILE_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(MediaErr::GET_FILE_FAILED);
             }
 
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                ImageObjectOutputDto::class,
-                'json'
-            );
-
-        } catch (\Exception $e) {
-            throw new SherlException(MediaErr::UPLOAD_FILE_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(MediaErr::UPLOAD_FILE_FAILED));
         }
     }
 }
