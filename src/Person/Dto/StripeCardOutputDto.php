@@ -127,10 +127,10 @@ class StripeCardOutputDto
     public $last4;
 
     /**
-     * @var array
-     * @Serializer\Type("array")
+     * @var array<string, mixed>
+     * @Serializer\Type("array<string, mixed>")
      */
-    public $metadata;
+    public $metadatas;
 
     /**
      * @var string
