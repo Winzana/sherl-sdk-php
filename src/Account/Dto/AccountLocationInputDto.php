@@ -4,7 +4,8 @@ namespace Sherl\Sdk\Account\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class AccountLocationInputDto {
+class AccountLocationInputDto
+{
     /**
      * @var string
      * @Serializer\Type("string")

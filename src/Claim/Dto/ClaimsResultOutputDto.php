@@ -1,4 +1,5 @@
 <?php
+
 namespace Sherl\Sdk\Claim\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
