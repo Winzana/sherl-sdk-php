@@ -5,7 +5,7 @@
     "license": "MIT",
     "scripts": {
       "format": "php-cs-fixer fix src",
-      "lint": "./vendor/bin/phpstan analyse src --level 7"
+      "lint": "./vendor/bin/phpstan analyse src --level 8"
     },
     "autoload": {
         "psr-4": {
