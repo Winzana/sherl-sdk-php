@@ -4,7 +4,8 @@
     "description": "Sherl PHP SDK",
     "license": "MIT",
     "scripts": {
-      "format": "php-cs-fixer fix src"
+      "format": "php-cs-fixer fix src",
+      "lint": "./vendor/bin/phpstan analyse src --level 7"
     },
     "autoload": {
         "psr-4": {
