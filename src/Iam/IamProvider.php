@@ -57,21 +57,21 @@ class IamProvider
                 RequestOptions::QUERY => $filters,
                 ]);
 
-                switch ($response->getStatusCode()) {
-                    case 200:
-                        return SerializerFactory::getInstance()->deserialize(
-                            $response->getBody()->getContents(),
-                            IIam::class,
-                            'json'
-                        );
-                    case 403:
-                        throw $this->errorFactory->create(IamErr::IAM_GET_ALL_FORBIDDEN);
-                    default:
-                        throw $this->errorFactory->create(IamErr::FETCH_FAILED);
-                }
-            } catch (Exception $err) {
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(IamErr::FETCH_FAILED));
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        IIam::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(IamErr::IAM_GET_ALL_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(IamErr::FETCH_FAILED);
             }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(IamErr::FETCH_FAILED));
+        }
     }
 
     /**
@@ -127,7 +127,7 @@ class IamProvider
                 ],
               ]);
 
-              switch ($response->getStatusCode()) {
+            switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
