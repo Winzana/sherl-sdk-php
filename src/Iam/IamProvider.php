@@ -6,6 +6,10 @@ use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 use Sherl\Sdk\Common\Error\SherlException;
+use Exception;
+use Sherl\Sdk\Common\Error\ErrorFactory;
+use Sherl\Sdk\Common\Error\ErrorHelper;
+use Sherl\Sdk\Iam\Errors\IamErr;
 
 class IamProvider
 {
@@ -23,6 +27,7 @@ class IamProvider
     {
         $this->client = $client;
         $this->endpoints = $endpoints;
+        $this->errorFactory = new ErrorFactory('Iam', IamErr::$errors);
     }
 
     /**
@@ -52,14 +57,21 @@ class IamProvider
                 RequestOptions::QUERY => $filters,
                 ]);
 
-            if ($response->getStatusCode() !== 200) {
-                $this->throwSherlIamException($response);
+                switch ($response->getStatusCode()) {
+                    case 200:
+                        return SerializerFactory::getInstance()->deserialize(
+                            $response->getBody()->getContents(),
+                            IIam::class,
+                            'json'
+                        );
+                    case 403:
+                        throw $this->errorFactory->create(IamErr::IAM_GET_ALL_FORBIDDEN);
+                    default:
+                        throw $this->errorFactory->create(IamErr::FETCH_FAILED);
+                }
+            } catch (Exception $err) {
+                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(IamErr::FETCH_FAILED));
             }
-
-            return json_decode($response->getBody()->getContents(), true);
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
-        }
     }
 
     /**
@@ -80,17 +92,22 @@ class IamProvider
             ]);
 
 
-            if ($response->getStatusCode() !== 200) {
-                $this->throwSherlIamException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        IIam::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(IamErr::IAM_GET_PROFILE_BY_ID_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(IamErr::IAM_PROFILE_NOT_FOUND_ERROR);
+                default:
+                    throw $this->errorFactory->create(IamErr::FETCH_FAILED);
             }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                ProfileDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(IamErr::FETCH_FAILED));
         }
     }
 
@@ -109,16 +126,23 @@ class IamProvider
                   "Content-Type" => "application/json",
                 ],
               ]);
-            if ($response->getStatusCode() !== 200) {
-                $this->throwSherlIamException($response);
+
+              switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        IIam::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(IamErr::IAM_GET_ROLE_BY_ID_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(IamErr::IAM_ROLE_NOT_FOUND_ERROR);
+                default:
+                    throw $this->errorFactory->create(IamErr::FETCH_FAILED);
             }
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                ProfileDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(IamErr::FETCH_FAILED));
         }
     }
 }
