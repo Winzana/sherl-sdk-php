@@ -226,8 +226,8 @@ class PersonOutputDto
     public $frequentedEstablishments;
 
     /**
-     * @var array
-     * @Serializer\Type("array")
+     * @var array<string, mixed>
+     * @Serializer\Type("array<string, mixed>")
      */
     public $metadatas;
 
