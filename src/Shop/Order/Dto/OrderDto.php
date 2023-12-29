@@ -172,8 +172,8 @@ class OrderDto
     public $refunds;
 
     /**
-     * @var array
-     * @Serializer\Type("array")
+     * @var array<string,mixed>
+     * @Serializer\Type("array<string,mixed>")
      */
     public $metadatas;
 

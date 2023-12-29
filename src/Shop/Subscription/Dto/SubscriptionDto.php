@@ -96,8 +96,8 @@ class SubscriptionDto
     public $contextUri;
 
     /**
-     * @var mixed
-     * @Serializer\Type("mixed")
+     * @var array<string, mixed>
+     * @Serializer\Type("array<string, mixed>")
      */
     public $metadatas;
 

@@ -15,14 +15,14 @@ class SerializerFactory
 
     public static function getInstance(): Serializer
     {
-        if (!self::$instance) {
+        if (self::$instance === null) {
             self::create();
         }
-
+        assert(self::$instance !== null, 'Instance of Serializer must not be null');
         return self::$instance;
     }
 
-    private static function create()
+    private static function create(): void
     {
         self::$instance = SerializerBuilder::create()
           ->setPropertyNamingStrategy(new IdenticalPropertyNamingStrategy())

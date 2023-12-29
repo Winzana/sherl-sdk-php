@@ -320,9 +320,8 @@ class PaymentDto
     public $livemode;
 
     /**
-     * @var mixed
-     * @see https://stripe.com/docs/
-     * @Serializer\Type("mixed")
+     * @var array<string,mixed>
+     * @Serializer\Type("array<string,mixed>")
      */
     public $metadata;
 
