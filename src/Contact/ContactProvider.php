@@ -19,12 +19,15 @@ class ContactProvider
         $this->client = $client;
     }
 
-    private function throwSherlContactException(ResponseInterface $response)
+    /**
+     * @throws SherlException
+     */
+    private function throwSherlContactException(ResponseInterface $response): SherlException
     {
-        throw new SherlException(ContactProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        throw new SherlException(ContactProvider::DOMAIN, $response->getBody()->getContents());
     }
 
-    public function sendContact(ContactInputDto $contactInput)
+    public function sendContact(ContactInputDto $contactInput): string
     {
         $response = $this->client->post('/api/contact', [
           "headers" => [
@@ -44,7 +47,7 @@ class ContactProvider
         return $response->getBody()->getContents();
     }
 
-    public function contactPerson(string $id, ContactInputDto $contactInput)
+    public function contactPerson(string $id, ContactInputDto $contactInput): string
     {
         $response = $this->client->post("/api/contact/$id", [
           "headers" => [

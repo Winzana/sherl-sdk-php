@@ -13,10 +13,10 @@ class RefundOutputDto
     public $object;
 
     /**
-     * @var array
-     * @Serializer\Type("array")
+     * @var array<string, mixed>
+     * @Serializer\Type("array<string, mixed>")
      */
-    public $data;
+    public $datas;
 
     /**
      * @var boolean
