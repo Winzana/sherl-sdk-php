@@ -28,7 +28,7 @@ class OpinionProvider
     public function __construct(Client $client)
     {
         $this->client = $client;
-        $this->errorFactory = new ErrorFactory('Opinion', QuotasErr::$errors);
+        $this->errorFactory = new ErrorFactory('Opinion', OpinionErr::$errors);
     }
 
     private function throwMediaException(ResponseInterface $response)
@@ -50,16 +50,16 @@ class OpinionProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        IQuota::class,
+                        IOpinion::class,
                         'json'
                     );
                 case 403:
                     throw $this->errorFactory->create(OpinionErr::CREATE_OPINION_FORBIDDEN);
                 default:
-                    throw $this->errorFactory->create(QuotasErr::CREATE_OPINION_FAILED);
+                    throw $this->errorFactory->create(OpinionErr::CREATE_OPINION_FAILED);
             }
         } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(QuotasErr::CREATE_OPINION_FAILED));
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(OpinionErr::CREATE_OPINION_FAILED));
         }
     }
 
@@ -74,16 +74,16 @@ class OpinionProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        IQuota::class,
+                        IOpinion::class,
                         'json'
                     );
                 case 403:
                     throw $this->errorFactory->create(OpinionErr::FETCH_OPINION_AVERAGE_FORBIDDEN);
                 default:
-                    throw $this->errorFactory->create(QuotasErr::FETCH_OPINION_AVERAGE_FAILED);
+                    throw $this->errorFactory->create(OpinionErr::FETCH_OPINION_AVERAGE_FAILED);
             }
         } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(QuotasErr::FETCH_OPINION_AVERAGE_FAILED));
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(OpinionErr::FETCH_OPINION_AVERAGE_FAILED));
         }
     }
 
@@ -98,16 +98,16 @@ class OpinionProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        IQuota::class,
+                        IOpinion::class,
                         'json'
                     );
                 case 403:
                     throw $this->errorFactory->create(OpinionErr::FETCH_OPINIONS_FORBIDDEN);
                 default:
-                    throw $this->errorFactory->create(QuotasErr::FETCH_FAILED);
+                    throw $this->errorFactory->create(OpinionErr::FETCH_FAILED);
             }
         } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(QuotasErr::FETCH_FAILED));
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(OpinionErr::FETCH_FAILED));
         }
     }
 
@@ -125,16 +125,16 @@ class OpinionProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        IQuota::class,
+                        IOpinion::class,
                         'json'
                     );
                 case 403:
                     throw $this->errorFactory->create(OpinionErr::FETCH_OPINIONS_FORBIDDEN);
                 default:
-                    throw $this->errorFactory->create(QuotasErr::FETCH_FAILED);
+                    throw $this->errorFactory->create(OpinionErr::FETCH_FAILED);
             }
         } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(QuotasErr::FETCH_FAILED));
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(OpinionErr::FETCH_FAILED));
         }
     }
 }
