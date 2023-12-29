@@ -21,8 +21,8 @@ class PushOutputDto
     public $en;
 
     /**
-     * @var array
-     * @Serializer\Type("array")
+     * @var array<string,mixed>
+     * @Serializer\Type("array<string,mixed>")
      */
-    public $data;
+    public $datas;
 }
