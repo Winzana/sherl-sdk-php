@@ -25,10 +25,9 @@ class ErrorFactory
     {
         $identifier = "{$errorCode}";
 
-        $template = isset($this->errors[$errorCode]) ? $this->errors[$errorCode] : null;
-        $template = $template ?: 'Error';
+        $template = $this->errors[$errorCode] ?? 'Error';
 
-        if ($template && $data) {
+        if ($data) {
             $template = self::bindData($template, $data);
         }
 
@@ -38,12 +37,23 @@ class ErrorFactory
         return $error;
     }
 
+    /**
+     * @param string $template
+     * @param array<string, string> $data
+     * @return string
+     */
     public static function bindData(string $template, array $data): string
     {
-        return preg_replace_callback('/\{\$([^}]+)}/', function ($matches) use ($data) {
+        $bindedTemplate = preg_replace_callback('/\{\$([^}]+)}/', function ($matches) use ($data) {
             $key = $matches[1];
             $value = isset($data[$key]) ? $data[$key] : "<{$key}>";
             return $value;
         }, $template);
+
+        if (!$bindedTemplate) {
+            return $template;
+        }
+
+        return $bindedTemplate;
     }
 }
