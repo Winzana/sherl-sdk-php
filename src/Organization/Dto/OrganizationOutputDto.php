@@ -282,8 +282,8 @@ class OrganizationOutputDto
     public $updatedAt;
 
     /**
-     * @var array<string,mixed>
-     * @Serializer\Type("array<string,mixed>")
+     * @var array
+     * @Serializer\Type("array")
      */
     public $metadatas;
 

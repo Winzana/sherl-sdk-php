@@ -99,7 +99,7 @@ class OrganizationDisplayedOutputDto
 
     /**
      * @var array<string, mixed>
-     * @Serializer\Type("array<string, string>")
+     * @Serializer\Type("array<string, mixed>")
      */
     public $metadatas;
 }
