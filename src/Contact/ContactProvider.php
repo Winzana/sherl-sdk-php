@@ -24,7 +24,7 @@ class ContactProvider
      */
     private function throwSherlContactException(ResponseInterface $response): SherlException
     {
-        throw new SherlException(ContactProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        throw new SherlException(ContactProvider::DOMAIN, $response->getBody()->getContents());
     }
 
     public function sendContact(ContactInputDto $contactInput): string

@@ -6,11 +6,16 @@ use Exception;
 
 class SherlException extends Exception
 {
-    public string $name = 'SherlError';
+    public string $name = 'SherlException';
     public string $errorCode;
     public mixed $data;
 
-    public function __construct($errorCode, $message, $data = null)
+    /**
+     * @param string $errorCode
+     * @param string $message
+     * @param array<string, string>|null $data
+     */
+    public function __construct(string $errorCode, string $message, array $data = null)
     {
         parent::__construct($message);
         $this->errorCode = $errorCode;

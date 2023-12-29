@@ -27,7 +27,7 @@ class AuthProvider
      */
     private function throwSherlAuthError(ResponseInterface $response): SherlException
     {
-        throw new SherlException(AuthProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        throw new SherlException(AuthProvider::DOMAIN, $response->getBody()->getContents());
     }
 
     public function signInWithEmailAndPassword(string $username, string $password): ?LoginOutputDto

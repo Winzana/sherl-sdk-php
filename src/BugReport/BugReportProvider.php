@@ -30,7 +30,7 @@ class BugReportProvider
      */
     private function throwSherlBugReportContactException(ResponseInterface $response): SherlException
     {
-        throw new SherlException(BugReportProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        throw new SherlException(BugReportProvider::DOMAIN, $response->getBody()->getContents());
     }
 
     public function createBugReport(CreateBugReportInputDto $createBugReportInput): ?BugReportOutputDto

@@ -33,7 +33,7 @@ class ClaimProvider
      */
     private function throwSherlClaimException(ResponseInterface $response): SherlException
     {
-        throw new SherlException(ClaimProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        throw new SherlException(ClaimProvider::DOMAIN, $response->getBody()->getContents());
     }
 
     public function createClaim(CreateClaimInput $createClaim): ?ClaimOutputDto

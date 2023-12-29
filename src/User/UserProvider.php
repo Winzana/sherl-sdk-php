@@ -9,7 +9,6 @@ use Psr\Http\Message\ResponseInterface;
 
 use Sherl\Sdk\Common\Error\SherlException;
 
-use Sherl\Sdk\User\Dto\UpdatePasswordInputDto;
 use Sherl\Sdk\User\Dto\ValidateResetPasswordInputDto;
 
 class UserProvider
@@ -28,7 +27,7 @@ class UserProvider
      */
     private function throwSherlUserException(ResponseInterface $response): SherlException
     {
-        throw new SherlException(UserProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        throw new SherlException(UserProvider::DOMAIN, $response->getBody()->getContents());
     }
 
     public function forgotPasswordRequest(string $email): ?bool

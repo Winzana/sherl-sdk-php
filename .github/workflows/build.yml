@@ -33,5 +33,5 @@ jobs:
       - name: Check lint
         run: ./vendor/bin/php-cs-fixer fix --dry-run src
 
-      - name: Run PHPStant Tests
+      - name: Run PHPStan analyse
         run: ./vendor/bin/phpstan analyse src --level 8

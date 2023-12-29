@@ -42,7 +42,7 @@ class NotificationProvider
      */
     private function throwSherlNotificationException(ResponseInterface $response): SherlException
     {
-        throw new SherlException(NotificationProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        throw new SherlException(NotificationProvider::DOMAIN, $response->getBody()->getContents());
     }
 
     public function getNotifications(NotificationFiltersInputDto $notificationFiltersInput): ?NotificationListOutputDto
@@ -59,7 +59,7 @@ class NotificationProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        IQuota::class,
+                        NotificationListOutputDto::class,
                         'json'
                     );
                 case 403:
