@@ -19,9 +19,7 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.35",
-        "phpstan/phpstan": "^1.10",
-        "ccinn/composer-husky-plugin": "^0.2.0",
-        "ccinn/husky-php": "^0.4.2"
+        "phpstan/phpstan": "^1.10"
     },
     "config": {
         "allow-plugins": {
