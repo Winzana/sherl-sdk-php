@@ -18,6 +18,9 @@ class NotificationErr
     public const SEND_NOTIFICATION_BY_TYPE_FORBIDDEN = 'send-notification-by-type-forbidden';
     public const UPDATE_NOTIFICATION_FORBIDDEN = 'update-notification-forbidden';
 
+    /**
+     * @var array<string, string>
+     */
     public static $errors = [
       self::NOTIFICATION_NOT_FOUND => 'Notification not found',
       self::POST_FAILED => 'Failed to create notification',
