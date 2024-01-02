@@ -6,6 +6,14 @@ use JMS\Serializer\Annotation as Serializer;
 
 use Sherl\Sdk\Person\Dto\PersonOutputDto;
 
+use Sherl\Sdk\Organization\Enum\KYCDocumentTypeEnum;
+use Sherl\Sdk\Organization\Enum\KYCDocumentStatusEnum;
+use Sherl\Sdk\Organization\Enum\KYCDocumentRefusedReasonTypeEnum;
+
+use Sherl\Sdk\Media\Dto\ImageObjectOutputDto;
+
+use DateTime;
+
 class KYCDocumentOutputDto
 {
     /**

@@ -6,6 +6,8 @@ use JMS\Serializer\Annotation as Serializer;
 
 use Sherl\Sdk\Place\Dto\PlaceOutputDto;
 
+use DateTime;
+
 class OrganizationInputDto
 {
     /**

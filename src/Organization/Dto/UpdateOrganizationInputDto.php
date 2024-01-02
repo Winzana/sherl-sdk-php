@@ -6,7 +6,7 @@ use JMS\Serializer\Annotation as Serializer;
 
 use Sherl\Sdk\Organization\Dto\MediaInputDto;
 use Sherl\Sdk\Calendar\Dto\OpeningHoursSpecificationOutputDto;
-use Sherl\Sdk\Organization\Dto\ThridPartyOutputDto;
+use Sherl\Sdk\Organization\Dto\ThirdPartyOutputDto;
 use Sherl\Sdk\Place\Dto\PlaceOutputDto;
 
 class UpdateOrganizationInputDto
@@ -54,8 +54,8 @@ class UpdateOrganizationInputDto
     public $openingHoursSpecification;
 
     /**
-     * @var ThridPartyOutputDto
-     * @Serializer\Type("Sherl\Sdk\Organization\Dto\ThridPartyOutputDto")
+     * @var ThirdPartyOutputDto
+     * @Serializer\Type("Sherl\Sdk\Organization\Dto\ThirdPartyOutputDto")
      */
     public $thirdParty;
 

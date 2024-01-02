@@ -5,6 +5,7 @@ namespace Sherl\Sdk\Organization\Dto;
 use JMS\Serializer\Annotation as Serializer;
 
 use Sherl\Sdk\Organization\Dto\MediaInputDto;
+use Sherl\Sdk\Organization\Dto\CaptionInputDto;
 
 class MediaInputDto
 {

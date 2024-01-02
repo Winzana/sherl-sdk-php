@@ -6,7 +6,7 @@ use JMS\Serializer\Annotation as Serializer;
 
 use Sherl\Sdk\Organization\Dto\MediaInputDto;
 
-class MediaInputDto
+class CaptionInputDto
 {
     /**
      * @var string
