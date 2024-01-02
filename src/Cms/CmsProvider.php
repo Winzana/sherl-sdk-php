@@ -50,28 +50,28 @@ class CmsProvider
     public function addMediaPage(string $id, array $data)
     {
         try {
-        $response = $this->client->post("/api/media/$id", [
-            "headers" => ["Content-Type" => "application/json"],
-            RequestOptions::JSON => $data
-        ]);
+            $response = $this->client->post("/api/media/$id", [
+                "headers" => ["Content-Type" => "application/json"],
+                RequestOptions::JSON => $data
+            ]);
 
-        switch ($response->getStatusCode()) {
-            case 201:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    ICms::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CmsErr::CREATE_CMS_EVENT_FAILED_CMS_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(CmsErr::CMS_ADD_MEDIA_FAILED);
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ICms::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(CmsErr::CREATE_CMS_EVENT_FAILED_CMS_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(CmsErr::CMS_ADD_MEDIA_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_ADD_MEDIA_FAILED));
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_ADD_MEDIA_FAILED));
-    }
     }
 
     /**
@@ -84,31 +84,31 @@ class CmsProvider
     public function UpdateArticleById(string $id, ArticleInputDto $articleInput)
     {
         try {
-        $response = $this->client->post("/api/article/$id", [
-            "headers" => ["Content-Type" => "application/json"],
-            RequestOptions::JSON => [
-                "title" => $articleInput->title,
-                "content" => $articleInput->content
+            $response = $this->client->post("/api/article/$id", [
+                "headers" => ["Content-Type" => "application/json"],
+                RequestOptions::JSON => [
+                    "title" => $articleInput->title,
+                    "content" => $articleInput->content
 
-            ]
-        ]);
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    ICms::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CmsErr::CREATE_CMS_EVENT_FAILED_CMS_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(CmsErr::CMS_UPDATE_ARTICLE_BY_ID_FAILED);
+                ]
+            ]);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ICms::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(CmsErr::CREATE_CMS_EVENT_FAILED_CMS_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(CmsErr::CMS_UPDATE_ARTICLE_BY_ID_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_UPDATE_ARTICLE_BY_ID_FAILED));
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_UPDATE_ARTICLE_BY_ID_FAILED));
-    }
     }
     /**
      * Creates a FAQs page using the given FAQ input data.
@@ -119,28 +119,28 @@ class CmsProvider
     public function createFaqsPage(FaqInputDto $faqInput)
     {
         try {
-        $response = $this->client->post("/api/faqs", [
-            "headers" => ["Content-Type" => "application/json"],
-            RequestOptions::JSON => [
-                "question" => $faqInput->question,
-                "answer" => $faqInput->answer
-            ]
-        ]);
-        switch ($response->getStatusCode()) {
-            case 201:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    ICms::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CmsErr::CREATE_CMS_FAQS_FAILED_CMS_FORBIDDEN);
-            default:
-                throw $this->errorFactory->create(CmsErr::CMS_CREATE_FAQS_FAILED);
+            $response = $this->client->post("/api/faqs", [
+                "headers" => ["Content-Type" => "application/json"],
+                RequestOptions::JSON => [
+                    "question" => $faqInput->question,
+                    "answer" => $faqInput->answer
+                ]
+            ]);
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ICms::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(CmsErr::CREATE_CMS_FAQS_FAILED_CMS_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(CmsErr::CMS_CREATE_FAQS_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_CREATE_FAQS_FAILED));
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_CREATE_FAQS_FAILED));
-    }
     }
     /**
      * Creates a posts page with the provided data.
@@ -151,26 +151,26 @@ class CmsProvider
     public function createPostsPage(array $data): string
     {
         try {
-        $response = $this->client->post("/api/manage_articles", [
-            "headers" => ["Content-Type" => "application/json"],
-            RequestOptions::JSON => $data
-        ]);
+            $response = $this->client->post("/api/manage_articles", [
+                "headers" => ["Content-Type" => "application/json"],
+                RequestOptions::JSON => $data
+            ]);
 
-        switch ($response->getStatusCode()) {
-            case 201:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    ICms::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CmsErr::CREATE_CMS_POSTS_FAILED_CMS_FORBIDDEN);
-            default:
-                throw $this->errorFactory->create(CmsErr::CMS_CREATE_POSTS_FAILED);
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ICms::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(CmsErr::CREATE_CMS_POSTS_FAILED_CMS_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(CmsErr::CMS_CREATE_POSTS_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_CREATE_POSTS_FAILED));
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_CREATE_POSTS_FAILED));
-    }
     }
     /**
      * Deletes an article by its identifier.
@@ -181,27 +181,27 @@ class CmsProvider
     public function createStaticPage(array $data): string
     {
         try {
-        $response = $this->client->post("/api/create_static", [
-            "headers" => ["Content-Type" => "application/json"],
-            RequestOptions::JSON => $data
-        ]);
+            $response = $this->client->post("/api/create_static", [
+                "headers" => ["Content-Type" => "application/json"],
+                RequestOptions::JSON => $data
+            ]);
 
 
-        switch ($response->getStatusCode()) {
-            case 201:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    ICms::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CmsErr::CREATE_CMS_STATIC_PAGES_FAILED_FORBIDDEN);
-            default:
-                throw $this->errorFactory->create(CmsErr::CMS_CREATE_FAILED);
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ICms::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(CmsErr::CREATE_CMS_STATIC_PAGES_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(CmsErr::CMS_CREATE_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_CREATE_FAILED));
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_CREATE_FAILED));
-    }
     }
     /**
     * Creates a stories page with the provided data.
@@ -212,25 +212,25 @@ class CmsProvider
     public function createStoriesPage(array $data): string
     {
         try {
-        $response = $this->client->post("/api/create_stories", [
-            "headers" => ["Content-Type" => "application/json"],
-            RequestOptions::JSON => $data
-        ]);
-        switch ($response->getStatusCode()) {
-            case 201:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    ICms::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CmsErr::CREATE_CMS_STORIES_FAILED_CMS_FORBIDDEN);
-            default:
-                throw $this->errorFactory->create(CmsErr::CMS_CREATE_STORIES_FAILED);
+            $response = $this->client->post("/api/create_stories", [
+                "headers" => ["Content-Type" => "application/json"],
+                RequestOptions::JSON => $data
+            ]);
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ICms::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(CmsErr::CREATE_CMS_STORIES_FAILED_CMS_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(CmsErr::CMS_CREATE_STORIES_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_CREATE_STORIES_FAILED));
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_CREATE_STORIES_FAILED));
-    }
     }
     /**
     * Creates a trainings page with the provided data.
@@ -241,25 +241,25 @@ class CmsProvider
     public function createTrainingsPage(array $data): string
     {
         try {
-        $response = $this->client->post("/api/create_training", [
-            "headers" => ["Content-Type" => "application/json"],
-            RequestOptions::JSON => $data
-        ]);
-        switch ($response->getStatusCode()) {
-            case 201:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    ICms::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CmsErr::CREATE_CMS_TRAINING_FAILED_FORBIDDEN);
-            default:
-                throw $this->errorFactory->create(CmsErr::CMS_CREATE_TRAININGS_FAILED);
+            $response = $this->client->post("/api/create_training", [
+                "headers" => ["Content-Type" => "application/json"],
+                RequestOptions::JSON => $data
+            ]);
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ICms::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(CmsErr::CREATE_CMS_TRAINING_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(CmsErr::CMS_CREATE_TRAININGS_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_CREATE_TRAININGS_FAILED));
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_CREATE_TRAININGS_FAILED));
-    }
     }
     /**
     * Deletes a media page by its identifier.
@@ -269,26 +269,26 @@ class CmsProvider
     public function deleteArticleById(string $id): string
     {
         try {
-        $endpoint = str_replace("{id}", $id, "/api/manage_posts/{id}");
-        $response = $this->client->delete($endpoint);
+            $endpoint = str_replace("{id}", $id, "/api/manage_posts/{id}");
+            $response = $this->client->delete($endpoint);
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    ICms::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CmsErr::CMS_DELETE_BY_ID_FAILED_CMS_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(CmsErr::CMS_DELETE_BY_ID_FAILED);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ICms::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(CmsErr::CMS_DELETE_BY_ID_FAILED_CMS_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(CmsErr::CMS_DELETE_BY_ID_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_DELETE_BY_ID_FAILED));
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_DELETE_BY_ID_FAILED));
-    }
     }
     /**
     * Retrieves an article by its identifier.
@@ -299,26 +299,26 @@ class CmsProvider
     public function deleteMediaPage(string $id): string
     {
         try {
-        $endpoint = str_replace("{id}", $id, "/api/manage_media/{id}");
-        $response = $this->client->delete($endpoint);
+            $endpoint = str_replace("{id}", $id, "/api/manage_media/{id}");
+            $response = $this->client->delete($endpoint);
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    ICms::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CmsErr::CREATE_CMS_MEDIA_FAILED_CMS_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(CmsErr::CMS_DELETE_MEDIA_FAILED);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ICms::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(CmsErr::CREATE_CMS_MEDIA_FAILED_CMS_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(CmsErr::CMS_DELETE_MEDIA_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_DELETE_MEDIA_FAILED));
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_DELETE_MEDIA_FAILED));
-    }
     }
     /**
     * Retrieves an article by its slug.
@@ -329,27 +329,27 @@ class CmsProvider
     public function getArticleById(string $id): string
     {
         try {
-        $endpoint = str_replace("{id}", $id, "/api/manage_posts/{id}");
-        $response = $this->client->get($endpoint);
+            $endpoint = str_replace("{id}", $id, "/api/manage_posts/{id}");
+            $response = $this->client->get($endpoint);
 
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    ICms::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CmsErr::CMS_GET_BY_ID_FAILED_POST_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(CmsErr::CMS_GET_BY_ID_FAILED);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ICms::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(CmsErr::CMS_GET_BY_ID_FAILED_POST_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(CmsErr::CMS_GET_BY_ID_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_GET_BY_ID_FAILED));
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_GET_BY_ID_FAILED));
-    }
     }
     /**
     * Retrieves a list of posts filtered by the provided criteria.
@@ -360,26 +360,26 @@ class CmsProvider
     public function getArticleBySlug(string $slug): string
     {
         try {
-        $endpoint = str_replace("{slug}", $slug, "/api/get_slug/{slug}");
-        $response = $this->client->get($endpoint);
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    ICms::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED_ARTICLE_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED);
+            $endpoint = str_replace("{slug}", $slug, "/api/get_slug/{slug}");
+            $response = $this->client->get($endpoint);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ICms::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED_ARTICLE_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED));
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED));
     }
-}
     /**
     * Retrieves a public article by its identifier.
     * @param string $id The public identifier for the article.
@@ -389,24 +389,24 @@ class CmsProvider
     public function getPosts(array $filters): string
     {
         try {
-        $response = $this->client->get("/api/manage_articles", [
-            "query" => $filters
-        ]);
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    ICms::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CmsErr::CMS_GET_POSTS_FAILED_POSTS_FORBIDDEN);
-            default:
-                throw $this->errorFactory->create(CmsErr::CMS_GET_POSTS_FAILED);
+            $response = $this->client->get("/api/manage_articles", [
+                "query" => $filters
+            ]);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ICms::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(CmsErr::CMS_GET_POSTS_FAILED_POSTS_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(CmsErr::CMS_GET_POSTS_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_GET_POSTS_FAILED));
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_GET_POSTS_FAILED));
-    }
     }
     /**
     * Retrieves a public article by its slug.
@@ -417,26 +417,26 @@ class CmsProvider
     public function getPublicArticleById(string $id): string
     {
         try {
-        $endpoint = str_replace("{id}", $id, "/api/manage_posts/{id}");
-        $response = $this->client->get($endpoint);
+            $endpoint = str_replace("{id}", $id, "/api/manage_posts/{id}");
+            $response = $this->client->get($endpoint);
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    ICms::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_FIND_ID_FAILED_POST_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_FIND_ID_FAILED);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ICms::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_FIND_ID_FAILED_POST_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_FIND_ID_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_FIND_ID_FAILED));
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_FIND_ID_FAILED));
-    }
     }
     /**
     * Retrieves a list of public articles filtered by the provided criteria.
@@ -447,26 +447,26 @@ class CmsProvider
     public function getPublicArticleBySlug(string $slug): string
     {
         try {
-        $endpoint = str_replace("{slug}", $slug, "/api/get_article_by_slug/{slug}");
-        $response = $this->client->get($endpoint);
+            $endpoint = str_replace("{slug}", $slug, "/api/get_article_by_slug/{slug}");
+            $response = $this->client->get($endpoint);
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    ICms::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED_ARTICLE_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ICms::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED_ARTICLE_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED));
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED));
-    }
     }
 
     /**
@@ -478,23 +478,23 @@ class CmsProvider
     public function getPublicArticles(array $filters): string
     {
         try {
-        $response = $this->client->get("/api/get_public_articles", [
-            "query" => $filters
-        ]);
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    ICms::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_ARTICLES_FAILED_POSTS_FORBIDDEN);
-            default:
-                throw $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_ARTICLES_FAILED);
+            $response = $this->client->get("/api/get_public_articles", [
+                "query" => $filters
+            ]);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ICms::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_ARTICLES_FAILED_POSTS_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_ARTICLES_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_ARTICLES_FAILED));
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_ARTICLES_FAILED));
-    }
     }
 }
