@@ -18,6 +18,7 @@ use Sherl\Sdk\Common\SerializerFactory;
 use Sherl\Sdk\Organization\Dto\OrganizationFiltersDto;
 use Sherl\Sdk\Organization\Dto\OrganizationOutputDto;
 use Sherl\Sdk\Organization\Dto\OrganizationInputDto;
+use Sherl\Sdk\Organization\Dto\RegisterOrganizationRequestInputDto;
 
 class OrganizationProvider
 {
@@ -239,6 +240,42 @@ class OrganizationProvider
             }
         } catch (Exception $err) {
             throw ErrorHelper::getSherlError($err, $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATIONS_FAILED));
+        }
+    }
+
+  /**
+   * Registers an organization to a person using the provided data.
+   *
+   * @param RegisterOrganizationRequestInputDto $organizationToPerson - The data for registering an organization to a person.
+   * @return OrganizationOutputDto|null The registered organization's information post-registration or null on failure.
+   * @throws SherlException If there is an error during the organization to person registration process.
+   */
+    public function registerOrganizationToPerson(RegisterOrganizationRequestInputDto $organizationToPerson): ?OrganizationOutputDto
+    {
+        try {
+            $response = $this->client->post("/api/organizations/register-to-person", [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::JSON => [
+                'organizationToPerson' => $organizationToPerson,
+              ],
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 200:
+                  return SerializerFactory::getInstance()->deserialize(
+                    $response->getBody()->getContents(),
+                    OrganizationOutputDto::class,
+                    'json'
+                  );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_TO_PERSON_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_TO_PERSON_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_TO_PERSON_FAILED));
         }
     }
 }
