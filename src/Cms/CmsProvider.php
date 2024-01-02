@@ -18,6 +18,7 @@ class CmsProvider
     public const DOMAIN = "CMS";
 
     private Client $client;
+    private ErrorFactory $errorFactory;
 
     /**
      * CmsProvider constructor.
