@@ -42,7 +42,7 @@ class AccountProvider
         ]);
 
         if ($response->getStatusCode() >= 300) {
-            throw new SherlException(AccountProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+            throw new SherlException(AccountProvider::DOMAIN, $response->getBody()->getContents());
         }
 
         return SerializerFactory::getInstance()->deserialize(
