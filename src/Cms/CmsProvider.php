@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 use Sherl\Sdk\Common\Error\SherlException;
-use Sherl\Sdk\Cms\Dto\ArticleInputDto;
+use Sherl\Sdk\Cms\Dto\ArticleDto;
 use Sherl\Sdk\e\Cms\Dto\FaqInputDto;
 use Exception;
 use Sherl\Sdk\Common\Error\ErrorFactory;
@@ -18,7 +18,7 @@ class CmsProvider
     public const DOMAIN = "CMS";
 
     private Client $client;
-    private ErrorFactory $errorFactory;
+    private ErrorFactory $errorFactory; 
 
     /**
      * CmsProvider constructor.
@@ -37,10 +37,6 @@ class CmsProvider
      * @throws SherlException If the response status code indicates an error.
      */
 
-    private function throwCmsException(ResponseInterface $response)
-    {
-        throw new SherlException(CmsProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
-    }
     /**
      * Adds a media page.
      * @param string $id The identifier for the media.
@@ -60,7 +56,7 @@ class CmsProvider
                 case 201:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        ICms::class,
+                        ArticleDto::class,
                         'json'
                     );
                 case 403:
@@ -97,7 +93,7 @@ class CmsProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        ICms::class,
+                        ArticleDto::class,
                         'json'
                     );
                 case 403:
@@ -131,7 +127,7 @@ class CmsProvider
                 case 201:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        ICms::class,
+                        ArticleDto::class,
                         'json'
                     );
                 case 403:
@@ -161,7 +157,7 @@ class CmsProvider
                 case 201:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        ICms::class,
+                        ArticleDto::class,
                         'json'
                     );
                 case 403:
@@ -192,7 +188,7 @@ class CmsProvider
                 case 201:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        ICms::class,
+                        ArticleDto::class,
                         'json'
                     );
                 case 403:
@@ -221,7 +217,7 @@ class CmsProvider
                 case 201:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        ICms::class,
+                        ArticleDto::class,
                         'json'
                     );
                 case 403:
@@ -250,7 +246,7 @@ class CmsProvider
                 case 201:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        ICms::class,
+                        ArticleDto::class,
                         'json'
                     );
                 case 403:
@@ -277,7 +273,7 @@ class CmsProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        ICms::class,
+                        ArticleDto::class,
                         'json'
                     );
                 case 403:
@@ -307,7 +303,7 @@ class CmsProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        ICms::class,
+                        ArticleDto::class,
                         'json'
                     );
                 case 403:
@@ -338,7 +334,7 @@ class CmsProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        ICms::class,
+                        ArticleDto::class,
                         'json'
                     );
                 case 403:
@@ -367,7 +363,7 @@ class CmsProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        ICms::class,
+                        ArticleDto::class,
                         'json'
                     );
                 case 403:
@@ -397,7 +393,7 @@ class CmsProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        ICms::class,
+                        ArticleDto::class,
                         'json'
                     );
                 case 403:
@@ -425,7 +421,7 @@ class CmsProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        ICms::class,
+                        ArticleDto::class,
                         'json'
                     );
                 case 403:
@@ -455,7 +451,7 @@ class CmsProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        ICms::class,
+                        ArticleDto::class,
                         'json'
                     );
                 case 403:
@@ -486,7 +482,7 @@ class CmsProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        ICms::class,
+                        ArticleDto::class,
                         'json'
                     );
                 case 403:
