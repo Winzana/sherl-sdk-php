@@ -19,7 +19,7 @@ class CMSArticleTrainingCreateInputDto
     public $title;
 
     /**
-     * @var array
+     * @var string[] 
      * @Serializer\Type("array<string>")
      */
     public $tags;

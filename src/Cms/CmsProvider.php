@@ -60,7 +60,7 @@ class CmsProvider
                         'json'
                     );
                 case 403:
-                    throw $this->errorFactory->create(CmsErr::CREATE_CMS_EVENT_FAILED_CMS_FORBIDDEN);
+                    throw $this->errorFactory->create(CmsErr::CMS_EVENT_CREATION_FAILED_FORBIDDEN);
                 case 404:
                     throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
                 default:
@@ -97,7 +97,7 @@ class CmsProvider
                         'json'
                     );
                 case 403:
-                    throw $this->errorFactory->create(CmsErr::CREATE_CMS_EVENT_FAILED_CMS_FORBIDDEN);
+                    throw $this->errorFactory->create(CmsErr::CMS_EVENT_CREATION_FAILED_FORBIDDEN);
                 case 404:
                     throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
                 default:
@@ -131,7 +131,7 @@ class CmsProvider
                         'json'
                     );
                 case 403:
-                    throw $this->errorFactory->create(CmsErr::CREATE_CMS_FAQS_FAILED_CMS_FORBIDDEN);
+                    throw $this->errorFactory->create(CmsErr::CMS_FAQS_CREATION_FAILED_FORBIDDEN);
                 default:
                     throw $this->errorFactory->create(CmsErr::CMS_CREATE_FAQS_FAILED);
             }
@@ -161,7 +161,7 @@ class CmsProvider
                         'json'
                     );
                 case 403:
-                    throw $this->errorFactory->create(CmsErr::CREATE_CMS_POSTS_FAILED_CMS_FORBIDDEN);
+                    throw $this->errorFactory->create(CmsErr::CMS_POSTS_CREATION_FAILED_FORBIDDEN);
                 default:
                     throw $this->errorFactory->create(CmsErr::CMS_CREATE_POSTS_FAILED);
             }
@@ -192,7 +192,7 @@ class CmsProvider
                         'json'
                     );
                 case 403:
-                    throw $this->errorFactory->create(CmsErr::CREATE_CMS_STATIC_PAGES_FAILED_FORBIDDEN);
+                    throw $this->errorFactory->create(CmsErr::CMS_STATIC_PAGES_CREATION_FAILED_FORBIDDEN);
                 default:
                     throw $this->errorFactory->create(CmsErr::CMS_CREATE_FAILED);
             }
@@ -221,7 +221,7 @@ class CmsProvider
                         'json'
                     );
                 case 403:
-                    throw $this->errorFactory->create(CmsErr::CREATE_CMS_STORIES_FAILED_CMS_FORBIDDEN);
+                    throw $this->errorFactory->create(CmsErr::CMS_STORIES_CREATION_FAILED_FORBIDDEN);
                 default:
                     throw $this->errorFactory->create(CmsErr::CMS_CREATE_STORIES_FAILED);
             }
@@ -397,7 +397,7 @@ class CmsProvider
                         'json'
                     );
                 case 403:
-                    throw $this->errorFactory->create(CmsErr::CMS_GET_POSTS_FAILED_POSTS_FORBIDDEN);
+                    throw $this->errorFactory->create(CmsErr::CMS_GET_BY_ID_FAILED_POST_FORBIDDEN);
                 default:
                     throw $this->errorFactory->create(CmsErr::CMS_GET_POSTS_FAILED);
             }
