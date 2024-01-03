@@ -67,14 +67,14 @@ class DynamicBackgroundOutputDto
     public $displayZones;
 
     /**
-     * @var PoiZonesInputDto
-     * @Serializer\Type("Sherl\Sdk\Gallery\Dto\PoiZonesInputDto")
+     * @var PoiZonesInputDto[]
+     * @Serializer\Type("array<Sherl\Sdk\Gallery\Dto\PoiZonesInputDto>")
      */
     public $locations;
 
     /**
-     * @var GeoShapeInputDto
-     * @Serializer\Type("Sherl\Sdk\Gallery\Dto\GeoShapeInputDto")
+     * @var GeoShapeInputDto[]
+     * @Serializer\Type("array<Sherl\Sdk\Gallery\Dto\GeoShapeInputDto>")
      */
     public $geoShapes;
 
