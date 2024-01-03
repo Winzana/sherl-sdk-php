@@ -6,17 +6,18 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 use Sherl\Sdk\Common\StringUtils;
-use Sherl\Sdk\Exceptions\MediaErr;
-use Sherl\Sdk\Exceptions\SherlException;
+use Sherl\Sdk\Media\Errors\MediaErr;
 use Sherl\Sdk\Common\SerializerFactory;
 use Exception;
 use Sherl\Sdk\Common\Error\ErrorFactory;
 use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Opinion\Errors\OpinionErr;
+use Sherl\Sdk\Media\Dto\MediaQueryDto;
 
 class MediaProvider
 {
     private Client $client;
+    private ErrorFactory $errorFactory;
     /**
      * MediaProvider constructor.
      * @param Client $client The HTTP client used to make requests.
@@ -27,32 +28,23 @@ class MediaProvider
         $this->errorFactory = new ErrorFactory('Media', MediaErr::$errors);
     }
     /**
-     * Throws a SherlMediaException with a custom message.
-     * @param ResponseInterface $response The response object from the HTTP client.
-     * @param string $message The custom error message.
-     * @throws SherlException
-     */
-    private function throwSherlMediaException(ResponseInterface $response, string $message)
-    {
-        throw new SherlException(MediaErr::DOMAIN, $message, $response->getStatusCode());
-    }
-    /**
      * Deletes a file by its identifier.
      * @param string $id The unique identifier of the file to delete.
      * @return string The body content of the HTTP response.
-     * @throws SherlException If the file deletion fails.
      */
     public function deleteFile(string $id): string
     {
         try {
-            $endpoint = StringUtils::bindContext('/api/medias/' . $id, []);
-            $response = $this->client->delete($endpoint);
+            $response = $this->client->delete("/api/medias/$id", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],]);
 
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        IMedia::class,
+                        MediaQueryDto::class,
                         'json'
                     );
                 case 403:
@@ -69,22 +61,21 @@ class MediaProvider
     /**
      * Retrieves the details of a file by its identifier.
      * @param string $id The unique identifier of the file to retrieve.
-     * @param array $query Additional query parameters for the request.
-     * @return array An associative array representing the file details.
-     * @throws SherlException If the file retrieval fails.
+     * @param MediaQueryDto $query Additional query parameters for the request.
+     * @return MediaQueryDto An associative array representing the file details.
      */
-    public function getFile(string $id, array $query): array
+    public function getFile(string $id, MediaQueryDto $query): MediaQueryDto
     {
         try {
-            $endpoint = StringUtils::bindContext('/api/medias/' . $id, []);
-            $response = $this->client->get($endpoint, [
+            $response = $this->client->get("/api/medias/$id", [
                 'query' => $query
             ]);
+
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        IMedia::class,
+                        MediaQueryDto::class,
                         'json'
                     );
                 case 403:
@@ -94,22 +85,21 @@ class MediaProvider
                 default:
                     throw $this->errorFactory->create(MediaErr::GET_FILE_FAILED);
             }
-
         } catch (Exception $err) {
             throw ErrorHelper::getSherlError($err, $this->errorFactory->create(MediaErr::GET_FILE_FAILED));
         }
     }
     /**
      * Uploads a file to the server.
-     * @param array $data The multipart file data to be uploaded.
-     * @return array An associative array representing the uploaded file details.
-     * @throws SherlException If the file upload fails.
+     * @param MediaQueryDto $data The multipart file data to be uploaded.
+     * @return MediaQueryDto An associative array representing the uploaded file details.
      */
-    public function uploadFile(array $data): array
+    public function uploadFile(MediaQueryDto $data, MediaQueryDto $query): MediaQueryDto
     {
         try {
             $response = $this->client->post('/api/medias', [
                 'multipart' => $data,
+                'query' => $query,
                 'headers' => ['Content-Type' => 'multipart/form-data']
             ]);
 
@@ -117,7 +107,7 @@ class MediaProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        IMedia::class,
+                        MediaQueryDto::class,
                         'json'
                     );
                 case 403:

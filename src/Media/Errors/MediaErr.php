@@ -12,13 +12,14 @@ class MediaErr
     public const DELETE_FILE_FAILED = 'media/delete-file-failed';
     public const DELETE_FILE_FORBIDDEN = 'media/delete-file-failed-forbidden';
 
+    /** @var array<string, string> */
     public static $errors = [
-        self::MediaErr.MEDIA_NOT_FOUND => 'Error on media action, not found',
-        self::MediaErr.UPLOAD_FILE_FAILED => 'Failed to upload file',
-        self::MediaErr.UPLOAD_FILE_FORBIDDEN => 'Failed to upload file, forbidden',
-        self::MediaErr.GET_FILE_FAILED => 'Failed to get file',
-        self::MediaErr.GET_FILE_FORBIDDEN => 'Failed to get file, forbidden',
-        self::MediaErr.DELETE_FILE_FAILED => 'Failed to delete file',
-        self::MediaErr.DELETE_FILE_FORBIDDEN => 'Failed to delete file, forbidden',
+        self::MEDIA_NOT_FOUND => 'Error on media action, not found',
+        self::UPLOAD_FILE_FAILED => 'Failed to upload file',
+        self::UPLOAD_FILE_FORBIDDEN => 'Failed to upload file, forbidden',
+        self::GET_FILE_FAILED => 'Failed to get file',
+        self::GET_FILE_FORBIDDEN => 'Failed to get file, forbidden',
+        self::DELETE_FILE_FAILED => 'Failed to delete file',
+        self::DELETE_FILE_FORBIDDEN => 'Failed to delete file, forbidden',
     ];
 }
