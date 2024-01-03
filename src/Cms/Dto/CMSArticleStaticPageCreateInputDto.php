@@ -4,7 +4,7 @@ namespace Sherl\Sdk\Cms\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class ICMSArticleStaticPageCreateInputDto
+class CMSArticleStaticPageCreateInputDto
 {
     /**
      * @var string

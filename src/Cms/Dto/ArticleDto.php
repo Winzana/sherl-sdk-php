@@ -5,7 +5,7 @@ namespace Sherl\Sdk\Cms\Dto;
 use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Cms\Enum\ArticleType;
 use Sherl\Sdk\Cms\Enum\ArticleStatus;
-use Sherl\Sdk\Person\Dto\PersonInputDto;
+use Sherl\Sdk\Person\Dto\PersonOutputDto;
 use Sherl\Sdk\Media\Dto\ImageObjectOutputDto;
 
 class ArticleDto
@@ -71,8 +71,8 @@ class ArticleDto
     public $authorUri;
 
     /**
-     * @var PersonInputDto|null
-     * @Serializer\Type("Sherl\Sdk\Person\Dto\PersonInputDto")
+     * @var PersonOutputDto|null
+     * @Serializer\Type("Sherl\Sdk\Person\Dto\PersonOutputDto")
      */
     public $author;
 
@@ -89,8 +89,8 @@ class ArticleDto
     public $endDate;
 
     /**
-     * @var array
-     * @Serializer\Type("array")
+     * @var array<string>
+      * @Serializer\Type("array<string>")
      */
     public $tokens;
 
@@ -107,8 +107,8 @@ class ArticleDto
     public $media;
 
     /**
-     * @var array
-     * @Serializer\Type("array")
+    * @var array<string, mixed>
+    * @Serializer\Type("array<string, mixed>")
      */
     public $metadatas;
 

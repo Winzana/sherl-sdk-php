@@ -7,10 +7,16 @@ use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 use Sherl\Sdk\Common\Error\SherlException;
 use Sherl\Sdk\Cms\Dto\ArticleDto;
-use Sherl\Sdk\e\Cms\Dto\FaqInputDto;
+use Sherl\Sdk\Cms\Dto\CMSArticleFaqCreateInputDto;
+use Sherl\Sdk\Cms\Dto\CMSArticleCreateInputDto;
+use Sherl\Sdk\Cms\Dto\CMSArticleStaticPageCreateInputDto;
+use Sherl\Sdk\Cms\Dto\CMSArticleStoryCreateInputDto;
+use Sherl\Sdk\Cms\Dto\CMSArticleTrainingCreateInputDto;
+use Sherl\Sdk\Cms\Dto\FindPostsFiltersDto;
 use Exception;
 use Sherl\Sdk\Common\Error\ErrorFactory;
 use Sherl\Sdk\Common\Error\ErrorHelper;
+use Sherl\Sdk\Common\SerializerFactory;
 use Sherl\Sdk\Cms\Errors\CmsErr;
 
 class CmsProvider
@@ -18,7 +24,7 @@ class CmsProvider
     public const DOMAIN = "CMS";
 
     private Client $client;
-    private ErrorFactory $errorFactory; 
+    private ErrorFactory $errorFactory;
 
     /**
      * CmsProvider constructor.
@@ -40,7 +46,7 @@ class CmsProvider
     /**
      * Adds a media page.
      * @param string $id The identifier for the media.
-     * @param array $data The data to create the media page.
+     * @param array<string, mixed> $data The data to create the media page.
      * @return string The content of the body of the response.
      * @throws SherlException If the response status code indicates an error.
      */
@@ -72,13 +78,13 @@ class CmsProvider
     }
 
     /**
-     * Creates an article with the given ID and article input data.
-     * @param string $id The ID associated with the article.
-     * @param ArticleInputDto $articleInput Data transfer object for the article input.
-     * @return string The body content of the HTTP response.
-     * @throws SherlException If the response status code is not successful.
-     */
-    public function UpdateArticleById(string $id, ArticleInputDto $articleInput)
+ * Creates an article with the given ID and article input data.
+ * @param string $id The ID associated with the article.
+ * @param CMSArticleFaqCreateInputDto $articleInput Data transfer object for the article input.
+ * @return string The body content of the HTTP response.
+ * @throws SherlException If the response status code is not successful.
+ */
+    public function UpdateArticleById(string $id, CMSArticleFaqCreateInputDto $articleInput)
     {
         try {
             $response = $this->client->post("/api/article/$id", [
@@ -93,7 +99,7 @@ class CmsProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        ArticleDto::class,
+                        CMSArticleFaqCreateInputDto::class,
                         'json'
                     );
                 case 403:
@@ -109,25 +115,24 @@ class CmsProvider
     }
     /**
      * Creates a FAQs page using the given FAQ input data.
-     * @param FaqInputDto $faqInput Data transfer object for the FAQ input.
+     * @param CMSArticleFaqCreateInputDto $faqInput Data transfer object for the FAQ input.
      * @return string The body content of the HTTP response.
      * @throws SherlException If the response status code is not successful.
      */
-    public function createFaqsPage(FaqInputDto $faqInput)
+    public function createFaqsPage(CMSArticleFaqCreateInputDto $faqInput)
     {
         try {
             $response = $this->client->post("/api/faqs", [
                 "headers" => ["Content-Type" => "application/json"],
                 RequestOptions::JSON => [
-                    "question" => $faqInput->question,
-                    "answer" => $faqInput->answer
+                    "faqInput" => $faqInput,
                 ]
             ]);
             switch ($response->getStatusCode()) {
                 case 201:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        ArticleDto::class,
+                        CMSArticleFaqCreateInputDto::class,
                         'json'
                     );
                 case 403:
@@ -141,16 +146,18 @@ class CmsProvider
     }
     /**
      * Creates a posts page with the provided data.
-     * @param array $data Data for creating the posts page.
+     * @param CMSArticleCreateInputDto $data Data for creating the posts page.
      * @return string The body content of the HTTP response.
      * @throws SherlException If the response status code is not 201.
      */
-    public function createPostsPage(array $data): string
+    public function createPostsPage(CMSArticleCreateInputDto $data): string
     {
         try {
             $response = $this->client->post("/api/manage_articles", [
                 "headers" => ["Content-Type" => "application/json"],
-                RequestOptions::JSON => $data
+                RequestOptions::JSON => [
+                    "post" => $data,
+                    ]
             ]);
 
             switch ($response->getStatusCode()) {
@@ -170,12 +177,13 @@ class CmsProvider
         }
     }
     /**
-     * Deletes an article by its identifier.
-     * @param string $id The identifier for the article to delete.
-     * @return string The body content of the HTTP response.
-     * @throws SherlException If the response status code is not successful.
+     * Crée une page statique en utilisant les données fournies.
+     *
+     * @param CMSArticleStaticPageCreateInputDto $data Les données pour créer la page statique.
+     * @return string Le contenu du corps de la réponse HTTP.
+     * @throws SherlException Si le code de statut de la réponse n'est pas réussi.
      */
-    public function createStaticPage(array $data): string
+    public function createStaticPage(CMSArticleStaticPageCreateInputDto $data): string
     {
         try {
             $response = $this->client->post("/api/create_static", [
@@ -202,11 +210,11 @@ class CmsProvider
     }
     /**
     * Creates a stories page with the provided data.
-    * @param array $data Data for creating the stories page.
+    * @param CMSArticleStoryCreateInputDto $data Data for creating the stories page.
     * @return string The body content of the HTTP response.
     * @throws SherlException If the response status code is not 201.
     */
-    public function createStoriesPage(array $data): string
+    public function createStoriesPage(CMSArticleStoryCreateInputDto $data): string
     {
         try {
             $response = $this->client->post("/api/create_stories", [
@@ -231,11 +239,11 @@ class CmsProvider
     }
     /**
     * Creates a trainings page with the provided data.
-    * @param array $data Data for creating the training page.
+    * @param CMSArticleTrainingCreateInputDto $data Data for creating the training page.
     * @return string The body content of the HTTP response.
     * @throws SherlException If the response status code is not 201.
     */
-    public function createTrainingsPage(array $data): string
+    public function createTrainingsPage(CMSArticleTrainingCreateInputDto $data): string
     {
         try {
             $response = $this->client->post("/api/create_training", [
@@ -250,7 +258,7 @@ class CmsProvider
                         'json'
                     );
                 case 403:
-                    throw $this->errorFactory->create(CmsErr::CREATE_CMS_TRAINING_FAILED_FORBIDDEN);
+                    throw $this->errorFactory->create(CmsErr::CMS_TRAINING_CREATION_FAILED_FORBIDDEN);
                 default:
                     throw $this->errorFactory->create(CmsErr::CMS_CREATE_TRAININGS_FAILED);
             }
@@ -318,8 +326,8 @@ class CmsProvider
         }
     }
     /**
-    * Retrieves an article by its slug.
-    * @param string $slug The slug for the article.
+    * Retrieves an article by its id.
+    * @param string $id The id for the article.
     * @return string The body content of the HTTP response.
     * @throws SherlException If the response status code is not 200.
     */
@@ -349,11 +357,12 @@ class CmsProvider
         }
     }
     /**
-    * Retrieves a list of posts filtered by the provided criteria.
-    * @param array $filters Filters to apply to the posts retrieval.
-    * @return string The body content of the HTTP response.
-    * @throws SherlException If the response status code is not 200.
-    */
+     * Retrieves an article using its slug.
+     *
+     * @param string $slug The slug of the article.
+     * @return string The body content of the HTTP response.
+     * @throws SherlException If the response status code is not 200 or if there is an error.
+     */
     public function getArticleBySlug(string $slug): string
     {
         try {
@@ -378,12 +387,13 @@ class CmsProvider
         }
     }
     /**
-    * Retrieves a public article by its identifier.
-    * @param string $id The public identifier for the article.
-    * @return string The body content of the HTTP response.
-    * @throws SherlException If the response status code is not 200.
-    */
-    public function getPosts(array $filters): string
+     * Retrieves posts based on specified filters.
+     *
+     * @param FindPostsFiltersDto $filters The filters to apply when retrieving posts.
+     * @return string The body content of the HTTP response.
+     * @throws SherlException If the response status code is not 200 or if there is an error.
+     */
+    public function getPosts(FindPostsFiltersDto $filters): string
     {
         try {
             $response = $this->client->get("/api/manage_articles", [
@@ -406,11 +416,12 @@ class CmsProvider
         }
     }
     /**
-    * Retrieves a public article by its slug.
-    * @param string $slug The slug for the public article.
-    * @return string The body content of the HTTP response.
-    * @throws SherlException If the response status code is not 200.
-    */
+     * Retrieves a public article by its identifier.
+     *
+     * @param string $id The identifier of the public article.
+     * @return string The body content of the HTTP response.
+     * @throws SherlException If the response status code is not 200 or if there is an error.
+     */
     public function getPublicArticleById(string $id): string
     {
         try {
@@ -436,11 +447,12 @@ class CmsProvider
         }
     }
     /**
-    * Retrieves a list of public articles filtered by the provided criteria.
-    * @param array $filters Filters to apply to the public articles retrieval.
-    * @return string The body content of the HTTP response.
-    * @throws SherlException If the response status code is not 200.
-    */
+     * Retrieves a public article using its slug.
+     *
+     * @param string $slug The slug of the public article.
+     * @return string The body content of the HTTP response.
+     * @throws SherlException If the response status code is not 200 or if there is an error.
+     */
     public function getPublicArticleBySlug(string $slug): string
     {
         try {
@@ -468,11 +480,11 @@ class CmsProvider
 
     /**
     * Retrieves a list of public articles filtered by the provided criteria.
-    * @param array $filters Filters to apply for retrieving the public articles.
+    * @param FindPostsFiltersDto $filters Filters to apply for retrieving the public articles.
     * @return string The response content from the CMS containing the list of public articles.
     * @throws SherlException If the response status code is not 200.
     */
-    public function getPublicArticles(array $filters): string
+    public function getPublicArticles(FindPostsFiltersDto $filters): string
     {
         try {
             $response = $this->client->get("/api/get_public_articles", [

@@ -5,7 +5,7 @@ namespace Sherl\Sdk\Cms\Dto;
 use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Cms\Dto\CreateCaptionOutputDto;
 
-class ICreateThumbnailOutputDto
+class CreateThumbnailOutputDto
 {
     /**
      * @var string
