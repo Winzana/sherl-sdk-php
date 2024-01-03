@@ -19,6 +19,13 @@ use Sherl\Sdk\Organization\Dto\OrganizationFiltersDto;
 use Sherl\Sdk\Organization\Dto\OrganizationOutputDto;
 use Sherl\Sdk\Organization\Dto\OrganizationInputDto;
 use Sherl\Sdk\Organization\Dto\RegisterOrganizationRequestInputDto;
+use Sherl\Sdk\Organization\Dto\SuggestOrganizationRequestInputDto;
+use Sherl\Sdk\Organization\Dto\UpdateOrganizationInputDto;
+use Sherl\Sdk\Organization\Dto\AddressRequestInputDto;
+use Sherl\Sdk\Organization\Dto\CreateMediaInputDto;
+use Sherl\Sdk\Organization\Dto\CommunicationInputDto;
+use Sherl\Sdk\Organization\Dto\OrganizationMemberInputDto;
+use Sherl\Sdk\Organization\Dto\EmployeeOutputDto;
 
 class OrganizationProvider
 {
@@ -243,13 +250,13 @@ class OrganizationProvider
         }
     }
 
-  /**
-   * Registers an organization to a person using the provided data.
-   *
-   * @param RegisterOrganizationRequestInputDto $organizationToPerson - The data for registering an organization to a person.
-   * @return OrganizationOutputDto|null The registered organization's information post-registration or null on failure.
-   * @throws SherlException If there is an error during the organization to person registration process.
-   */
+    /**
+     * Registers an organization to a person using the provided data.
+     *
+     * @param RegisterOrganizationRequestInputDto $organizationToPerson - The data for registering an organization to a person.
+     * @return OrganizationOutputDto|null The registered organization's information post-registration or null on failure.
+     * @throws SherlException If there is an error during the organization to person registration process.
+     */
     public function registerOrganizationToPerson(RegisterOrganizationRequestInputDto $organizationToPerson): ?OrganizationOutputDto
     {
         try {
@@ -264,11 +271,11 @@ class OrganizationProvider
 
             switch ($response->getStatusCode()) {
                 case 200:
-                  return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    OrganizationOutputDto::class,
-                    'json'
-                  );
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrganizationOutputDto::class,
+                        'json'
+                    );
                 case 403:
                     throw $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_TO_PERSON_FORBIDDEN);
                 default:
@@ -278,4 +285,493 @@ class OrganizationProvider
             throw ErrorHelper::getSherlError($err, $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_TO_PERSON_FAILED));
         }
     }
+
+    /**
+     * Registers a new organization with the provided request details.
+     *
+     * @param RegisterOrganizationRequestInputDto $request The registration request details for the new organization.
+     * @return OrganizationOutputDto|null The information of the newly registered organization.
+     * @throws SherlException If there is an error during the organization registration process.
+     */
+    public function registerOrganization(RegisterOrganizationRequestInputDto $request): ?OrganizationOutputDto
+    {
+        try {
+            $response = $this->client->post("/api/organizations/register", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  'request' => $request,
+                ],
+              ]);
+
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrganizationOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_FAILED));
+        }
+    }
+
+    /**
+     * Submits a suggestion for an organization based on the provided request details.
+     *
+     * @param SuggestOrganizationRequestInputDto $suggestion The details of the organization suggestion.
+     * @return OrganizationOutputDto|null The response related to the organization suggestion.
+     * @throws SherlException If there is an error during the organization suggestion submission process.
+     */
+    public function suggestOrganization(SuggestOrganizationRequestInputDto $suggestion): ?OrganizationOutputDto
+    {
+        try {
+            $response = $this->client->post("/api/organizations/suggest", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  'suggestion' => $suggestion,
+                ],
+              ]);
+
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrganizationOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::SUGGEST_ORGANIZATION_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::SUGGEST_ORGANIZATION_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::SUGGEST_ORGANIZATION_FAILED));
+        }
+    }
+
+    /**
+     * Updates an existing organization's details using the provided information.
+     *
+     * @param string $organizationId The unique identifier of the organization to be updated.
+     * @param UpdateOrganizationInputDto $updatedOrganization The new details for updating the organization.
+     * @return OrganizationOutputDto|null The updated organization's information.
+     * @throws SherlException If there is an error during the organization update process.
+     */
+    public function updateOrganization(string $organizationId, UpdateOrganizationInputDto $updatedOrganization): ?OrganizationOutputDto
+    {
+        try {
+            $response = $this->client->put("/api/organizations/update/$organizationId", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => $organizationId,
+                RequestOptions::JSON => $updatedOrganization,
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrganizationOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::UPDATE_ORGANIZATION_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::UPDATE_ORGANIZATION_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::UPDATE_ORGANIZATION_FAILED));
+        }
+    }
+
+    // ADDRESS
+
+    /**
+     * Adds an address to an organization specified by its ID.
+     *
+     * @param string $organizationId The unique identifier of the organization to which the address is being added.
+     * @param AddressRequestInputDto $address The details of the address to be added.
+     * @return OrganizationOutputDto|null A promise that resolves to the updated organization's information post address addition.
+     * @throws SherlException If there is an error during the address addition process.
+     */
+    public function addAddress(string $organizationId, AddressRequestInputDto $address): ?OrganizationOutputDto
+    {
+        try {
+            $response = $this->client->post("/api/organizations/$organizationId/addresses", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => $organizationId,
+                RequestOptions::JSON => $address,
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrganizationOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::ADD_ADDRESS_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ADDRESS_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::ADD_ADDRESS_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::ADD_ADDRESS_FAILED));
+        }
+    }
+
+    /**
+     * Deletes an address from an organization using the specified IDs.
+     *
+     * @param string $organizationId The unique identifier of the organization from which the address is being deleted.
+     * @param string $addressId The unique identifier of the address to be deleted.
+     * @return OrganizationOutputDto|null A promise that resolves to the updated organization's information post address deletion.
+     * @throws SherlException If there is an error during the address deletion process.
+     */
+    public function deleteAddress(string $organizationId, string $addressId): ?OrganizationOutputDto
+    {
+        try {
+            $response = $this->client->delete("/api/organizations/$organizationId/addresses/$addressId", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => [
+                    'organizationId' => $organizationId,
+                    'addressId' => $addressId,
+                ],
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrganizationOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::DELETE_ADDRESS_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ADDRESS_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::DELETE_ADDRESS_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::DELETE_ADDRESS_FAILED));
+        }
+    }
+
+    /**
+     * Updates an address of an organization specified by IDs.
+     *
+     * @param string $organizationId The unique identifier of the organization whose address is being updated.
+     * @param string $addressId The unique identifier of the address to be updated.
+     * @param AddressRequestInputDto $request The updated address details.
+     * @return OrganizationOutputDto|null A promise that resolves to the updated organization's information after the address update.
+     * @throws SherlException If there is an error during the address update process.
+     */
+    public function updateAddress(string $organizationId, string $addressId, AddressRequestInputDto $request): ?OrganizationOutputDto
+    {
+        try {
+            $response = $this->client->put("/api/organizations/$organizationId/addresses/$addressId", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => [
+                    'organizationId' => $organizationId,
+                    'addressId' => $addressId,
+                ],
+                RequestOptions::JSON => $request,
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrganizationOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::UPDATE_ADDRESS_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ADDRESS_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::UPDATE_ADDRESS_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::UPDATE_ADDRESS_FAILED));
+        }
+    }
+
+    // BACKGROUND IMAGE
+
+    /**
+     * Creates a background image for an organization from a media object.
+     *
+     * @param string $organizationId The unique identifier of the organization for which the background image is being set.
+     * @param string $mediaId The unique identifier of the media to be used as the background image.
+     * @param CreateMediaInputDto $image The image object to be set as the background.
+     * @return OrganizationOutputDto|null A promise that resolves to the updated organization's information after the background image creation.
+     * @throws SherlException If there is an error during the background image creation process.
+     */
+    public function createBackgroundImageFromMedia(string $organizationId, string $mediaId, CreateMediaInputDto $image): ?OrganizationOutputDto
+    {
+        try {
+            $response = $this->client->post("/api/organizations/$organizationId/background-image/create/$mediaId/from-media", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => [
+                    'organizationId' => $organizationId,
+                    'mediaId' => $mediaId,
+                ],
+                RequestOptions::JSON => $image,
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrganizationOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::CREATE_BACKGROUND_IMAGE_FROM_MEDIA_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::CREATE_BACKGROUND_IMAGE_FROM_MEDIA_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::CREATE_BACKGROUND_IMAGE_FROM_MEDIA_FAILED));
+        }
+    }
+
+    /**
+     * Creates a background image for an organization by uploading a file.
+     *
+     * @param string $organizationId The unique identifier of the organization for which the background image is being set.
+     * @param string $mediaId The unique identifier of the media associated with the background image.
+     * @param \Psr\Http\Message\UploadedFileInterface $file The image file to be uploaded and set as the background.
+     * @param callable|null $onUploadProgress Optional callback to monitor the progress of the upload.
+     * @return OrganizationOutputDto|null A promise that resolves to the updated organization's information after the background image creation.
+     * @throws SherlException If there is an error during the background image creation process.
+     */
+    public function createBackgroundImage(string $organizationId, string $mediaId, \Psr\Http\Message\UploadedFileInterface $file, ?callable $onUploadProgress = null): ?OrganizationOutputDto
+    {
+        try {
+            $formData = new \GuzzleHttp\Psr7\MultipartStream([
+                [
+                    'name' => 'upload',
+                    'contents' => $file->getStream(),
+                    'filename' => $file->getClientFilename(),
+                    'headers'  => ['Content-Type' => $file->getClientMediaType()]
+                ]
+            ]);
+
+            $response = $this->client->post("/api/organizations/$organizationId/background-image/create/$mediaId", [
+                "headers" => ["Content-Type" => "application/json"],
+                'body' => $formData,
+                    'on_stats' => function (\GuzzleHttp\TransferStats $stats) use ($onUploadProgress) {
+                        if ($onUploadProgress) {
+                            $onUploadProgress($stats);
+                        }
+                    },
+                RequestOptions::QUERY => [
+                    'organizationId' => $organizationId,
+                    'mediaId' => $mediaId,
+                ],
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrganizationOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::CREATE_BACKGROUND_IMAGE_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::CREATE_BACKGROUND_IMAGE_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::CREATE_BACKGROUND_IMAGE_FAILED));
+        }
+    }
+
+    /**
+     * Deletes the background image of an organization identified by its unique ID.
+     *
+     * @param string $organizationId The unique identifier of the organization whose background image is being deleted.
+     * @return OrganizationOutputDto|null A promise that resolves to the updated organization's information after the background image deletion.
+     * @throws SherlException If there is an error during the background image deletion process.
+     */
+    public function deleteBackgroundImage(string $organizationId): ?OrganizationOutputDto
+    {
+        try {
+            $response = $this->client->delete("/api/organizations/$organizationId/background-image", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ['organizationId' => $organizationId],
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrganizationOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::DELETE_BACKGROUND_IMAGE_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::DELETE_BACKGROUND_IMAGE_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::DELETE_BACKGROUND_IMAGE_FAILED));
+        }
+    }
+
+    // COMMUNICATION
+
+    /**
+     * Sets communication details for an organization specified by its unique ID.
+     *
+     * @param string $organizationId The unique identifier of the organization for which the communication details are being set.
+     * @param CommunicationInputDto $communicationInfo The communication details to be set for the organization.
+     * @return OrganizationOutputDto|null A promise that resolves to the updated organization's information after setting the communication details.
+     * @throws SherlException If there is an error during the process of setting communication details.
+     */
+    public function setCommunication(string $organizationId, CommunicationInputDto $communicationInfo): ?OrganizationOutputDto
+    {
+        try {
+            $response = $this->client->post("/api/organizations/$organizationId/communication", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ['organizationId' => $organizationId],
+                RequestOptions::JSON => $communicationInfo,
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrganizationOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::SET_COMMUNICATION_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::SET_COMMUNICATION_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::SET_COMMUNICATION_FAILED));
+        }
+    }
+
+    // EMPLOYEE
+
+    /**
+     * Creates a new employee record for a specified organization.
+     *
+     * @param string $organizationId The unique identifier of the organization to which the employee is being added.
+     * @param OrganizationMemberInputDto $employee The details of the employee to be added.
+     * @return EmployeeOutputDto|null A promise that resolves to the information of the newly created employee.
+     * @throws SherlException If there is an error during the process of creating a new employee.
+     */
+    public function createEmployee(string $organizationId, OrganizationMemberInputDto $employee): ?EmployeeOutputDto
+    {
+        try {
+            $response = $this->client->post("/api/organizations/$organizationId/employees", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ['organizationId' => $organizationId],
+                RequestOptions::JSON => $employee,
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        EmployeeOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::CREATE_EMPLOYEE_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::CREATE_EMPLOYEE_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::CREATE_EMPLOYEE_FAILED));
+        }
+    }
+
+    /**
+     * Deletes an employee record from a specified organization.
+     *
+     * @param string $organizationId The unique identifier of the organization from which the employee is being deleted.
+     * @param string $employeeId The unique identifier of the employee to be deleted.
+     * @return EmployeeOutputDto|null A promise that resolves to the information of the deleted employee.
+     * @throws SherlException If there is an error during the process of deleting an employee.
+     */
+    public function deleteEmployee(string $organizationId, string $employeeId): ?EmployeeOutputDto
+    {
+        try {
+            $response = $this->client->delete("/api/organizations/$organizationId/employees/$employeeId", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => [
+                    'organizationId' => $organizationId,
+                    'employeeId' => $employeeId,
+                ]
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        EmployeeOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::DELETE_EMPLOYEE_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::EMPLOYEE_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::DELETE_EMPLOYEE_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::DELETE_EMPLOYEE_FAILED));
+        }
+    }
+
+
 }
