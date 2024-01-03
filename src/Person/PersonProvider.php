@@ -2,7 +2,6 @@
 
 namespace Sherl\Sdk\Person;
 
-use Exception;
 use GuzzleHttp\Client;
 use Sherl\Sdk\Common\SerializerFactory;
 
@@ -10,8 +9,18 @@ use Sherl\Sdk\Person\Dto\PersonOutputDto;
 use Sherl\Sdk\Common\Dto\LocationDto;
 use Sherl\Sdk\Common\Dto\ConfigDto;
 use Sherl\Sdk\Place\Dto\GeoCoordinatesDto;
+use Sherl\Sdk\Person\Dto\PersonFiltersDto;
+use Sherl\Sdk\Person\Dto\AddressInputDto;
+use Sherl\Sdk\Person\Dto\PersonCreateInputDto;
+use Sherl\Sdk\Person\Dto\PersonUpdateInputDto;
+use Sherl\Sdk\Person\Dto\PictureRegisterInputDto;
 
+use GuzzleHttp\RequestOptions;
 use Sherl\Sdk\Common\Error\SherlException;
+use Sherl\Sdk\Common\Error\ErrorFactory;
+use Sherl\Sdk\Common\Error\ErrorHelper;
+use Sherl\Sdk\Person\Errors\PersonErr;
+use Exception;
 
 class PersonProvider
 {
@@ -19,9 +28,12 @@ class PersonProvider
 
     private Client $client;
 
+    private ErrorFactory $errorFactory;
+
     public function __construct(Client $client)
     {
         $this->client = $client;
+        $this->errorFactory = new ErrorFactory(self::DOMAIN, PersonErr::$errors);
     }
 
     /**
@@ -39,29 +51,31 @@ class PersonProvider
                 ]
           ]);
 
-            if ($response->getStatusCode() >= 400) {
-                throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ConfigDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(PersonErr::GET_CONFIGS_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(PersonErr::GET_CONFIGS_FAILED);
             }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                ConfigDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::GET_CONFIGS_FAILED));
         }
-
     }
 
     /**
      * Gets the current address based on geo-coordinates.
      *
      * @param GeoCoordinatesDto $position The geo-coordinates data object.
-     * @return Pagination<LocationDto>|null A paginated list of location data transfer objects or null if not found.
+     * @return LocationDto|null A list of location data transfer objects or null if not found.
      * @throws SherlException If there is an error while fetching the address.
      */
-    public function getCurrentAddress(GeoCoordinatesDto $position)
+    public function getCurrentAddress(GeoCoordinatesDto $position): ?LocationDto
     {
         try {
             $response = $this->client->get('/api/persons/current-address', [
@@ -69,62 +83,64 @@ class PersonProvider
                   "Content-Type" => "application/json",
                 ],
                 RequestOptions::QUERY => $position
-          ]);
+            ]);
 
-            if ($response->getStatusCode() >= 400) {
-                throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        LocationDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(PersonErr::FETCH_POSITION_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(PersonErr::FETCH_POSITION_FAILED);
             }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                LocationDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::FETCH_POSITION_FAILED));
         }
 
     }
 
     /**
-     * Retrieves a paginated list of persons based on filters, page, and items per page.
+     * Retrieves a list of persons based on filters, page, and items per page.
      *
      * @param int $page The number of the current page.
      * @param int $itemsPerPage The number of items per page.
      * @param PersonFiltersDto $filters The filters to apply to the person list.
-     * @return Pagination<PersonOutputDto>|null A paginated list of person output data transfer objects or null if none found.
+     * @return PersonOutputDto|null A list of person output data transfer objects or null if none found.
      * @throws SherlException If there is an error while fetching the persons.
      */
-    public function getPersons(
-        $page = 1,
-        $itemsPerPage = 10,
-        PersonFiltersDto $filters
-    ) {
+    public function getPersons(PersonFiltersDto $filters, $page = 1, $itemsPerPage = 10): ?PersonOutputDto
+    {
         try {
-            $response = $this->client->get(
-                '/api/persons',
-                [
-                    RequestOptions::QUERY => [
-                        'filters' => $filters,
-                        'page' => $page,
-                        'itemsPerPage' => $itemsPerPage,
-                      ]
-          ]
-            );
+            $response = $this->client->get('/api/persons', [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => [
+                    'filters' => $filters,
+                    'page' => $page,
+                    'itemsPerPage' => $itemsPerPage,
+                ]
+            ]);
 
-            if ($response->getStatusCode() >= 400) {
-                throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        PersonOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(PersonErr::FETCH_PERSONS_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(PersonErr::FETCH_PERSONS_FAILED);
             }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                PersonOutputDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::FETCH_PERSONS_FAILED));
         }
-
     }
 
     /**
@@ -134,27 +150,34 @@ class PersonProvider
      * @return PersonOutputDto|null A person data object or null if not found.
      * @throws SherlException If there is an error while fetching the person data.
      */
-    public function getPersonById(
-        string $id,
-    ): ?PersonOuputDto {
+    public function getPersonById(string $id): ?PersonOutputDto
+    {
         try {
-            $response = $this->client->get(
-                "/api/persons/$id"
-            );
 
-            if ($response->getStatusCode() >= 400) {
-                throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+            $response = $this->client->get('/api/persons/$id', [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => $id
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        PersonOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(PersonErr::GET_PERSON_BY_ID_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(PersonErr::PERSON_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(PersonErr::GET_PERSON_BY_ID_FAILED);
             }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                PersonOutputDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::GET_PERSON_BY_ID_FAILED));
         }
-
     }
 
     /**
@@ -167,33 +190,28 @@ class PersonProvider
     public function createAddress(AddressInputDto $address): ?PersonOutputDto
     {
         try {
-            $response = $this->client->post(
-                '/api/persons/addresses',
-                [
-                    "headers" => [
-                      "Content-Type" => "application/json",
-                    ],
-                    RequestOptions::JSON => $address
-                  ]
-            );
+            $response = $this->client->post("/api/persons/addresses", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => $address
+            ]);
 
-            if ($response->getStatusCode() >= 400) {
-                throw new SherlException(
-                    PersonProvider::DOMAIN,
-                    $response->getBody()->getContents(),
-                    $response->getStatusCode()
-                );
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        PersonOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(PersonErr::CREATE_ADDRESS_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(PersonErr::CREATE_ADDRESS_FAILED);
             }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                PersonOutputDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::CREATE_ADDRESS_FAILED));
         }
-
     }
 
     /**
@@ -206,30 +224,29 @@ class PersonProvider
     public function deleteAddress(string $id): ?PersonOutputDto
     {
         try {
-            $response = $this->client->delete(
-                "/api/persons/addresses/$id",
-                [
-                    "headers" => [
-                      "Content-Type" => "application/json",
-                    ],
-                  ]
-            );
+            $response = $this->client->delete("/api/persons/addresses/$id", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => $id
+            ]);
 
-            if ($response->getStatusCode() >= 400) {
-                throw new SherlException(
-                    PersonProvider::DOMAIN,
-                    $response->getBody()->getContents(),
-                    $response->getStatusCode()
-                );
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        PersonOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(PersonErr::DELETE_ADDRESS_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(PersonErr::ADDRESS_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(PersonErr::DELETE_ADDRESS_FAILED);
             }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                PersonOutputDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::DELETE_ADDRESS_FAILED));
         }
     }
 
@@ -244,31 +261,29 @@ class PersonProvider
     public function updateAddress(string $addressId, AddressInputDto $address): ?PersonOutputDto
     {
         try {
-            $response = $this->client->put(
-                "/api/persons/addresses/$addressId",
-                [
-                    "headers" => [
-                      "Content-Type" => "application/json",
-                    ],
-                    RequestOptions::JSON => $address
-                ]
-            );
+            $response = $this->client->put("/api/persons/addresses/$addressId", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => $address
+            ]);
 
-            if ($response->getStatusCode() >= 400) {
-                throw new SherlException(
-                    PersonProvider::DOMAIN,
-                    $response->getBody()->getContents(),
-                    $response->getStatusCode()
-                );
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        PersonOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(PersonErr::UPDATE_ADDRESS_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(PersonErr::ADDRESS_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(PersonErr::UPDATE_ADDRESS_FAILED);
             }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                PersonOutputDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::UPDATE_ADDRESS_FAILED));
         }
     }
 
@@ -282,31 +297,27 @@ class PersonProvider
     public function createPerson(PersonCreateInputDto $person): ?PersonOutputDto
     {
         try {
-            $response = $this->client->post(
-                '/api/persons',
-                [
-                    "headers" => [
-                      "Content-Type" => "application/json",
-                    ],
-                    RequestOptions::JSON => $person
-                ]
-            );
+            $response = $this->client->post("/api/persons", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => $person
+            ]);
 
-            if ($response->getStatusCode() >= 400) {
-                throw new SherlException(
-                    PersonProvider::DOMAIN,
-                    $response->getBody()->getContents(),
-                    $response->getStatusCode()
-                );
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        PersonOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(PersonErr::CREATE_PERSON_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(PersonErr::CREATE_PERSON_FAILED);
             }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                PersonOutputDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::CREATE_PERSON_FAILED));
         }
 
     }
@@ -321,33 +332,28 @@ class PersonProvider
     public function registerWithEmailAndPassword(PersonCreateInputDto $person): ?PersonOutputDto
     {
         try {
-            $response = $this->client->post(
-                '/api/persons/register-with-email-and-password',
-                [
-                    "headers" => [
-                      "Content-Type" => "application/json",
-                    ],
-                    RequestOptions::JSON => $person
-                ]
-            );
+            $response = $this->client->post("/api/persons/register-with-email-and-password", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => $person
+            ]);
 
-            if ($response->getStatusCode() >= 400) {
-                throw new SherlException(
-                    PersonProvider::DOMAIN,
-                    $response->getBody()->getContents(),
-                    $response->getStatusCode()
-                );
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        PersonOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(PersonErr::REGISTER_PERSON_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(PersonErr::REGISTER_PERSON_FAILED);
             }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                PersonOutputDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::REGISTER_PERSON_FAILED));
         }
-
     }
 
     /**
@@ -359,37 +365,42 @@ class PersonProvider
      */
     public function addPersonPicture(PictureRegisterInputDto $picture): ?PersonOutputDto
     {
-        $userId = $picture['person'];
-        $mediaId = $picture['mediaId'];
+        $userId = $picture->person;
+        $mediaId = $picture->mediaId;
+
         try {
-            $response = $this->client->post("/api/persons/$userId/picture/create/$mediaId", [
-            'multipart' => [
+            $formData = new \GuzzleHttp\Psr7\MultipartStream([
                 [
-                    'name'     => 'file',
-                    'contents' => fopen($picture['file']->getRealPath(), 'r'),
-                    'filename' => $picture['file']->getClientOriginalName(),
-                    'headers'  => ['Content-Type' => $picture['file']->getClientMimeType()]
+                    'name' => 'upload',
+                    'contents' => $picture->file->getStream(),
+                    'filename' => $picture->file->getClientFilename(),
+                    'headers'  => ['Content-Type' => $picture->file->getClientMediaType()]
                 ]
-            ]
             ]);
 
-            if ($response->getStatusCode() >= 400) {
-                throw new SherlException(
-                    PersonProvider::DOMAIN,
-                    $response->getBody()->getContents(),
-                    $response->getStatusCode()
-                );
-            }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                PersonOutputDto::class,
-                'json'
+            $response = $this->client->post(
+                "/api/persons/$userId/picture/create/$mediaId",
+                [
+                'headers' => ['Content-Type' => 'multipart/form-data'],
+                'body' => $formData,
+            ]
             );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
-        }
 
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        PersonOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(PersonErr::ADD_PICTURE_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(PersonErr::ADD_PICTURE_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::ADD_PICTURE_FAILED));
+        }
     }
 
     /**
@@ -403,33 +414,30 @@ class PersonProvider
     public function updatePersonById(string $id, PersonUpdateInputDto $person): ?PersonOutputDto
     {
         try {
-            $response = $this->client->put(
-                "/api/persons/$id",
-                [
-                    "headers" => [
-                      "Content-Type" => "application/json",
-                    ],
-                    RequestOptions::JSON => $person
-                ]
-            );
+            $response = $this->client->put("/api/persons/$id", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => $person
+            ]);
 
-            if ($response->getStatusCode() >= 400) {
-                throw new SherlException(
-                    PersonProvider::DOMAIN,
-                    $response->getBody()->getContents(),
-                    $response->getStatusCode()
-                );
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        PersonOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(PersonErr::UPDATE_PERSON_BY_ID_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(PersonErr::PERSON_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(PersonErr::UPDATE_PERSON_BY_ID_FAILED);
             }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                PersonOutputDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::UPDATE_PERSON_BY_ID_FAILED));
         }
-
     }
 
     /**
@@ -441,23 +449,26 @@ class PersonProvider
     public function getMe(): ?PersonOutputDto
     {
         try {
-            $response = $this->client->get('/api/persons/me', [
+            $response = $this->client->get("/api/persons/me", [
                 "headers" => [
-                  "Content-Type" => "application/json",
-                ]]);
+                    "Content-Type" => "application/json",
+                ],
+            ]);
 
-            if ($response->getStatusCode() >= 400) {
-                throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        PersonOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(PersonErr::GET_ME_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(PersonErr::GET_ME_FAILED);
             }
-
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                PersonOutputDto::class,
-                'json'
-            );
-        } catch (\Exception $e) {
-            throw new SherlException(SherlException::FETCH_FAILED, $e->getMessage());
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::GET_ME_FAILED));
         }
-
     }
 }

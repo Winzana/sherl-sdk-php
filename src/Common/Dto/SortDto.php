@@ -1,8 +1,11 @@
 <?php
 
-namespace Sherl\Sdk\Common;
+namespace Sherl\Sdk\Common\Dto;
 
-class Sort
+/**
+ * @template T
+ */
+class SortDto
 {
     /**
      * @var string

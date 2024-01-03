@@ -1,6 +1,6 @@
 <?php
 
-namespace Sherl\Sdk\Common;
+namespace Sherl\Sdk\Common\Dto;
 
 class ConfigDto
 {

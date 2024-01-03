@@ -4,6 +4,8 @@ namespace Sherl\Sdk\Person\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
+use Psr\Http\Message\UploadedFileInterface;
+
 class PictureRegisterInputDto
 {
     /**
@@ -19,8 +21,8 @@ class PictureRegisterInputDto
     public $mediaId;
 
     /**
-     * @var string
-     * @Serializer\Type("string") // TODO: check in Php if is string to compare
+     * @var UploadedFileInterface
+     * @Serializer\Type("UploadedFileInterface")
      */
     public $file;
 

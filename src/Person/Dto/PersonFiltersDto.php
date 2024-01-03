@@ -8,7 +8,7 @@ use Sherl\Sdk\Person\Dto\AddressInputDto;
 use Sherl\Sdk\Person\Dto\PersonOrganizationCreateInputDto;
 use Sherl\Sdk\Person\Dto\PersonInputDto;
 
-use Sherl\Sdk\Common\Dto\Sort;
+use Sherl\Sdk\Common\Dto\SortDto;
 
 use Sherl\Sdk\Person\Enum\Gender;
 use Sherl\Sdk\Person\Enum\PersonType;
@@ -154,8 +154,8 @@ class PersonFiltersDto
     public $type;
 
     /**
-     * @var Sort<PersonInputDto>
-     * @Serializer(Type("Sort<PersonInputDto>"))
+     * @var SortDto<PersonInputDto>
+     * @Serializer(Type("SortDto<Sherl\Sdk\Person\Dto\PersonInputDto>"))
      */
     public $sort;
 

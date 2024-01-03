@@ -5,6 +5,8 @@ namespace Sherl\Sdk\Media\Dto;
 use JMS\Serializer\Annotation as Serializer;
 use Sher\Sdk\Media\Dto\MediaObjectOutputDto;
 
+use DateTime;
+
 class ImageObjectOutputDto
 {
     /**
