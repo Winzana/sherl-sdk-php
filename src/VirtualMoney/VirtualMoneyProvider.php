@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 
 use Psr\Http\Message\ResponseInterface;
+use Sherl\Sdk\Common\SerializerFactory;
 
 use Sherl\Sdk\Common\Error\SherlException;
 use Sherl\Sdk\Common\Error\ErrorFactory;
@@ -32,12 +33,7 @@ class VirtualMoneyProvider
     public function __construct(Client $client)
     {
         $this->client = $client;
-        $this->errorFactory = new ErrorFactory(self::DOMAIN, NotificationErr::$errors);
-    }
-
-    private function throwSherlVirtualMoneyException(ResponseInterface $response)
-    {
-        throw new SherlException(VirtualMoneyProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        $this->errorFactory = new ErrorFactory(self::DOMAIN, VirtualMoneyErr::$errors);
     }
 
     /**

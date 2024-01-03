@@ -28,7 +28,9 @@ class VirtualMoneyErr
     public const WALLET_NOT_FOUND = 'virtual-money/wallet-not-found';
     public const WALLET_HISTORICAL_NOT_FOUND = 'virtual-money/wallet-historical-not-found';
 
-
+    /**
+     * @var array<string, string>
+     */
     public static $errors = [
       self::VIRTUAL_MONEY_NOT_FOUND => 'Failed to find wallet not found',
       self::FIND_ONE_WALLET_FAILED => 'Failed to find wallet',

@@ -4,6 +4,8 @@ namespace Sherl\Sdk\Quotas\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
+use DateTime;
+
 class WalletHistoricalInputDto
 {
     /**

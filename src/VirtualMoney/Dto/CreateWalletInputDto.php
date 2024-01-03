@@ -1,6 +1,6 @@
 <?php
 
-namespace Sherl\Sdk\Quotas\Dto;
+namespace Sherl\Sdk\VirtualMoney\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
