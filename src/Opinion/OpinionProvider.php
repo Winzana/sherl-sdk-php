@@ -9,10 +9,10 @@ use Psr\Http\Message\ResponseInterface;
 use Sherl\Sdk\Common\Error\MediaException;
 use Sherl\Sdk\Common\SerializerFactory;
 
-use Sherl\Sdk\Opinion\Media\Dto\OpinionInputDto;
-use Sherl\Sdk\Opinion\Media\Dto\OpinionOutputDto;
-use Sherl\Sdk\Opinion\Media\Dto\OpinionAverageOutputDto;
-use Sherl\Sdk\Opinion\Media\Dto\OpinionListOutputDto;
+use Sherl\Sdk\Opinion\Dto\OpinionDto;
+use Sherl\Sdk\Opinion\Dto\OpinionAverageOutputDto;
+use Sherl\Sdk\Opinion\Dto\OpinionListOutputDto;
+use Sherl\Sdk\Opinion\Dto\AverageDto;
 use Exception;
 use Sherl\Sdk\Common\Error\ErrorFactory;
 use Sherl\Sdk\Common\Error\ErrorHelper;
@@ -24,6 +24,7 @@ class OpinionProvider
 
 
     private Client $client;
+    private ErrorFactory $errorFactory;
 
     public function __construct(Client $client)
     {
@@ -31,15 +32,10 @@ class OpinionProvider
         $this->errorFactory = new ErrorFactory('Opinion', OpinionErr::$errors);
     }
 
-    private function throwMediaException(ResponseInterface $response)
-    {
-        throw new MediaException(MediaProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
-    }
-
-    public function createOpinion(string $opinionId, OpinionInputDto $opinionData): ?OpinionOutputDto
+    public function createOpinion(string $id, OpinionDto $opinionData): ?OpinionDto
     {
         try {
-            $response = $this->client->post("/api/opinions/$opinionId", [
+            $response = $this->client->post("/api/opinions/$id", [
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
@@ -50,7 +46,7 @@ class OpinionProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        IOpinion::class,
+                        OpinionDto::class,
                         'json'
                     );
                 case 403:
@@ -63,7 +59,7 @@ class OpinionProvider
         }
     }
 
-    public function getOpinionsAverage(string $opinionToUri): ?OpinionAverageOutputDto
+    public function getOpinionsAverage(string $opinionToUri): ?AverageDto
     {
         try {
             $response = $this->client->get('/api/opinions/average', [
@@ -74,7 +70,7 @@ class OpinionProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        IOpinion::class,
+                        OpinionDto::class,
                         'json'
                     );
                 case 403:
@@ -87,7 +83,7 @@ class OpinionProvider
         }
     }
 
-    public function getOpinionsList(OpinionInputDto $filtersInput): ?OpinionListOutputDto
+    public function getOpinionsList(OpinionDto $filtersInput): ?OpinionDto
     {
         try {
             $response = $this->client->get('/api/opinions', [
@@ -98,7 +94,7 @@ class OpinionProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        IOpinion::class,
+                        OpinionDto::class,
                         'json'
                     );
                 case 403:
@@ -111,7 +107,7 @@ class OpinionProvider
         }
     }
 
-    public function updateOpinion(string $id, OpinionInputDto $updatedOpinion): ?OpinionOutputDto
+    public function updateOpinion(string $id, OpinionDto $updatedOpinion): ?OpinionDto
     {
         try {
             $response = $this->client->put("/api/opinions/$id/status", [
@@ -125,7 +121,7 @@ class OpinionProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        IOpinion::class,
+                        OpinionDto::class,
                         'json'
                     );
                 case 403:

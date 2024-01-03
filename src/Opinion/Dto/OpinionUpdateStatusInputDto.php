@@ -3,6 +3,7 @@
 namespace Sherl\Sdk\Opinion\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
+use Sherl\Sdk\Opinion\Enum\OpinionStatusEnum;
 
 class OpinionUpdateStatusInputDto
 {
