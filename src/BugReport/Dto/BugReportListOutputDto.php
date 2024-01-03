@@ -15,13 +15,13 @@ class BugReportListOutputDto extends Pagination
      * @var BugReportOutputDto[]
      * @Serializer\Type("array<Sherl\Sdk\BugReport\Dto\BugReportOutputDto>")
      */
-    public $results;
+    public array $results;
 
     /**
      * @var ViewOutputDto
      * @Serializer\Type("Sherl\Sdk\Common\Dto\ViewOutputDto")
      */
-    public $view;
+    public mixed $view;
 
 
     /**

@@ -25,7 +25,7 @@ class PersonProvider
         $response = $this->client->get('/api/persons/me');
 
         if ($response->getStatusCode() >= 300) {
-            throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+            throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents());
         }
 
         return SerializerFactory::getInstance()->deserialize(
