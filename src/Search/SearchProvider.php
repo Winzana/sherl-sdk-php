@@ -10,12 +10,13 @@ use Psr\Http\Message\ResponseInterface;
 use Sherl\Sdk\Common\Error\SherlException;
 use Sherl\Sdk\Common\Error\ErrorFactory;
 use Sherl\Sdk\Common\Error\ErrorHelper;
-use Sherl\Sdk\Notification\Errors\NotificationErr;
+use Sherl\Sdk\Search\Errors\SearchErr;
 use Exception;
 
 use Sherl\Sdk\Common\SerializerFactory;
 
-use Sherl\Sdk\Notification\Dto\NotificationFiltersInputDto;
+use Sherl\Sdk\Search\Dto\SearchResultOutputDto;
+use Sherl\Sdk\Search\Dto\SearchFiltersInputDto;
 
 class SearchProvider
 {
@@ -52,24 +53,16 @@ class SearchProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        IQuota::class,
-                        'json'
-                    );
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
                         SearchResultOutputDto::class,
                         'json'
                     );
                 case 403:
                     throw $this->errorFactory->create(SearchErr::SEARCH_FORBIDDEN);
                 default:
-                    throw $this->errorFactory->create(SearchErr::FETCH_FAILED);
+                    throw $this->errorFactory->create(SearchErr::SEARCH_FAILED);
             }
         } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(SearchErr::FETCH_FAILED));
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(SearchErr::SEARCH_FAILED));
         }
-
-
     }
 }
