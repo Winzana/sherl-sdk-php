@@ -1,5 +1,7 @@
 <?php
 
+namespace Sherl\Sdk\Config\Errors;
+
 class ConfigErr
 {
     public const FETCH_FAILED = 'config/config-fetch-failed';
@@ -7,6 +9,9 @@ class ConfigErr
     public const GET_CONFIG_FORBIDDEN = 'config/config-get-forbidden';
     public const SET_CONFIG_FORBIDDEN = 'config/config-set-forbidden';
 
+    /**
+     * @var array<string, string>
+     */
     public static $errors = [
       self::FETCH_FAILED => 'Failed to fetch config API',
       self::CONFIG_NOT_FOUND => 'Config not found',

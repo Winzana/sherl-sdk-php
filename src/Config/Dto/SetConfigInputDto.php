@@ -1,6 +1,6 @@
 <?php
 
-namespace Sherl\Sdk\Notification\Dto;
+namespace Sherl\Sdk\Config\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 

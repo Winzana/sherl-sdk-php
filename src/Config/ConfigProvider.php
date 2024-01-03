@@ -17,7 +17,6 @@ use Sherl\Sdk\Common\SerializerFactory;
 
 use Sherl\Sdk\Config\Dto\ConfigOutputDto;
 use Sherl\Sdk\Config\Dto\SetConfigInputDto;
-use Sherl\Sdk\Config\Dto\NotificationListOutputDto;
 
 class ConfigProvider
 {
@@ -40,7 +39,7 @@ class ConfigProvider
      * @return ConfigOutputDto|null The configuration output data object or null on failure.
      * @throws SherlException If there is an error during the config retrieval process.
      */
-    public function getPublicConfig(string $code): ?NotificationListOutputDto
+    public function getPublicConfig(string $code): ?ConfigOutputDto
     {
         try {
             $response = $this->client->get("/api/public/configs/$code", [
