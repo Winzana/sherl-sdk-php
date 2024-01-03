@@ -39,6 +39,9 @@ class GalleryErr
     public const UPDATE_DYNAMIC_BACKGROUND_FAILED = 'gallery/update-dynamic-background-failed';
     public const UPDATE_DYNAMIC_BACKGROUND_FORBIDDEN = 'gallery/update-dynamic-background-forbidden';
 
+    /**
+     * @var array<string, string>
+     */
     public static $errors = [
       // DYNAMIC BACKGROUND
       self::DYNAMIC_BACKGROUND_NOT_FOUND =>

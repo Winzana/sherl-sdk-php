@@ -1,10 +1,13 @@
 <?php
 
-namespace Sherl\Sdk\Contact\Dto;
+namespace Sherl\Sdk\Gallery\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
 use Sherl\Sdk\Media\Dto\ImageObjectOutputDto;
+use Sherl\Sdk\Shop\Product\Dto\CategoryOutputDto;
+
+use DateTime;
 
 class GalleryOutputDto
 {
@@ -33,8 +36,8 @@ class GalleryOutputDto
     public $categoryUri;
 
     /**
-     * @var CategoryResponse
-     * @Serializer\Type("CategoryResponse") // TODO: Change import when Shop domain merged
+     * @var CategoryOutputDto
+     * @Serializer\Type("Sherl\Sdk\Shop\Product\Dto\CategoryOutputDto")
      */
     public $category;
 

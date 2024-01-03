@@ -1,11 +1,14 @@
 <?php
 
-namespace Sherl\Sdk\Contact\Dto;
+namespace Sherl\Sdk\Gallery\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
 use Sherl\Sdk\Media\Dto\ImageObjectOutputDto;
 use Sherl\Sdk\Gallery\Dto\GeoShapeInputDto;
+use Sherl\Sdk\Gallery\Dto\PoiZonesInputDto;
+
+use DateTime;
 
 class DynamicBackgroundOutputDto
 {
@@ -58,14 +61,14 @@ class DynamicBackgroundOutputDto
     public $deleted;
 
     /**
-     * @var DisplayZonesEnum
-     * @Serializer\Type("DisplayZonesEnum") // TODO: Change import when Shop domain merged
+     * @var string // DisplayZonesEnum // TODO: Change type when Shop domain merged
+     * @Serializer\Type("string") // TODO: Change type for DisplayZonesEnum when Shop domain merged
      */
     public $displayZones;
 
     /**
-     * @var PoiZoneInputDto
-     * @Serializer\Type("Sherl\Sdk\Gallery\Dto\PoiZoneInputDto")
+     * @var PoiZonesInputDto
+     * @Serializer\Type("Sherl\Sdk\Gallery\Dto\PoiZonesInputDto")
      */
     public $locations;
 

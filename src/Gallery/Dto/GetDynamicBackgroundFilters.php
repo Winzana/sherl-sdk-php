@@ -1,8 +1,12 @@
 <?php
 
-namespace Sherl\Sdk\Contact\Dto;
+namespace Sherl\Sdk\Gallery\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
+
+use Sherl\Sdk\Common\Dto\PaginationFilterInputDto;
+
+use DateTime;
 
 class GetDynamicBackgroundFilters extends PaginationFilterInputDto
 {

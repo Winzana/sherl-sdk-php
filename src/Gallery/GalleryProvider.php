@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 use Sherl\Sdk\Common\Error\SherlException;
 use Sherl\Sdk\Common\Error\ErrorFactory;
 use Sherl\Sdk\Common\Error\ErrorHelper;
-use Sherl\Sdk\Notification\Errors\NotificationErr;
+use Sherl\Sdk\Gallery\Errors\GalleryErr;
 use Exception;
 
 use Sherl\Sdk\Common\SerializerFactory;
@@ -20,6 +20,8 @@ use Sherl\Sdk\Gallery\Dto\DynamicBackgroundOutputDto;
 use Sherl\Sdk\Gallery\Dto\GetDynamicBackgroundFilters;
 use Sherl\Sdk\Gallery\Dto\GalleryOutputDto;
 use Sherl\Sdk\Gallery\Dto\CreateDynamicBackgroundInputDto;
+use Sherl\Sdk\Gallery\Dto\CreateGalleryInputDto;
+use Sherl\Sdk\Gallery\Dto\GetGalleriesFiltersDto;
 
 class GalleryProvider
 {
@@ -76,13 +78,14 @@ class GalleryProvider
      * @return DynamicBackgroundOutputDto|null The dynamic background output data object or null on failure.
      * @throws SherlException If there is an error during the dynamic background deletion process.
      */
-    public function deleteDynamicBackground(string $dynamicBakgroundId): ?DynamicBackgroundOutputDto
+    public function deleteDynamicBackground(string $dynamicBackgroundId): ?DynamicBackgroundOutputDto
     {
         try {
-            $response = $this->client->delete("/api/galleries/dynamic-background/$dynamicBakgroundId", [
+            $response = $this->client->delete("/api/galleries/dynamic-background/$dynamicBackgroundId", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
+              RequestOptions::QUERY => $dynamicBackgroundId,
             ]);
 
             switch ($response->getStatusCode()) {
