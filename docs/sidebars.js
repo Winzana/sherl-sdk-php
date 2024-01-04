@@ -10,6 +10,8 @@ module.exports = {
       "iam",
       "notification",
       "user",
+      "search",
+      "gallery",
     ],
     Types: [
       "account-types",
@@ -20,6 +22,11 @@ module.exports = {
       "notification-types",
       "pagination",
       "place-types",
+      "notification-types",
+      "pagination",
+      "place-types",
+      "search-types",
+      "gallery-types",
     ],
   },
 };

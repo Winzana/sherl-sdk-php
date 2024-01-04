@@ -10,44 +10,35 @@ use Exception;
 use Sherl\Sdk\Common\Error\ErrorFactory;
 use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Iam\Errors\IamErr;
+use Sherl\Sdk\Iam\Dto\IamProfilesFilterDto;
+use Sherl\Sdk\Iam\Dto\ProfileDto;
+use Sherl\Sdk\Common\SerializerFactory;
 
 class IamProvider
 {
     public const DOMAIN = "Iam";
 
     private Client $client;
-    private array $endpoints;
+    private ErrorFactory $errorFactory;
 
     /**
      * IamProvider constructor.
      * @param Client $client The HTTP client used to make requests.
-     * @param array $endpoints The endpoints used for IAM operations.
      */
-    public function __construct(Client $client, array $endpoints)
+    public function __construct(Client $client)
     {
         $this->client = $client;
-        $this->endpoints = $endpoints;
-        $this->errorFactory = new ErrorFactory('Iam', IamErr::$errors);
-    }
-
-    /**
-     * Throws an IAM exception based on the response.
-     * @param ResponseInterface $response The response from the HTTP client.
-     * @throws SherlException Throws a SherlException with response details.
-     */
-    private function throwSherlIamException(ResponseInterface $response)
-    {
-        throw new SherlException(SherlException::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        $this->errorFactory = new ErrorFactory(self::DOMAIN, IamErr::$errors);
     }
 
     /**
      * Retrieves all IAM profiles filtered by the provided parameters.
      *
-     * @param array $filters Array of filters to apply to the IAM profiles query.
+     * @param IamProfilesFilterDto $filters IamProfilesFilterDto to apply to the IAM profiles query.
      * @return IamProfilesFilterDto The filtered IAM profiles data result.
      * @throws SherlException If there is an error while fetching the IAM profiles.
      */
-    public function getAllIamProfiles(array $filters): IamProfilesFilterDto
+    public function getAllIamProfiles(IamProfilesFilterDto $filters): IamProfilesFilterDto
     {
         try {
             $response = $this->client->get('/api/iam/profiles', [
@@ -61,7 +52,7 @@ class IamProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        IIam::class,
+                        ProfileDto::class,
                         'json'
                     );
                 case 403:
@@ -79,7 +70,7 @@ class IamProvider
      *
      * @param string $id The unique identifier of the IAM profile.
      * @return ProfileDto The profile data object.
-     * @throws SherlExcep tion If there is an error while fetching the IAM profile.
+     * @throws SherlException tion If there is an error while fetching the IAM profile.
      */
     public function getIamProfileById(string $id): ProfileDto
     {
@@ -96,7 +87,7 @@ class IamProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        IIam::class,
+                        ProfileDto::class,
                         'json'
                     );
                 case 403:
@@ -131,7 +122,7 @@ class IamProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        IIam::class,
+                        ProfileDto::class,
                         'json'
                     );
                 case 403:

@@ -8,7 +8,7 @@ title: IAM
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$profiles = $sherlClient->iam->getAllIamProfiles();
+$profiles = $sherlClient->iam->getAllIamProfiles(IamProfilesFilterDto $filter);
 ```
 
 <details>

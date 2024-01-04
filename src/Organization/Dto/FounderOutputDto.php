@@ -6,7 +6,7 @@ use JMS\Serializer\Annotation as Serializer;
 
 use Sherl\Sdk\Person\Dto\PersonOutputDto;
 
-class FounderOutputDto implements PersonOutputDto
+class FounderOutputDto extends PersonOutputDto
 {
     /**
      * @var string
