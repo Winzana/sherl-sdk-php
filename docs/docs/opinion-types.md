@@ -29,7 +29,7 @@ In this interface, we have 2 dynamics parameters **T** and **K**.
 - T represent the entity which create opinion to K
 - K represent the entity which receive opinion from T
 
-## AverageDto
+## OpinionAverageDto
 
 | Fields      |  Type  | Description                                              |
 | :---------- | :----: | :------------------------------------------------------- |

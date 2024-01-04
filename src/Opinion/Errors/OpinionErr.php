@@ -29,7 +29,7 @@ class OpinionErr
         self::FETCH_OPINION_AVERAGE_FORBIDDEN =>
           'Failed to fetch opinion forbidden',
         self::FETCH_OPINION_I_GIVE_FORBIDDEN =>
-          'Failed to fetch opinion i give forbidden',
+          'Failed to fetch opinion i give: Access forbidden',
         self::FETCH_OPINIONS_FORBIDDEN => 'Failed to fetch opinion forbidden',
         self::FETCH_PUBLIC_OPINIONS_FORBIDDEN =>
           'Failed to fetch opinion public forbidden',

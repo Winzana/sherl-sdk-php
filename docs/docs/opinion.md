@@ -8,13 +8,13 @@ title: Opinion
 <span class="badge badge--warning">Required authentication</span>
 
 ```php
-$opinions = $sherlClient->opinion->getOpinions(array $filters);
+$opinions = $sherlClient->opinion->getOpinionsList(OpinionDto $filters);
 ```
 
 <span class="badge badge--success">Public</span>
 
 ```php
-$publicOpinions = $sherlClient->opinion->getPublicOpinions(array $filters);
+$publicOpinions = $sherlClient->opinion->getPublicOpinions(OpinionDto $filters);
 ```
 
 This call returns a paginated array of [OpinionDto](opinion-types#OpinionDto) objects.
@@ -24,11 +24,11 @@ This call returns a paginated array of [OpinionDto](opinion-types#OpinionDto) ob
 <span class="badge badge--warning">Required authentication</span>
 
 ```php
-$opinions = $sherlClient->opinion->getOpinions(array $OpinionFiltersDto);
+$opinions = $sherlClient->opinion->getOpinionsList(OpinionFilterDto $OpinionFiltersDto);
 ```
 
 <details>
-<summary><b>OpinionFiltersDto</b></summary>
+<summary><b>OpinionFilterDto</b></summary>
 
 | Fields           |  Type  |      Required      | Description                          |
 | :--------------- | :----: | :----------------: | :----------------------------------- |
@@ -36,7 +36,7 @@ $opinions = $sherlClient->opinion->getOpinions(array $OpinionFiltersDto);
 
 </details>
 
-This call returns a collection of opinions, filtered based on the provided criteria in [OpinionFiltersDto](opinion#OpinionFiltersDto).
+This call returns a collection of opinions, filtered based on the provided criteria in [OpinionFiltersDto](opinion#OpinionFiltersDto) and [OpinionDto](opinion-types#OpinionDto).
 
 ## Create opinion
 
@@ -64,7 +64,7 @@ This call returns an [OpinionDto](opinion-types#OpinionDto) object.
 <span class="badge badge--warning">Required authentication</span>
 
 ```php
-$opinionUpdated = $sherlClient->opinion->updateOpinion(string $opinionId, array $status);
+$opinionUpdated = $sherlClient->opinion->updateOpinion(string $id, OpinionDto $status);
 ```
 
 status is an associative array with the following keys:
@@ -83,7 +83,7 @@ This call returns an [OpinionDto](opinion-types#OpinionDto) object.
 <span class="badge badge--warning">Required authentication</span>
 
 ```php
-$claim = $sherlClient->opinion->createOpinionClaim(string $opinionId, array $data);
+$claim = $sherlClient->opinion->createOpinionClaim(string $opinionId, OpinionDto $data);
 ```
 
 data is an associative array with the following key:
