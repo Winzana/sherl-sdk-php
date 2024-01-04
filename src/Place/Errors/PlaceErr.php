@@ -7,8 +7,9 @@ class PlaceErr
     public const FETCH_FAILED = 'place/fetch-failed';
     public const FETCH_PLACES_FORBIDDEN = 'place/forbidden';
 
+    /** @var array<string, string> */
     public static $errors = [
-        self::PlaceErr.FETCH_FAILED => 'Failed to fetch place API',
-        self::PlaceErr.FETCH_PLACES_FORBIDDEN => 'Fetch quota failed forbidden',
+        self::FETCH_FAILED => 'Failed to fetch place API',
+        self::FETCH_PLACES_FORBIDDEN => 'Fetch quota failed forbidden',
     ];
 }
