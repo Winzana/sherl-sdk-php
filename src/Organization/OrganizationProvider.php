@@ -30,6 +30,7 @@ use Sherl\Sdk\Organization\Dto\FounderOutputDto;
 use Sherl\Sdk\Organization\Dto\FounderInputDto;
 use Sherl\Sdk\Organization\Dto\KYCDocumentOutputDto;
 use Sherl\Sdk\Organization\Dto\AddKYCDocumentInputDto;
+use Sherl\Sdk\Organization\Dto\OpeningHoursSpecificationInputDto;
 
 class OrganizationProvider
 {
@@ -1011,7 +1012,7 @@ class OrganizationProvider
             ]
         ]);
         try {
-            $response = $this->client->post("/api/organizations/$organizationId/kycs/$kycId", [
+            $response = $this->client->put("/api/organizations/$organizationId/kycs/$kycId", [
                 "headers" => ["Content-Type" => "application/json"],
                 'body' => $formData,
                     'on_stats' => function (\GuzzleHttp\TransferStats $stats) use ($onUploadProgress) {
@@ -1109,7 +1110,7 @@ class OrganizationProvider
     public function deleteLogo(string $organizationId): ?OrganizationOutputDto
     {
         try {
-            $response = $this->client->get("/api/organizations/$organizationId/logo", [
+            $response = $this->client->delete("/api/organizations/$organizationId/logo", [
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
@@ -1134,5 +1135,128 @@ class OrganizationProvider
             throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::DELETE_LOGO_FAILED));
         }
     }
+
+    // OPENING HOURS SPECIFICATION
+
+    /**
+     * Creates an opening hours specification for a specified organization.
+     *
+     * @param string $organizationId The unique identifier of the organization for which the opening hours are being set.
+     * @param OpeningHoursSpecificationInputDto $data The details of the opening hours specification to be created.
+     * @return OrganizationOutputDto|null A promise that resolves to the updated organization's information after creating the opening hours specification.
+     * @throws SherlException If there is an error during the process of creating the opening hours specification.
+     */
+    public function createOpeningHoursSpecification(string $organizationId, OpeningHoursSpecificationInputDto $data): ?OrganizationOutputDto
+    {
+        try {
+            $response = $this->client->post("/api/organizations/$organizationId/opening-hours-specification", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["organizationId" => $organizationId],
+                RequestOptions::JSON => $data,
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrganizationOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::CREATE_OPENING_HOURS_SPECIFICATION_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::CREATE_OPENING_HOURS_SPECIFICATION_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::CREATE_OPENING_HOURS_SPECIFICATION_FAILED));
+        }
+    }
+
+    /**
+     * Deletes an opening hours specification from a specified organization.
+     *
+     * @param string $organizationId The unique identifier of the organization from which the opening hours specification is being deleted.
+     * @param string $hoursSpecId The unique identifier of the opening hours specification to be deleted.
+     * @return OrganizationOutputDto|null A promise that resolves to the updated organization's information after the deletion of the opening hours specification.
+     * @throws SherlException If there is an error during the process of deleting the opening hours specification.
+     */
+    public function deleteOpeningHoursSpecification(string $organizationId, string $hoursSpecId): ?OrganizationOutputDto
+    {
+        try {
+            $response = $this->client->delete("/api/organizations/$organizationId/opening-hours-specification/$hoursSpecId", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => [
+                    "organizationId" => $organizationId,
+                    "hoursSpecId" => $hoursSpecId
+                ],
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrganizationOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::DELETE_OPENING_HOURS_SPECIFICATION_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::DELETE_OPENING_HOURS_SPECIFICATION_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::DELETE_OPENING_HOURS_SPECIFICATION_FAILED));
+        }
+    }
+
+    /**
+     * Updates an opening hours specification for a specified organization.
+     *
+     * @param string $organizationId The unique identifier of the organization whose opening hours specification is being updated.
+     * @param string $hoursSpecId The unique identifier of the opening hours specification to be updated.
+     * @param OpeningHoursSpecificationInputDto $data The updated opening hours details.
+     * @return OrganizationOutputDto|null A promise that resolves to the updated organization's information after the update of the opening hours specification.
+     * @throws SherlException If there is an error during the process of updating the opening hours specification.
+     */
+    public function updateOpeningHoursSpecification(string $organizationId, string $hoursSpecId, OpeningHoursSpecificationInputDto $data): ?OrganizationOutputDto
+    {
+        try {
+            $response = $this->client->put("/api/organizations/$organizationId/opening-hours-specification/$hoursSpecId", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => [
+                    "organizationId" => $organizationId,
+                    "hoursSpecId" => $hoursSpecId
+                ],
+                RequestOptions::JSON => $data,
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrganizationOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::UPDATE_OPENING_HOURS_SPECIFICATION_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::UPDATE_OPENING_HOURS_SPECIFICATION_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::UPDATE_OPENING_HOURS_SPECIFICATION_FAILED));
+        }
+    }
+
 
 }
