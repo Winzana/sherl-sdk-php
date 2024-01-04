@@ -9,7 +9,8 @@ module.exports = {
       "contact",
       "notification",
       "user",
-      "virtual-money",
+      "search",
+      "gallery",
     ],
     Types: [
       "account-types",
@@ -20,6 +21,8 @@ module.exports = {
       "pagination",
       "place-types",
       "virtual-money-types",
+      "search-types",
+      "gallery-types",
     ],
   },
 };
