@@ -31,6 +31,8 @@ use Sherl\Sdk\Organization\Dto\FounderInputDto;
 use Sherl\Sdk\Organization\Dto\KYCDocumentOutputDto;
 use Sherl\Sdk\Organization\Dto\AddKYCDocumentInputDto;
 use Sherl\Sdk\Organization\Dto\OpeningHoursSpecificationInputDto;
+use Sherl\Sdk\Organization\Dto\AddRIBInputDto;
+use Sherl\Sdk\Organization\Dto\RIBOutputDto;
 
 class OrganizationProvider
 {
@@ -1260,143 +1262,214 @@ class OrganizationProvider
 
     // PICTURE
 
-/**
- * Creates a picture for an organization from a specified media.
- *
- * @param string $organizationId The unique identifier of the organization for which the picture is being created.
- * @param string $pictureId The unique identifier of the picture to be created.
- * @param CreateMediaInputDto $picture The media data for creating the picture.
- * @return OrganizationOutputDto|null A promise that resolves to the updated organization's information after creating the picture.
- * @throws SherlException If there is an error during the process of creating the picture.
- */
-public function createPictureFromMedia(string $organizationId, string $pictureId, CreateMediaInputDto $picture): ?OrganizationOutputDto
-{
-    try {
-        $response = $this->client->post("/api/organizations/$organizationId/pictures/$pictureId/from-media", [
-            "headers" => [
-                "Content-Type" => "application/json",
-            ],
-            RequestOptions::QUERY => [
-                "organizationId" => $organizationId,
-                "pictureId" => $pictureId,
-            ],
-            RequestOptions::JSON => $picture,
+    /**
+     * Creates a picture for an organization from a specified media.
+     *
+     * @param string $organizationId The unique identifier of the organization for which the picture is being created.
+     * @param string $pictureId The unique identifier of the picture to be created.
+     * @param CreateMediaInputDto $picture The media data for creating the picture.
+     * @return OrganizationOutputDto|null A promise that resolves to the updated organization's information after creating the picture.
+     * @throws SherlException If there is an error during the process of creating the picture.
+     */
+    public function createPictureFromMedia(string $organizationId, string $pictureId, CreateMediaInputDto $picture): ?OrganizationOutputDto
+    {
+        try {
+            $response = $this->client->post("/api/organizations/$organizationId/pictures/$pictureId/from-media", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => [
+                    "organizationId" => $organizationId,
+                    "pictureId" => $pictureId,
+                ],
+                RequestOptions::JSON => $picture,
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrganizationOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FROM_MEDIA_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FROM_MEDIA_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FROM_MEDIA_FAILED));
+        }
+    }
+
+    /**
+     * Uploads and creates a picture for an organization from a file.
+     *
+     * @param string $organizationId The unique identifier of the organization for which the picture is being created.
+     * @param string $pictureId The unique identifier of the picture to be created.
+     * @param \Psr\Http\Message\UploadedFileInterface $picture The picture file to be uploaded.
+     * @param callable|null $onUploadProgress Optional callback to monitor the progress of the upload.
+     * @return OrganizationOutputDto|null A promise that resolves to the updated organization's information after creating the picture.
+     * @throws SherlException If there is an error during the process of creating the picture.
+     */
+    public function createPicture(string $organizationId, string $pictureId, \Psr\Http\Message\UploadedFileInterface $picture, ?callable $onUploadProgress = null): ?OrganizationOutputDto
+    {
+        $formData = new \GuzzleHttp\Psr7\MultipartStream([
+            [
+                'name' => 'upload',
+                'contents' => $picture->getStream(),
+                'filename' => $picture->getClientFilename(),
+                'headers'  => ['Content-Type' => $picture->getClientMediaType()]
+            ]
         ]);
 
-        switch ($response->getStatusCode()) {
-            case 201:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    OrganizationOutputDto::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FROM_MEDIA_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FROM_MEDIA_FAILED);
+        try {
+            $response = $this->client->post("/api/organizations/$organizationId/pictures/$pictureId", [
+                "headers" => ["Content-Type" => "application/json"],
+                'body' => $formData,
+                    'on_stats' => function (\GuzzleHttp\TransferStats $stats) use ($onUploadProgress) {
+                        if ($onUploadProgress) {
+                            $onUploadProgress($stats);
+                        }
+                    },
+                RequestOptions::QUERY => [
+                    'organizationId' => $organizationId,
+                    'pictureId' => $pictureId,
+                ],
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrganizationOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FAILED));
         }
-    } catch (Exception $error) {
-        throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FROM_MEDIA_FAILED));
     }
-}
 
-/**
- * Uploads and creates a picture for an organization from a file.
- *
- * @param string $organizationId The unique identifier of the organization for which the picture is being created.
- * @param string $pictureId The unique identifier of the picture to be created.
- * @param \Psr\Http\Message\UploadedFileInterface $picture The picture file to be uploaded.
- * @param callable|null $onUploadProgress Optional callback to monitor the progress of the upload.
- * @return OrganizationOutputDto|null A promise that resolves to the updated organization's information after creating the picture.
- * @throws SherlException If there is an error during the process of creating the picture.
- */
-public function createPicture(string $organizationId, string $pictureId, \Psr\Http\Message\UploadedFileInterface $picture, ?callable $onUploadProgress = null): ?OrganizationOutputDto
-{
-    $formData = new \GuzzleHttp\Psr7\MultipartStream([
-        [
-            'name' => 'upload',
-            'contents' => $picture->getStream(),
-            'filename' => $picture->getClientFilename(),
-            'headers'  => ['Content-Type' => $picture->getClientMediaType()]
-        ]
-    ]);
+    /**
+     * Deletes a picture from a specified organization.
+     *
+     * @param string $organizationId The unique identifier of the organization from which the picture is being deleted.
+     * @param string $pictureId The unique identifier of the picture to be deleted.
+     * @return OrganizationOutputDto|null A promise that resolves to the updated organization's information after the picture deletion.
+     * @throws SherlException If there is an error during the process of deleting the picture.
+     */
+    public function deletePicture(string $organizationId, string $pictureId): ?OrganizationOutputDto
+    {
+        try {
+            $response = $this->client->delete("/api/organizations/$organizationId/pictures/$pictureId", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => [
+                    "organizationId" => $organizationId,
+                    "pictureId" => $pictureId,
+                ],
+            ]);
 
-    try {
-        $response = $this->client->post("/api/organizations/$organizationId/pictures/$pictureId", [
-            "headers" => ["Content-Type" => "application/json"],
-            'body' => $formData,
-                'on_stats' => function (\GuzzleHttp\TransferStats $stats) use ($onUploadProgress) {
-                    if ($onUploadProgress) {
-                        $onUploadProgress($stats);
-                    }
-                },
-            RequestOptions::QUERY => [
-                'organizationId' => $organizationId,
-                'pictureId' => $pictureId,
-            ],
-        ]);
-
-        switch ($response->getStatusCode()) {
-            case 201:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    OrganizationOutputDto::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FAILED);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrganizationOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::DELETE_PICTURE_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::DELETE_PICTURE_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::DELETE_PICTURE_FAILED));
         }
-    } catch (Exception $error) {
-        throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FAILED));
     }
-}
 
-/**
- * Deletes a picture from a specified organization.
- *
- * @param string $organizationId The unique identifier of the organization from which the picture is being deleted.
- * @param string $pictureId The unique identifier of the picture to be deleted.
- * @return OrganizationOutputDto|null A promise that resolves to the updated organization's information after the picture deletion.
- * @throws SherlException If there is an error during the process of deleting the picture.
- */
-public function deletePicture(string $organizationId, string $pictureId): ?OrganizationOutputDto
-{
-    try {
-        $response = $this->client->delete("/api/organizations/$organizationId/pictures/$pictureId", [
-            "headers" => [
-                "Content-Type" => "application/json",
-            ],
-            RequestOptions::QUERY => [
-                "organizationId" => $organizationId,
-                "pictureId" => $pictureId,
-            ],
-        ]);
+    // RIB
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    OrganizationOutputDto::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(OrganizationErr::DELETE_PICTURE_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(OrganizationErr::DELETE_PICTURE_FAILED);
+    /**
+     * Adds a RIB to a specified organization.
+     *
+     * @param string $organizationId The unique identifier of the organization to which the RIB is being added.
+     * @param AddRibInputDto $request The details of the RIB to be added.
+     * @return RIBOutputDto|null A promise that resolves to the information of the newly added RIB.
+     * @throws SherlException If there is an error during the process of adding the RIB.
+     */
+    public function addRib(string $organizationId, AddRibInputDto $request): ?RIBOutputDto
+    {
+        try {
+            $response = $this->client->post("/api/organizations/$organizationId/rib", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["organizationId" => $organizationId],
+                RequestOptions::JSON => $request,
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        RIBOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::ADD_RIB_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::ADD_RIB_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::ADD_RIB_FAILED));
         }
-    } catch (Exception $error) {
-        throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::DELETE_PICTURE_FAILED));
     }
-}
 
+    /**
+     * Retrieves all RIBs associated with a specified organization.
+     *
+     * @param string $organizationId The unique identifier of the organization for which the RIBs are being retrieved.
+     * @return RIBOutputDto[]|null An array of Rib objects for the specified organization.
+     * @throws SherlException If there is an error during the process of retrieving the RIBs.
+     */
+    public function getAllRibs(string $organizationId): ?array
+    {
+        try {
+            $response = $this->client->post("/api/organizations/$organizationId/rib", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["organizationId" => $organizationId],
+            ]);
 
-
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        RIBOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::GET_RIBS_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::GET_RIBS_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::GET_RIBS_FAILED));
+        }
+    }
 }
