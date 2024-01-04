@@ -990,59 +990,149 @@ class OrganizationProvider
         }
     }
 
-/**
- * Updates a specific KYC document for an organization.
- *
- * @param string $organizationId The unique identifier of the organization to which the KYC document belongs.
- * @param string $kycId The unique identifier of the KYC document to be updated.
- * @param ImageObjectDto $document The updated KYC document details.
- * @param callable|null $onUploadProgress Optional callback to monitor the progress of the upload.
- * @return KYCDocument A promise that resolves to the information of the updated KYC document.
- * @throws SherlException If there is an error during the process of updating a KYC document.
- */
-public function updateKycDocument(string $organizationId, string $kycId, ImageObjectDto $document, ?callable $onUploadProgress = null): KYCDocument
-{
-    $formData = new \GuzzleHttp\Psr7\MultipartStream([
-        [
-            'name' => 'upload',
-            'contents' => $document->getStream(),
-            'filename' => $document->getClientFilename(),
-            'headers'  => ['Content-Type' => $document->getClientMediaType()]
-        ]
-    ]);
-    try {
-        $response = $this->client->post("/api/organizations/$organizationId/kycs/$kycId", [
-            "headers" => ["Content-Type" => "application/json"],
-            'body' => $formData,
-                'on_stats' => function (\GuzzleHttp\TransferStats $stats) use ($onUploadProgress) {
-                    if ($onUploadProgress) {
-                        $onUploadProgress($stats);
-                    }
-                },
-            RequestOptions::QUERY => [
-                'organizationId' => $organizationId,
-                'kycId' => $kycId,
-            ],
+    /**
+     * Updates a specific KYC document for an organization.
+     *
+     * @param string $organizationId The unique identifier of the organization to which the KYC document belongs.
+     * @param string $kycId The unique identifier of the KYC document to be updated.
+     * @param \Psr\Http\Message\UploadedFileInterface $document The updated KYC document details.
+     * @param callable|null $onUploadProgress Optional callback to monitor the progress of the upload.
+     * @return KYCDocumentOutputDto|null A promise that resolves to the information of the updated KYC document.
+     * @throws SherlException If there is an error during the process of updating a KYC document.
+     */
+    public function updateKycDocument(string $organizationId, string $kycId, \Psr\Http\Message\UploadedFileInterface $document, ?callable $onUploadProgress = null): ?KYCDocumentOutputDto
+    {
+        $formData = new \GuzzleHttp\Psr7\MultipartStream([
+            [
+                'name' => 'upload',
+                'contents' => $document->getStream(),
+                'filename' => $document->getClientFilename(),
+                'headers'  => ['Content-Type' => $document->getClientMediaType()]
+            ]
         ]);
+        try {
+            $response = $this->client->post("/api/organizations/$organizationId/kycs/$kycId", [
+                "headers" => ["Content-Type" => "application/json"],
+                'body' => $formData,
+                    'on_stats' => function (\GuzzleHttp\TransferStats $stats) use ($onUploadProgress) {
+                        if ($onUploadProgress) {
+                            $onUploadProgress($stats);
+                        }
+                    },
+                RequestOptions::QUERY => [
+                    'organizationId' => $organizationId,
+                    'kycId' => $kycId,
+                ],
+            ]);
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    KYCDocument::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(OrganizationErr::UPDATE_DOCUMENT_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(OrganizationErr::KYC_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(OrganizationErr::UPDATE_DOCUMENT_FAILED);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        KYCDocumentOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::UPDATE_DOCUMENT_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::KYC_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::UPDATE_DOCUMENT_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::UPDATE_DOCUMENT_FAILED));
         }
-    } catch (Exception $error) {
-        throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::UPDATE_DOCUMENT_FAILED));
     }
-}
+    // LOGO
 
+    /**
+     * Adds a logo to an organization using a media file.
+     *
+     * @param string $organizationId The unique identifier of the organization for which the logo is being set.
+     * @param string $mediaId The unique identifier of the media to be used as the logo.
+     * @param \Psr\Http\Message\UploadedFileInterface $logo The logo file to be uploaded and set.
+     * @param callable|null $onUploadProgress Optional callback to monitor the progress of the upload.
+     * @return OrganizationOutputDto|null A promise that resolves to the updated organization's information after the logo addition.
+     * @throws SherlException If there is an error during the logo addition process.
+     */
+    public function addLogo(string $organizationId, string $mediaId, \Psr\Http\Message\UploadedFileInterface $logo, ?callable $onUploadProgress = null): ?OrganizationOutputDto
+    {
+        $formData = new \GuzzleHttp\Psr7\MultipartStream([
+            [
+                'name' => 'upload',
+                'contents' => $logo->getStream(),
+                'filename' => $logo->getClientFilename(),
+                'headers'  => ['Content-Type' => $logo->getClientMediaType()]
+            ]
+        ]);
+        try {
+            $response = $this->client->post("/api/organizations/$organizationId/logo/create/$mediaId", [
+                "headers" => ["Content-Type" => "application/json"],
+                'body' => $formData,
+                    'on_stats' => function (\GuzzleHttp\TransferStats $stats) use ($onUploadProgress) {
+                        if ($onUploadProgress) {
+                            $onUploadProgress($stats);
+                        }
+                    },
+                RequestOptions::QUERY => [
+                    'organizationId' => $organizationId,
+                    'mediaId' => $mediaId,
+                ],
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrganizationOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::ADD_LOGO_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::ADD_LOGO_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::ADD_LOGO_FAILED));
+        }
+    }
+
+    /**
+     * Deletes the logo of an organization specified by its unique ID.
+     *
+     * @param string $organizationId The unique identifier of the organization whose logo is being deleted.
+     * @return OrganizationOutputDto|null A promise that resolves to the updated organization's information after the logo deletion.
+     * @throws SherlException If there is an error during the logo deletion process.
+     */
+    public function deleteLogo(string $organizationId): ?OrganizationOutputDto
+    {
+        try {
+            $response = $this->client->get("/api/organizations/$organizationId/logo", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["organizationId" => $organizationId]
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrganizationOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::DELETE_LOGO_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::DELETE_LOGO_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::DELETE_LOGO_FAILED));
+        }
+    }
 
 }
