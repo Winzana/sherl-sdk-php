@@ -9,6 +9,7 @@ module.exports = {
       "contact",
       "notification",
       "user",
+      "search",
       "gallery",
     ],
     Types: [
@@ -19,6 +20,7 @@ module.exports = {
       "notification-types",
       "pagination",
       "place-types",
+      "search-types",
       "gallery-types",
     ],
   },
