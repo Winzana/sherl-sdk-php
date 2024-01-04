@@ -18,6 +18,8 @@ class MediaProvider
 {
     private Client $client;
     private ErrorFactory $errorFactory;
+
+    public const DOMAIN = "media";
     /**
      * MediaProvider constructor.
      * @param Client $client The HTTP client used to make requests.
@@ -25,7 +27,7 @@ class MediaProvider
     public function __construct(Client $client)
     {
         $this->client = $client;
-        $this->errorFactory = new ErrorFactory('Media', MediaErr::$errors);
+        $this->errorFactory = new ErrorFactory(self::DOMAIN, MediaErr::$errors);
     }
     /**
      * Deletes a file by its identifier.
@@ -113,7 +115,7 @@ class MediaProvider
                 case 403:
                     throw $this->errorFactory->create(MediaErr::UPLOAD_FILE_FORBIDDEN);
                 default:
-                    throw $this->errorFactory->create(MediaErr::GET_FILE_FAILED);
+                    throw $this->errorFactory->create(MediaErr::UPLOAD_FILE_FAILED);
             }
 
         } catch (Exception $err) {

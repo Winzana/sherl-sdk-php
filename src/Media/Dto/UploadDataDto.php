@@ -1,9 +1,9 @@
 <?php
 
-namespace Sher\Sdk\Media\Dto;
+namespace Sherl\Sdk\Media\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
-use Sher\Sdk\Media\Enum\TypeEnum;
+use Sherl\Sdk\Media\Enum\TypeEnum;
 
 class UploadDataDto
 {
