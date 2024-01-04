@@ -11,6 +11,7 @@ module.exports = {
       "media",
       "user",
       "user",
+      "search",
       "gallery",
     ],
     Types: [
@@ -24,6 +25,7 @@ module.exports = {
       "place-types",
       "pagination",
       "place-types",
+      "search-types",
       "gallery-types",
     ],
   },
