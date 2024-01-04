@@ -10,6 +10,9 @@ module.exports = {
       "cms",
       "notification",
       "user",
+      "notification",
+      "user",
+      "gallery",
     ],
     Types: [
       "account-types",
@@ -20,6 +23,10 @@ module.exports = {
       "notification-types",
       "pagination",
       "place-types",
+      "notification-types",
+      "pagination",
+      "place-types",
+      "gallery-types",
     ],
   },
 };
