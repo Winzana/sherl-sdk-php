@@ -26,7 +26,7 @@ class QuotaProvider
     public function __construct(Client $client)
     {
         $this->client = $client;
-        $this->errorFactory = new ErrorFactory('Quotas', QuotasErr::$errors);
+        $this->errorFactory = new ErrorFactory(self::DOMAIN, QuotasErr::$errors);
     }
 
     /**
@@ -35,7 +35,7 @@ class QuotaProvider
      * @return QuotaOutputDto|null The quota data transfer object if found, null otherwise.
      * @throws SherlException If the response status code indicates an error.
      */
-    public function getQuotaFindOneBy(QuotaFilterDto $filters ): ?QuotaOutputDto
+    public function getQuotaFindOneBy(QuotaFilterDto $filters): ?QuotaOutputDto
     {
         try {
             $response = $this->client->post("/api/quotas/findOneBy", [

@@ -10,7 +10,7 @@ title: Quotas
 Retrieve quota information by using a filter or not.
 
 ```php
-$quota = $sherlClient->quotas->getQuotaFindByOne(?QuotaFilterDto $filter = null);
+$quota = $sherlClient->quotas->getQuotaFindByOne(?QuotaFilterDto $filter);
 ```
 
 <details>
