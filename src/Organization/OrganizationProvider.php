@@ -1258,5 +1258,145 @@ class OrganizationProvider
         }
     }
 
+    // PICTURE
+
+/**
+ * Creates a picture for an organization from a specified media.
+ *
+ * @param string $organizationId The unique identifier of the organization for which the picture is being created.
+ * @param string $pictureId The unique identifier of the picture to be created.
+ * @param CreateMediaInputDto $picture The media data for creating the picture.
+ * @return OrganizationOutputDto|null A promise that resolves to the updated organization's information after creating the picture.
+ * @throws SherlException If there is an error during the process of creating the picture.
+ */
+public function createPictureFromMedia(string $organizationId, string $pictureId, CreateMediaInputDto $picture): ?OrganizationOutputDto
+{
+    try {
+        $response = $this->client->post("/api/organizations/$organizationId/pictures/$pictureId/from-media", [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::QUERY => [
+                "organizationId" => $organizationId,
+                "pictureId" => $pictureId,
+            ],
+            RequestOptions::JSON => $picture,
+        ]);
+
+        switch ($response->getStatusCode()) {
+            case 201:
+                return SerializerFactory::getInstance()->deserialize(
+                    $response->getBody()->getContents(),
+                    OrganizationOutputDto::class,
+                    'json'
+                );
+            case 403:
+                throw $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FROM_MEDIA_FORBIDDEN);
+            case 404:
+                throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+            default:
+                throw $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FROM_MEDIA_FAILED);
+        }
+    } catch (Exception $error) {
+        throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FROM_MEDIA_FAILED));
+    }
+}
+
+/**
+ * Uploads and creates a picture for an organization from a file.
+ *
+ * @param string $organizationId The unique identifier of the organization for which the picture is being created.
+ * @param string $pictureId The unique identifier of the picture to be created.
+ * @param \Psr\Http\Message\UploadedFileInterface $picture The picture file to be uploaded.
+ * @param callable|null $onUploadProgress Optional callback to monitor the progress of the upload.
+ * @return OrganizationOutputDto|null A promise that resolves to the updated organization's information after creating the picture.
+ * @throws SherlException If there is an error during the process of creating the picture.
+ */
+public function createPicture(string $organizationId, string $pictureId, \Psr\Http\Message\UploadedFileInterface $picture, ?callable $onUploadProgress = null): ?OrganizationOutputDto
+{
+    $formData = new \GuzzleHttp\Psr7\MultipartStream([
+        [
+            'name' => 'upload',
+            'contents' => $picture->getStream(),
+            'filename' => $picture->getClientFilename(),
+            'headers'  => ['Content-Type' => $picture->getClientMediaType()]
+        ]
+    ]);
+
+    try {
+        $response = $this->client->post("/api/organizations/$organizationId/pictures/$pictureId", [
+            "headers" => ["Content-Type" => "application/json"],
+            'body' => $formData,
+                'on_stats' => function (\GuzzleHttp\TransferStats $stats) use ($onUploadProgress) {
+                    if ($onUploadProgress) {
+                        $onUploadProgress($stats);
+                    }
+                },
+            RequestOptions::QUERY => [
+                'organizationId' => $organizationId,
+                'pictureId' => $pictureId,
+            ],
+        ]);
+
+        switch ($response->getStatusCode()) {
+            case 201:
+                return SerializerFactory::getInstance()->deserialize(
+                    $response->getBody()->getContents(),
+                    OrganizationOutputDto::class,
+                    'json'
+                );
+            case 403:
+                throw $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FORBIDDEN);
+            case 404:
+                throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+            default:
+                throw $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FAILED);
+        }
+    } catch (Exception $error) {
+        throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FAILED));
+    }
+}
+
+/**
+ * Deletes a picture from a specified organization.
+ *
+ * @param string $organizationId The unique identifier of the organization from which the picture is being deleted.
+ * @param string $pictureId The unique identifier of the picture to be deleted.
+ * @return OrganizationOutputDto|null A promise that resolves to the updated organization's information after the picture deletion.
+ * @throws SherlException If there is an error during the process of deleting the picture.
+ */
+public function deletePicture(string $organizationId, string $pictureId): ?OrganizationOutputDto
+{
+    try {
+        $response = $this->client->delete("/api/organizations/$organizationId/pictures/$pictureId", [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::QUERY => [
+                "organizationId" => $organizationId,
+                "pictureId" => $pictureId,
+            ],
+        ]);
+
+        switch ($response->getStatusCode()) {
+            case 200:
+                return SerializerFactory::getInstance()->deserialize(
+                    $response->getBody()->getContents(),
+                    OrganizationOutputDto::class,
+                    'json'
+                );
+            case 403:
+                throw $this->errorFactory->create(OrganizationErr::DELETE_PICTURE_FORBIDDEN);
+            case 404:
+                throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+            default:
+                throw $this->errorFactory->create(OrganizationErr::DELETE_PICTURE_FAILED);
+        }
+    } catch (Exception $error) {
+        throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::DELETE_PICTURE_FAILED));
+    }
+}
+
+
 
 }
