@@ -14,16 +14,16 @@ $sherlClient->communication->getCommunication(CommunicationFindByInputDto $filte
 <details>
  <summary><b>CommunicationFindByInputDto</b></summary>
 
-| Champs          |            Type            | Requis | Description                         |
-| :-------------- | :------------------------: | :----: | ----------------------------------- |
-| **id**          |          `string`          |  :x:   | L'identifiant de la communication.  |
-| **uri**         |          `string`          |  :x:   | L'URI de la communication.          |
-| **consumerId**  |          `string`          |  :x:   | L'identifiant du consommateur.      |
-| **senderId**    |          `string`          |  :x:   | L'identifiant de l'expéditeur.      |
-| **receiverUri** |          `string`          |  :x:   | L'URI du destinataire.              |
-| **aboutUri**    |          `string`          |  :x:   | L'URI du sujet de la communication. |
-| **channel**     | `CommunicationChannelEnum` |  :x:   | Le canal de communication (enum).   |
-| **type**        |  `CommunicationTypeEnum`   |  :x:   | Le type de communication (enum).    |
+| Fields          |            Type            | Required | Description                         |
+| :-------------- | :------------------------: | :------: | ----------------------------------- |
+| **id**          |          `string`          |   :x:    | The communication unique identifier |
+| **uri**         |          `string`          |   :x:    | The communication URI               |
+| **consumerId**  |          `string`          |   :x:    | The consumer unique identifier      |
+| **senderId**    |          `string`          |   :x:    | The sender unique identifier        |
+| **receiverUri** |          `string`          |   :x:    | The receiver URI                    |
+| **aboutUri**    |          `string`          |   :x:    | The communication about URI         |
+| **channel**     | `CommunicationChannelEnum` |   :x:    | The communication channel           |
+| **type**        |  `CommunicationTypeEnum`   |   :x:    | The communication type              |
 
 </details>
 

@@ -5,16 +5,16 @@ title: Communication types
 
 ## CommunicationOutputDto
 
-| Champs          |            Type            | Description                              |
-| :-------------- | :------------------------: | ---------------------------------------- |
-| **id**          |          `string`          | L'identifiant de la communication.       |
-| **uri**         |          `string`          | L'URI de la communication.               |
-| **consumerId**  |          `string`          | L'identifiant du consommateur.           |
-| **title**       |          `string`          | Le titre de la communication.            |
-| **content**     |          `string`          | Le contenu de la communication.          |
-| **senderUri**   |          `string`          | L'URI de l'expéditeur.                   |
-| **receiverUri** |          `string`          | L'URI du destinataire                    |
-| **channel**     | `CommunicationChannelEnum` | Le canal de communication                |
-| **type**        |  `CommunicationTypeEnum`   | Le type de communication                 |
-| **code**        |          `string`          | Le code de la communication              |
-| **createdAt**   |          `string`          | La date de création de la communication. |
+| Fields          |            Type            | Description                         |
+| :-------------- | :------------------------: | ----------------------------------- |
+| **id**          |          `string`          | The communication unique identifier |
+| **uri**         |          `string`          | The communication URI               |
+| **consumerId**  |          `string`          | The consumer unique identifier      |
+| **title**       |          `string`          | The communication title             |
+| **content**     |          `string`          | The communication content           |
+| **senderUri**   |          `string`          | The sender URI                      |
+| **receiverUri** |          `string`          | The receiver URI                    |
+| **channel**     | `CommunicationChannelEnum` | The communication channel           |
+| **type**        |  `CommunicationTypeEnum`   | The communication type              |
+| **code**        |          `string`          | The communication code              |
+| **createdAt**   |          `string`          | The communication creation date     |
