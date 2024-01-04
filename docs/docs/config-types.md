@@ -5,12 +5,12 @@ title: Config types
 
 ## ConfigOutputDto
 
-| Fields        |  Type   | Description                |
-| :------------ | :-----: | :------------------------- |
-| **id**        | string  | Config's id                |
-| **code**      | string  | Config's code              |
-| **value**     |  mixed  | Config's value             |
-| **consumer**  | string  | Config's consumer          |
-| **position**  | integer | Config's position          |
-| **appliedTo** | string  | Config's application field |
-| **isPublic**  | boolean | Config is public status    |
+| Fields        |  Type   | Description                  |
+| :------------ | :-----: | :--------------------------- |
+| **id**        | string  | The config unique identifier |
+| **code**      | string  | The config code              |
+| **value**     |  mixed  | The config value             |
+| **consumer**  | string  | The config linked consumer   |
+| **position**  | integer | The config position          |
+| **appliedTo** | string  | The config application field |
+| **isPublic**  | boolean | The config public status     |
