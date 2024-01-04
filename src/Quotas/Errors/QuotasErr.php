@@ -7,8 +7,9 @@ class QuotasErr
     public const FETCH_FAILED = 'quota/fetch-failed';
     public const FETCH_QUOTA_FIND_ONE_BY_FORBIDDEN = 'quota/fetch-find-one-by-forbidden';
 
+    /** @var array<string, string> */
     public static $errors = [
-        self::QuotasErr.FETCH_FAILED => 'Failed to fetch quota',
-        self::QuotasErr.FETCH_QUOTA_FIND_ONE_BY_FORBIDDEN => 'Fetch quota failed forbidden',
+        self::FETCH_FAILED => 'Failed to fetch quota',
+        self::FETCH_QUOTA_FIND_ONE_BY_FORBIDDEN => 'Fetch quota failed forbidden',
     ];
 }

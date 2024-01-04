@@ -4,10 +4,16 @@ namespace Sherl\Sdk\Common\Dto;
 
 abstract class Pagination
 {
-    public $results = [];
-    public $view;
+    /**
+     * @var mixed[]
+     */
+    public array $results;
+    public mixed $view;
 
-    public function __construct($results, $view)
+    /**
+     * @param mixed[] $results
+     */
+    public function __construct(array $results, mixed $view)
     {
         $this->results = $results;
         $this->view = $view;

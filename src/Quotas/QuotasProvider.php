@@ -7,16 +7,18 @@ use GuzzleHttp\Client;
 use Sherl\Sdk\Common\SerializerFactory;
 use Sherl\Sdk\Quotas\Dto\QuotaOutputDto;
 use Sherl\Sdk\Common\Error\SherlException;
-
 use Sherl\Sdk\Common\Error\ErrorFactory;
 use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Quotas\Errors\QuotasErr;
+use Sherl\Sdk\Quotas\Dto\QuotaFilterDto;
+use GuzzleHttp\RequestOptions;
 
 class QuotaProvider
 {
     public const DOMAIN = 'Quota';
 
     private Client $client;
+    private ErrorFactory $errorFactory;
     /**
      * Constructor for QuotaProvider.
      * @param Client $client The HTTP client used to make requests.
@@ -29,11 +31,11 @@ class QuotaProvider
 
     /**
      * Retrieves quota information based on provided filters.
-     * @param array|null $filters The filters to apply when retrieving quota data.
+     * @param QuotaFilterDto $filters The filters to apply when retrieving quota data.
      * @return QuotaOutputDto|null The quota data transfer object if found, null otherwise.
      * @throws SherlException If the response status code indicates an error.
      */
-    public function getQuotaFindOneBy(?array $filters = null): ?QuotaOutputDto
+    public function getQuotaFindOneBy(QuotaFilterDto $filters ): ?QuotaOutputDto
     {
         try {
             $response = $this->client->post("/api/quotas/findOneBy", [
@@ -49,7 +51,7 @@ class QuotaProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        IQuota::class,
+                        QuotaOutputDto::class,
                         'json'
                     );
                 case 403:
