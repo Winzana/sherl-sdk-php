@@ -26,6 +26,7 @@ use Sherl\Sdk\Organization\Dto\CreateMediaInputDto;
 use Sherl\Sdk\Organization\Dto\CommunicationInputDto;
 use Sherl\Sdk\Organization\Dto\OrganizationMemberInputDto;
 use Sherl\Sdk\Organization\Dto\EmployeeOutputDto;
+use Sherl\Sdk\Organization\Dto\FounderOutputDto;
 
 class OrganizationProvider
 {
@@ -773,5 +774,47 @@ class OrganizationProvider
         }
     }
 
+    // FOUNDER
+
+/**
+ * Creates a new founder record for a specified organization.
+ *
+ * @param string $organizationId The unique identifier of the organization to which the founder is being added.
+ * @param FounderInputDto $founder The details of the founder to be added.
+ * @return FounderOutputDto|null A promise that resolves to the information of the newly created founder.
+ * @throws SherlException If there is an error during the process of creating a new founder.
+ */
+public function createFounder(string $organizationId, FounderInputDto $founder): ?FounderOutputDto
+{
+    try {
+
+        $response = $this->client->post("/api/organizations/$organizationId/founders", [
+            "headers" => [
+                "Content-Type" => "application/json",
+            ],
+            RequestOptions::JSON => $founder,
+            RequestOptions::QUERY => [
+                "organizationId" => $organizationId
+            ]
+        ]);
+
+        switch ($response->getStatusCode()) {
+            case 201:
+                return SerializerFactory::getInstance()->deserialize(
+                    $response->getBody()->getContents(),
+                    FounderOutputDto::class,
+                    'json'
+                );
+            case 403:
+                throw $this->errorFactory->create(OrganizationErr::CREATE_FOUNDER_FORBIDDEN);
+            case 404:
+                throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+            default:
+                throw $this->errorFactory->create(OrganizationErr::CREATE_FOUNDER_FAILED);
+        }
+    } catch (Exception $error) {
+        throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::CREATE_FOUNDER_FAILED));
+    }
+}
 
 }
