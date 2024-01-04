@@ -7,8 +7,6 @@ use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Shop\Product\Dto\CategoryOutputDto;
 use Sherl\Sdk\Organization\Dto\OrganizationOutputDto;
 
-// use Sherl\Sdk\Organization\Dto\OrganizationOutputDto; // TODO: adjust import when Organization merged
-
 class SearchResultOutputDto
 {
     /**

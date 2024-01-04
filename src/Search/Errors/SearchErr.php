@@ -12,6 +12,6 @@ class SearchErr
      */
     public static $errors = [
       self::SEARCH_FAILED => 'Failed to fetch search API',
-      self::SEARCH_FORBIDDEN => 'Failed to fetch search API. Forbidden acces',
+      self::SEARCH_FORBIDDEN => 'Failed to fetch search API. Forbidden access',
     ];
 }
