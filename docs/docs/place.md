@@ -10,7 +10,7 @@ title: Place
 Retrieve a paginated list of places with optional query filters.
 
 ```php
-$places = $placeProvider->getPlaces(int $page, int $itemsPerPage, array $filters);
+$places = $sherlClient->place->getPlaces(int $page, int $itemsPerPage, array $filters);
 ```
 
 This call returns a paginated array of [PlaceOutputDto](place-types#PlaceOutputDto) objects.

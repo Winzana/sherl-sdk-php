@@ -17,6 +17,7 @@ class PlaceProvider
     private Client $client;
     private ErrorFactory $errorFactory;
 
+    public const DOMAIN = "Place";
     /**
      * PlaceProvider constructor.
      * @param Client $client The HTTP client used to send requests to the API.
@@ -24,7 +25,7 @@ class PlaceProvider
     public function __construct(Client $client)
     {
         $this->client = $client;
-        $this->errorFactory = new ErrorFactory('Place', PlaceErr::$errors);
+        $this->errorFactory = new ErrorFactory(self::DOMAIN, PlaceErr::$errors);
     }
     /**
      * Retrieves a list of places with pagination and optional filters.
