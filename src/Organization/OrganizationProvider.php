@@ -27,6 +27,9 @@ use Sherl\Sdk\Organization\Dto\CommunicationInputDto;
 use Sherl\Sdk\Organization\Dto\OrganizationMemberInputDto;
 use Sherl\Sdk\Organization\Dto\EmployeeOutputDto;
 use Sherl\Sdk\Organization\Dto\FounderOutputDto;
+use Sherl\Sdk\Organization\Dto\FounderInputDto;
+use Sherl\Sdk\Organization\Dto\KYCDocumentOutputDto;
+use Sherl\Sdk\Organization\Dto\AddKYCDocumentInputDto;
 
 class OrganizationProvider
 {
@@ -776,45 +779,180 @@ class OrganizationProvider
 
     // FOUNDER
 
-/**
- * Creates a new founder record for a specified organization.
- *
- * @param string $organizationId The unique identifier of the organization to which the founder is being added.
- * @param FounderInputDto $founder The details of the founder to be added.
- * @return FounderOutputDto|null A promise that resolves to the information of the newly created founder.
- * @throws SherlException If there is an error during the process of creating a new founder.
- */
-public function createFounder(string $organizationId, FounderInputDto $founder): ?FounderOutputDto
-{
-    try {
+    /**
+     * Creates a new founder record for a specified organization.
+     *
+     * @param string $organizationId The unique identifier of the organization to which the founder is being added.
+     * @param FounderInputDto $founder The details of the founder to be added.
+     * @return FounderOutputDto|null A promise that resolves to the information of the newly created founder.
+     * @throws SherlException If there is an error during the process of creating a new founder.
+     */
+    public function createFounder(string $organizationId, FounderInputDto $founder): ?FounderOutputDto
+    {
+        try {
 
-        $response = $this->client->post("/api/organizations/$organizationId/founders", [
-            "headers" => [
-                "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => $founder,
-            RequestOptions::QUERY => [
-                "organizationId" => $organizationId
-            ]
+            $response = $this->client->post("/api/organizations/$organizationId/founders", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => $founder,
+                RequestOptions::QUERY => [
+                    "organizationId" => $organizationId
+                ]
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        FounderOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::CREATE_FOUNDER_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::CREATE_FOUNDER_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::CREATE_FOUNDER_FAILED));
+        }
+    }
+
+    /**
+     * Deletes a founder record from a specified organization.
+     *
+     * @param string $organizationId The unique identifier of the organization from which the founder is being deleted.
+     * @param string $founderId The unique identifier of the founder to be deleted.
+     * @return FounderOutputDto|null A promise that resolves to the information of the deleted founder.
+     * @throws SherlException If there is an error during the process of deleting a founder.
+     */
+    public function deleteFounder(string $organizationId, string $founderId): ?FounderOutputDto
+    {
+        try {
+            $response = $this->client->delete("/api/organizations/$organizationId/founders/$founderId", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => [
+                    "organizationId" => $organizationId,
+                    "founderId" => $founderId
+                ]
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        FounderOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::DELETE_FOUNDER_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::DELETE_FOUNDER_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::DELETE_FOUNDER_FAILED));
+        }
+    }
+
+    /**
+     * Updates the details of a founder within a specified organization.
+     *
+     * @param string $organizationId The unique identifier of the organization to which the founder belongs.
+     * @param string $founderId The unique identifier of the founder to be updated.
+     * @param FounderInputDto $updatedFounder The partial data of the founder to be updated.
+     * @return FounderOutputDto|null A promise that resolves to the information of the updated founder.
+     * @throws SherlException If there is an error during the process of updating a founder.
+     */
+    public function updateFounder(string $organizationId, string $founderId, FounderInputDto $updatedFounder): ?FounderOutputDto
+    {
+        try {
+            $response = $this->client->put("/api/organizations/$organizationId/founders/$founderId", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => $updatedFounder,
+                RequestOptions::QUERY => [
+                    "organizationId" => $organizationId,
+                    "founderId" => $founderId
+                ]
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        FounderOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::UPDATE_FOUNDER_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::FOUNDER_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::UPDATE_FOUNDER_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::UPDATE_FOUNDER_FAILED));
+        }
+    }
+
+    // KYC
+
+/**
+ * Adds a KYC document to a specified organization.
+ *
+ * @param string $organizationId The unique identifier of the organization to which the KYC document is being added.
+ * @param \Psr\Http\Message\UploadedFileInterface $document The KYC document details to be added.
+ * @param callable|null $onUploadProgress Optional callback to monitor the progress of the upload.
+ * @return KYCDocumentOutputDto|null A promise that resolves to the information of the newly added KYC document.
+ * @throws SherlException If there is an error during the process of adding a KYC document.
+ */
+public function addKycDocument(string $organizationId, \Psr\Http\Message\UploadedFileInterface $document, ?callable $onUploadProgress = null): ?KYCDocumentOutputDto
+{
+    $formData = new \GuzzleHttp\Psr7\MultipartStream([
+        [
+            'name' => 'upload',
+            'contents' => $document->getStream(),
+            'filename' => $document->getClientFilename(),
+            'headers'  => ['Content-Type' => $document->getClientMediaType()]
+        ]
+    ]);
+    try {
+        $response = $this->client->post("/api/organizations/$organizationId/kycs", [
+            "headers" => ["Content-Type" => "application/json"],
+            'body' => $formData,
+                'on_stats' => function (\GuzzleHttp\TransferStats $stats) use ($onUploadProgress) {
+                    if ($onUploadProgress) {
+                        $onUploadProgress($stats);
+                    }
+                },
+            RequestOptions::QUERY => ['organizationId' => $organizationId],
         ]);
 
         switch ($response->getStatusCode()) {
             case 201:
                 return SerializerFactory::getInstance()->deserialize(
                     $response->getBody()->getContents(),
-                    FounderOutputDto::class,
+                    KYCDocumentOutputDto::class,
                     'json'
                 );
             case 403:
-                throw $this->errorFactory->create(OrganizationErr::CREATE_FOUNDER_FORBIDDEN);
+                throw $this->errorFactory->create(OrganizationErr::ADD_DOCUMENT_FORBIDDEN);
             case 404:
                 throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
             default:
-                throw $this->errorFactory->create(OrganizationErr::CREATE_FOUNDER_FAILED);
+                throw $this->errorFactory->create(OrganizationErr::ADD_DOCUMENT_FAILED);
         }
     } catch (Exception $error) {
-        throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::CREATE_FOUNDER_FAILED));
+        throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::ADD_DOCUMENT_FAILED));
     }
 }
+
 
 }
