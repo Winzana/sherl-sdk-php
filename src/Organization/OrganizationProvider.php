@@ -904,16 +904,103 @@ class OrganizationProvider
 
     // KYC
 
+    /**
+     * Adds a KYC document to a specified organization.
+     *
+     * @param string $organizationId The unique identifier of the organization to which the KYC document is being added.
+     * @param \Psr\Http\Message\UploadedFileInterface $document The KYC document details to be added.
+     * @param callable|null $onUploadProgress Optional callback to monitor the progress of the upload.
+     * @return KYCDocumentOutputDto|null A promise that resolves to the information of the newly added KYC document.
+     * @throws SherlException If there is an error during the process of adding a KYC document.
+     */
+    public function addKycDocument(string $organizationId, \Psr\Http\Message\UploadedFileInterface $document, ?callable $onUploadProgress = null): ?KYCDocumentOutputDto
+    {
+        $formData = new \GuzzleHttp\Psr7\MultipartStream([
+            [
+                'name' => 'upload',
+                'contents' => $document->getStream(),
+                'filename' => $document->getClientFilename(),
+                'headers'  => ['Content-Type' => $document->getClientMediaType()]
+            ]
+        ]);
+        try {
+            $response = $this->client->post("/api/organizations/$organizationId/kycs", [
+                "headers" => ["Content-Type" => "application/json"],
+                'body' => $formData,
+                    'on_stats' => function (\GuzzleHttp\TransferStats $stats) use ($onUploadProgress) {
+                        if ($onUploadProgress) {
+                            $onUploadProgress($stats);
+                        }
+                    },
+                RequestOptions::QUERY => ['organizationId' => $organizationId],
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        KYCDocumentOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::ADD_DOCUMENT_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::ADD_DOCUMENT_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::ADD_DOCUMENT_FAILED));
+        }
+    }
+
+    /**
+     * Retrieves all KYC documents for a specified organization.
+     *
+     * @param string $organizationId The unique identifier of the organization for which the KYC documents are being retrieved.
+     * @return KYCDocumentOutputDto[]|null A promise that resolves to an array of KYC documents for the specified organization.
+     * @throws SherlException If there is an error during the process of retrieving KYC documents.
+     */
+    public function getAllKycDocuments(string $organizationId): ?array
+    {
+        try {
+            $response = $this->client->get("/api/organizations/$organizationId/kycs", [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["organizationId" => $organizationId]
+            ]);
+
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        KYCDocumentOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(OrganizationErr::GET_KYCS_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(OrganizationErr::GET_KYCS_FAILED);
+            }
+        } catch (Exception $error) {
+            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::GET_KYCS_FAILED));
+        }
+    }
+
 /**
- * Adds a KYC document to a specified organization.
+ * Updates a specific KYC document for an organization.
  *
- * @param string $organizationId The unique identifier of the organization to which the KYC document is being added.
- * @param \Psr\Http\Message\UploadedFileInterface $document The KYC document details to be added.
+ * @param string $organizationId The unique identifier of the organization to which the KYC document belongs.
+ * @param string $kycId The unique identifier of the KYC document to be updated.
+ * @param ImageObjectDto $document The updated KYC document details.
  * @param callable|null $onUploadProgress Optional callback to monitor the progress of the upload.
- * @return KYCDocumentOutputDto|null A promise that resolves to the information of the newly added KYC document.
- * @throws SherlException If there is an error during the process of adding a KYC document.
+ * @return KYCDocument A promise that resolves to the information of the updated KYC document.
+ * @throws SherlException If there is an error during the process of updating a KYC document.
  */
-public function addKycDocument(string $organizationId, \Psr\Http\Message\UploadedFileInterface $document, ?callable $onUploadProgress = null): ?KYCDocumentOutputDto
+public function updateKycDocument(string $organizationId, string $kycId, ImageObjectDto $document, ?callable $onUploadProgress = null): KYCDocument
 {
     $formData = new \GuzzleHttp\Psr7\MultipartStream([
         [
@@ -924,7 +1011,7 @@ public function addKycDocument(string $organizationId, \Psr\Http\Message\Uploade
         ]
     ]);
     try {
-        $response = $this->client->post("/api/organizations/$organizationId/kycs", [
+        $response = $this->client->post("/api/organizations/$organizationId/kycs/$kycId", [
             "headers" => ["Content-Type" => "application/json"],
             'body' => $formData,
                 'on_stats' => function (\GuzzleHttp\TransferStats $stats) use ($onUploadProgress) {
@@ -932,25 +1019,28 @@ public function addKycDocument(string $organizationId, \Psr\Http\Message\Uploade
                         $onUploadProgress($stats);
                     }
                 },
-            RequestOptions::QUERY => ['organizationId' => $organizationId],
+            RequestOptions::QUERY => [
+                'organizationId' => $organizationId,
+                'kycId' => $kycId,
+            ],
         ]);
 
         switch ($response->getStatusCode()) {
-            case 201:
+            case 200:
                 return SerializerFactory::getInstance()->deserialize(
                     $response->getBody()->getContents(),
-                    KYCDocumentOutputDto::class,
+                    KYCDocument::class,
                     'json'
                 );
             case 403:
-                throw $this->errorFactory->create(OrganizationErr::ADD_DOCUMENT_FORBIDDEN);
+                throw $this->errorFactory->create(OrganizationErr::UPDATE_DOCUMENT_FORBIDDEN);
             case 404:
-                throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                throw $this->errorFactory->create(OrganizationErr::KYC_NOT_FOUND);
             default:
-                throw $this->errorFactory->create(OrganizationErr::ADD_DOCUMENT_FAILED);
+                throw $this->errorFactory->create(OrganizationErr::UPDATE_DOCUMENT_FAILED);
         }
     } catch (Exception $error) {
-        throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::ADD_DOCUMENT_FAILED));
+        throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::UPDATE_DOCUMENT_FAILED));
     }
 }
 
