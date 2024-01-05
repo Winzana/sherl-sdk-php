@@ -3,7 +3,7 @@
 namespace Sherl\Sdk\Media\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
-use Sher\Sdk\Media\Dto\MediaObjectOutputDto;
+use Sherl\Sdk\Media\Dto\MediaObjectOutputDto;
 
 class ImageObjectOutputDto
 {

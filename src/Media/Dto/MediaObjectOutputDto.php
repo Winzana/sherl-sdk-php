@@ -1,6 +1,6 @@
 <?php
 
-namespace Sher\Sdk\Media\Dto;
+namespace Sherl\Sdk\Media\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
