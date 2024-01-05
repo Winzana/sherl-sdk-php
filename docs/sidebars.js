@@ -20,6 +20,7 @@ module.exports = {
       "notification-types",
       "pagination",
       "place-types",
+      "virtual-money-types",
       "search-types",
       "gallery-types",
     ],
