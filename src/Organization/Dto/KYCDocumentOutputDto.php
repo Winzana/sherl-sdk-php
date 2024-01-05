@@ -42,7 +42,7 @@ class KYCDocumentOutputDto
 
     /**
      * @var KYCDocumentTypeEnum
-     * @Serializer\Type("KYCDocumentTypeEnum") // TODO: change import
+     * @Serializer\Type("KYCDocumentTypeEnum")
      */
     public $type;
 
@@ -72,13 +72,13 @@ class KYCDocumentOutputDto
 
     /**
      * @var KYCDocumentStatusEnum
-     * @Serializer(Type("KYCDocumentStatusEnum")) // TODO: change import
+     * @Serializer(Type("KYCDocumentStatusEnum"))
      */
     public $status;
 
     /**
      * @var KYCDocumentRefusedReasonTypeEnum
-     * @Serializer(Type("KYCDocumentRefusedReasonTypeEnum")) TODO: change import
+     * @Serializer(Type("KYCDocumentRefusedReasonTypeEnum"))
      */
     public $refusedReasonType;
 

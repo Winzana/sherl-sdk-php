@@ -109,6 +109,8 @@ class OrganizationProvider
                     );
                 case 403:
                     throw $this->errorFactory->create(OrganizationErr::GET_ORGANIZATION_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 default:
                     throw $this->errorFactory->create(OrganizationErr::GET_ORGANIZATION_FAILED);
             }
