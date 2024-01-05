@@ -8,23 +8,23 @@ title: Opinion
 <span class="badge badge--warning">Required authentication</span>
 
 ```php
-$opinions = $sherlClient->opinion->getOpinionsList(OpinionDto $filters);
+$opinions = $sherlClient->opinion->getOpinionsList(OpinionFilterDto $filters);
 ```
 
 <span class="badge badge--success">Public</span>
 
 ```php
-$publicOpinions = $sherlClient->opinion->getPublicOpinions(OpinionDto $filters);
+$publicOpinions = $sherlClient->opinion->getPublicOpinions(OpinionFilterDto $filters);
 ```
-
-This call returns a paginated array of [OpinionDto](opinion-types#OpinionDto) objects.
 
 <details>
 <summary><b>OpinionFilterDto</b></summary>
 
-| Fields           |  Type  |      Required      | Description                          |
-| :--------------- | :----: | :----------------: | :----------------------------------- |
-| **opinionToUri** | string | :white_check_mark: | URI to which the opinion is directed |
+| Fields           |  Type   |      Required      |             Description              |
+| :--------------- | :-----: | :----------------: | :----------------------------------: |
+| **opinionToUri** | string  | :white_check_mark: | URI to which the opinion is directed |
+| **page**         | integer |        :x:         |     Page number for pagination.      |
+| **itemsPerPage** | integer |        :x:         | Number of items to display per page. |
 
 </details>
 
