@@ -2087,7 +2087,7 @@ class ShopProvider
         );
     }
 
-    //Payment
+    // PAYMENT
 
     /**
      * Deletes a card.
@@ -2199,7 +2199,7 @@ class ShopProvider
             'json'
         );
     }
-    //Payout
+    // PAYOUT
 
     /**
      * Generates a payout by making a POST request to "/api/shop/generate-payout".
@@ -2241,7 +2241,7 @@ class ShopProvider
             'json'
         );
     }
-    //picture
+    // PICTURE
 
     /**
      * Adds a picture to a product.
@@ -2300,7 +2300,7 @@ class ShopProvider
             'json'
         );
     }
-    //subcription
+    // SUBSCRIPTION
 
     /**
      * Cancels a subscription.
