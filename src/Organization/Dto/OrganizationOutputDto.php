@@ -15,7 +15,7 @@ use Sherl\Sdk\Shop\Subscription\Dto\SubscriptionOutputDto;
 use Sherl\Sdk\Shop\Wallet\Dto\WalletOutputDto;
 
 use Sherl\Sdk\Organization\Dto\OrganizationCommunicationOutputDto;
-use Sherl\Sdk\Organization\Dto\ThridPartyOutputDto;
+use Sherl\Sdk\Organization\Dto\ThirdPartyOutputDto;
 use Sherl\Sdk\Organization\Dto\TaxonomyOutputDto;
 use Sherl\Sdk\Organization\Dto\OrganizationDisplayedOutputDto;
 use Sherl\Sdk\Organization\Dto\PersonConfigValueOutputDto;
@@ -342,8 +342,8 @@ class OrganizationOutputDto
     public $blackListPersons;
 
     /**
-     * @var ThridPartyOutputDto
-     * @Serializer\Type("Sherl\Sdk\Organization\Dto\ThridPartyOutputDto")
+     * @var ThirdPartyOutputDto
+     * @Serializer\Type("Sherl\Sdk\Organization\Dto\ThirdPartyOutputDto")
      */
     public $thirdParty;
 

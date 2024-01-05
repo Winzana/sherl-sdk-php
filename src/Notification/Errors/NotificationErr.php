@@ -19,7 +19,7 @@ class NotificationErr
     public const UPDATE_NOTIFICATION_FORBIDDEN = 'update-notification-forbidden';
 
     /**
-     * @var array<string, string>
+     * @var array<string, string> Associative array where both keys and values are strings.
      */
     public static $errors = [
       self::NOTIFICATION_NOT_FOUND => 'Notification not found',

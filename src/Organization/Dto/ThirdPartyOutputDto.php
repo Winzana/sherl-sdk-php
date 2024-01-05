@@ -6,7 +6,7 @@ use JMS\Serializer\Annotation as Serializer;
 
 use Sherl\Sdk\Organization\Dto\FacebookThirdPartOutputDto;
 
-class ThridPartyOutputDto
+class ThirdPartyOutputDto
 {
     /**
      * @var FacebookThirdPartOutputDto
