@@ -60,10 +60,10 @@ class ConfigProvider
                 case 404:
                     throw $this->errorFactory->create(ConfigErr::CONFIG_NOT_FOUND);
                 default:
-                    throw $this->errorFactory->create(ConfigErr::FETCH_FAILED);
+                    throw $this->errorFactory->create(ConfigErr::GET_CONFIG_FAILED);
             }
         } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ConfigErr::FETCH_FAILED));
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ConfigErr::GET_CONFIG_FAILED));
         }
     }
 
@@ -94,10 +94,10 @@ class ConfigProvider
                 case 403:
                     throw $this->errorFactory->create(ConfigErr::SET_CONFIG_FORBIDDEN);
                 default:
-                    throw $this->errorFactory->create(ConfigErr::FETCH_FAILED);
+                    throw $this->errorFactory->create(ConfigErr::SET_CONFIG_FAILED);
             }
         } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ConfigErr::FETCH_FAILED));
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ConfigErr::SET_CONFIG_FAILED));
         }
     }
 }
