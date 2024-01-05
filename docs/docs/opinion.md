@@ -19,14 +19,6 @@ $publicOpinions = $sherlClient->opinion->getPublicOpinions(OpinionDto $filters);
 
 This call returns a paginated array of [OpinionDto](opinion-types#OpinionDto) objects.
 
-## Get Opinions with Filters
-
-<span class="badge badge--warning">Required authentication</span>
-
-```php
-$opinions = $sherlClient->opinion->getOpinionsList(OpinionFilterDto $OpinionFiltersDto);
-```
-
 <details>
 <summary><b>OpinionFilterDto</b></summary>
 
