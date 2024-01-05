@@ -9,9 +9,9 @@ use GuzzleHttp\Psr7\Response;
 
 class SherlClientTest extends TestCase
 {
-    private $sherlClient;
-    private $mockHandler;
-    private $handlerStack;
+    private SherlClient $sherlClient;
+    private MockHandler $mockHandler;
+    private HandlerStack $handlerStack;
 
     protected function setUp(): void
     {
@@ -26,7 +26,7 @@ class SherlClientTest extends TestCase
         $this->setPrivateProperty($this->sherlClient, 'handlerStack', $this->handlerStack);
     }
 
-    private function setPrivateProperty($object, $propertyName, $value)
+    private function setPrivateProperty(object $object, string $propertyName, mixed $value): void
     {
         $reflector = new \ReflectionObject($object);
         $property = $reflector->getProperty($propertyName);
@@ -69,8 +69,15 @@ class SherlClientTest extends TestCase
     {
         $token = 'test_token';
         $this->sherlClient->registerBearerToken($token);
-        $this->sherlClient->getClient()->request('GET', 'http://test');
+
+        $httpClient = $this->sherlClient->getClient();
+
+        $this->assertNotNull($httpClient, 'HttpClient should not be null');
+
+        $httpClient->request('GET', 'http://test');
+
         $lastRequest = $this->mockHandler->getLastRequest();
+        $this->assertNotNull($lastRequest);
         $this->assertEquals('Bearer ' . $token, $lastRequest->getHeaderLine('Authorization'));
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 // PROVIDER
@@ -10,6 +11,9 @@ use Sherl\Sdk\Auth\Dto\LoginOutputDto;
 
 class AuthTest extends TestCase
 {
+    /**
+     * @var AuthProvider|MockObject $authProvider
+     */
     private $authProvider;
 
     protected function setUp(): void
@@ -21,8 +25,9 @@ class AuthTest extends TestCase
         $fakeLoginOutputDto = new LoginOutputDto();
         $fakeLoginOutputDto->access_token = 'fake_token';
 
-        $this->authProvider->method('signInWithEmailAndPassword')
-                           ->willReturn($fakeLoginOutputDto);
+        $this->authProvider
+            ->method('signInWithEmailAndPassword')
+            ->willReturn($fakeLoginOutputDto);
     }
 
     public function testSignInWithEmailAndPassword(): void
@@ -30,6 +35,7 @@ class AuthTest extends TestCase
         $email = 'test@example.com';
         $password = 'password';
 
+        // @phpstan-ignore-next-line
         $result = $this->authProvider->signInWithEmailAndPassword($email, $password);
 
         $this->assertInstanceOf(LoginOutputDto::class, $result);
