@@ -51,7 +51,10 @@ class VirtualMoneyProvider
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
-                RequestOptions::JSON => $walletHistorical
+                RequestOptions::JSON => $walletHistorical,
+                RequestOptions::QUERY => [
+                    "walletId" => $walletId
+                ],
               ]);
 
             switch ($response->getStatusCode()) {
@@ -89,7 +92,11 @@ class VirtualMoneyProvider
             $response = $this->client->get("api/wallet/$walletId/historical/$historicalId", [
                 "headers" => [
                   "Content-Type" => "application/json",
-                ]
+                ],
+                RequestOptions::QUERY => [
+                    "walletId" => $walletId,
+                    "historicalId" => $historicalId
+                ],
               ]);
 
             switch ($response->getStatusCode()) {
@@ -161,7 +168,10 @@ class VirtualMoneyProvider
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
-                RequestOptions::JSON => $transferWallet
+                RequestOptions::JSON => $transferWallet,
+                RequestOptions::QUERY => [
+                    "walletId" => $walletId
+                ],
               ]);
 
             switch ($response->getStatusCode()) {
@@ -198,7 +208,10 @@ class VirtualMoneyProvider
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
-                RequestOptions::JSON => $transferWallet
+                RequestOptions::JSON => $transferWallet,
+                RequestOptions::QUERY => [
+                    "walletId" => $walletId
+                ],
               ]);
 
             switch ($response->getStatusCode()) {
@@ -240,11 +253,12 @@ class VirtualMoneyProvider
             $response = $this->client->get("/api/wallet/find-one", [
                 "headers" => [
                   "Content-Type" => "application/json",
-                ], [
+                ],
+                RequestOptions::QUERY => [
                     "id" => $id,
                     "personId" => $personId,
                     "consumerId" => $consumerId
-                  ]
+                ],
               ]);
 
             switch ($response->getStatusCode()) {
@@ -279,7 +293,10 @@ class VirtualMoneyProvider
             $response = $this->client->get("api/wallet/$walletId", [
                 "headers" => [
                   "Content-Type" => "application/json",
-                ]
+                ],
+                RequestOptions::QUERY => [
+                    "walletId" => $walletId
+                ],
               ]);
 
             switch ($response->getStatusCode()) {
