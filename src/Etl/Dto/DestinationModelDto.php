@@ -3,14 +3,14 @@
 namespace Sherl\Sdk\Etl\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
-use Sherl\Sdk\Etl\Enum\LoaderType;
-use Sherl\Sdk\Etl\Enum\DatabaseLoaderType;
+use Sherl\Sdk\Etl\Enum\LoaderTypeEnum;
+use Sherl\Sdk\Etl\Enum\DatabaseLoaderTypeEnum;
 
 class DestinationModel
 {
     /**
-     * @var LoaderType
-     * @Serializer\Type("Sherl\Sdk\Etl\Dto\LoaderType")
+     * @var LoaderTypeEnum
+     * @Serializer\Type("Sherl\Sdk\Etl\Dto\LoaderTypeEnum")
      */
     public $loaderType;
 
@@ -63,14 +63,14 @@ class DestinationModel
     public $port;
 
     /**
-     * @var DatabaseLoaderType
-     * @Serializer\Type("Sherl\Sdk\Etl\Dto\DatabaseLoaderType")
+     * @var DatabaseLoaderTypeEnum
+     * @Serializer\Type("Sherl\Sdk\Etl\Dto\DatabaseLoaderTypeEnum")
      */
     public $databaseType;
 
     /**
-     * @var array
-     * @Serializer\Type("array")
+     * @var string[]
+     * @Serializer\Type("array<string>")
      */
     public $uniqueFields;
 }

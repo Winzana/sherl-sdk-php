@@ -8,7 +8,7 @@ use Sherl\Sdk\Etl\Dto\ConfigModelDto;
 class ExtractTransformLoadInputDto
 {
     /**
-     * @var ConfigModel[]
+     * @var ConfigModelDto[]
      * @Serializer\Type("array<Sherl\Sdk\Etl\Dto\ConfigModelDto>")
      */
     public $config;

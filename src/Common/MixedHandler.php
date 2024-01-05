@@ -8,7 +8,10 @@ use JMS\Serializer\JsonDeserializationVisitor;
 
 class MixedHandler implements SubscribingHandlerInterface
 {
-    public static function getSubscribingMethods()
+    /**
+     * @return array<array<string,mixed>>
+     */
+    public static function getSubscribingMethods(): array
     {
         return [
           [
@@ -20,6 +23,11 @@ class MixedHandler implements SubscribingHandlerInterface
         ];
     }
 
+    /**
+     * @param mixed $data
+     * @param array<string,mixed> $type
+     * @return mixed
+     */
     public function deserializeFromJSON(JsonDeserializationVisitor $visitor, $data, array $type)
     {
         return $data;

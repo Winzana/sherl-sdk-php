@@ -13,7 +13,7 @@ The ETL domain provides 3 functions to interact with the ETL.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$sherlClient->etl->saveConfig(IEtlSaveConfigInputDto $config);
+$sherlClient->etl->saveConfig(EtlSaveConfigInputDto $config);
 ```
 
 ## EtlSaveConfigInputDto
@@ -41,7 +41,7 @@ This action launches an asynchronous ETL task using a specific configuration.
 :warning: The configuration will not be saved.
 
 ```php
-$sherlClient->etl->extractTransformLoad(IExtractTransformLoadInputDto $config);
+$sherlClient->etl->extractTransformLoad(ExtractTransformLoadInputDto $config);
 ```
 
 ## ExtractTransformLoadInputDto

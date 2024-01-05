@@ -3,20 +3,20 @@
 namespace Sherl\Sdk\Etl\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
-use Sherl\Sdk\Etl\Enum\FieldValueTypes;
+use Sherl\Sdk\Etl\Enum\FieldValueTypesEnum;
 use Sherl\Sdk\Etl\Dto\WrapperModelDto;
 
 class SchemaSourceModel
 {
     /**
-     * @var FieldValueTypes
-     * @Serializer\Type("Sherl\Sdk\Etl\Enum\FieldValueTypes")
+     * @var FieldValueTypesEnum
+     * @Serializer\Type("Sherl\Sdk\Etl\Enum\FieldValueTypesEnum")
      */
     public $type;
 
     /**
-     * @var FieldValueTypes
-     * @Serializer\Type("Sherl\Sdk\Etl\Enum\FieldValueTypes")
+     * @var FieldValueTypesEnum
+     * @Serializer\Type("Sherl\Sdk\Etl\Enum\FieldValueTypesEnum")
      */
     public $outputType;
 

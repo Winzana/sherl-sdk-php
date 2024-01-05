@@ -8,7 +8,7 @@ use Sherl\Sdk\Etl\Dto\DestinationModel;
 use Sherl\Sdk\Etl\Dto\SchemaModelDto;
 use Sherl\Sdk\Etl\Dto\FilterModelDto;
 
-class ConfigModel
+class ConfigModelDto
 {
     /**
      * @var string

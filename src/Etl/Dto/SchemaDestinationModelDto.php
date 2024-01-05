@@ -4,7 +4,7 @@ namespace Sherl\Sdk\Etl\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Etl\Dto\WrapperModelDto;
-use Sherl\Sdk\Etl\Enum\FieldValueTypes;
+use Sherl\Sdk\Etl\Enum\FieldValueTypesEnum;
 
 class SchemaDestinationModel
 {
@@ -15,14 +15,14 @@ class SchemaDestinationModel
     public $name;
 
     /**
-     * @var FieldValueTypes
-     * @Serializer\Type("Sherl\Sdk\Etl\Enum\FieldValueTypes")
+     * @var FieldValueTypesEnum
+     * @Serializer\Type("Sherl\Sdk\Etl\Enum\FieldValueTypesEnum")
      */
     public $outputType;
 
     /**
-     * @var FieldValueTypes
-     * @Serializer\Type("Sherl\Sdk\Etl\Enum\FieldValueTypes")
+     * @var FieldValueTypesEnum
+     * @Serializer\Type("Sherl\Sdk\Etl\Enum\FieldValueTypesEnum")
      */
     public $type;
 

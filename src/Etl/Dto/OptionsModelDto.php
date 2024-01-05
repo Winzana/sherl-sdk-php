@@ -3,8 +3,8 @@
 namespace Sherl\Sdk\Etl\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
-use Sherl\Sdk\Etl\Enum\HttpRequestType;
-use Sherl\Sdk\Etl\Enum\MimeType;
+use Sherl\Sdk\Etl\Enum\HttpRequestTypeEnum;
+use Sherl\Sdk\Etl\Enum\MimeTypeEnum;
 
 class OptionsModel
 {
@@ -51,14 +51,14 @@ class OptionsModel
     public $itemsPerPageValue;
 
     /**
-     * @var HttpRequestType
-     * @Serializer\Type("Sherl\Sdk\Etl\Enum\HttpRequestType")
+     * @var HttpRequestTypeEnum
+     * @Serializer\Type("Sherl\Sdk\Etl\Enum\HttpRequestTypeEnum")
      */
     public $type;
 
     /**
-     * @var MimeType
-     * @Serializer\Type("Sherl\Sdk\Etl\Enum\MimeType")
+     * @var MimeTypeEnum
+     * @Serializer\Type("Sherl\Sdk\Etl\Enum\MimeTypeEnum")
      */
     public $mimeType;
 

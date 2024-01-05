@@ -10,6 +10,8 @@ module.exports = {
       "etl",
       "notification",
       "user",
+      "search",
+      "gallery",
     ],
     Types: [
       "account-types",
@@ -17,9 +19,11 @@ module.exports = {
       "bug-report-types",
       "claim-types",
       "etl-types",
+      "place-types",
       "notification-types",
       "pagination",
-      "place-types",
+      "search-types",
+      "gallery-types",
     ],
   },
 };

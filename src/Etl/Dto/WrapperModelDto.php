@@ -3,19 +3,19 @@
 namespace Sherl\Sdk\Etl\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
-use Sherl\Sdk\Etl\Enum\WrapperIdentifier;
+use Sherl\Sdk\Etl\Enum\WrapperIdentifierEnum;
 
 class WrapperModel
 {
     /**
-     * @var WrapperIdentifier
-     * @Serializer\Type("Sherl\Sdk\Etl\Enum\WrapperIdentifier")
+     * @var WrapperIdentifierEnum
+     * @Serializer\Type("Sherl\Sdk\Etl\Enum\WrapperIdentifierEnum")
      */
     public $identifier;
 
     /**
-     * @var array
-     * @Serializer\Type("array")
+     * @var object|null
+     * @Serializer\Type("object")
      */
     public $options;
 }
