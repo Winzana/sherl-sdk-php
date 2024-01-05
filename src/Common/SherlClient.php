@@ -53,7 +53,10 @@ class SherlClient
 
     private NotificationProvider $notification;
 
-    public function __get(string $name)
+    /**
+     * @throws OutOfBoundsException
+     */
+    public function __get(string $name): ?string
     {
         if (property_exists($this, $name)) {
             return $this->$name;
@@ -100,7 +103,7 @@ class SherlClient
         $this->notification = new NotificationProvider($client);
     }
 
-    public function getClient(): Client
+    public function getClient(): ?Client
     {
         return $this->client;
     }
@@ -124,8 +127,9 @@ class SherlClient
         }
     }
 
-    public function registerBearerToken(string $token)
+    public function registerBearerToken(string $token): void
     {
+        /** @var Closure $bearerMiddleware */
         $bearerMiddleware = Middleware::mapRequest(function ($request) use ($token) {
             $request = $request->withHeader('Authorization', 'Bearer ' . $token);
             return $request;

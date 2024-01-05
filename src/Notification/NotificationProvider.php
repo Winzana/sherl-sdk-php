@@ -8,6 +8,11 @@ use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 
 use Sherl\Sdk\Common\Error\SherlException;
+use Sherl\Sdk\Common\Error\ErrorFactory;
+use Sherl\Sdk\Common\Error\ErrorHelper;
+use Sherl\Sdk\Notification\Errors\NotificationErr;
+use Exception;
+
 use Sherl\Sdk\Common\SerializerFactory;
 
 use Sherl\Sdk\Notification\Dto\NotificationFiltersInputDto;
@@ -24,34 +29,47 @@ class NotificationProvider
 
     private Client $client;
 
+    private ErrorFactory $errorFactory;
+
     public function __construct(Client $client)
     {
         $this->client = $client;
+        $this->errorFactory = new ErrorFactory(self::DOMAIN, NotificationErr::$errors);
     }
 
-    private function throwSherlNotificationException(ResponseInterface $response)
+    /**
+     * @throws SherlException
+     */
+    private function throwSherlNotificationException(ResponseInterface $response): SherlException
     {
-        throw new SherlException(NotificationProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
+        throw new SherlException(NotificationProvider::DOMAIN, $response->getBody()->getContents());
     }
 
     public function getNotifications(NotificationFiltersInputDto $notificationFiltersInput): ?NotificationListOutputDto
     {
-        $response = $this->client->get('/api/notifications', [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::QUERY => $notificationFiltersInput,
-        ]);
+        try {
+            $response = $this->client->get('/api/notifications', [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::QUERY => $notificationFiltersInput,
+            ]);
 
-        if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlNotificationException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        NotificationListOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(NotificationErr::GET_NOTIFICATIONS_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(NotificationErr::FETCH_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(NotificationErr::FETCH_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            NotificationListOutputDto::class,
-            'json'
-        );
     }
 
     public function registerFirebaseNotification(string $notificationRegistrationToken): ?NotificationRegistrationOutputDto
@@ -66,7 +84,7 @@ class NotificationProvider
         ]);
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlNotificationException($response);
+            $this->throwSherlNotificationException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -86,7 +104,7 @@ class NotificationProvider
         ]);
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlNotificationException($response);
+            $this->throwSherlNotificationException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -111,7 +129,7 @@ class NotificationProvider
         );
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlNotificationException($response);
+            $this->throwSherlNotificationException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -136,7 +154,7 @@ class NotificationProvider
         );
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlNotificationException($response);
+            $this->throwSherlNotificationException($response);
         }
 
         return SerializerFactory::getInstance()->deserialize(
@@ -160,7 +178,7 @@ class NotificationProvider
         );
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlNotificationException($response);
+            $this->throwSherlNotificationException($response);
         }
 
         return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);

@@ -20,11 +20,6 @@ class PersonProvider
         $this->client = $client;
     }
 
-    private function throwSherlPersonException(ResponseInterface $response)
-    {
-        throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
-    }
-
     public function getMe(): ?PersonOutputDto
     {
         $response = $this->client->get('/api/persons/me', [
@@ -34,7 +29,7 @@ class PersonProvider
           ]);
 
         if ($response->getStatusCode() >= 300) {
-            return $this->throwSherlPersonException($response);
+            throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents());
         }
 
         return SerializerFactory::getInstance()->deserialize(
