@@ -6,28 +6,41 @@ use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 
 use Psr\Http\Message\ResponseInterface;
-use Sherl\Sdk\Common\Error\SherlException;
 use Sherl\Sdk\Common\SerializerFactory;
 
+// ERRORS MANAGEMENT
+use Sherl\Sdk\Common\Error\SherlException;
+use Sherl\Sdk\Common\Error\ErrorFactory;
+use Sherl\Sdk\Common\Error\ErrorHelper;
+use Sherl\Sdk\Shop\Errors\ShopErr;
+use Exception;
+
+// PERSON CLASSES
 use Sherl\Sdk\Person\Dto\PersonOutputDto;
 
+// ADVERTISEMENT CLASSES
 use Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementDto;
 use Sherl\Sdk\Shop\Advertisement\Dto\CreateAdvertisementInputDto;
 use Sherl\Sdk\Shop\Advertisement\Dto\FindAdvertisementInputDto;
 use Sherl\Sdk\Shop\Advertisement\Dto\FindAdvertisementsOutputDto;
 
+// BASKET CLASSES
 use Sherl\Sdk\Shop\Basket\Dto\AddProductInputDto;
+
+// DISCOUNT CLASSES
 use Sherl\Sdk\Shop\Discount\Dto\DiscountFilterInputDto;
 use Sherl\Sdk\Shop\Discount\Dto\DiscountPublicFilterInputDto;
 use Sherl\Sdk\Shop\Discount\Dto\DiscountDto;
 use Sherl\Sdk\Shop\Discount\Dto\DiscountParameterDto;
 use Sherl\Sdk\Shop\Discount\Dto\DiscountPaginatedResultOutputDto;
 
+// LOYALTY CLASSES
 use Sherl\Sdk\Shop\Loyalty\Dto\LoyaltyCardDto;
 use Sherl\Sdk\Shop\Loyalty\Dto\LoyaltyCardFindByDto;
 use Sherl\Sdk\Shop\Loyalty\Dto\LoyaltySearchResultDto;
 use Sherl\Sdk\Shop\Loyalty\Dto\ShopLoyaltyCardUpdateInputDto;
 
+// ORDER CLASSES
 use Sherl\Sdk\Shop\Order\Dto\ShopBasketValidateAndPayInputDto;
 use Sherl\Sdk\Shop\Order\Dto\ShopBasketValidatePaymentInputDto;
 use Sherl\Sdk\Shop\Order\Dto\CancelOrderInputDto;
@@ -35,10 +48,11 @@ use Sherl\Sdk\Shop\Order\Dto\OrderDto;
 use Sherl\Sdk\Shop\Order\Dto\OrderFindInputDto;
 use Sherl\Sdk\Shop\Order\Dto\OrderFindOutputDto;
 
+// ORDER ENUMS
 use Sherl\Sdk\Shop\Order\Enum\OrderStatus;
 
 
-// PRODUCT
+// PRODUCT CLASSES
 use Sherl\Sdk\Shop\Product\Dto\CommentDto;
 use Sherl\Sdk\Shop\Product\Dto\ProductOutputDto;
 use Sherl\Sdk\Shop\Product\Dto\ProductResponseDto;
@@ -48,7 +62,7 @@ use Sherl\Sdk\Shop\Product\Dto\ProductFindByDto;
 use Sherl\Sdk\Shop\Product\Dto\PublicProductResponseDto;
 use Sherl\Sdk\Shop\Product\Dto\ProductPaginatedResultDto;
 
-// Categpory (Product)
+// CATEGORY CLASSES
 use Sherl\Sdk\Shop\Category\Dto\ProductCategoryDto;
 use Sherl\Sdk\Shop\Category\Dto\ShopProductCategoryCreateInputDto;
 use Sherl\Sdk\Shop\Category\Dto\ShopProductSubCategoryCreateInputDto;
@@ -56,16 +70,17 @@ use Sherl\Sdk\Shop\Category\Dto\ShopProductCategoryFindByQueryDto;
 use Sherl\Sdk\Shop\Category\Dto\PublicCategoryAndSubCategoryFindByDto;
 use Sherl\Sdk\Shop\Category\Dto\PublicCategoryResponseDto;
 
+// PRODUCT CLASSES
 use Sherl\Sdk\Shop\Product\Dto\AddCommentOnProductDto;
 
-// SUBSCRIPTION
+// SUBSCRIPTION CLASSES
 use Sherl\Sdk\Shop\Subscription\Dto\SubscriptionDto;
 use Sherl\Sdk\Shop\Subscription\Dto\SubscriptionFindOnByDto;
 
-// PAYEMENT
+// PAYEMENT CLASSES
 use Sherl\Sdk\Shop\Payment\Dto\CreditCardDto;
 
-// PAYOUT
+// PAYOUT CLASSES
 use Sherl\Sdk\Shop\Payout\Dto\PayoutDto;
 
 class ShopProvider
@@ -74,9 +89,12 @@ class ShopProvider
 
     private Client $client;
 
+    private ErrorFactory $errorFactory;
+
     public function __construct(Client $client)
     {
         $this->client = $client;
+        $this->errorFactory = new ErrorFactory(self::DOMAIN, ShopErr::$errors);
     }
 
     private function throwSherlShopException(ResponseInterface $response)
@@ -84,7 +102,7 @@ class ShopProvider
         throw new SherlException(ShopProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
 
-    // Advertisements
+    // ADVERTISEMENT
 
     /**
      * Create an advertisement.
@@ -300,7 +318,7 @@ class ShopProvider
     }
 
 
-    //Basket
+    // BASKET
 
     /**
      * Adds a product to the basket.
@@ -601,7 +619,7 @@ class ShopProvider
         );
     }
 
-    // Discount
+    // DISCOUNT
 
     /**
      * Creates a discount using the provided discount parameters.
@@ -959,7 +977,7 @@ class ShopProvider
         return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
     }
 
-    // Invoice
+    // INVOICE
 
     /**
      * Sends a link to paid online for a given invoice ID.
@@ -990,7 +1008,7 @@ class ShopProvider
         );
     }
 
-    // Loyalty
+    // LOYALTY
 
     /**
      * Retrieves a loyalty card belonging to the current user.
@@ -1233,7 +1251,6 @@ class ShopProvider
             'json'
         );
     }
-    // Order
 
     /**
      * Cancels an order.
