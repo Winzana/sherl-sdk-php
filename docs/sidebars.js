@@ -12,6 +12,8 @@ module.exports = {
       "user",
       "notification",
       "user",
+      "config",
+      "search",
       "gallery",
     ],
     Types: [
@@ -26,6 +28,8 @@ module.exports = {
       "notification-types",
       "pagination",
       "place-types",
+      "config-types",
+      "search-types",
       "gallery-types",
     ],
   },
