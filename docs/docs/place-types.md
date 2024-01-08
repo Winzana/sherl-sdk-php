@@ -23,3 +23,12 @@ title: Place types
 | **originId**                   |  string  | TODO                                    |
 | **latitude**                   |  float   | Geographic coordinate                   |
 | **longitude**                  |  float   | Geographic coordinate                   |
+
+## AddressOutputDto
+
+extends [AddressInfoDto](#AddressInfoDto)
+| Fields | Type | Description |
+|-----------|:------:|------------------------|
+| id | string | The address identifier |
+| createdAt | string | The creation date |
+| updatedAt | string | The last update date |

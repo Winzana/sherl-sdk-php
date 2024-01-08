@@ -8,7 +8,7 @@ use Sherl\Sdk\Claim\Dto\ClaimSchedulesDto;
 use Sherl\Sdk\Claim\Dto\ClaimReplyOutput;
 use Sherl\Sdk\Claim\Enum\ClaimStatus;
 
-use Sherl\Sdk\Order\Dto\OrderOutputDto;
+use Sherl\Sdk\Shop\Order\Dto\OrderDto;
 
 use Sherl\Sdk\Person\Dto\PersonOutputDto;
 
@@ -93,7 +93,7 @@ class ClaimOutputDto
     public $person;
 
     /**
-     * @var OrderOutputDto
+     * @var OrderDto
      * @Serializer\Type("Sherl\Sdk\Order\Dto\OrderOutputDto")
      */
     public $order;
