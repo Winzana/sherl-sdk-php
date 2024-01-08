@@ -158,33 +158,42 @@ class ShopProvider
      */
     public function updateAdvertisement(string $advertisementId, CreateAdvertisementInputDto $updateAdvertisement): ?AdvertisementDto
     {
-        $response = $this->client->put(
-            "/api/shop/advertisements/:" + $advertisementId,
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              'description' => $updateAdvertisement->description,
-              'displayZones' => $updateAdvertisement->displayZones,
-              'backgroundImage' => $updateAdvertisement->backgroundImage,
-              'name' => $updateAdvertisement->name,
-              'redirectUrl' => $updateAdvertisement->redirectUrl,
-              'translations' => $updateAdvertisement->translations,
-              'metadatas' => $updateAdvertisement->metadatas
-            ]
-      ]
-        );
+        try {
+            $response = $this->client->put("/api/shop/advertisements/$advertisementId", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  'description' => $updateAdvertisement->description,
+                  'displayZones' => $updateAdvertisement->displayZones,
+                  'backgroundImage' => $updateAdvertisement->backgroundImage,
+                  'name' => $updateAdvertisement->name,
+                  'redirectUrl' => $updateAdvertisement->redirectUrl,
+                  'translations' => $updateAdvertisement->translations,
+                  'metadatas' => $updateAdvertisement->metadatas
+                ],
+                RequestOptions::QUERY => [
+                    "advertisementId" => $advertisementId
+                ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        AdvertisementDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::UPDATE_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::ADVERTISEMENT_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::UPDATE_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::UPDATE_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            AdvertisementDto::class,
-            'json'
-        );
     }
 
     /**
@@ -196,21 +205,29 @@ class ShopProvider
      */
     public function deleteAdvertisement(string $advertisementId): ?bool
     {
-        $response = $this->client->delete(
-            "/api/shop/advertisements/$advertisementId",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => []
-      ]
-        );
+        try {
+            $response = $this->client->delete("/api/shop/advertisements/$advertisementId", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => [
+                    "advertisementId" => $advertisementId
+                ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::DELETE_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::ADVERTISEMENT_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::DELETE_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::DELETE_FAILED));
         }
-
-        return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
     }
 
     /**
@@ -222,24 +239,33 @@ class ShopProvider
      */
     public function getAdvertisement(string $advertisementId): ?AdvertisementDto
     {
-        $response = $this->client->get(
-            "/api/shop/advertisements/$advertisementId",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-      ]
-        );
+        try {
+            $response = $this->client->get("/api/shop/advertisements/$advertisementId", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => [
+                    "advertisementId" => $advertisementId
+                ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        AdvertisementDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::GET_ADVERTISEMENT_BY_ID_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::ADVERTISEMENT_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::GET_ADVERTISEMENT_BY_ID_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ADVERTISEMENT_BY_ID_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            AdvertisementDto::class,
-            'json'
-        );
     }
 
     /**
@@ -247,39 +273,43 @@ class ShopProvider
      *
      * @param FindAdvertisementInputDto $filter The filter to apply when retrieving advertisements.
      * @throws SherlException If there is an error retrieving the advertisements.
-     * @return FindAdvertisementsOutputDto The retrieved advertisements.
+     * @return FindAdvertisementsOutputDto|null The retrieved advertisements.
      */
     public function getAdvertisements(FindAdvertisementInputDto $filter): ?FindAdvertisementsOutputDto
     {
-        $response = $this->client->get(
-            "/api/shop/advertisements",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              'displayDeleted' => $filter->displayDeleted,
-              'displayZones' => $filter->displayZones,
-              'shuffle' => $filter->shuffle,
-              'q' => $filter->q,
-              'displayAllVersion' => $filter->displayAllVersion,
-              'panel' => $filter->panel,
-              'uriOfPanels' => $filter->uriOfPanels,
-              'sortBy' => $filter->sortBy,
-              'sortOrder' => $filter->sortOrder
-            ]
-      ]
-        );
+        try {
+            $response = $this->client->get("/api/shop/advertisements", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  'displayDeleted' => $filter->displayDeleted,
+                  'displayZones' => $filter->displayZones,
+                  'shuffle' => $filter->shuffle,
+                  'q' => $filter->q,
+                  'displayAllVersion' => $filter->displayAllVersion,
+                  'panel' => $filter->panel,
+                  'uriOfPanels' => $filter->uriOfPanels,
+                  'sortBy' => $filter->sortBy,
+                  'sortOrder' => $filter->sortOrder
+                ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        FindAdvertisementsOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::GET_ADVERTISEMENTS_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ShopErr::GET_ADVERTISEMENTS_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ADVERTISEMENTS_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            FindAdvertisementsOutputDto::class,
-            'json'
-        );
     }
 
     /**
@@ -287,39 +317,43 @@ class ShopProvider
      *
      * @param FindAdvertisementInputDto $filter The filter to apply when retrieving advertisements.
      * @throws SherlException If there is an error retrieving the advertisements.
-     * @return FindAdvertisementsOutputDto The output DTO containing the retrieved advertisements.
+     * @return FindAdvertisementsOutputDto|null The output DTO containing the retrieved advertisements.
      */
     public function getPublicAdvertisements(FindAdvertisementInputDto $filter): ?FindAdvertisementsOutputDto
     {
-        $response = $this->client->get(
-            "/api/public/shop/advertisements",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              'displayDeleted' => $filter->displayDeleted,
-              'displayZones' => $filter->displayZones,
-              'shuffle' => $filter->shuffle,
-              'q' => $filter->q,
-              'displayAllVersion' => $filter->displayAllVersion,
-              'panel' => $filter->panel,
-              'uriOfPanels' => $filter->uriOfPanels,
-              'sortBy' => $filter->sortBy,
-              'sortOrder' => $filter->sortOrder
-            ]
-      ]
-        );
+        try {
+            $response = $this->client->get("/api/public/shop/advertisements", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  'displayDeleted' => $filter->displayDeleted,
+                  'displayZones' => $filter->displayZones,
+                  'shuffle' => $filter->shuffle,
+                  'q' => $filter->q,
+                  'displayAllVersion' => $filter->displayAllVersion,
+                  'panel' => $filter->panel,
+                  'uriOfPanels' => $filter->uriOfPanels,
+                  'sortBy' => $filter->sortBy,
+                  'sortOrder' => $filter->sortOrder
+                ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        FindAdvertisementsOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::GET_PUBLIC_ADVERTISEMENTS_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ShopErr::GET_PUBLIC_ADVERTISEMENTS_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_ADVERTISEMENTS_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            FindAdvertisementsOutputDto::class,
-            'json'
-        );
     }
 
 
