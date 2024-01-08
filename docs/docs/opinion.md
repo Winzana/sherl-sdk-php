@@ -35,18 +35,7 @@ This call returns a collection of opinions, filtered based on the provided crite
 <span class="badge badge--warning">Required authentication</span>
 
 ```php
-$newOpinion = $sherlClient->opinion->createOpinion(array $data);
-```
-
-data is an associative array with the following keys:
-
-```php
-$data = [
-'comment' => 'string',
-'id' => 'string',
-'opinionToUri' => 'string',
-'score' => 'int',
-];
+$newOpinion = $sherlClient->opinion->createOpinion(string $id, OpinionDto $opinionDto);
 ```
 
 This call returns an [OpinionDto](opinion-types#OpinionDto) object.
@@ -56,16 +45,7 @@ This call returns an [OpinionDto](opinion-types#OpinionDto) object.
 <span class="badge badge--warning">Required authentication</span>
 
 ```php
-$opinionUpdated = $sherlClient->opinion->updateOpinion(string $id, OpinionDto $status);
-```
-
-status is an associative array with the following keys:
-
-```php
-$status = [
-    'status' => 'PUBLISHED | REFUSED | IS_CLAIMED',
-    'refusedComment' => 'string',
-];
+$opinionUpdated = $sherlClient->opinion->updateOpinion(string $id, OpinionDto $updatedOpinion);
 ```
 
 This call returns an [OpinionDto](opinion-types#OpinionDto) object.
@@ -75,16 +55,18 @@ This call returns an [OpinionDto](opinion-types#OpinionDto) object.
 <span class="badge badge--warning">Required authentication</span>
 
 ```php
-$claim = $sherlClient->opinion->createOpinionClaim(string $opinionId, OpinionDto $data);
+$claim = $sherlClient->opinion->createOpinionClaim(string $opinionId, CreateOpinionInputDto $data);
 ```
 
-data is an associative array with the following key:
+<details>
+<summary><b>CreateOpinionInputDto</b></summary>
 
-```php
-$data = [
-    'claimComment' => 'string',
-];
-```
+| Fields           |  Type   |      Required      |                   Description                    |
+| :--------------- | :-----: | :----------------: | :----------------------------------------------: |
+| **comment**      | string  | :white_check_mark: |     The comment associated with the opinion.     |
+| **id**           | string  | :white_check_mark: |      The unique identifier of the opinion.       |
+| **opinionToUri** | string  | :white_check_mark: |    The URI to which the opinion is directed.     |
+| **score**        | integer | :white_check_mark: | The score or rating associated with the opinion. |
 
 This call returns an [OpinionDto](opinion-types#OpinionDto) object.
 
@@ -96,14 +78,21 @@ This call returns an [OpinionDto](opinion-types#OpinionDto) object.
 $averageScore = $sherlClient->opinion->getOpinionsAverage(string $opinionToUri);
 ```
 
-This call returns an [averageScore](notification-types#averageScore) object.
+This call returns an [OpinionAverageDto](opinion-types#OpinionAverageDto) object.
 
 ## Get the opinions given by connected user
 
 <span class="badge badge--warning">Required authentication</span>
 
 ```php
-$givenOpinions = $sherlClient->opinion->getOpinionsIGive(array $filters);
+$givenOpinions = $sherlClient->opinion->getOpinionsIGive(OpinionFilterDto $filters);
 ```
 
-This call returns a paginated array of [OpinionDto](opinion-types#OpinionDto) objects.
+<details>
+<summary><b>CreateOpinionInputDto</b></summary>
+
+| Fields           |  Type  |      Required      |                Description                |
+| :--------------- | :----: | :----------------: | :---------------------------------------: |
+| **opinionToUri** | string | :white_check_mark: | The URI to which the opinion is directed. |
+
+This call returns a paginated array of [OpinionAverageDto](opinion-types#OpinionAverageDto) objects.

@@ -12,6 +12,7 @@ use Sherl\Sdk\Common\SerializerFactory;
 use Sherl\Sdk\Opinion\Dto\OpinionDto;
 use Sherl\Sdk\Opinion\Dto\OpinionAverageDto;
 use Sherl\Sdk\Opinion\Dto\OpinionFilterDto;
+use Sherl\Sdk\Opinion\Dto\CreateOpinionInputDto;
 use Exception;
 use Sherl\Sdk\Common\Error\ErrorFactory;
 use Sherl\Sdk\Common\Error\ErrorHelper;
@@ -137,11 +138,11 @@ class OpinionProvider
  * Create a claim related to an opinion.
  *
  * @param string $id - The ID of the opinion to which the claim is related.
- * @param OpinionDto $opinionData - The claim input data as OpinionDto object.
+ * @param CreateOpinionInputDto $opinionData - The claim input data as OpinionDto object.
  * @return OpinionDto|null - The created opinion if successful, otherwise null.
  * @throws SherlException - If an error occurs during the request.
  */
-    public function createOpinionClaim(string $id, OpinionDto $opinionData): ?OpinionDto
+    public function createOpinionClaim(string $id, CreateOpinionInputDto $opinionData): ?OpinionDto
     {
         try {
             $response = $this->client->post("/api/opinions/$id/claim", [
@@ -172,11 +173,11 @@ class OpinionProvider
     /**
      * Get opinions given by a user based on provided filters.
      *
-     * @param OpinionDto $filtersInput - Filters to apply to the request as OpinionDto object.
+     * @param OpinionFilterDto $filtersInput - Filters to apply to the request as OpinionDto object.
      * @return OpinionAverageDto|null - Paginated opinion data if successful, otherwise null.
      * @throws SherlException - If an error occurs during the request.
      */
-    public function getOpinionsIGive(OpinionDto $filtersInput): ?OpinionAverageDto
+    public function getOpinionsIGive(OpinionFilterDto $filtersInput): ?OpinionAverageDto
     {
         try {
             $response = $this->client->get('/api/opinions/i-give', [
