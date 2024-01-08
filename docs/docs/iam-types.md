@@ -17,3 +17,15 @@ title: IAM types
 | :--------------- | :-----: | :----------------------------------- |
 | **page**         | integer | Page number to retrieve              |
 | **itemsPerPage** | integer | Number of items to retrieve per page |
+
+## ProfileDto
+
+|     Fields     |             Type             |               Description               |
+| :------------: | :--------------------------: | :-------------------------------------: |
+|     **id**     |            string            |    Unique identifier for the profile    |
+|    **uri**     |            string            |           Uri for the profile           |
+|    **name**    |            string            |           Name of the profile           |
+| **consumerId** |            string            | Consumer ID associated with the profile |
+|   **roles**    | [RoleDto](iam-types#RoleDto) |        Array of associated roles        |
+| **createdAt**  |           datetime           |    Date and time of profile creation    |
+| **updatedAt**  |           datetime           |      Date and time of last update       |

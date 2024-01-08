@@ -12,17 +12,12 @@ $profiles = $sherlClient->iam->getAllIamProfiles(IamProfilesFilterDto $filter);
 ```
 
 <details>
- <summary><b>ProfileDto</b></summary>
+ <summary><b>IamProfilesFilterDto</b></summary>
 
-| Fields         | Type                         |      Required      | Description                             |
-| -------------- | ---------------------------- | :----------------: | --------------------------------------- |
-| **id**         | string                       | :white_check_mark: | Unique identifier for the profile       |
-| **uri**        | string                       | :white_check_mark: | Uri for the profile                     |
-| **name**       | string                       | :white_check_mark: | Name of the profile                     |
-| **consumerId** | string                       |        :x:         | Consumer ID associated with the profile |
-| **roles**      | [RoleDto](iam-types#RoleDto) | :white_check_mark: | Array of associated roles               |
-| **createdAt**  | datetime                     |        :x:         | Date and time of profile creation       |
-| **updatedAt**  | datetime                     |        :x:         | Date and time of last update            |
+|      Fields      |  Type   |      Required      |             Description              |
+| :--------------: | :-----: | :----------------: | :----------------------------------: |
+|     **page**     | integer | :white_check_mark: |       Page number to retrieve        |
+| **itemsPerPage** | integer | :white_check_mark: | Number of items to retrieve per page |
 
 </details>
 
@@ -51,7 +46,7 @@ $profile = $sherlClient->iam->getIamProfileById(string $id);
 
 </details>
 
-This call returns an ProfileDto object.
+This call returns an array of [ProfileDto](Iam-types#ProfileDto).
 
 ## Get IAM role by ID
 

@@ -13,6 +13,7 @@ use Sherl\Sdk\Iam\Errors\IamErr;
 use Sherl\Sdk\Iam\Dto\IamProfilesFilterDto;
 use Sherl\Sdk\Iam\Dto\ProfileDto;
 use Sherl\Sdk\Common\SerializerFactory;
+use Sherl\Sdk\Iam\Dto\RoleDto;
 
 class IamProvider
 {
@@ -35,10 +36,10 @@ class IamProvider
      * Retrieves all IAM profiles filtered by the provided parameters.
      *
      * @param IamProfilesFilterDto $filters IamProfilesFilterDto to apply to the IAM profiles query.
-     * @return IamProfilesFilterDto The filtered IAM profiles data result.
+     * @return ProfileDto|null The filtered IAM profiles data result.
      * @throws SherlException If there is an error while fetching the IAM profiles.
      */
-    public function getAllIamProfiles(IamProfilesFilterDto $filters): IamProfilesFilterDto
+    public function getAllIamProfiles(IamProfilesFilterDto $filters): ?ProfileDto
     {
         try {
             $response = $this->client->get('/api/iam/profiles', [
@@ -69,10 +70,10 @@ class IamProvider
      * Retrieves an IAM profile by its unique identifier.
      *
      * @param string $id The unique identifier of the IAM profile.
-     * @return ProfileDto The profile data object.
+     * @return ProfileDto|null The profile data object.
      * @throws SherlException tion If there is an error while fetching the IAM profile.
      */
-    public function getIamProfileById(string $id): ProfileDto
+    public function getIamProfileById(string $id): ?ProfileDto
     {
         try {
 
@@ -80,6 +81,7 @@ class IamProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
+              RequestOptions::QUERY => $id,
             ]);
 
 
@@ -106,23 +108,24 @@ class IamProvider
      * Retrieves an IAM role by its unique identifier.
      *
      * @param string $id The unique identifier of the IAM role.
-     * @return ProfileDto The role data object.
+     * @return RoleDto|null The role data object.
      * @throws SherlException If there is an error while fetching the IAM role.
      */
-    public function getIamRoleById(string $id): ProfileDto
+    public function getIamRoleById(string $id): ?RoleDto
     {
         try {
             $response = $this->client->get("/api/iam/roles/$id", [
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
+                RequestOptions::QUERY => $id,
               ]);
 
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        ProfileDto::class,
+                        RoleDto::class,
                         'json'
                     );
                 case 403:
