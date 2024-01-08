@@ -697,7 +697,7 @@ class ShopProvider
                     throw $this->errorFactory->create(ShopErr::BASKET_VALIDATE_PENDING_FAILED);
             }
         } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::VALIDATE_AND_PAY_BASKET_FAILED));
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_VALIDATE_PENDING_FAILED));
         }
     }
 
@@ -712,43 +712,47 @@ class ShopProvider
      */
     public function createDiscount(DiscountParameterDto $discountParameter): ?DiscountDto
     {
-        $response = $this->client->post(
-            "/api/shop/discounts",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              'id' => $discountParameter->id,
-              'name' => $discountParameter->name,
-              'availableFrom' => $discountParameter->availableFrom,
-              'availableUntil' => $discountParameter->availableUntil,
-              'enabled' => $discountParameter->enabled,
-              'highlight' => $discountParameter->highlight,
-              'cumulative' => $discountParameter->cumulative,
-              'discountType' => $discountParameter->discountType,
-              'code' => $discountParameter->code,
-              'percentage' => $discountParameter->percentage,
-              'amount' => $discountParameter->amount,
-              'quantity' => $discountParameter->quantity,
-              'translaquantityPerUsertions' => $discountParameter->quantityPerUser,
-              'customers' => $discountParameter->customers,
-              'visibleToPublic' => $discountParameter->visibleToPublic,
-              'productRestrictions' => $discountParameter->productRestrictions,
-              'dateRestrictions' => $discountParameter->dateRestrictions,
-            ]
-      ]
-        );
+        try {
+            $response = $this->client->post("/api/shop/discounts", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  'id' => $discountParameter->id,
+                  'name' => $discountParameter->name,
+                  'availableFrom' => $discountParameter->availableFrom,
+                  'availableUntil' => $discountParameter->availableUntil,
+                  'enabled' => $discountParameter->enabled,
+                  'highlight' => $discountParameter->highlight,
+                  'cumulative' => $discountParameter->cumulative,
+                  'discountType' => $discountParameter->discountType,
+                  'code' => $discountParameter->code,
+                  'percentage' => $discountParameter->percentage,
+                  'amount' => $discountParameter->amount,
+                  'quantity' => $discountParameter->quantity,
+                  'translaquantityPerUsertions' => $discountParameter->quantityPerUser,
+                  'customers' => $discountParameter->customers,
+                  'visibleToPublic' => $discountParameter->visibleToPublic,
+                  'productRestrictions' => $discountParameter->productRestrictions,
+                  'dateRestrictions' => $discountParameter->dateRestrictions,
+                ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        DiscountDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::BASKET_VALIDATE_PENDING_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ShopErr::BASKET_VALIDATE_PENDING_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_VALIDATE_PENDING_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            DiscountDto::class,
-            'json'
-        );
     }
 
     /**
@@ -757,49 +761,56 @@ class ShopProvider
      * @param string $discountId The ID of the discount to update.
      * @param DiscountParameterDto $discountParameter The parameters for the discount.
      * @throws SherlException If an error occurs during the request.
-     * @return DiscountDto The updated discount.
+     * @return DiscountDto|null The updated discount.
      */
     public function updateDiscount(string $discountId, DiscountParameterDto $discountParameter): ?DiscountDto
     {
+        try {
+            $response = $this->client->put("/api/shop/discounts/$discountId", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  'id' => $discountParameter->id,
+                  'name' => $discountParameter->name,
+                  'availableFrom' => $discountParameter->availableFrom,
+                  'availableUntil' => $discountParameter->availableUntil,
+                  'enabled' => $discountParameter->enabled,
+                  'highlight' => $discountParameter->highlight,
+                  'cumulative' => $discountParameter->cumulative,
+                  'discountType' => $discountParameter->discountType,
+                  'code' => $discountParameter->code,
+                  'percentage' => $discountParameter->percentage,
+                  'amount' => $discountParameter->amount,
+                  'quantity' => $discountParameter->quantity,
+                  'translaquantityPerUsertions' => $discountParameter->quantityPerUser,
+                  'customers' => $discountParameter->customers,
+                  'visibleToPublic' => $discountParameter->visibleToPublic,
+                  'productRestrictions' => $discountParameter->productRestrictions,
+                  'dateRestrictions' => $discountParameter->dateRestrictions,
+                ],
+                RequestOptions::JSON => [
+                    "discountId" => $discountId
+                ]
+            ]);
 
-
-        $response = $this->client->put(
-            "/api/shop/discounts/$discountId",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              'id' => $discountParameter->id,
-              'name' => $discountParameter->name,
-              'availableFrom' => $discountParameter->availableFrom,
-              'availableUntil' => $discountParameter->availableUntil,
-              'enabled' => $discountParameter->enabled,
-              'highlight' => $discountParameter->highlight,
-              'cumulative' => $discountParameter->cumulative,
-              'discountType' => $discountParameter->discountType,
-              'code' => $discountParameter->code,
-              'percentage' => $discountParameter->percentage,
-              'amount' => $discountParameter->amount,
-              'quantity' => $discountParameter->quantity,
-              'translaquantityPerUsertions' => $discountParameter->quantityPerUser,
-              'customers' => $discountParameter->customers,
-              'visibleToPublic' => $discountParameter->visibleToPublic,
-              'productRestrictions' => $discountParameter->productRestrictions,
-              'dateRestrictions' => $discountParameter->dateRestrictions,
-            ]
-      ]
-        );
-
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        DiscountDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::UPDATE_DISCOUNT_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::DISCOUNT_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::UPDATE_DISCOUNT_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::UPDATE_DISCOUNT_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            DiscountDto::class,
-            'json'
-        );
     }
 
     /**
@@ -807,29 +818,37 @@ class ShopProvider
      *
      * @param string $discountId The ID of the discount to delete.
      * @throws SherlException If an error occurs during the request.
-     * @return DiscountDto The deleted discount.
+     * @return DiscountDto|null The deleted discount.
      */
     public function deleteDiscount(string $discountId): ?DiscountDto
     {
-        $response = $this->client->delete(
-            "/api/shop/discounts/$discountId",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => []
-      ]
-        );
+        try {
+            $response = $this->client->delete("/api/shop/discounts/$discountId", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => [
+                    "discountId" => $discountId
+                ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        DiscountDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::DELETE_DISCOUNT_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::DISCOUNT_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::DELETE_DISCOUNT_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::DELETE_DISCOUNT_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            DiscountDto::class,
-            'json'
-        );
     }
 
     /**
@@ -837,65 +856,68 @@ class ShopProvider
      *
      * @param DiscountFilterInputDto $filter The filter parameters for the discount.
      * @throws SherlException If an error occurs during the request.
-     * @return DiscountDto The output DTO representing the discount.
+     * @return DiscountDto|null The output DTO representing the discount.
      */
-    public function findOneDiscountByParams(DiscountFilterInputDto $filter): ?DiscountDto
+    public function getDiscountByParams(DiscountFilterInputDto $filter): ?DiscountDto
     {
-        $response = $this->client->get(
-            "/api/shop/advertisements/",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              "id" => $filter->id,
-              "uri" => $filter->uri,
-              "name" => $filter->name,
-              "ownerUri" => $filter->ownerUri,
-              "ownerUris" => $filter->ownerUris,
-              "consumerId" => $filter->consumerId,
-              "validFor" => $filter->validFor,
-              "enabled" => $filter->enabled,
-              "isSubscription" => $filter->isSubscription,
-              "public" => $filter->public,
-              "visibleToPublic" => $filter->visibleToPublic,
-              "highlight" => $filter->highlight,
-              "cumulative" => $filter->cumulative,
-              "discountType" => $filter->discountType,
-              "code" => $filter->code,
-              "toCode" => $filter->toCode,
-              "noCode" => $filter->noCode,
-              "percentage" => $filter->percentage,
-              "amount" => $filter->amount,
-              "quantity" => $filter->quantity,
-              "quantityPerUser" => $filter->quantityPerUser,
-              "customerUri" => $filter->customerUri,
-              "productUris" => $filter->productUris,
-              "noProduct" => $filter->noProduct,
-              "productRestrictions" => $filter->productRestrictions,
-              "dateRestrictions" => $filter->dateRestrictions,
-              "toDate" => $filter->toDate,
-              "toMe" => $filter->toMe,
-              "createdAt" => $filter->createdAt,
-              "updatedAt" => $filter->updatedAt,
-              "offPeakHours" => $filter->offPeakHours,
-              "toValidate" => $filter->toValidate,
-              "availableFrom" => $filter->availableFrom,
-              "availableUntil" => $filter->availableUntil,
-            ]
+        try {
+            $response = $this->client->get("/api/shop/advertisements/", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  "id" => $filter->id,
+                  "uri" => $filter->uri,
+                  "name" => $filter->name,
+                  "ownerUri" => $filter->ownerUri,
+                  "ownerUris" => $filter->ownerUris,
+                  "consumerId" => $filter->consumerId,
+                  "validFor" => $filter->validFor,
+                  "enabled" => $filter->enabled,
+                  "isSubscription" => $filter->isSubscription,
+                  "public" => $filter->public,
+                  "visibleToPublic" => $filter->visibleToPublic,
+                  "highlight" => $filter->highlight,
+                  "cumulative" => $filter->cumulative,
+                  "discountType" => $filter->discountType,
+                  "code" => $filter->code,
+                  "toCode" => $filter->toCode,
+                  "noCode" => $filter->noCode,
+                  "percentage" => $filter->percentage,
+                  "amount" => $filter->amount,
+                  "quantity" => $filter->quantity,
+                  "quantityPerUser" => $filter->quantityPerUser,
+                  "customerUri" => $filter->customerUri,
+                  "productUris" => $filter->productUris,
+                  "noProduct" => $filter->noProduct,
+                  "productRestrictions" => $filter->productRestrictions,
+                  "dateRestrictions" => $filter->dateRestrictions,
+                  "toDate" => $filter->toDate,
+                  "toMe" => $filter->toMe,
+                  "createdAt" => $filter->createdAt,
+                  "updatedAt" => $filter->updatedAt,
+                  "offPeakHours" => $filter->offPeakHours,
+                  "toValidate" => $filter->toValidate,
+                  "availableFrom" => $filter->availableFrom,
+                  "availableUntil" => $filter->availableUntil,
+                ]
+            ]);
 
-      ]
-        );
-
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        DiscountDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::GET_DISCOUNTS_BY_PARAMS_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ShopErr::GET_DISCOUNTS_BY_PARAMS_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_DISCOUNTS_BY_PARAMS_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            DiscountDto::class,
-            'json'
-        );
     }
 
     /**
@@ -907,24 +929,33 @@ class ShopProvider
      */
     public function getDiscountById(string $discountId): ?DiscountDto
     {
-        $response = $this->client->get(
-            "/api/shop/discounts/$discountId",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-      ]
-        );
+        try {
+            $response = $this->client->get("/api/shop/discounts/$discountId", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => [
+                    "discountId" => $discountId
+                ]
+                ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        DiscountDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::GET_DISCOUNT_BY_ID_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::DISCOUNT_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::GET_DISCOUNT_BY_ID_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_DISCOUNT_BY_ID_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            DiscountDto::class,
-            'json'
-        );
     }
 
     /**
@@ -932,65 +963,68 @@ class ShopProvider
      *
      * @param DiscountFilterInputDto $filter The filter to apply to the discounts.
      * @throws SherlException If an error occurs during the request.
-     * @return DiscountPaginatedResultOutputDto The paginated list of discounts.
+     * @return DiscountPaginatedResultOutputDto|null The paginated list of discounts.
      */
     public function getDiscountsWithFilter(DiscountFilterInputDto $filter): ?DiscountPaginatedResultOutputDto
     {
-        $response = $this->client->get(
-            "/api/shop/advertisements/",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              "id" => $filter->id,
-              "uri" => $filter->uri,
-              "name" => $filter->name,
-              "ownerUri" => $filter->ownerUri,
-              "ownerUris" => $filter->ownerUris,
-              "consumerId" => $filter->consumerId,
-              "validFor" => $filter->validFor,
-              "enabled" => $filter->enabled,
-              "isSubscription" => $filter->isSubscription,
-              "public" => $filter->public,
-              "visibleToPublic" => $filter->visibleToPublic,
-              "highlight" => $filter->highlight,
-              "cumulative" => $filter->cumulative,
-              "discountType" => $filter->discountType,
-              "code" => $filter->code,
-              "toCode" => $filter->toCode,
-              "noCode" => $filter->noCode,
-              "percentage" => $filter->percentage,
-              "amount" => $filter->amount,
-              "quantity" => $filter->quantity,
-              "quantityPerUser" => $filter->quantityPerUser,
-              "customerUri" => $filter->customerUri,
-              "productUris" => $filter->productUris,
-              "noProduct" => $filter->noProduct,
-              "productRestrictions" => $filter->productRestrictions,
-              "dateRestrictions" => $filter->dateRestrictions,
-              "toDate" => $filter->toDate,
-              "toMe" => $filter->toMe,
-              "createdAt" => $filter->createdAt,
-              "updatedAt" => $filter->updatedAt,
-              "offPeakHours" => $filter->offPeakHours,
-              "toValidate" => $filter->toValidate,
-              "availableFrom" => $filter->availableFrom,
-              "availableUntil" => $filter->availableUntil,
-            ]
+        try {
+            $response = $this->client->get("/api/shop/advertisements/", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  "id" => $filter->id,
+                  "uri" => $filter->uri,
+                  "name" => $filter->name,
+                  "ownerUri" => $filter->ownerUri,
+                  "ownerUris" => $filter->ownerUris,
+                  "consumerId" => $filter->consumerId,
+                  "validFor" => $filter->validFor,
+                  "enabled" => $filter->enabled,
+                  "isSubscription" => $filter->isSubscription,
+                  "public" => $filter->public,
+                  "visibleToPublic" => $filter->visibleToPublic,
+                  "highlight" => $filter->highlight,
+                  "cumulative" => $filter->cumulative,
+                  "discountType" => $filter->discountType,
+                  "code" => $filter->code,
+                  "toCode" => $filter->toCode,
+                  "noCode" => $filter->noCode,
+                  "percentage" => $filter->percentage,
+                  "amount" => $filter->amount,
+                  "quantity" => $filter->quantity,
+                  "quantityPerUser" => $filter->quantityPerUser,
+                  "customerUri" => $filter->customerUri,
+                  "productUris" => $filter->productUris,
+                  "noProduct" => $filter->noProduct,
+                  "productRestrictions" => $filter->productRestrictions,
+                  "dateRestrictions" => $filter->dateRestrictions,
+                  "toDate" => $filter->toDate,
+                  "toMe" => $filter->toMe,
+                  "createdAt" => $filter->createdAt,
+                  "updatedAt" => $filter->updatedAt,
+                  "offPeakHours" => $filter->offPeakHours,
+                  "toValidate" => $filter->toValidate,
+                  "availableFrom" => $filter->availableFrom,
+                  "availableUntil" => $filter->availableUntil,
+                ]
+            ]);
 
-      ]
-        );
-
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        DiscountPaginatedResultOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::GET_DISCOUNTS_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ShopErr::GET_DISCOUNTS_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_DISCOUNTS_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            DiscountPaginatedResultOutputDto::class,
-            'json'
-        );
     }
 
     /**
@@ -1003,30 +1037,33 @@ class ShopProvider
 
     public function getPublicDiscountsWithFilter(DiscountPublicFilterInputDto $filter): ?DiscountPaginatedResultOutputDto
     {
-        $response = $this->client->get(
-            "/api/shop/advertisements/",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              "ownerUri" => $filter->ownerUri,
-              "availableFrom" => $filter->availableFrom,
-              "availableUntil" => $filter->availableUntil,
-            ]
+        try {
+            $response = $this->client->get("/api/shop/advertisements/", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  "ownerUri" => $filter->ownerUri,
+                  "availableFrom" => $filter->availableFrom,
+                  "availableUntil" => $filter->availableUntil,
+                ]
+            ]);
 
-      ]
-        );
-
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        DiscountPaginatedResultOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::GET_PUBLIC_DISCOUNTS_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ShopErr::GET_PUBLIC_DISCOUNTS_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_DISCOUNTS_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            DiscountPaginatedResultOutputDto::class,
-            'json'
-        );
     }
 
     /**
@@ -1039,24 +1076,30 @@ class ShopProvider
      */
     public function validateDiscountCode(string $code, string $productUri): ?bool
     {
-        $response = $this->client->post(
-            "/api/shop/discounts/validate-code",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              "code" => $code,
-              "productUri" => $productUri,
-            ]
-      ]
-        );
+        try {
+            $response = $this->client->post("/api/shop/discounts/validate-code", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  "code" => $code,
+                  "productUri" => $productUri,
+                ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::VALIDATE_DISCOUNT_CODE_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::VALIDATE_DISCOUNT_CODE_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ShopErr::VALIDATE_DISCOUNT_CODE_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::VALIDATE_DISCOUNT_CODE_FAILED));
         }
-
-        return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
     }
 
     // INVOICE
