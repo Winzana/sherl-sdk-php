@@ -32,6 +32,16 @@ class OpinionProvider
         $this->errorFactory = new ErrorFactory(self::DOMAIN, OpinionErr::$errors);
     }
 
+
+    /**
+     * Creates a new opinion related to a specific entity.
+     *
+     * @param string $id The ID of the entity to which the opinion is related.
+     * @param OpinionDto $opinionData The opinion data as an OpinionDto object.
+     * @return OpinionDto|null The created opinion if successful, otherwise null.
+     * @throws SherlException If an error occurs during the request.
+     */
+
     public function createOpinion(string $id, OpinionDto $opinionData): ?OpinionDto
     {
         try {
@@ -39,11 +49,12 @@ class OpinionProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
+                RequestOptions::QUERY => $id,
                 RequestOptions::JSON => $opinionData,
             ]);
 
             switch ($response->getStatusCode()) {
-                case 200:
+                case 201:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
                         OpinionDto::class,
@@ -59,6 +70,13 @@ class OpinionProvider
         }
     }
 
+    /**
+     * Gets the average opinions for a specific entity.
+     *
+     * @param string $opinionToUri The URI of the entity.
+     * @return OpinionAverageDto|null The average opinion data if successful, otherwise null.
+     * @throws SherlException If an error occurs during the request.
+     */
     public function getOpinionsAverage(string $opinionToUri): ?OpinionAverageDto
     {
         try {
@@ -70,7 +88,7 @@ class OpinionProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        OpinionDto::class,
+                        OpinionAverageDto::class,
                         'json'
                     );
                 case 403:
@@ -83,7 +101,14 @@ class OpinionProvider
         }
     }
 
-    public function getOpinionsList(OpinionDto $filtersInput): ?OpinionDto
+    /**
+     * Gets a list of opinions based on provided filters.
+     *
+     * @param OpinionFilterDto $filtersInput Filters to apply to the request as an OpinionFilterDto object.
+     * @return OpinionDto|null Paginated opinion data if successful, otherwise null.
+     * @throws SherlException If an error occurs during the request.
+     */
+    public function getOpinionsList(OpinionFilterDto $filtersInput): ?OpinionDto
     {
         try {
             $response = $this->client->get('/api/opinions', [
@@ -107,6 +132,14 @@ class OpinionProvider
         }
     }
 
+    /**
+     * Updates the status of an opinion.
+     *
+     * @param string $id The ID of the opinion to update.
+     * @param OpinionDto $updatedOpinion The updated opinion data as an OpinionDto object.
+     * @return OpinionDto|null The updated opinion if successful, otherwise null.
+     * @throws SherlException If an error occurs during the request.
+     */
     public function updateOpinion(string $id, OpinionDto $updatedOpinion): ?OpinionDto
     {
         try {
@@ -114,6 +147,7 @@ class OpinionProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
+                RequestOptions::QUERY => $id,
                 RequestOptions::JSON => $updatedOpinion,
             ]);
 
@@ -149,6 +183,7 @@ class OpinionProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
+                RequestOptions::QUERY => $id,
                 RequestOptions::JSON => $opinionData,
             ]);
 
@@ -174,13 +209,16 @@ class OpinionProvider
      * Get opinions given by a user based on provided filters.
      *
      * @param OpinionFilterDto $filtersInput - Filters to apply to the request as OpinionDto object.
-     * @return OpinionAverageDto|null - Paginated opinion data if successful, otherwise null.
+     * @return OpinionDto|null - Paginated opinion data if successful, otherwise null.
      * @throws SherlException - If an error occurs during the request.
      */
-    public function getOpinionsIGive(OpinionFilterDto $filtersInput): ?OpinionAverageDto
+    public function getOpinionsIGive(OpinionFilterDto $filtersInput): ?OpinionDto
     {
         try {
             $response = $this->client->get('/api/opinions/i-give', [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
                 RequestOptions::QUERY => $filtersInput,
             ]);
 
@@ -188,7 +226,7 @@ class OpinionProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        OpinionAverageDto::class,
+                        OpinionDto::class,
                         'json'
                     );
                 case 403:
@@ -203,14 +241,17 @@ class OpinionProvider
     /**
      * Get public opinions based on provided filters.
      *
-     * @param OpinionDto $filtersInput - Filters to apply to the request as OpinionDto object.
-     * @return OpinionFilterDto|null - Paginated public opinion data if successful, otherwise null.
+     * @param OpinionFilterDto $filtersInput - Filters to apply to the request as OpinionDto object.
+     * @return OpinionDto|null - Paginated public opinion data if successful, otherwise null.
      * @throws SherlException - If an error occurs during the request.
      */
-    public function getPublicOpinions(OpinionDto $filtersInput): ?OpinionFilterDto
+    public function getPublicOpinions(OpinionFilterDto $filtersInput): ?OpinionDto
     {
         try {
             $response = $this->client->get('/api/public/opinions', [
+                "headers" => [
+                    "Content-Type" => "application/json",
+                ],
                 RequestOptions::QUERY => $filtersInput,
             ]);
 
@@ -218,7 +259,7 @@ class OpinionProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        OpinionFilterDto::class,
+                        OpinionDto::class,
                         'json'
                     );
                 case 403:

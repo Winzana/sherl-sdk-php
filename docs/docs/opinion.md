@@ -8,13 +8,26 @@ title: Opinion
 <span class="badge badge--warning">Required authentication</span>
 
 ```php
-$opinions = $sherlClient->opinion->getOpinionsList(OpinionFilterDto $filters);
+$opinions = $sherlClient->opinion->getOpinionsList(OpinionFilterDto $filtersInput);
 ```
+
+<details>
+<summary><b>OpinionFilterDto</b></summary>
+
+| Fields           |  Type   |      Required      |             Description              |
+| :--------------- | :-----: | :----------------: | :----------------------------------: |
+| **opinionToUri** | string  | :white_check_mark: | URI to which the opinion is directed |
+| **page**         | integer |        :x:         |     Page number for pagination.      |
+| **itemsPerPage** | integer |        :x:         | Number of items to display per page. |
+
+</details>
+
+This call returns an [OpinionDto](opinion-types#OpinionDto) object.
 
 <span class="badge badge--success">Public</span>
 
 ```php
-$publicOpinions = $sherlClient->opinion->getPublicOpinions(OpinionFilterDto $filters);
+$publicOpinions = $sherlClient->opinion->getPublicOpinions(OpinionFilterDto $filtersInput);
 ```
 
 <details>
@@ -55,7 +68,7 @@ This call returns an [OpinionDto](opinion-types#OpinionDto) object.
 <span class="badge badge--warning">Required authentication</span>
 
 ```php
-$claim = $sherlClient->opinion->createOpinionClaim(string $opinionId, CreateOpinionInputDto $data);
+$claim = $sherlClient->opinion->createOpinionClaim(string $id, CreateOpinionInputDto $opinionData);
 ```
 
 <details>
@@ -86,7 +99,7 @@ This call returns an [OpinionAverageDto](opinion-types#OpinionAverageDto) object
 <span class="badge badge--warning">Required authentication</span>
 
 ```php
-$givenOpinions = $sherlClient->opinion->getOpinionsIGive(OpinionFilterDto $filters);
+$givenOpinions = $sherlClient->opinion->getOpinionsIGive(OpinionFilterDto $filtersInput);
 ```
 
 <details>
