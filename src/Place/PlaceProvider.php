@@ -35,9 +35,9 @@ class PlaceProvider
      * @param int $page The page number for pagination.
      * @param int $itemsPerPage The number of items to display per page.
      * @param PlaceFindByInputDto $filters Optional filters to apply to the place retrieval.
-     * @return PlaceOutputDto An array of places matching the criteria.
+     * @return PlaceOutputDto|null An array of places matching the criteria.
      */
-    public function getPlaces(PlaceFindByInputDto $filters, int $page = 1, int $itemsPerPage = 10): PlaceOutputDto
+    public function getPlaces(PlaceFindByInputDto $filters, int $page = 1, int $itemsPerPage = 10): ?PlaceOutputDto
     {
         try {
             $response = $this->client->get('/api/public/places', [
@@ -58,10 +58,10 @@ class PlaceProvider
                 case 403:
                     throw $this->errorFactory->create(PlaceErr::FETCH_PLACES_FORBIDDEN);
                 default:
-                    throw $this->errorFactory->create(PlaceErr::FETCH_FAILED);
+                    throw $this->errorFactory->create(PlaceErr::FETCH_PLACES_FAILED);
             }
         } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PlaceErr::FETCH_FAILED));
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PlaceErr::FETCH_PLACES_FAILED));
         }
     }
 
