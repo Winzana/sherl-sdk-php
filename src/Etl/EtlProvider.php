@@ -31,18 +31,20 @@ class EtlProvider
 
     /**
      * Executes an Extract Transform Load process by ID.
+     *
      * @param string $id - The ID of the ETL process to execute.
-     * @return EtlResponseDto - The response from the ETL process.
+     * @return EtlResponseDto|null - The response from the ETL process.
      * @throws SherlException
      */
 
-    public function extractTransformLoadById(string $id): EtlResponseDto
+    public function extractTransformLoadById(string $id): ?EtlResponseDto
     {
         try {
             $response = $this->client->post("/api/etl/$id", [
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
+                RequestOptions::QUERY => $id
             ]);
 
             switch ($response->getStatusCode()) {
@@ -65,18 +67,19 @@ class EtlProvider
     }
     /**
      * Executes an Extract Transform Load process with a given configuration.
+     *
      * @param ExtractTransformLoadInputDto $config - The configuration for the ETL process.
-     * @return EtlResponseDto - The response from the ETL process.
+     * @return EtlResponseDto|null - The response from the ETL process.
      * @throws SherlException
      */
-    public function extractTransformLoad(ExtractTransformLoadInputDto $config): EtlResponseDto
+    public function extractTransformLoad(ExtractTransformLoadInputDto $config): ?EtlResponseDto
     {
         try {
             $response = $this->client->post("/api/etl", [
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::JSON => RequestOptions::QUERY,
+                RequestOptions::JSON => $config,
             ]);
 
             switch ($response->getStatusCode()) {
@@ -98,17 +101,17 @@ class EtlProvider
     /**
      * Saves a configuration for the ETL process.
      * @param EtlSaveConfigInputDto $config - The configuration to save.
-     * @return ConfigModelDto - The saved configuration model.
+     * @return ConfigModelDto|null - The saved configuration model.
      * @throws SherlException
      */
-    public function saveConfig(EtlSaveConfigInputDto $config): ConfigModelDto
+    public function saveConfig(EtlSaveConfigInputDto $config): ?onfigModelDto
     {
         try {
             $response = $this->client->post("/api/save-config", [
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::JSON => RequestOptions::QUERY,
+                RequestOptions::JSON => $config,
             ]);
             switch ($response->getStatusCode()) {
                 case 200:

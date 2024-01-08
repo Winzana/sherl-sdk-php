@@ -3,13 +3,13 @@ id: etl-types
 title: ETL types
 ---
 
-## EtlResponse
+## EtlResponseDto
 
 | Fields |  Type   | Description             |
 | :----- | :-----: | :---------------------- |
 | status | boolean | The ETL response status |
 
-## ConfigModel
+## ConfigModelDto
 
 | Fields      |       Type        | Description                                    |
 | :---------- | :---------------: | :--------------------------------------------- |
@@ -31,7 +31,7 @@ title: ETL types
 | schemas     |   ISchemaModel    | Schema information.      |
 | filters     |   IFilterModel    | Filter information.      |
 
-## SourceModel
+## SourceModelDto
 
 | Fields  |          Type           | Description               |
 | :------ | :---------------------: | :------------------------ |
@@ -39,7 +39,7 @@ title: ETL types
 | options |      IOptionsModel      | Source options.           |
 | name    |         string          | Name of the source.       |
 
-## DestinationModel
+## DestinationModelDto
 
 | Fields       |          Type          | Description                               |
 | :----------- | :--------------------: | :---------------------------------------- |
@@ -55,7 +55,7 @@ title: ETL types
 | databaseType | DatabaseLoaderTypeEnum | Destination database type (optional).     |
 | uniqueFields |  string[] (optional)   | Unique fields for destination (optional). |
 
-## SchemaModel
+## SchemaModelDto
 
 | Fields       |           Type            | Description                   |
 | :----------- | :-----------------------: | :---------------------------- |
@@ -63,7 +63,7 @@ title: ETL types
 | sources      |   ISchemaSourceModel[]    | Array of schema sources.      |
 | destinations | ISchemaDestinationModel[] | Array of schema destinations. |
 
-## FilterModel
+## FilterModelDto
 
 | Fields  |        Type         | Description             |
 | :------ | :-----------------: | :---------------------- |
@@ -72,7 +72,7 @@ title: ETL types
 | options | IFilterOptionsModel | Filter options.         |
 | fields  | IFilterFieldModel[] | Array of filter fields. |
 
-## OptionsModel
+## OptionsModelDto
 
 | Fields                  |        Type         | Description                              |
 | :---------------------- | :-----------------: | :--------------------------------------- |
@@ -90,7 +90,7 @@ title: ETL types
 | isPaginationZeroBased   | boolean (optional)  | Zero-based pagination flag (optional).   |
 | isPaginationOffsetBased | boolean (optional)  | Offset-based pagination flag (optional). |
 
-## SchemaSourceModel
+## SchemaSourceModelDto
 
 | Fields       |              Type              | Description                   |
 | :----------- | :----------------------------: | :---------------------------- |
@@ -100,7 +100,7 @@ title: ETL types
 | defaultValue |        mixed (optional)        | Default value (optional).     |
 | ignoreEmpty  |       boolean (optional)       | Ignore empty (optional).      |
 
-## SchemaDestinationModel
+## SchemaDestinationModelDto
 
 | Fields     |              Type              | Description                   |
 | :--------- | :----------------------------: | :---------------------------- |
@@ -111,14 +111,14 @@ title: ETL types
 | indexed    |            boolean             | Indexed status (optional).    |
 | wrappers   |   IWrapperModel[] (optional)   | Array of wrappers (optional). |
 
-## FilterFieldModel
+## FilterFieldModelDto
 
 | Fields |       Type       | Description       |
 | :----- | :--------------: | :---------------- |
 | field  |      string      | Field             |
 | boost  | float (optional) | Boost (optional). |
 
-## FilterOptionsModel
+## FilterOptionsModelDto
 
 | Fields        |       Type       | Description               |
 | :------------ | :--------------: | :------------------------ |
