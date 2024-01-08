@@ -37,7 +37,7 @@ class PlaceProvider
      * @param PlaceFindByInputDto $filters Optional filters to apply to the place retrieval.
      * @return PlaceOutputDto An array of places matching the criteria.
      */
-    public function getPlaces( PlaceFindByInputDto $filters,int $page = 1, int $itemsPerPage = 10): PlaceOutputDto
+    public function getPlaces(PlaceFindByInputDto $filters, int $page = 1, int $itemsPerPage = 10): PlaceOutputDto
     {
         try {
             $response = $this->client->get('/api/public/places', [
