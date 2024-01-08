@@ -43,7 +43,7 @@ class QuotaProvider
                 "Content-Type" => "application/json",
                 ],
                 RequestOptions::JSON => [
-                "query" => $filters
+                "filters" => $filters
                 ]
                 ]);
 
