@@ -2,6 +2,7 @@
 
 namespace Sherl\Sdk\Media;
 
+use GuzzleHttp\RequestOptions;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
@@ -13,6 +14,7 @@ use Sherl\Sdk\Common\Error\ErrorFactory;
 use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Opinion\Errors\OpinionErr;
 use Sherl\Sdk\Media\Dto\MediaQueryDto;
+use Sherl\Sdk\Media\Dto\ImageObjectOutputDto;
 
 class MediaProvider
 {
@@ -44,11 +46,7 @@ class MediaProvider
 
             switch ($response->getStatusCode()) {
                 case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        MediaQueryDto::class,
-                        'json'
-                    );
+                    return $response->getBody()->getContents();
                 case 403:
                     throw $this->errorFactory->create(MediaErr::DELETE_FILE_FORBIDDEN);
                 case 404:
@@ -64,9 +62,9 @@ class MediaProvider
      * Retrieves the details of a file by its identifier.
      * @param string $id The unique identifier of the file to retrieve.
      * @param MediaQueryDto $query Additional query parameters for the request.
-     * @return MediaQueryDto An associative array representing the file details.
+     * @return ImageObjectOutputDto An associative array representing the file details.
      */
-    public function getFile(string $id, MediaQueryDto $query): MediaQueryDto
+    public function getFile(string $id, MediaQueryDto $query): ImageObjectOutputDto
     {
         try {
             $response = $this->client->get("/api/medias/$id", [
@@ -77,7 +75,7 @@ class MediaProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        MediaQueryDto::class,
+                        ImageObjectOutputDto::class,
                         'json'
                     );
                 case 403:
@@ -93,23 +91,34 @@ class MediaProvider
     }
     /**
      * Uploads a file to the server.
-     * @param MediaQueryDto $data The multipart file data to be uploaded.
-     * @return MediaQueryDto An associative array representing the uploaded file details.
+     * @param  \Psr\Http\Message\UploadedFileInterface $data The multipart file data to be uploaded.
+     * @return ImageObjectOutputDto An associative array representing the uploaded file details.
      */
-    public function uploadFile(MediaQueryDto $data, MediaQueryDto $query): MediaQueryDto
+    public function uploadFile(\Psr\Http\Message\UploadedFileInterface $data, MediaQueryDto $query): ImageObjectOutputDto
     {
-        try {
-            $response = $this->client->post('/api/medias', [
-                'multipart' => $data,
-                'query' => $query,
-                'headers' => ['Content-Type' => 'multipart/form-data']
-            ]);
+        $formData = new \GuzzleHttp\Psr7\MultipartStream([
+            [
+                'name' => 'upload',
+                'contents' => $data->getStream(),
+                'filename' => $data->getClientFilename(),
+                'headers'  => ['Content-Type' => $data->getClientMediaType()]
+            ]
 
+        ]);
+        try {
+            $response = $this->client->post(
+                "/api/medias",
+                [
+                'headers' => ['Content-Type' => 'multipart/form-data'],
+                'body' => $formData,
+                RequestOptions::JSON => $formData
+            ],
+            );
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        MediaQueryDto::class,
+                        ImageObjectOutputDto::class,
                         'json'
                     );
                 case 403:
