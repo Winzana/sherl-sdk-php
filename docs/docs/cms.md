@@ -29,11 +29,11 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cmsClient->addMediaPage(ICMSArticleAddMediaDto $data);
+$cmsClient->addMediaPage(CMSArticleAddMediaDto $data);
 ```
 
 <details>
-<summary><b>ICMSArticleAddMediaDto</b></summary>
+<summary><b>CMSArticleAddMediaDto</b></summary>
 
 | Fields        | Type                                                           |      Required      | Description            |
 | ------------- | -------------------------------------------------------------- | :----------------: | ---------------------- |
@@ -53,22 +53,8 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cmsClient->addMediaPage(ICMSArticleAddMediaDto $data);
+$cmsClient->deleteMediaPage(string $id);
 ```
-
-<details>
-<summary><b>ICMSArticleAddMediaDto</b></summary>
-
-| Fields        | Type                                                           |      Required      | Description            |
-| ------------- | -------------------------------------------------------------- | :----------------: | ---------------------- |
-| **id**        | string                                                         | :white_check_mark: | ID of the media        |
-| **uri**       | string                                                         | :white_check_mark: | URI of the media       |
-| **width**     | number                                                         | :white_check_mark: | Width of the media     |
-| **height**    | number                                                         | :white_check_mark: | Height of the media    |
-| **caption**   | [CreateCaptionOutputDto](cms-types#CreateCaptionOutputDto)     | :white_check_mark: | Caption of the media   |
-| **thumbnail** | [CreateThumbnailOutputDto](cms-types#CreateThumbnailOutputDto) | :white_check_mark: | Thumbnail of the media |
-
-</details>
 
 This call returns a [ArticleDto](cms-types#ArticleDto) object.
 
@@ -102,16 +88,16 @@ $cmsClient->deleteArticleById(string $id);
 
 This call returns a [ArticleDto](cms-types#ArticleDto) object.
 
-## Create article
+## Update article
 
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cmsClient->createArticleById(ICMSArticleUpdateInputDto $data);
+$cmsClient->UpdateArticleById(string $id,CMSArticleUpdateInputDto $data);
 ```
 
 <details>
-<summary><b>ICMSArticleUpdateInputDto</b></summary>
+<summary><b>CMSArticleUpdateInputDto</b></summary>
 
 | Fields        | Type   |      Required      | Description               |
 | ------------- | ------ | :----------------: | ------------------------- |
@@ -130,11 +116,11 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cmsClient->createTrainingsPage(ICMSArticleTrainingCreateInputDto $data);
+$cmsClient->createTrainingsPage(CMSArticleTrainingCreateInputDto $data);
 ```
 
 <details>
-<summary><b>ICMSArticleTrainingCreateInputDto</b></summary>
+<summary><b>CMSArticleTrainingCreateInputDto</b></summary>
 
 | Fields    | Type   |      Required      | Description           |
 | --------- | ------ | :----------------: | --------------------- |
@@ -151,11 +137,11 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cmsClient->createStoriesPage(ICMSArticleStoryCreateInputDto $data);
+$cmsClient->createStoriesPage(CMSArticleStoryCreateInputDto $data);
 ```
 
 <details>
-<summary><b>ICMSArticleStoryCreateInputDto</b></summary>
+<summary><b>CMSArticleStoryCreateInputDto</b></summary>
 
 | Fields    | Type   |      Required      | Description        |
 | --------- | ------ | :----------------: | ------------------ |
@@ -171,11 +157,11 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cmsClient->createFaqsPage(ICMSArticleFaqCreateInputDto $data);
+$cmsClient->createFaqsPage(CMSArticleFaqCreateInputDto $data);
 ```
 
 <details>
-<summary><b>ICMSArticleFaqCreateInputDto</b></summary>
+<summary><b>CMSArticleFaqCreateInputDto</b></summary>
 
 | Fields      | Type   |      Required      | Description        |
 | ----------- | ------ | :----------------: | ------------------ |
@@ -192,11 +178,11 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cmsClient->createPostsPage(ICMSArticleCreateInputDto $data);
+$cmsClient->createPostsPage(CMSArticleCreateInputDto $data);
 ```
 
 <details>
-<summary><b>ICMSArticleCreateInputDto</b></summary>
+<summary><b>CMSArticleCreateInputDto</b></summary>
 
 | Fields        | Type   |      Required      | Description            |
 | ------------- | ------ | :----------------: | ---------------------- |
@@ -215,11 +201,11 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cmsClient->getPosts(FindPostsFilters $filter);
+$cmsClient->getPosts(FindPostsFiltersDto $filter);
 ```
 
 <details>
-<summary><b>FindPostsFilters</b></summary>
+<summary><b>FindPostsFiltersDto</b></summary>
 
 | Fields              | Type   | Required | Description             |
 | ------------------- | ------ | :------: | ----------------------- |
@@ -263,11 +249,11 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--success">Public</span>
 
 ```php
-$cmsClient->getPublicArticles(FindPostsFilters $data);
+$cmsClient->getPublicArticles(FindPostsFiltersDto $data);
 ```
 
 <details>
-<summary><b>FindPostsFilters</b></summary>
+<summary><b>FindPostsFiltersDto</b></summary>
 
 | Fields              | Type   | Required | Description             |
 | ------------------- | ------ | :------: | ----------------------- |
