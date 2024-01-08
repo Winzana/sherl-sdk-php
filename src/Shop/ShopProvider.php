@@ -368,37 +368,41 @@ class ShopProvider
      */
     public function addProductToBasket(AddProductInputDto $productToAdd): ?FindAdvertisementsOutputDto
     {
-        $response = $this->client->post(
-            "/api/public/shop/advertisements",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              'organizationUri' => $productToAdd->organizationUri,
-              'orderId' => $productToAdd->orderId,
-              'latitude' => $productToAdd->latitude,
-              'longitude' => $productToAdd->longitude,
-              'productId' => $productToAdd->productId,
-              'orderQuantity' => $productToAdd->orderQuantity,
-              'options' => $productToAdd->options,
-              'schedules' => $productToAdd->schedules,
-              'metadatas' => $productToAdd->metadatas,
-              'customerUri' => $productToAdd->customerUri,
-              'isFreeTrial' => $productToAdd->isFreeTrial
-            ]
-      ]
-        );
+        try {
+            $response = $this->client->post("/api/public/shop/advertisements", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  'organizationUri' => $productToAdd->organizationUri,
+                  'orderId' => $productToAdd->orderId,
+                  'latitude' => $productToAdd->latitude,
+                  'longitude' => $productToAdd->longitude,
+                  'productId' => $productToAdd->productId,
+                  'orderQuantity' => $productToAdd->orderQuantity,
+                  'options' => $productToAdd->options,
+                  'schedules' => $productToAdd->schedules,
+                  'metadatas' => $productToAdd->metadatas,
+                  'customerUri' => $productToAdd->customerUri,
+                  'isFreeTrial' => $productToAdd->isFreeTrial
+                ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        FindAdvertisementsOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::BASKET_ADD_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ShopErr::BASKET_ADD_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_ADD_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            FindAdvertisementsOutputDto::class,
-            'json'
-        );
     }
 
     /**
@@ -410,23 +414,27 @@ class ShopProvider
      */
     public function clearBasket(string $customerId): bool
     {
-        $response = $this->client->post(
-            "/api/shop/baskets/clear",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              'customerId' => $customerId
-            ]
-      ]
-        );
+        try {
+            $response = $this->client->post("/api/shop/baskets/clear", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  'customerId' => $customerId
+                ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::BASKET_CLEAR_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ShopErr::BASKET_CLEAR_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_CLEAR_FAILED));
         }
-
-        return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
     }
 
     /**
@@ -434,65 +442,73 @@ class ShopProvider
      *
      * @param string $comment The comment to be added to the basket.
      * @throws SherlException If an error occurs during the request.
-     * @return OrderDto The associated OrderDto object updated.
+     * @return OrderDto|null The associated OrderDto object updated.
      */
-    public function addCommentToBasket(string $comment): OrderDto
+    public function addCommentToBasket(string $comment): ?OrderDto
     {
-        $response = $this->client->post(
-            "/api/shop/baskets/comment",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              'comment' => $comment
-            ]
-      ]
-        );
+        try {
+            $response = $this->client->post("/api/shop/baskets/comment", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  'comment' => $comment
+                ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrderDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::BASKET_COMMENT_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ShopErr::BASKET_COMMENT_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_COMMENT_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-        );
     }
 
+    // TODO: not in SDK JS
     /**
      * Retrieves the customer basket.
      *
      * @param string $customerUri The URI of the customer.
      * @throws SherlException If an error occurs during the request.
-     * @return bool The associated OrderDto object.
+     * @return OrderDto|null The associated OrderDto object.
      */
-    public function getCustomerBasket(string $customerUri): bool
+    public function getCustomerBasket(string $customerUri): ?OrderDto
     {
-        $response = $this->client->get(
-            "/api/shop/baskets",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              'customerUri' => $customerUri
-            ]
-      ]
-        );
+        try {
+            $response = $this->client->get("/api/shop/baskets", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  'customerUri' => $customerUri
+                ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrderDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::GET_BASKET_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ShopErr::GET_BASKET_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_BASKET_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-        );
     }
-
 
     /**
      * Remove an item from the basket.
@@ -503,24 +519,29 @@ class ShopProvider
      */
     public function removeItemFromBasket(string $itemId): bool
     {
-        $response = $this->client->delete(
-            "/api/shop/baskets/remove/$itemId",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-      ]
-        );
+        try {
+            $response = $this->client->delete("/api/shop/baskets/remove/$itemId", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => [
+                    'itemId' => $itemId
+                ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::BASKET_REMOVE_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::BASKET_REMOVE_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_REMOVE_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-        );
     }
 
     /**
@@ -528,32 +549,37 @@ class ShopProvider
      *
      * @param string $code The discount code to add.
      * @throws SherlException If an error occurs during the request.
-     * @return OrderDto The updated order object.
+     * @return OrderDto|null The updated order object.
      */
-    public function addDiscountCodeToBasket(string $code): OrderDto
+    public function addDiscountCodeToBasket(string $code): ?OrderDto
     {
-        $response = $this->client->post(
-            "/api/shop/baskets/set-discount-code",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
+        try {
+            $response = $this->client->post("/api/shop/baskets/set-discount-code", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  'code' => $code
+                ]
+            ]);
 
-            RequestOptions::JSON => [
-              'code' => $code
-            ]
-      ]
-        );
-
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrderDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::BASKET_DISCOUNT_CODE_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::CODE_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::BASKET_DISCOUNT_CODE_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_DISCOUNT_CODE_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-        );
     }
 
     /**
@@ -561,32 +587,37 @@ class ShopProvider
      *
      * @param string $code The sponsor code to add.
      * @throws SherlException If an error occurs during the request.
-     * @return OrderDto The updated OrderDto object.
+     * @return OrderDto|null The updated OrderDto object.
      */
-    public function addSponsorCodeToBasket(string $code): OrderDto
+    public function addSponsorCodeToBasket(string $code): ?OrderDto
     {
-        $response = $this->client->post(
-            "/api/shop/baskets/set-sponsorship-code",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
+        try {
+            $response = $this->client->post("/api/shop/baskets/set-sponsorship-code", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  'code' => $code
+                ]
+            ]);
 
-            RequestOptions::JSON => [
-              'code' => $code
-            ]
-      ]
-        );
-
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrderDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::BASKET_SPONSOR_CODE_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::SPONSOR_CODE_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::BASKET_SPONSOR_CODE_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_SPONSOR_CODE_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-        );
     }
 
     /**
@@ -594,34 +625,43 @@ class ShopProvider
      *
      * @param ShopBasketValidateAndPayInputDto $validation the input data for validation and payment
      * @throws SherlException If an error occurs during the request.
-     * @return OrderDto the updated order object.
+     * @return OrderDto|null the updated order object.
      */
-    public function validateAndPayBasket(ShopBasketValidateAndPayInputDto $validation): OrderDto
+    public function validateAndPayBasket(ShopBasketValidateAndPayInputDto $validation): ?OrderDto
     {
-        $response = $this->client->post(
-            "/api/shop/baskets/validate-and-pay",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
+        try {
+            $response = $this->client->post("/api/shop/baskets/validate-and-pay", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  'orderId' => $validation->orderId,
+                  'customerUri' => $validation->customerUri,
+                  'meansOfPayment' => $validation->meansOfPayment
+                ]
+            ]);
 
-            RequestOptions::JSON => [
-              'orderId' => $validation->orderId,
-              'customerUri' => $validation->customerUri,
-              'meansOfPayment' => $validation->meansOfPayment
-            ]
-      ]
-        );
-
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrderDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::VALIDATE_AND_PAY_BASKET_FAILED_FORBIDDEN);
+                case 460:
+                    throw errorFactory.create(ShopErr::NO_DEFAULT_CARD);
+                case 461:
+                    throw errorFactory.create(ShopErr::BASKET_ORDER_NOT_VALIDATED);
+                case 462:
+                    throw errorFactory.create(ShopErr::BASKET_ALREADY_PAYED);
+                default:
+                    throw $this->errorFactory->create(ShopErr::VALIDATE_AND_PAY_BASKET_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::VALIDATE_AND_PAY_BASKET_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-        );
     }
 
     /**
@@ -629,33 +669,36 @@ class ShopProvider
      *
      * @param ShopBasketValidatePaymentInputDto $validation The input data for validating the payment basket.
      * @throws SherlException If an error occurs during the request.
-     * @return OrderDto The order data after the payment basket is validated.
+     * @return OrderDto|null The order data after the payment basket is validated.
      */
-    public function validatePaymentBasket(ShopBasketValidatePaymentInputDto $validation): OrderDto
+    public function validatePaymentBasket(ShopBasketValidatePaymentInputDto $validation): ?OrderDto
     {
-        $response = $this->client->post(
-            "/api/shop/baskets/validate-and-pay",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
+        try {
+            $response = $this->client->post("/api/shop/baskets/validate-and-pay", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  'orderId' => $validation->orderId,
+                  'customerUri' => $validation->customerUri
+                ]
+            ]);
 
-            RequestOptions::JSON => [
-              'orderId' => $validation->orderId,
-              'customerUri' => $validation->customerUri
-            ]
-      ]
-        );
-
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrderDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::BASKET_VALIDATE_PENDING_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ShopErr::BASKET_VALIDATE_PENDING_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::VALIDATE_AND_PAY_BASKET_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-        );
     }
 
     // DISCOUNT
