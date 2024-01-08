@@ -68,6 +68,7 @@ $claim = $sherlClient->opinion->createOpinionClaim(string $opinionId, CreateOpin
 | **opinionToUri** | string  | :white_check_mark: |    The URI to which the opinion is directed.     |
 | **score**        | integer | :white_check_mark: | The score or rating associated with the opinion. |
 
+</details>
 This call returns an [OpinionDto](opinion-types#OpinionDto) object.
 
 ## Get opinion average score
@@ -94,5 +95,7 @@ $givenOpinions = $sherlClient->opinion->getOpinionsIGive(OpinionFilterDto $filte
 | Fields           |  Type  |      Required      |                Description                |
 | :--------------- | :----: | :----------------: | :---------------------------------------: |
 | **opinionToUri** | string | :white_check_mark: | The URI to which the opinion is directed. |
+
+</details>
 
 This call returns a paginated array of [OpinionAverageDto](opinion-types#OpinionAverageDto) objects.
