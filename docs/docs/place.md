@@ -10,7 +10,21 @@ title: Place
 Retrieve a paginated list of places with optional query filters.
 
 ```php
-$places = $sherlClient->place->getPlaces(int $page, int $itemsPerPage, array $filters);
+$places = $sherlClient->place->getPlaces(int $page, int $itemsPerPage, PlaceFindByInputDto $filters);
 ```
+
+<details>
+ <summary><b>PlaceFindByInputDto</b></summary>
+
+|     Fields     |  Type  | Required |      Description      |
+| :------------: | :----: | :------: | :-------------------: |
+|     **id**     | string |   :x:    |       Place ID        |
+|    **uri**     | string |   :x:    |       Place URI       |
+|  **language**  | string |   :x:    | Language of the place |
+| **consumerId** | string |   :x:    |      Consumer ID      |
+|   **query**    | string |   :x:    |  Query for the place  |
+|    **city**    | string |   :x:    |   City of the place   |
+
+</details>
 
 This call returns a paginated array of [PlaceOutputDto](place-types#PlaceOutputDto) objects.

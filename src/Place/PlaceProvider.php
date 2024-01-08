@@ -11,6 +11,7 @@ use Sherl\Sdk\Common\Error\ErrorFactory;
 use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Place\Errors\PlaceErr;
 use Sherl\Sdk\Place\Dto\PlaceOutputDto;
+use Sherl\Sdk\Place\Dto\PlaceFindByInputDto;
 
 class PlaceProvider
 {
@@ -32,10 +33,10 @@ class PlaceProvider
      *
      * @param int $page The page number for pagination.
      * @param int $itemsPerPage The number of items to display per page.
-     * @param array<string, mixed> $filters Optional filters to apply to the place retrieval.
-     * @return array<PlaceOutputDto> An array of places matching the criteria.
+     * @param PlaceFindByInputDto $filters Optional filters to apply to the place retrieval.
+     * @return PlaceOutputDto An array of places matching the criteria.
      */
-    public function getPlaces(int $page = 1, int $itemsPerPage = 10, array $filters = []): array
+    public function getPlaces(int $page = 1, int $itemsPerPage = 10, PlaceFindByInputDto $filters): PlaceOutputDto
     {
         try {
             $response = $this->client->get('/api/public/places', [
