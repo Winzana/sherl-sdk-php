@@ -12,6 +12,7 @@ use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Place\Errors\PlaceErr;
 use Sherl\Sdk\Place\Dto\PlaceOutputDto;
 use Sherl\Sdk\Place\Dto\PlaceFindByInputDto;
+use GuzzleHttp\RequestOptions;
 
 class PlaceProvider
 {
@@ -36,17 +37,16 @@ class PlaceProvider
      * @param PlaceFindByInputDto $filters Optional filters to apply to the place retrieval.
      * @return PlaceOutputDto An array of places matching the criteria.
      */
-    public function getPlaces(int $page = 1, int $itemsPerPage = 10, PlaceFindByInputDto $filters): PlaceOutputDto
+    public function getPlaces( PlaceFindByInputDto $filters,int $page = 1, int $itemsPerPage = 10): PlaceOutputDto
     {
         try {
             $response = $this->client->get('/api/public/places', [
-                'query' => array_merge(
-                    [
-                        'page' => $page,
-                        'itemsPerPage' => $itemsPerPage
-                    ],
-                    $filters
-                )
+
+                RequestOptions::QUERY => [
+                    "filters" => $filters,
+                    "page" => $page,
+                    "itemsperpage" => $itemsPerPage
+                ],
             ]);
             switch ($response->getStatusCode()) {
                 case 200:

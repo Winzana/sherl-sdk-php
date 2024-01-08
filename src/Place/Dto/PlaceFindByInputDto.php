@@ -3,7 +3,7 @@
 namespace Sherl\Sdk\Place\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
-use Sherl\Sdk\common\Dto\PaginationFilterInputDto;
+use Sherl\Sdk\Common\Dto\PaginationFilterInputDto;
 
 class PlaceFindByInputDto extends PaginationFilterInputDto
 {
