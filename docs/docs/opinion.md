@@ -90,7 +90,7 @@ $givenOpinions = $sherlClient->opinion->getOpinionsIGive(OpinionFilterDto $filte
 ```
 
 <details>
-<summary><b>CreateOpinionInputDto</b></summary>
+<summary><b>OpinionFilterDto</b></summary>
 
 | Fields           |  Type  |      Required      |                Description                |
 | :--------------- | :----: | :----------------: | :---------------------------------------: |
