@@ -104,7 +104,7 @@ class EtlProvider
      * @return ConfigModelDto|null - The saved configuration model.
      * @throws SherlException
      */
-    public function saveConfig(EtlSaveConfigInputDto $config): ?onfigModelDto
+    public function saveConfig(EtlSaveConfigInputDto $config): ?ConfigModelDto
     {
         try {
             $response = $this->client->post("/api/save-config", [
