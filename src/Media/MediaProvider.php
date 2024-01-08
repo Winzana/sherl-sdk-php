@@ -39,14 +39,23 @@ class MediaProvider
     public function deleteFile(string $id): string
     {
         try {
-            $response = $this->client->delete("/api/medias/$id", [
+            $response = $this->client->delete(
+                "/api/medias/$id",
+                [
                 "headers" => [
                     "Content-Type" => "application/json",
-                ],]);
+                ],
+                RequestOptions::QUERY => [
+                    "id" => $id,
+                ],
+            ],
+            );
+
 
             switch ($response->getStatusCode()) {
                 case 200:
                     return $response->getBody()->getContents();
+
                 case 403:
                     throw $this->errorFactory->create(MediaErr::DELETE_FILE_FORBIDDEN);
                 case 404:
@@ -62,14 +71,21 @@ class MediaProvider
      * Retrieves the details of a file by its identifier.
      * @param string $id The unique identifier of the file to retrieve.
      * @param MediaQueryDto $query Additional query parameters for the request.
-     * @return ImageObjectOutputDto An associative array representing the file details.
+     * @return ImageObjectOutputDto|null An associative array representing the file details.
      */
-    public function getFile(string $id, MediaQueryDto $query): ImageObjectOutputDto
+    public function getFile(string $id, MediaQueryDto $query): ?ImageObjectOutputDto
     {
         try {
-            $response = $this->client->get("/api/medias/$id", [
-                'query' => $query
-            ]);
+            $response = $this->client->get(
+                "/api/medias/$id",
+                [
+
+            RequestOptions::QUERY => [
+                "id" => $id,
+                "query" => $query,
+            ],
+            ]
+            );
 
             switch ($response->getStatusCode()) {
                 case 200:
@@ -92,9 +108,9 @@ class MediaProvider
     /**
      * Uploads a file to the server.
      * @param  \Psr\Http\Message\UploadedFileInterface $data The multipart file data to be uploaded.
-     * @return ImageObjectOutputDto An associative array representing the uploaded file details.
+     * @return ImageObjectOutputDto|null An associative array representing the uploaded file details.
      */
-    public function uploadFile(\Psr\Http\Message\UploadedFileInterface $data, MediaQueryDto $query): ImageObjectOutputDto
+    public function uploadFile(\Psr\Http\Message\UploadedFileInterface $data, MediaQueryDto $query): ?ImageObjectOutputDto
     {
         $formData = new \GuzzleHttp\Psr7\MultipartStream([
             [
