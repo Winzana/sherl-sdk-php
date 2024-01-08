@@ -4,6 +4,8 @@ namespace Sherl\Sdk\Shop\Discount\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
+use DateTime;
+
 class DiscountPublicFilterInputDto
 {
     /**

@@ -2,6 +2,8 @@
 
 namespace Sherl\Sdk\Shop\Category\Dto;
 
+use DateTime;
+
 use JMS\Serializer\Annotation as Serializer;
 
 class PublicCategoryResponseDto

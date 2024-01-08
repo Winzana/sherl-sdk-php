@@ -11,7 +11,7 @@ class FindAdvertisementsOutputDto extends Pagination
 {
     /**
      * @var AdvertisementDto[]
-     * @Serializer\Type("array<Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementOutputDto>")
+     * @Serializer\Type("array<Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementDto>")
      */
     public $results;
 

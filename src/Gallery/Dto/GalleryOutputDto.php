@@ -5,7 +5,7 @@ namespace Sherl\Sdk\Gallery\Dto;
 use JMS\Serializer\Annotation as Serializer;
 
 use Sherl\Sdk\Media\Dto\ImageObjectOutputDto;
-use Sherl\Sdk\Shop\Product\Dto\CategoryOutputDto;
+use Sherl\Sdk\Shop\Category\Dto\ProductCategoryDto;
 
 use DateTime;
 
@@ -36,8 +36,8 @@ class GalleryOutputDto
     public $categoryUri;
 
     /**
-     * @var CategoryOutputDto
-     * @Serializer\Type("Sherl\Sdk\Shop\Product\Dto\CategoryOutputDto")
+     * @var ProductCategoryDto
+     * @Serializer\Type("Sherl\Sdk\Shop\Product\Dto\ProductCategoryDto")
      */
     public $category;
 

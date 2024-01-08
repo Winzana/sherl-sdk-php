@@ -8,6 +8,8 @@ use Sherl\Sdk\Shop\Discount\Enum\DiscountType;
 use Sherl\Sdk\Shop\Discount\Dto\ProductRestrictionDto;
 use Sherl\Sdk\Shop\Discount\Dto\DateRestrictionDto;
 
+use DateTime;
+
 use Sherl\Sdk\Organization\Dto\OrganizationOutputDto;
 
 class DiscountDto

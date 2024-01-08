@@ -4,8 +4,10 @@ namespace Sherl\Sdk\Shop\Discount\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-use Sherl\Sdk\Shop\Discount\Dto\ProductRestrictionsDto;
-use Sherl\Sdk\Shop\Discount\Dto\DateRestrictionsDto;
+use Sherl\Sdk\Shop\Discount\Dto\ProductRestrictionDto;
+use Sherl\Sdk\Shop\Discount\Dto\DateRestrictionDto;
+
+use DateTime;
 
 class DiscountParameterDto
 {
@@ -87,14 +89,14 @@ class DiscountParameterDto
      */
     public $visibleToPublic;
     /**
-     * @var ProductRestrictionsDto[]
-     * @Serializer\Type("array<Sherl\Sdk\Shop\Discount\Dto\ProductRestrictionsDto>")
+     * @var ProductRestrictionDto[]
+     * @Serializer\Type("array<Sherl\Sdk\Shop\Discount\Dto\ProductRestrictionDto>")
      */
     public $productRestrictions;
 
     /**
-     * @var DateRestrictionsDto[]
-     * @Serializer\Type("array<Sherl\Sdk\Shop\Discount\Dto\DateRestrictionsDto>")
+     * @var DateRestrictionDto[]
+     * @Serializer\Type("array<Sherl\Sdk\Shop\Discount\Dto\DateRestrictionDto>")
      */
     public $dateRestrictions;
 }

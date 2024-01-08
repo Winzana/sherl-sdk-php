@@ -3,6 +3,7 @@
 namespace Sherl\Sdk\Shop\Payout\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
+use DateTime;
 use Sherl\Sdk\Shop\Payout\Dto\MoneyDto;
 
 class PayoutDto
@@ -32,7 +33,7 @@ class PayoutDto
     public $organizationUri;
 
     /**
-     * @var array
+     * @var string[]
      * @Serializer\Type("array<string>")
      */
     public $orderUris;

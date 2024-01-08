@@ -2,6 +2,8 @@
 
 namespace Sherl\Sdk\Shop\Product\Dto;
 
+use DateTime;
+
 use JMS\Serializer\Annotation as Serializer;
 
 class CommentDto

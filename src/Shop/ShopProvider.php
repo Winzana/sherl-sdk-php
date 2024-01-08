@@ -97,7 +97,7 @@ class ShopProvider
         $this->errorFactory = new ErrorFactory(self::DOMAIN, ShopErr::$errors);
     }
 
-    private function throwSherlShopException(ResponseInterface $response)
+    private function throwSherlShopException(ResponseInterface $response): Exception
     {
         throw new SherlException(ShopProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
@@ -113,35 +113,40 @@ class ShopProvider
      */
     public function createAdvertisement(CreateAdvertisementInputDto $createAdvertisement): ?AdvertisementDto
     {
-
-
-        $response = $this->client->post(
-            "/api/shop/advertisements",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              'description' => $createAdvertisement->description,
-              'displayZones' => $createAdvertisement->displayZones,
-              'backgroundImage' => $createAdvertisement->backgroundImage,
-              'name' => $createAdvertisement->name,
-              'redirectUrl' => $createAdvertisement->redirectUrl,
-              'translations' => $createAdvertisement->translations,
-              'metadatas' => $createAdvertisement->metadatas
+        try {
+            $response = $this->client->post(
+                "/api/shop/advertisements",
+                [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  'description' => $createAdvertisement->description,
+                  'displayZones' => $createAdvertisement->displayZones,
+                  'backgroundImage' => $createAdvertisement->backgroundImage,
+                  'name' => $createAdvertisement->name,
+                  'redirectUrl' => $createAdvertisement->redirectUrl,
+                  'translations' => $createAdvertisement->translations,
+                  'metadatas' => $createAdvertisement->metadatas
+                ]
             ]
-      ]
-        );
+            );
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        AdvertisementDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::CREATION_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ShopErr::CREATION_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::CREATION_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            AdvertisementDto::class,
-            'json'
-        );
     }
     /**
      * Updates an advertisement.

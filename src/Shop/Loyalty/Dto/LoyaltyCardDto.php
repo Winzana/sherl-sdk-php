@@ -4,7 +4,9 @@ namespace Sherl\Sdk\Shop\Loyalty\Dto;
 
 use Sherl\Sdk\Shop\Discount\Enum\DiscountType;
 use Sherl\Sdk\Organization\Dto\OrganizationOutputDto;
-use Sherl\Sdk\Shop\Loyalty\Dto\ILoyaltyCardReward;
+use Sherl\Sdk\Shop\Loyalty\Dto\LoyaltyCardRewardDto;
+
+use DateTime;
 
 use JMS\Serializer\Annotation as Serializer;
 
@@ -51,8 +53,8 @@ class LoyaltyCardDto
      */
     public $amountUsed;
     /**
-     * @var ILoyaltyCardReward[]
-     * @Serializer\Type("array<Sherl\Sdk\Shop\Loyalty\Dto\ILoyaltyCardReward>")
+     * @var LoyaltyCardRewardDto[]
+     * @Serializer\Type("array<Sherl\Sdk\Shop\Loyalty\Dto\LoyaltyCardRewardDto>")
      */
     public $rewards;
     /**

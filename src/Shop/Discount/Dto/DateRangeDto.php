@@ -4,7 +4,9 @@ namespace Sherl\Sdk\Shop\Discount\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class DateRestrictionDto
+use DateTime;
+
+class DateRangeDto
 {
     /**
      * @var DateTime

@@ -45,7 +45,7 @@ class ShopProductCategoryCreateInputDto
 
     /**
      * @var SEODto
-     * @Serializer\Type("Sherl\Sdk\Shop\Category\Dto\SEODto")
+     * @Serializer\Type("Sherl\Sdk\Shop\Product\Dto\SEODto")
      */
     public $seo;
 

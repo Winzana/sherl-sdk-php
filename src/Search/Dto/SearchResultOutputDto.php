@@ -4,7 +4,7 @@ namespace Sherl\Sdk\Search\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-use Sherl\Sdk\Shop\Product\Dto\CategoryOutputDto;
+use Sherl\Sdk\Shop\Category\Dto\ProductCategoryDto;
 use Sherl\Sdk\Organization\Dto\OrganizationOutputDto;
 
 class SearchResultOutputDto
@@ -16,8 +16,8 @@ class SearchResultOutputDto
     public $organization;
 
     /**
-     * @var CategoryOutputDto[]
-     * @Serializer\Type("array<Sherl\Sdk\Shop\Product\Dto\CategoryOutputDto>")
+     * @var ProductCategoryDto[]
+     * @Serializer\Type("array<Sherl\Sdk\Shop\Category\Dto\ProductCategoryDto>")
      */
     public $category;
 

@@ -9,6 +9,8 @@ use Sherl\Sdk\Shop\Product\Dto\OfferDto;
 use Sherl\Sdk\Shop\Product\Dto\OptionDto;
 use Sherl\Sdk\Media\Dto\ImageObjectOutputDto;
 
+use DateTime;
+
 use Sherl\Sdk\Shop\Discount\Dto\ProductRestrictionsWithProductUriDto;
 
 class PublicProductResponseDto
