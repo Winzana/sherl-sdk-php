@@ -1113,24 +1113,33 @@ class ShopProvider
      */
     public function sendLinkToPaidOnline(string $invoiceId): OrderDto
     {
-        $response = $this->client->post(
-            "/api/shop/invoices/$invoiceId/send-link-to-payed-online/",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-      ]
-        );
+        try {
+            $response = $this->client->post("/api/shop/invoices/$invoiceId/send-link-to-payed-online/", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => [
+                    "invoiceId" => $invoiceId
+                ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrderDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::SEND_INVOICE_LINK_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::INVOICE_ID_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::SEND_INVOICE_LINK_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::SEND_INVOICE_LINK_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-        );
     }
 
     // LOYALTY
