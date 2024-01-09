@@ -2356,41 +2356,55 @@ class ShopProvider
      * Generates a payout by making a POST request to "/api/shop/generate-payout".
      *
      * @throws SherlException If the API request fails.
-     * @return array An array of PayoutDto objects.
+     * @return PayoutDto|null An array of PayoutDto objects.
      */
-    public function generatePayout(): array
+    public function generatePayout(): ?PayoutDto
     {
+        try {
         $response = $this->client->post("/api/shop/generate-payout");
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+        switch ($response->getStatusCode()) {
+            case 200:
+                return SerializerFactory::getInstance()->deserialize(
+                    $response->getBody()->getContents(),
+                    PayoutDto::class,
+                    'json'
+                );
+            case 403:
+                throw $this->errorFactory->create(ShopErr::GENERATE_PAYOUT_FAILED_FORBIDDEN);
+            default:
+                throw $this->errorFactory->create(ShopErr::GENERATE_PAYOUT_FAILED);
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            'array<Sherl\Sdk\Shop\Payout\Dto\PayoutDto>',
-            'json'
-        );
+    } catch (Exception $err) {
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GENERATE_PAYOUT_FAILED));
+    }
     }
     /**
      * Submit a payout and return the PayoutDto.
      *
      * @throws SherlException if the response status code is >= 400
-     * @return PayoutDto The submitted PayoutDto.
+     * @return PayoutDto|null The submitted PayoutDto.
      */
-    public function submitPayout(): PayoutDto
+    public function submitPayout(): ?PayoutDto
     {
+        try {
         $response = $this->client->post("/api/shop/submit-payout");
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+        switch ($response->getStatusCode()) {
+            case 200:
+                return SerializerFactory::getInstance()->deserialize(
+                    $response->getBody()->getContents(),
+                    PayoutDto::class,
+                    'json'
+                );
+            case 403:
+                throw $this->errorFactory->create(ShopErr::SUBMIT_PAYOUT_FAILED_FORBIDDEN);
+            default:
+                throw $this->errorFactory->create(ShopErr::SUBMIT_PAYOUT_FAILED);
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PayoutDto::class,
-            'json'
-        );
+    } catch (Exception $err) {
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::SUBMIT_PAYOUT_FAILED));
+    }
     }
     // PICTURE
 
