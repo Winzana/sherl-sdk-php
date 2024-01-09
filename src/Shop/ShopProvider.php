@@ -1274,50 +1274,53 @@ class ShopProvider
      *
      * @param OrderFindInputDto $filter The filter to apply when retrieving orders.
      * @throws SherlException If an error occurs during the request.
-     * @return OrderFindOutputDto The result of the operation.
+     * @return OrderFindOutputDto|null The result of the operation.
      */
-    public function getOrders(OrderFindInputDto $filter): OrderFindOutputDto
+    public function getOrders(OrderFindInputDto $filter): ?OrderFindOutputDto
     {
-        $response = $this->client->get(
-            "/api/shop/orders",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              "id" => $filter->id,
-              "type" => $filter->type,
-              "q" => $filter->q,
-              "date" => $filter->date,
-              "dateRangeMin" => $filter->dateRangeMin,
-              "dateRangeMax" => $filter->dateRangeMax,
-              "scheduleDateRangeMin" => $filter->scheduleDateRangeMin,
-              "scheduleDateRangeMax" => $filter->scheduleDateRangeMax,
-              "orderNumber" => $filter->orderNumber,
-              "orderStatus" => $filter->orderStatus,
-              "orderStatusTab" => $filter->orderStatusTab,
-              "customerId" => $filter->customerId,
-              "customerName" => $filter->customerName,
-              "meansOfPayment" => $filter->meansOfPayment,
-              "serviceType" => $filter->serviceType,
-              "amount" => $filter->amount,
-              "filterByUsage" => $filter->filterByUsage,
-              "sort" => $filter->sort,
+        try {
+            $response = $this->client->get("/api/shop/orders", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  "id" => $filter->id,
+                  "type" => $filter->type,
+                  "q" => $filter->q,
+                  "date" => $filter->date,
+                  "dateRangeMin" => $filter->dateRangeMin,
+                  "dateRangeMax" => $filter->dateRangeMax,
+                  "scheduleDateRangeMin" => $filter->scheduleDateRangeMin,
+                  "scheduleDateRangeMax" => $filter->scheduleDateRangeMax,
+                  "orderNumber" => $filter->orderNumber,
+                  "orderStatus" => $filter->orderStatus,
+                  "orderStatusTab" => $filter->orderStatusTab,
+                  "customerId" => $filter->customerId,
+                  "customerName" => $filter->customerName,
+                  "meansOfPayment" => $filter->meansOfPayment,
+                  "serviceType" => $filter->serviceType,
+                  "amount" => $filter->amount,
+                  "filterByUsage" => $filter->filterByUsage,
+                  "sort" => $filter->sort,
 
-            ]
+                ]
+            ]);
 
-      ]
-        );
-
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrderFindOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::GET_ORDERS_WITH_FILTER_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ShopErr::GET_ORDERS_WITH_FILTER_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORDERS_WITH_FILTER_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-        );
     }
 
 
@@ -1327,49 +1330,57 @@ class ShopProvider
      * @param string $organisationId The ID of the organization.
      * @param OrderFindInputDto $filter The filter to apply to the orders.
      * @throws SherlException If the request fails.
-     * @return OrderFindOutputDto The list of orders that match the filter.
+     * @return OrderFindOutputDto|null The list of orders that match the filter.
      */
-    public function getOrganizationOrders(string $organisationId, OrderFindInputDto $filter): OrderFindOutputDto
+    public function getOrganizationOrders(string $organisationId, OrderFindInputDto $filter): ?OrderFindOutputDto
     {
-        $response = $this->client->get(
-            "/api/shop/orders/list-to/$organisationId",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              "id" => $filter->id,
-              "type" => $filter->type,
-              "q" => $filter->q,
-              "date" => $filter->date,
-              "dateRangeMin" => $filter->dateRangeMin,
-              "dateRangeMax" => $filter->dateRangeMax,
-              "scheduleDateRangeMin" => $filter->scheduleDateRangeMin,
-              "scheduleDateRangeMax" => $filter->scheduleDateRangeMax,
-              "orderNumber" => $filter->orderNumber,
-              "orderStatus" => $filter->orderStatus,
-              "orderStatusTab" => $filter->orderStatusTab,
-              "customerId" => $filter->customerId,
-              "customerName" => $filter->customerName,
-              "meansOfPayment" => $filter->meansOfPayment,
-              "serviceType" => $filter->serviceType,
-              "amount" => $filter->amount,
-              "filterByUsage" => $filter->filterByUsage,
-              "sort" => $filter->sort,
-            ]
+        try {
+            $response = $this->client->get("/api/shop/orders/list-to/$organisationId", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  "id" => $filter->id,
+                  "type" => $filter->type,
+                  "q" => $filter->q,
+                  "date" => $filter->date,
+                  "dateRangeMin" => $filter->dateRangeMin,
+                  "dateRangeMax" => $filter->dateRangeMax,
+                  "scheduleDateRangeMin" => $filter->scheduleDateRangeMin,
+                  "scheduleDateRangeMax" => $filter->scheduleDateRangeMax,
+                  "orderNumber" => $filter->orderNumber,
+                  "orderStatus" => $filter->orderStatus,
+                  "orderStatusTab" => $filter->orderStatusTab,
+                  "customerId" => $filter->customerId,
+                  "customerName" => $filter->customerName,
+                  "meansOfPayment" => $filter->meansOfPayment,
+                  "serviceType" => $filter->serviceType,
+                  "amount" => $filter->amount,
+                  "filterByUsage" => $filter->filterByUsage,
+                  "sort" => $filter->sort,
+                ],
+                RequestOptions::QUERY => [
+                    "organisationId" => $organisationId
+                ]
+            ]);
 
-      ]
-        );
-
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrderFindOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_ORDERS_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_ORDERS_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORGANIZATION_ORDERS_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-        );
     }
 
     /**
@@ -1378,29 +1389,44 @@ class ShopProvider
      * @param string $id The ID of the order.
      * @param OrderStatus $status The new status of the order.
      * @throws SherlException If the request to update the order status fails.
-     * @return OrderFindOutputDto The updated order.
+     * @return OrderFindOutputDto|null The updated order.
      */
-    public function updateOrderStatus(string $id, OrderStatus $status): OrderFindOutputDto
+    public function updateOrderStatus(string $id, OrderStatus $status): ?OrderFindOutputDto
     {
-        $response = $this->client->get(
-            "/api/shop/orders/$id/status/" . $status->value,
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
+        try {
+            $response = $this->client->put("/api/shop/orders/$id/status/$status->value", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => [
+                    "id" => $id,
+                    "status" => $status->value
+                ]
+            ]);
 
-      ]
-        );
-
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrderFindOutputDto::class,
+                        'json'
+                    );
+                case 400:
+                    throw $this->errorFactory->create(ShopErr::BAD_REQUEST);
+                case 401:
+                    throw $this->errorFactory->create(ShopErr::NOT_ALLOWED);
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::UPDATE_ORDER_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::ORDER_NOT_FOUND);
+                case 409:
+                    throw $this->errorFactory->create(ShopErr::ALREADY_CHANGED);
+                default:
+                    throw $this->errorFactory->create(ShopErr::UPDATE_ORDER_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::UPDATE_ORDER_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-        );
     }
 
     /**
@@ -1409,28 +1435,44 @@ class ShopProvider
      * @param string $orderId The ID of the order to cancel.
      * @param CancelOrderInputDto $cancelOrderDates The cancellation details.
      * @throws SherlException If an error occurs during the request.
-     * @return OrderDto The updated order object.
+     * @return OrderDto|null The updated order object.
      */
-    public function cancelOrder(string $orderId, CancelOrderInputDto $cancelOrderDates): OrderDto
+    public function cancelOrder(string $orderId, CancelOrderInputDto $cancelOrderDates): ?OrderDto
     {
-        $response = $this->client->post(
-            "/api/shop/orders/{$orderId}/cancel",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => $cancelOrderDates
-      ]
-        );
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
-        }
+        try {
+            $response = $this->client->post("/api/shop/orders/$orderId/cancel", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => $cancelOrderDates,
+                RequestOptions::QUERY => [
+                    "orderId" => $orderId
+                ]
+            ]);
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-        );
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrderDto::class,
+                        'json'
+                    );
+                case 400:
+                    throw $this->errorFactory->create(ShopErr::BAD_REQUEST);
+                case 401:
+                    throw $this->errorFactory->create(ShopErr::NOT_ALLOWED);
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::CANCEL_ORDER_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::ORDER_NOT_FOUND);
+                case 409:
+                    throw $this->errorFactory->create(ShopErr::ALREADY_CHANGED);
+                default:
+                    throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_ORDERS_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORGANIZATION_ORDERS_FAILED));
+        }
     }
 
     /**
@@ -1438,21 +1480,37 @@ class ShopProvider
      *
      * @param string $orderId The ID of the order to retrieve.
      * @throws SherlException If an error occurs during the request.
-     * @return OrderDto The order object.
+     * @return OrderDto|null The order object.
      */
-    public function getOrder(string $orderId): OrderDto
+    public function getOrder(string $orderId): ?OrderDto
     {
-        $response = $this->client->get("/api/shop/orders/{$orderId}");
+        try {
+            $response = $this->client->get("/api/shop/orders/$orderId", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => [
+                    "orderId" => $orderId
+                ]
+            ]);
 
-        if ($response->getStatusCode() != 200) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        OrderDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::GET_ORDER_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::ORDER_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::GET_ORDER_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::UPDATE_ORDER_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-        );
     }
 
     // PRODUCT
