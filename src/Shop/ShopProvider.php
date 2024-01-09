@@ -2374,10 +2374,11 @@ class ShopProvider
      * @param string $productId The ID of the product.
      * @param string $mediaId The ID of the media.
      * @throws SherlException If the API request fails.
-     * @return ProductResponseDto The updated product data.
+     * @return ProductResponseDto|null The updated product data.
      */
-    public function addPictureToProduct(string $productId, string $mediaId): ProductResponseDto
+    public function addPictureToProduct(string $productId, string $mediaId): ?ProductResponseDto
     {
+        try {
         $response = $this->client->post(
             "/api/shop/products/{$productId}/pictures/{$mediaId}",
             [
@@ -2388,42 +2389,63 @@ class ShopProvider
               'productId' => $productId,
               'idMedia' => $mediaId,
             ]
-      ]
-        );
-
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
-        }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductResponseDto::class,
-            'json'
-        );
+            ]);
+      switch ($response->getStatusCode()) {
+        case 200:
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ProductResponseDto::class,
+                'json'
+            );
+        case 403:
+            throw $this->errorFactory->create(ShopErr::ADD_PICTURE_PRODUCT_FAILED_FORBIDDEN);
+        case 404:
+            throw $this->errorFactory->create(ShopErr::PRODUCT_OR_MEDIA_NOT_FOUND);
+        default:
+            throw $this->errorFactory->create(ShopErr::ADD_PICTURE_PRODUCT_FAILED);
     }
+} catch (Exception $err) {
+    throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_PICTURE_PRODUCT_FAILED));
+}
+    }
+
     /**
      * Removes a picture from a product.
      *
      * @param string $productId The ID of the product.
      * @param string $mediaId The ID of the picture to be removed.
      * @throws SherlException If the API request fails.
-     * @return ProductResponseDto The updated product.
+     * @return ProductResponseDto|null The updated product.
      */
-    public function removePictureToProduct(string $productId, string $mediaId): ProductResponseDto
+    public function removePictureToProduct(string $productId, string $mediaId): ?ProductResponseDto
     {
+        try {
         $response = $this->client->delete(
-            "/api/shop/products/{$productId}/pictures/{$mediaId}"
+            "/api/shop/products/{$productId}/pictures/{$mediaId}", [
+                RequestOptions::QUERY => [ 
+                    "productId" => $productId,
+                    "mediaId" => $mediaId
+                    ]
+            ]
         );
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+        switch ($response->getStatusCode()) {
+            case 200:
+                return SerializerFactory::getInstance()->deserialize(
+                    $response->getBody()->getContents(),
+                    ProductResponseDto::class,
+                    'json'
+                );
+            case 403:
+                throw $this->errorFactory->create(ShopErr::REMOVE_PICTURE_PRODUCT_FAILED_FORBIDDEN);
+            case 404:
+                throw $this->errorFactory->create(ShopErr::PRODUCT_OR_MEDIA_NOT_FOUND);
+            default:
+                throw $this->errorFactory->create(ShopErr::REMOVE_PICTURE_PRODUCT_FAILED);
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductResponseDto::class,
-            'json'
-        );
+    } catch (Exception $err) {
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::REMOVE_PICTURE_PRODUCT_FAILED));
+    }
     }
     // SUBSCRIPTION
 
@@ -2432,57 +2454,72 @@ class ShopProvider
      *
      * @param string $subscriptionId The ID of the subscription to cancel.
      * @throws SherlException If the API request fails.
-     * @return SubscriptionDto The subscription that was cancelled.
+     * @return SubscriptionDto|null The subscription that was cancelled.
      */
-    public function cancelSubscription(string $subscriptionId): SubscriptionDto
+    public function cancelSubscription(string $subscriptionId): ?SubscriptionDto
     {
+        try {
         $response = $this->client->post(
             "/api/shop/subscriptions/{$subscriptionId}/cancel",
             [
             "headers" => [
               "Content-Type" => "application/json",
             ],
-            RequestOptions::JSON => []
+            RequestOptions::QUERY => $subscriptionId
       ]
         );
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+        switch ($response->getStatusCode()) {
+            case 200:
+                return SerializerFactory::getInstance()->deserialize(
+                    $response->getBody()->getContents(),
+                    SubscriptionDto::class,
+                    'json'
+                );
+            case 403:
+                throw $this->errorFactory->create(ShopErr::CANCEL_SUBSCRIPTION_FAILED_FORBIDDEN);
+            case 404:
+                throw $this->errorFactory->create(ShopErr::SUBSCRIPTION_NOT_FOUND);
+            default:
+                throw $this->errorFactory->create(ShopErr::CANCEL_SUBSCRIPTION_FAILED);
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            SubscriptionDto::class,
-            'json'
-        );
+    } catch (Exception $err) {
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::CANCEL_SUBSCRIPTION_FAILED));
+    }
     }
     /**
      * Retrieves a subscription using the provided filters.
      *
      * @param SubscriptionFindOnByDto $filters The filters to apply when searching for a subscription.
      * @throws SherlException If an error occurs during the request.
-     * @return SubscriptionDto The retrieved subscription.
+     * @return SubscriptionDto|null The retrieved subscription.
      */
-    public function getSubscriptionFindOneBy(SubscriptionFindOnByDto $filters): SubscriptionDto
+    public function getSubscriptionFindOneBy(SubscriptionFindOnByDto $filters): ?SubscriptionDto
     {
-        $response = $this->client->get(
-            "/api/shop/subscriptions/find-one-by",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            'query' => $filters
+        try {
+            $response = $this->client->get(
+                "/api/shop/subscriptions/find-one-by",
+                [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => $filters,
       ]
-        );
-
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            );
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        SubscriptionDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::FIND_ONE_SUBSCRIPTION_WITH_FILTER_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ShopErr::FIND_ONE_SUBSCRIPTION_WITH_FILTER_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::FIND_ONE_SUBSCRIPTION_WITH_FILTER_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            SubscriptionDto::class,
-            'json'
-        );
     }
 }
