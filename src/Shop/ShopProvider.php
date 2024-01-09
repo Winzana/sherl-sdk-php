@@ -97,11 +97,6 @@ class ShopProvider
         $this->errorFactory = new ErrorFactory(self::DOMAIN, ShopErr::$errors);
     }
 
-    private function throwSherlShopException(ResponseInterface $response): Exception
-    {
-        throw new SherlException(ShopProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
-    }
-
     // ADVERTISEMENT
 
     /**
@@ -651,11 +646,11 @@ class ShopProvider
                 case 403:
                     throw $this->errorFactory->create(ShopErr::VALIDATE_AND_PAY_BASKET_FAILED_FORBIDDEN);
                 case 460:
-                    throw errorFactory.create(ShopErr::NO_DEFAULT_CARD);
+                    throw $this->errorFactory->create(ShopErr::NO_DEFAULT_CARD);
                 case 461:
-                    throw errorFactory.create(ShopErr::BASKET_ORDER_NOT_VALIDATED);
+                    throw $this->errorFactory->create(ShopErr::BASKET_ORDER_NOT_VALIDATED);
                 case 462:
-                    throw errorFactory.create(ShopErr::BASKET_ALREADY_PAYED);
+                    throw $this->errorFactory->create(ShopErr::BASKET_ALREADY_PAYED);
                 default:
                     throw $this->errorFactory->create(ShopErr::VALIDATE_AND_PAY_BASKET_FAILED);
             }
@@ -789,7 +784,7 @@ class ShopProvider
                   'productRestrictions' => $discountParameter->productRestrictions,
                   'dateRestrictions' => $discountParameter->dateRestrictions,
                 ],
-                RequestOptions::JSON => [
+                RequestOptions::QUERY => [
                     "discountId" => $discountId
                 ]
             ]);
@@ -1509,7 +1504,7 @@ class ShopProvider
                     throw $this->errorFactory->create(ShopErr::GET_ORDER_FAILED);
             }
         } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::UPDATE_ORDER_FAILED));
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORDER_FAILED));
         }
     }
 
@@ -1520,29 +1515,33 @@ class ShopProvider
      *
      * @param ShopProductCategoryCreateInputDto $category The category to be added.
      * @throws SherlException If an error occurs during the request.
-     * @return ProductCategoryDto The added category.
+     * @return ProductCategoryDto|null The added category.
      */
-    public function addCategoryOrganization(ShopProductCategoryCreateInputDto $category): ProductCategoryDto
+    public function addCategoryOrganization(ShopProductCategoryCreateInputDto $category): ?ProductCategoryDto
     {
-        $response = $this->client->post(
-            "/api/shop/products/categories",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => ['category' => $category]
-      ]
-        );
+        try {
+            $response = $this->client->post("/api/shop/products/categories", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => ['category' => $category]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ProductCategoryDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::ADD_CATEGORY_TO_ORGANIZATION_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ShopErr::ADD_CATEGORY_TO_ORGANIZATION_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_CATEGORY_TO_ORGANIZATION_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductCategoryDto::class,
-            'json'
-        );
     }
 
     /**
@@ -1550,29 +1549,33 @@ class ShopProvider
      *
      * @param AddCommentOnProductDto $productComment The product comment to be added.
      * @throws SherlException If the API request fails.
-     * @return CommentDto The comment that was added.
+     * @return CommentDto|null The comment that was added.
      */
-    public function addCommentOnProduct(AddCommentOnProductDto $productComment): CommentDto
+    public function addCommentOnProduct(AddCommentOnProductDto $productComment): ?CommentDto
     {
-        $response = $this->client->post(
-            "/api/shop/products/comments",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => ['productComment' => $productComment]
-      ]
-        );
+        try {
+            $response = $this->client->post("/api/shop/products/comments", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => ['productComment' => $productComment]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        CommentDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::ADD_COMMENT_ON_PRODUCT_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ShopErr::ADD_COMMENT_ON_PRODUCT_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_COMMENT_ON_PRODUCT_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            CommentDto::class,
-            'json'
-        );
     }
 
     /**
@@ -1581,30 +1584,36 @@ class ShopProvider
      * @param string $productId The ID of the product to add the option to.
      * @param mixed $option The option to add to the product.
      * @throws SherlException If an error occurs during the request.
-     * @return ProductOutputDto The updated product with the added option.
+     * @return ProductOutputDto|null The updated product with the added option.
      */
-    public function addOptionToProduct(string $productId, mixed $option): ProductOutputDto
+    public function addOptionToProduct(string $productId, mixed $option): ?ProductOutputDto
     {
-        $response = $this->client->post(
-            "/api/shop/products/$productId/options",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::QUERY => ["productId" => $productId],
-            RequestOptions::JSON => ['option' => $option]
-      ]
-        );
+        try {
+            $response = $this->client->post("/api/shop/products/$productId/options", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["productId" => $productId],
+                RequestOptions::JSON => ['option' => $option]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ProductOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::ADD_OPTION_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::ADD_OPTION_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_OPTION_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductOutputDto::class,
-            'json'
-        );
     }
 
     /**
@@ -1614,23 +1623,29 @@ class ShopProvider
      * @throws SherlException If the HTTP request fails.
      * @return int The number of likes on the product.
      */
-    public function addLikeToProduct(string $productId): int
+    public function addLikeToProduct(string $productId): ?int
     {
-        $response = $this->client->post(
-            "/api/shop/products/$productId/like",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::QUERY => ["productId" => $productId]
-      ]
-        );
+        try {
+            $response = $this->client->post("/api/shop/products/$productId/like", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["productId" => $productId]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::ADD_OPTION_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::ADD_OPTION_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_OPTION_FAILED));
         }
-
-        return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
     }
 
     /**
@@ -1642,21 +1657,27 @@ class ShopProvider
      */
     public function addProductViews(string $productId): int
     {
-        $response = $this->client->post(
-            "/api/shop/products/$productId/views",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::QUERY => ["productId" => $productId]
-      ]
-        );
+        try {
+            $response = $this->client->post("/api/shop/products/$productId/views", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["productId" => $productId]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::ADD_PRODUCT_VIEWS_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::ADD_PRODUCT_VIEWS_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_PRODUCT_VIEWS_FAILED));
         }
-
-        return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
     }
 
     /**
@@ -1665,30 +1686,36 @@ class ShopProvider
      * @param string $categoryId The ID of the category.
      * @param ShopProductSubCategoryCreateInputDto $subCategory The subcategory to be added.
      * @throws SherlException If an error occurs during the request.
-     * @return ProductCategoryDto The output category.
+     * @return ProductCategoryDto|null The output category.
      */
-    public function addSubCategoryToCategory(string $categoryId, ShopProductSubCategoryCreateInputDto $subCategory): ProductCategoryDto
+    public function addSubCategoryToCategory(string $categoryId, ShopProductSubCategoryCreateInputDto $subCategory): ?ProductCategoryDto
     {
-        $response = $this->client->post(
-            "/api/shop/products/categories/$categoryId",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::QUERY => ["categoryId" => $categoryId],
-            RequestOptions::JSON => ['subCategory' => $subCategory]
-      ]
-        );
+        try {
+            $response = $this->client->post("/api/shop/products/categories/$categoryId", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["categoryId" => $categoryId],
+                RequestOptions::JSON => ['subCategory' => $subCategory]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ProductCategoryDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::ADD_SUBCATEGORY_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::CATEGORY_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::ADD_SUBCATEGORY_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_SUBCATEGORY_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductCategoryDto::class,
-            'json'
-        );
     }
 
     /**
@@ -1696,29 +1723,35 @@ class ShopProvider
      *
      * @param string $categoryId The ID of the category to delete.
      * @throws SherlException If an error occurs during the request.
-     * @return ProductCategoryDto The deleted category.
+     * @return ProductCategoryDto|null The deleted category.
      */
-    public function deleteCategory(string $categoryId): ProductCategoryDto
+    public function deleteCategory(string $categoryId): ?ProductCategoryDto
     {
-        $response = $this->client->delete(
-            "/api/shop/products/categories/$categoryId",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::QUERY => ["categoryId" => $categoryId]
-      ]
-        );
+        try {
+            $response = $this->client->delete("/api/shop/products/categories/$categoryId", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["categoryId" => $categoryId]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ProductCategoryDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::DELETE_CATEGORY_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::CATEGORY_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::DELETE_CATEGORY_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::DELETE_CATEGORY_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductCategoryDto::class,
-            'json'
-        );
     }
 
     /**
@@ -1727,32 +1760,38 @@ class ShopProvider
      * @param string $productId The ID of the product.
      * @param string $optionId The ID of the option.
      * @throws SherlException If an error occurs during the request.
-     * @return ProductOutputDto The updated product.
+     * @return ProductOutputDto|null The updated product.
      */
-    public function removeProductOption(string $productId, string $optionId): ProductOutputDto
+    public function removeProductOption(string $productId, string $optionId): ?ProductOutputDto
     {
-        $response = $this->client->delete(
-            "/api/shop/products/$productId/options/$optionId",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::QUERY => [
-              "categoryId" => $productId,
-              "optionId" => $optionId
-            ]
-      ]
-        );
+        try {
+            $response = $this->client->delete("/api/shop/products/$productId/options/$optionId", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => [
+                  "categoryId" => $productId,
+                  "optionId" => $optionId
+                ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ProductOutputDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::REMOVE_OPTION_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::OPTION_OR_PRODUCT_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::REMOVE_OPTION_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::DELETE_CATEGORY_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductOutputDto::class,
-            'json'
-        );
     }
 
 
@@ -1762,30 +1801,36 @@ class ShopProvider
      * @param string $categoryId The ID of the category to update.
      * @param ShopProductCategoryCreateInputDto $updatedCategory The updated category data.
      * @throws SherlException If an error occurs while updating the category.
-     * @return ProductCategoryDto The updated category.
+     * @return ProductCategoryDto|null The updated category.
      */
-    public function updateCategory(string $categoryId, ShopProductCategoryCreateInputDto $updatedCategory): ProductCategoryDto
+    public function updateCategory(string $categoryId, ShopProductCategoryCreateInputDto $updatedCategory): ?ProductCategoryDto
     {
-        $response = $this->client->put(
-            "/api/shop/products/categories/$categoryId",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::QUERY => ["categoryId" => $categoryId],
-            RequestOptions::JSON => ['updatedCategory' => $updatedCategory]
-      ]
-        );
+        try {
+            $response = $this->client->put("/api/shop/products/categories/$categoryId", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["categoryId" => $categoryId],
+                RequestOptions::JSON => ['updatedCategory' => $updatedCategory]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ProductCategoryDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::UPDATE_CATEGORY_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::CATEGORY_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::UPDATE_CATEGORY_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::DELETE_CATEGORY_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductCategoryDto::class,
-            'json'
-        );
     }
 
     /**
@@ -1796,28 +1841,32 @@ class ShopProvider
      */
     public function getCategories(ShopProductCategoryFindByQueryDto $filter): ProductCategoryDto
     {
-        $response = $this->client->get(
-            "/api/shop/products/categories/all",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              "organizationId" => $filter->organizationId,
-              "depth" => $filter->depth,
-            ]
-      ]
-        );
+        try {
+            $response = $this->client->get("/api/shop/products/categories/all", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  "organizationId" => $filter->organizationId,
+                  "depth" => $filter->depth,
+                ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ProductCategoryDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::GET_CATEGORIES_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ShopErr::GET_CATEGORIES_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_CATEGORIES_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductCategoryDto::class,
-            'json'
-        );
     }
 
     /**
@@ -1825,29 +1874,35 @@ class ShopProvider
      *
      * @param string $categoryId The ID of the category.
      * @throws SherlException If the API request fails.
-     * @return ProductCategoryDto The category object.
+     * @return ProductCategoryDto|null The category object.
      */
-    public function getCategoryById(string $categoryId): ProductCategoryDto
+    public function getCategoryById(string $categoryId): ?ProductCategoryDto
     {
-        $response = $this->client->get(
-            "/api/shop/products/categories/$categoryId",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::QUERY => ["categoryId" => $categoryId]
-      ]
-        );
+        try {
+            $response = $this->client->get("/api/shop/products/categories/$categoryId", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["categoryId" => $categoryId]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ProductCategoryDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::GET_CATEGORY_BY_ID_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::CATEGORY_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::GET_CATEGORY_BY_ID_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_CATEGORY_BY_ID_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductCategoryDto::class,
-            'json'
-        );
     }
 
     /**
@@ -1855,29 +1910,35 @@ class ShopProvider
      *
      * @param string $organizationId The ID of the organization.
      * @throws SherlException If the API request fails.
-     * @return ProductCategoryDto The categories for the organization.
+     * @return ProductCategoryDto|null The categories for the organization.
      */
-    public function getOrganizationCategories(string $organizationId): ProductCategoryDto
+    public function getOrganizationCategories(string $organizationId): ?ProductCategoryDto
     {
-        $response = $this->client->get(
-            "/api/shop/products/categories",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::QUERY => ["organizationId" => $organizationId]
-      ]
-        );
+        try {
+            $response = $this->client->get("/api/shop/products/categories", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["organizationId" => $organizationId]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ProductCategoryDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_CATEGORIES_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_CATEGORIES_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORGANIZATION_CATEGORIES_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductCategoryDto::class,
-            'json'
-        );
     }
 
     /**
@@ -1885,29 +1946,35 @@ class ShopProvider
      *
      * @param string $categoryId The ID of the category.
      * @throws SherlException If the API request fails.
-     * @return ProductCategoryDto The sub-category found.
+     * @return ProductCategoryDto|null The sub-category found.
      */
-    public function getOrganizationSubCategories(string $categoryId): ProductCategoryDto
+    public function getOrganizationSubCategories(string $categoryId): ?ProductCategoryDto
     {
-        $response = $this->client->get(
-            "/api/shop/products/categories/$categoryId",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::QUERY => ["categoryId" => $categoryId]
-      ]
-        );
+        try {
+            $response = $this->client->get("/api/shop/products/categories/$categoryId", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["categoryId" => $categoryId]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ProductCategoryDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_SUBCATEGORIES_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::ORGANIZATION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_SUBCATEGORIES_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORGANIZATION_SUBCATEGORIES_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductCategoryDto::class,
-            'json'
-        );
     }
 
     /**
@@ -1916,37 +1983,43 @@ class ShopProvider
      * @param string $productId The ID of the product.
      * @param FindProductCommentsInputDto $filters The filters to apply when retrieving the comments.
      * @throws SherlException If the API request fails.
-     * @return ProductCommentsResult The pagianated result containing the comments for the product.
+     * @return ProductCommentsResult|null The pagianated result containing the comments for the product.
      */
-    public function getProductComments(string $productId, FindProductCommentsInputDto $filters): ProductCommentsResult
+    public function getProductComments(string $productId, FindProductCommentsInputDto $filters): ?ProductCommentsResult
     {
-        $response = $this->client->get(
-            "/api/shop/products/$productId/comments",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::QUERY => ["productId" => $productId],
-            RequestOptions::JSON => [
-              "page" => $filters->page,
-              "itemsPerPage" => $filters->itemsPerPage,
-              "productId" => $filters->productId,
-              "personId" => $filters->personId,
-              "organizationUri" => $filters->organizationUri,
-              "sort" => $filters->sort,
-            ]
-      ]
-        );
+        try {
+            $response = $this->client->get("/api/shop/products/$productId/comments", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["productId" => $productId],
+                RequestOptions::JSON => [
+                  "page" => $filters->page,
+                  "itemsPerPage" => $filters->itemsPerPage,
+                  "productId" => $filters->productId,
+                  "personId" => $filters->personId,
+                  "organizationUri" => $filters->organizationUri,
+                  "sort" => $filters->sort,
+                ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ProductCommentsResult::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::GET_PRODUCT_COMMENTS_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::GET_PRODUCT_COMMENTS_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PRODUCT_COMMENTS_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductCommentsResult::class,
-            'json'
-        );
     }
 
     /**
@@ -1958,21 +2031,27 @@ class ShopProvider
      */
     public function getProductLikes(string $productId): int
     {
-        $response = $this->client->get(
-            "/api/shop/products/$productId/like",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::QUERY => ["productId" => $productId]
-      ]
-        );
+        try {
+            $response = $this->client->get("/api/shop/products/$productId/like", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => ["productId" => $productId]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::GET_PRODUCT_VIEWS_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::GET_PRODUCT_VIEWS_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PRODUCT_VIEWS_FAILED));
         }
-
-        return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
     }
 
     /**
@@ -1984,18 +2063,22 @@ class ShopProvider
      */
     public function getProductViews(string $productId): int
     {
-        $response = $this->client->get(
-            "/api/shop/products/$productId/views",
-            [
+        $response = $this->client->get("/api/shop/products/$productId/views", [
             "headers" => [
               "Content-Type" => "application/json",
             ],
             RequestOptions::QUERY => ["productId" => $productId]
-      ]
-        );
+        ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+        switch ($response->getStatusCode()) {
+            case 200:
+                return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
+            case 403:
+                throw $this->errorFactory->create(ShopErr::GET_PRODUCT_LIKES_FAILED_FORBIDDEN);
+            case 404:
+                throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
+            default:
+                throw $this->errorFactory->create(ShopErr::GET_PRODUCT_LIKES_FAILED);
         }
 
         return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
@@ -2375,9 +2458,9 @@ class ShopProvider
      *
      * @param string $cardId The ID of the card to delete.
      * @throws SherlException If the API request fails.
-     * @return PersonOutputDto|null The updated person data.
+     * @return PersonOutputDto The updated person data.
      */
-    public function deleteCard(string $cardId): ?PersonOutputDto
+    public function deleteCard(string $cardId): PersonOutputDto
     {
         try {
 
@@ -2411,10 +2494,10 @@ class ShopProvider
     /**
      * Requests credentials to add a credit card.
      *
-     * @return CreditCardDto|null The credit card data.
+     * @return CreditCardDto The credit card data.
      * @throws SherlException If there is an error in the API request.
      */
-    public function requestCredentialsToAddCard(): ?CreditCardDto
+    public function requestCredentialsToAddCard(): CreditCardDto
     {
         try {
             $response = $this->client->post("/api/shop/payments/request-credentials-to-add-card", [
@@ -2445,9 +2528,9 @@ class ShopProvider
      * @param string $cardId The ID of the card to be saved.
      * @param string $token The token associated with the card.
      * @throws SherlException If there is an error while saving the card.
-     * @return PersonOutputDto|null The updated person data.
+     * @return PersonOutputDto The updated person data.
      */
-    public function saveCard(string $cardId, string $token): ?PersonOutputDto
+    public function saveCard(string $cardId, string $token): PersonOutputDto
     {
         try {
             $response = $this->client->post(
@@ -2484,9 +2567,9 @@ class ShopProvider
      *
      * @param string $cardId The ID of the card to set as default.
      * @throws SherlException If the API request fails.
-     * @return PersonOutputDto|null The updated person information.
+     * @return PersonOutputDto The updated person information.
      */
-    public function setDefaultCard(string $cardId): ?PersonOutputDto
+    public function setDefaultCard(string $cardId): PersonOutputDto
     {
         try {
             $response = $this->client->post("/api/shop/payments/card/{$cardId}/default", [
@@ -2521,9 +2604,9 @@ class ShopProvider
      *
      * @param string $cardId The ID of the credit card to be validated.
      * @throws SherlException If the API request fails.
-     * @return CreditCardDto|null The validated CreditCardDto object.
+     * @return CreditCardDto The validated CreditCardDto object.
      */
-    public function validateCard(string $cardId): ?CreditCardDto
+    public function validateCard(string $cardId): CreditCardDto
     {
         try {
             $response = $this->client->get("/api/shop/payments/validate-card/{$cardId}", [
@@ -2675,9 +2758,6 @@ class ShopProvider
             $response = $this->client->delete(
                 "/api/shop/products/{$productId}/pictures/{$mediaId}",
                 [
-                    "headers" => [
-                        "Content-Type" => "application/json",
-                      ],
                     RequestOptions::QUERY => [
                         "productId" => $productId,
                         "mediaId" => $mediaId
