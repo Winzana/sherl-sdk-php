@@ -1109,9 +1109,9 @@ class ShopProvider
      *
      * @param string $invoiceId The ID of the invoice.
      * @throws SherlException If an error occurs during the request.
-     * @return OrderDto The updated OrderDto object.
+     * @return OrderDto|null The updated OrderDto object.
      */
-    public function sendLinkToPaidOnline(string $invoiceId): OrderDto
+    public function sendLinkToPaidOnline(string $invoiceId): ?OrderDto
     {
         try {
             $response = $this->client->post("/api/shop/invoices/$invoiceId/send-link-to-payed-online/", [
@@ -1149,39 +1149,42 @@ class ShopProvider
      *
      * @param LoyaltyCardFindByDto $filter The filter to apply when searching for the loyalty card.
      * @throws SherlException If an error occurs during the request.
-     * @return LoyaltySearchResultDto The loyalty card belonging to the current user..
+     * @return LoyaltySearchResultDto|null The loyalty card belonging to the current user..
      */
-    public function getLoyaltiesCardToMe(LoyaltyCardFindByDto $filter): LoyaltySearchResultDto
+    public function getLoyaltiesCardToMe(LoyaltyCardFindByDto $filter): ?LoyaltySearchResultDto
     {
-        $response = $this->client->get(
-            "/api/shop/loyalties/to-me",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              "id" => $filter->id,
-              "uri" => $filter->uri,
-              "ownerUri" => $filter->ownerUri,
-              "ownerUris" => $filter->ownerUris,
-              "enabled" => $filter->enabled,
-              "itemsPerPage" => $filter->itemsPerPage,
-              "page" => $filter->page,
+        try {
+            $response = $this->client->get("/api/shop/loyalties/to-me", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  "id" => $filter->id,
+                  "uri" => $filter->uri,
+                  "ownerUri" => $filter->ownerUri,
+                  "ownerUris" => $filter->ownerUris,
+                  "enabled" => $filter->enabled,
+                  "itemsPerPage" => $filter->itemsPerPage,
+                  "page" => $filter->page,
 
-            ]
+                ]
+            ]);
 
-      ]
-        );
-
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        LoyaltySearchResultDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::GET_USER_CARD_LOYALTIES_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ShopErr::GET_USER_CARD_LOYALTIES_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_USER_CARD_LOYALTIES_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            LoyaltySearchResultDto::class,
-            'json'
-        );
     }
 
     /**
@@ -1189,28 +1192,37 @@ class ShopProvider
      *
      * @param string $organizationId The ID of the organization.
      * @throws SherlException If an error occurs during the API call.
-     * @return LoyaltyCardDto The loyalty card DTO for the organization.
+     * @return LoyaltyCardDto|null The loyalty card DTO for the organization.
      */
-    public function getOrganizationLoyaltyCard(string $organizationId): LoyaltyCardDto
+    public function getOrganizationLoyaltyCard(string $organizationId): ?LoyaltyCardDto
     {
-        $response = $this->client->get(
-            "/api/shop/loyalties/organizations/$organizationId",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-      ]
-        );
+        try {
+            $response = $this->client->get("/api/shop/loyalties/organizations/$organizationId", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => [
+                    "organizationId" => $organizationId
+                ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        LoyaltyCardDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_LOYALTY_CARD_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::ORGANIZATION_ID_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_LOYALTY_CARD_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORGANIZATION_LOYALTY_CARD_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            LoyaltyCardDto::class,
-            'json'
-        );
     }
 
     /**
@@ -1219,35 +1231,40 @@ class ShopProvider
      * @param string $cardId The ID of the loyalty card to update.
      * @param ShopLoyaltyCardUpdateInputDto $updateInfo The updated information for the loyalty card.
      * @throws SherlException If an error occurs during the request.
-     * @return LoyaltyCardDto The updated loyalty card.
+     * @return LoyaltyCardDto|null The updated loyalty card.
      */
-    public function updateLoyaltyCard(string $cardId, ShopLoyaltyCardUpdateInputDto $updateInfo): LoyaltyCardDto
+    public function updateLoyaltyCard(string $cardId, ShopLoyaltyCardUpdateInputDto $updateInfo): ?LoyaltyCardDto
     {
-        $response = $this->client->get(
-            "/api/shop/loyalties/$cardId",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              "amount" => $updateInfo->amount,
-              "discountType" => $updateInfo->discountType,
-              "percentage" => $updateInfo->percentage,
-              "enabled" => $updateInfo->enabled
-            ]
+        try {
+            $response = $this->client->get("/api/shop/loyalties/$cardId", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  "amount" => $updateInfo->amount,
+                  "discountType" => $updateInfo->discountType,
+                  "percentage" => $updateInfo->percentage,
+                  "enabled" => $updateInfo->enabled
+                ]
+            ]);
 
-      ]
-        );
-
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlShopException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        LoyaltyCardDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::UPDATE_LOYALTY_CARD_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::LOYALTY_CARD_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::UPDATE_LOYALTY_CARD_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::UPDATE_LOYALTY_CARD_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            LoyaltyCardDto::class,
-            'json'
-        );
     }
 
     // ORDER
@@ -2388,34 +2405,35 @@ class ShopProvider
     public function addPictureToProduct(string $productId, string $mediaId): ?ProductResponseDto
     {
         try {
-        $response = $this->client->post(
-            "/api/shop/products/{$productId}/pictures/{$mediaId}",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              'productId' => $productId,
-              'idMedia' => $mediaId,
-            ]
-            ]);
-      switch ($response->getStatusCode()) {
-        case 200:
-            return SerializerFactory::getInstance()->deserialize(
-                $response->getBody()->getContents(),
-                ProductResponseDto::class,
-                'json'
+            $response = $this->client->post(
+                "/api/shop/products/{$productId}/pictures/{$mediaId}",
+                [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => [
+                  'productId' => $productId,
+                  'idMedia' => $mediaId,
+                ]
+                ]
             );
-        case 403:
-            throw $this->errorFactory->create(ShopErr::ADD_PICTURE_PRODUCT_FAILED_FORBIDDEN);
-        case 404:
-            throw $this->errorFactory->create(ShopErr::PRODUCT_OR_MEDIA_NOT_FOUND);
-        default:
-            throw $this->errorFactory->create(ShopErr::ADD_PICTURE_PRODUCT_FAILED);
-    }
-} catch (Exception $err) {
-    throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_PICTURE_PRODUCT_FAILED));
-}
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ProductResponseDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::ADD_PICTURE_PRODUCT_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::PRODUCT_OR_MEDIA_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::ADD_PICTURE_PRODUCT_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_PICTURE_PRODUCT_FAILED));
+        }
     }
 
     /**
@@ -2429,32 +2447,33 @@ class ShopProvider
     public function removePictureToProduct(string $productId, string $mediaId): ?ProductResponseDto
     {
         try {
-        $response = $this->client->delete(
-            "/api/shop/products/{$productId}/pictures/{$mediaId}", [
-                RequestOptions::QUERY => [ 
-                    "productId" => $productId,
-                    "mediaId" => $mediaId
-                    ]
-            ]
-        );
+            $response = $this->client->delete(
+                "/api/shop/products/{$productId}/pictures/{$mediaId}",
+                [
+                    RequestOptions::QUERY => [
+                        "productId" => $productId,
+                        "mediaId" => $mediaId
+                        ]
+                ]
+            );
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    ProductResponseDto::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(ShopErr::REMOVE_PICTURE_PRODUCT_FAILED_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(ShopErr::PRODUCT_OR_MEDIA_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(ShopErr::REMOVE_PICTURE_PRODUCT_FAILED);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        ProductResponseDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::REMOVE_PICTURE_PRODUCT_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::PRODUCT_OR_MEDIA_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::REMOVE_PICTURE_PRODUCT_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::REMOVE_PICTURE_PRODUCT_FAILED));
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::REMOVE_PICTURE_PRODUCT_FAILED));
-    }
     }
     // SUBSCRIPTION
 
@@ -2468,33 +2487,33 @@ class ShopProvider
     public function cancelSubscription(string $subscriptionId): ?SubscriptionDto
     {
         try {
-        $response = $this->client->post(
-            "/api/shop/subscriptions/{$subscriptionId}/cancel",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::QUERY => $subscriptionId
+            $response = $this->client->post(
+                "/api/shop/subscriptions/{$subscriptionId}/cancel",
+                [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::QUERY => $subscriptionId
       ]
-        );
+            );
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    SubscriptionDto::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(ShopErr::CANCEL_SUBSCRIPTION_FAILED_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(ShopErr::SUBSCRIPTION_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(ShopErr::CANCEL_SUBSCRIPTION_FAILED);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        SubscriptionDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::CANCEL_SUBSCRIPTION_FAILED_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(ShopErr::SUBSCRIPTION_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(ShopErr::CANCEL_SUBSCRIPTION_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::CANCEL_SUBSCRIPTION_FAILED));
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::CANCEL_SUBSCRIPTION_FAILED));
-    }
     }
     /**
      * Retrieves a subscription using the provided filters.
