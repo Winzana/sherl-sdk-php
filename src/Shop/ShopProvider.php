@@ -97,11 +97,6 @@ class ShopProvider
         $this->errorFactory = new ErrorFactory(self::DOMAIN, ShopErr::$errors);
     }
 
-    private function throwSherlShopException(ResponseInterface $response): Exception
-    {
-        throw new SherlException(ShopProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
-    }
-
     // ADVERTISEMENT
 
     /**
@@ -651,11 +646,11 @@ class ShopProvider
                 case 403:
                     throw $this->errorFactory->create(ShopErr::VALIDATE_AND_PAY_BASKET_FAILED_FORBIDDEN);
                 case 460:
-                    throw errorFactory.create(ShopErr::NO_DEFAULT_CARD);
+                    throw $this->errorFactory->create(ShopErr::NO_DEFAULT_CARD);
                 case 461:
-                    throw errorFactory.create(ShopErr::BASKET_ORDER_NOT_VALIDATED);
+                    throw $this->errorFactory->create(ShopErr::BASKET_ORDER_NOT_VALIDATED);
                 case 462:
-                    throw errorFactory.create(ShopErr::BASKET_ALREADY_PAYED);
+                    throw $this->errorFactory->create(ShopErr::BASKET_ALREADY_PAYED);
                 default:
                     throw $this->errorFactory->create(ShopErr::VALIDATE_AND_PAY_BASKET_FAILED);
             }
@@ -789,7 +784,7 @@ class ShopProvider
                   'productRestrictions' => $discountParameter->productRestrictions,
                   'dateRestrictions' => $discountParameter->dateRestrictions,
                 ],
-                RequestOptions::JSON => [
+                RequestOptions::QUERY => [
                     "discountId" => $discountId
                 ]
             ]);
@@ -1531,7 +1526,7 @@ class ShopProvider
                 ],
                 RequestOptions::JSON => ['category' => $category]
             ]);
-    
+
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
@@ -1565,7 +1560,7 @@ class ShopProvider
                 ],
                 RequestOptions::JSON => ['productComment' => $productComment]
             ]);
-    
+
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
@@ -1601,7 +1596,7 @@ class ShopProvider
                 RequestOptions::QUERY => ["productId" => $productId],
                 RequestOptions::JSON => ['option' => $option]
             ]);
-    
+
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
@@ -1628,7 +1623,7 @@ class ShopProvider
      * @throws SherlException If the HTTP request fails.
      * @return int The number of likes on the product.
      */
-    public function addLikeToProduct(string $productId): int
+    public function addLikeToProduct(string $productId): ?int
     {
         try {
             $response = $this->client->post("/api/shop/products/$productId/like", [
@@ -1637,7 +1632,7 @@ class ShopProvider
                 ],
                 RequestOptions::QUERY => ["productId" => $productId]
             ]);
-    
+
             switch ($response->getStatusCode()) {
                 case 200:
                     return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
@@ -1669,7 +1664,7 @@ class ShopProvider
                 ],
                 RequestOptions::QUERY => ["productId" => $productId]
             ]);
-    
+
             switch ($response->getStatusCode()) {
                 case 200:
                     return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
@@ -1703,7 +1698,7 @@ class ShopProvider
                 RequestOptions::QUERY => ["categoryId" => $categoryId],
                 RequestOptions::JSON => ['subCategory' => $subCategory]
             ]);
-    
+
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
@@ -1739,7 +1734,7 @@ class ShopProvider
                 ],
                 RequestOptions::QUERY => ["categoryId" => $categoryId]
             ]);
-    
+
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
@@ -1779,7 +1774,7 @@ class ShopProvider
                   "optionId" => $optionId
                 ]
             ]);
-    
+
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
@@ -1818,7 +1813,7 @@ class ShopProvider
                 RequestOptions::QUERY => ["categoryId" => $categoryId],
                 RequestOptions::JSON => ['updatedCategory' => $updatedCategory]
             ]);
-    
+
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
@@ -1856,7 +1851,7 @@ class ShopProvider
                   "depth" => $filter->depth,
                 ]
             ]);
-    
+
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
@@ -1890,7 +1885,7 @@ class ShopProvider
                 ],
                 RequestOptions::QUERY => ["categoryId" => $categoryId]
             ]);
-    
+
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
@@ -1926,7 +1921,7 @@ class ShopProvider
                 ],
                 RequestOptions::QUERY => ["organizationId" => $organizationId]
             ]);
-    
+
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
@@ -1962,7 +1957,7 @@ class ShopProvider
                 ],
                 RequestOptions::QUERY => ["categoryId" => $categoryId]
             ]);
-    
+
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
@@ -2043,7 +2038,7 @@ class ShopProvider
                 ],
                 RequestOptions::QUERY => ["productId" => $productId]
             ]);
-    
+
             switch ($response->getStatusCode()) {
                 case 200:
                     return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
@@ -2391,69 +2386,41 @@ class ShopProvider
      *
      * @param string $cardId The ID of the card to delete.
      * @throws SherlException If the API request fails.
-     * @return PersonOutputDto|null The updated person data.
+     * @return PersonOutputDto The updated person data.
      */
-    public function deleteCard(string $cardId): ?PersonOutputDto
+    public function deleteCard(string $cardId): PersonOutputDto
     {
-        try{
+        $response = $this->client->delete("/api/shop/payments/card/{$cardId}");
 
-        $response = $this->client->delete("/api/shop/payments/card/$cardId", [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::QUERY => [
-                "cardId" => $cardId
-            ]
-            ]);
-
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    PersonOutputDto::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(ShopErr::DELETE_CARD_FAILED_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(ShopErr::CARD_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(ShopErr::DELETE_CARD_FAILED);
+        if ($response->getStatusCode() >= 400) {
+            return $this->throwSherlShopException($response);
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::DELETE_CARD_FAILED));
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            PersonOutputDto::class,
+            'json'
+        );
     }
-}
     /**
      * Requests credentials to add a credit card.
      *
-     * @return CreditCardDto|null The credit card data.
+     * @return CreditCardDto The credit card data.
      * @throws SherlException If there is an error in the API request.
      */
-    public function requestCredentialsToAddCard(): ?CreditCardDto
+    public function requestCredentialsToAddCard(): CreditCardDto
     {
-        try {
-        $response = $this->client->post("/api/shop/payments/request-credentials-to-add-card", [
-            "headers" => [
-                "Content-Type" => "application/json",
-              ],
-        ]);
+        $response = $this->client->post("/api/shop/payments/request-credentials-to-add-card");
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    CreditCardDto::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(ShopErr::REQUEST_CREDENTIALS_CARD_FAILED_FORBIDDEN);
-            default:
-                throw $this->errorFactory->create(ShopErr::REQUEST_CREDENTIALS_CARD_FAILED);
+        if ($response->getStatusCode() >= 400) {
+            return $this->throwSherlShopException($response);
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::REQUEST_CREDENTIALS_CARD_FAILED));
-    }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            CreditCardDto::class,
+            'json'
+        );
     }
     /**
      * Saves a card with the specified card ID and token.
@@ -2461,113 +2428,68 @@ class ShopProvider
      * @param string $cardId The ID of the card to be saved.
      * @param string $token The token associated with the card.
      * @throws SherlException If there is an error while saving the card.
-     * @return PersonOutputDto|null The updated person data.
+     * @return PersonOutputDto The updated person data.
      */
-    public function saveCard(string $cardId, string $token): ?PersonOutputDto
+    public function saveCard(string $cardId, string $token): PersonOutputDto
     {
-        try {
         $response = $this->client->post(
             "/api/shop/payments/card/{$cardId}/default",
             [
-                "headers" => [
-                    "Content-Type" => "application/json",
-                  ],
-            RequestOptions::QUERY => ['cardId' => $cardId],
-            RequestOptions::JSON => [ 'token' => $token]
+            RequestOptions::JSON => ['id' => $cardId, 'token' => $token]
       ]
         );
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    PersonOutputDto::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(ShopErr::SAVE_CARD_FAILED_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(ShopErr::CARD_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(ShopErr::SAVE_CARD_FAILED);
+        if ($response->getStatusCode() >= 400) {
+            return $this->throwSherlShopException($response);
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::SAVE_CARD_FAILED));
-    }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            PersonOutputDto::class,
+            'json'
+        );
     }
     /**
      * Sets the default card for a person.
      *
      * @param string $cardId The ID of the card to set as default.
      * @throws SherlException If the API request fails.
-     * @return PersonOutputDto|null The updated person information.
+     * @return PersonOutputDto The updated person information.
      */
-    public function setDefaultCard(string $cardId): ?PersonOutputDto
+    public function setDefaultCard(string $cardId): PersonOutputDto
     {
-        try {
-        $response = $this->client->post("/api/shop/payments/card/{$cardId}/default", [
-            "headers" => [
-                "Content-Type" => "application/json",
-              ],
-            RequestOptions::QUERY => [
-                "cardId" => $cardId
-                ]
-        ]);
+        $response = $this->client->post("/api/shop/payments/card/{$cardId}/default");
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    PersonOutputDto::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(ShopErr::SET_DEFAULT_CARD_FAILED_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(ShopErr::CARD_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(ShopErr::SET_DEFAULT_CARD_FAILED);
+        if ($response->getStatusCode() >= 400) {
+            return $this->throwSherlShopException($response);
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::SET_DEFAULT_CARD_FAILED));
-    }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            PersonOutputDto::class,
+            'json'
+        );
     }
     /**
      * Validates a credit card.
      *
      * @param string $cardId The ID of the credit card to be validated.
      * @throws SherlException If the API request fails.
-     * @return CreditCardDto|null The validated CreditCardDto object.
+     * @return CreditCardDto The validated CreditCardDto object.
      */
-    public function validateCard(string $cardId): ?CreditCardDto
+    public function validateCard(string $cardId): CreditCardDto
     {
-        try{
-        $response = $this->client->get("/api/shop/payments/validate-card/{$cardId}", [
-            "headers" => [
-                "Content-Type" => "application/json",
-              ],
-            RequestOptions::QUERY => [
-                "cardId" => $cardId
-                ]
-        ]);
+        $response = $this->client->get("/api/shop/payments/validate-card/{$cardId}");
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    CreditCardDto::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(ShopErr::VALIDATE_CARD_FAILED_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(ShopErr::CARD_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(ShopErr::VALIDATE_CARD_FAILED);
+        if ($response->getStatusCode() >= 400) {
+            return $this->throwSherlShopException($response);
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::VALIDATE_CARD_FAILED));
-    }
+
+        return SerializerFactory::getInstance()->deserialize(
+            $response->getBody()->getContents(),
+            CreditCardDto::class,
+            'json'
+        );
     }
     // PAYOUT
 
@@ -2580,27 +2502,23 @@ class ShopProvider
     public function generatePayout(): ?PayoutDto
     {
         try {
-        $response = $this->client->post("/api/shop/generate-payout", [
-            "headers" => [
-                "Content-Type" => "application/json",
-              ]
-        ]);
+            $response = $this->client->post("/api/shop/generate-payout");
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    PayoutDto::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(ShopErr::GENERATE_PAYOUT_FAILED_FORBIDDEN);
-            default:
-                throw $this->errorFactory->create(ShopErr::GENERATE_PAYOUT_FAILED);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        PayoutDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::GENERATE_PAYOUT_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ShopErr::GENERATE_PAYOUT_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GENERATE_PAYOUT_FAILED));
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GENERATE_PAYOUT_FAILED));
-    }
     }
     /**
      * Submit a payout and return the PayoutDto.
@@ -2611,27 +2529,23 @@ class ShopProvider
     public function submitPayout(): ?PayoutDto
     {
         try {
-        $response = $this->client->post("/api/shop/submit-payout",[
-            "headers" => [
-                "Content-Type" => "application/json",
-              ]
-        ]);
+            $response = $this->client->post("/api/shop/submit-payout");
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    PayoutDto::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(ShopErr::SUBMIT_PAYOUT_FAILED_FORBIDDEN);
-            default:
-                throw $this->errorFactory->create(ShopErr::SUBMIT_PAYOUT_FAILED);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        PayoutDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(ShopErr::SUBMIT_PAYOUT_FAILED_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(ShopErr::SUBMIT_PAYOUT_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::SUBMIT_PAYOUT_FAILED));
         }
-    } catch (Exception $err) {
-        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::SUBMIT_PAYOUT_FAILED));
-    }
     }
     // PICTURE
 
@@ -2691,9 +2605,6 @@ class ShopProvider
             $response = $this->client->delete(
                 "/api/shop/products/{$productId}/pictures/{$mediaId}",
                 [
-                    "headers" => [
-                        "Content-Type" => "application/json",
-                      ],
                     RequestOptions::QUERY => [
                         "productId" => $productId,
                         "mediaId" => $mediaId
