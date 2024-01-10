@@ -1621,7 +1621,7 @@ class ShopProvider
      *
      * @param string $productId The ID of the product to like.
      * @throws SherlException If the HTTP request fails.
-     * @return int The number of likes on the product.
+     * @return int|null The number of likes on the product.
      */
     public function addLikeToProduct(string $productId): ?int
     {
@@ -1635,7 +1635,8 @@ class ShopProvider
 
             switch ($response->getStatusCode()) {
                 case 200:
-                    return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
+                    $likes = filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
+                    return ($likes !== false) ? $likes : null;
                 case 403:
                     throw $this->errorFactory->create(ShopErr::ADD_OPTION_FAILED_FORBIDDEN);
                 case 404:
@@ -1653,9 +1654,9 @@ class ShopProvider
      *
      * @param string $productId The ID of the product.
      * @throws SherlException If the API request fails.
-     * @return int The number of product views.
+     * @return int|null The number of product views.
      */
-    public function addProductViews(string $productId): int
+    public function addProductViews(string $productId): ?int
     {
         try {
             $response = $this->client->post("/api/shop/products/$productId/views", [
@@ -1667,7 +1668,8 @@ class ShopProvider
 
             switch ($response->getStatusCode()) {
                 case 200:
-                    return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
+                    $views = filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
+                    return ($views !== false) ? $views : null;
                 case 403:
                     throw $this->errorFactory->create(ShopErr::ADD_PRODUCT_VIEWS_FAILED_FORBIDDEN);
                 case 404:
@@ -1837,9 +1839,10 @@ class ShopProvider
      * Retrieves the categories of shop products based on the provided filters.
      *
      * @param ShopProductCategoryFindByQueryDto $filters The filters to apply when searching for categories.
-     * @throws SherlException If an error occurs during the request.+   * @return ProductCategoryDto The output DTO containing the categories.
+     * @throws SherlException If an error occurs during the request.
+     * @return ProductCategoryDto The output DTO containing the categories.
      */
-    public function getCategories(ShopProductCategoryFindByQueryDto $filter): ProductCategoryDto
+    public function getCategories(ShopProductCategoryFindByQueryDto $filters): ProductCategoryDto
     {
         try {
             $response = $this->client->get("/api/shop/products/categories/all", [
@@ -1847,8 +1850,8 @@ class ShopProvider
                   "Content-Type" => "application/json",
                 ],
                 RequestOptions::JSON => [
-                  "organizationId" => $filter->organizationId,
-                  "depth" => $filter->depth,
+                  "organizationId" => $filters->organizationId,
+                  "depth" => $filters->depth,
                 ]
             ]);
 
@@ -2027,9 +2030,9 @@ class ShopProvider
      *
      * @param string $productId The ID of the product.
      * @throws SherlException If the API request fails.
-     * @return int The number of likes for the product.
+     * @return int|null The number of likes for the product.
      */
-    public function getProductLikes(string $productId): int
+    public function getProductLikes(string $productId): ?int
     {
         try {
             $response = $this->client->get("/api/shop/products/$productId/like", [
@@ -2041,16 +2044,17 @@ class ShopProvider
 
             switch ($response->getStatusCode()) {
                 case 200:
-                    return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
+                    $likes = filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
+                    return ($likes !== false) ? $likes : null;
                 case 403:
-                    throw $this->errorFactory->create(ShopErr::GET_PRODUCT_VIEWS_FAILED_FORBIDDEN);
+                    throw $this->errorFactory->create(ShopErr::GET_PRODUCT_LIKES_FAILED_FORBIDDEN);
                 case 404:
                     throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
                 default:
-                    throw $this->errorFactory->create(ShopErr::GET_PRODUCT_VIEWS_FAILED);
+                    throw $this->errorFactory->create(ShopErr::GET_PRODUCT_LIKES_FAILED);
             }
         } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PRODUCT_VIEWS_FAILED));
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PRODUCT_LIKES_FAILED));
         }
     }
 
@@ -2059,9 +2063,9 @@ class ShopProvider
      *
      * @param string $productId The ID of the product.
      * @throws SherlException If the API request fails.
-     * @return int The number of views for the product.
+     * @return int|null The number of views for the product.
      */
-    public function getProductViews(string $productId): int
+    public function getProductViews(string $productId): ?int
     {
         $response = $this->client->get("/api/shop/products/$productId/views", [
             "headers" => [
@@ -2072,16 +2076,15 @@ class ShopProvider
 
         switch ($response->getStatusCode()) {
             case 200:
-                return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
+                $views = filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
+                return ($views !== false) ? $views : null;
             case 403:
-                throw $this->errorFactory->create(ShopErr::GET_PRODUCT_LIKES_FAILED_FORBIDDEN);
+                throw $this->errorFactory->create(ShopErr::GET_PRODUCT_VIEWS_FAILED_FORBIDDEN);
             case 404:
                 throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
             default:
-                throw $this->errorFactory->create(ShopErr::GET_PRODUCT_LIKES_FAILED);
+                throw $this->errorFactory->create(ShopErr::GET_PRODUCT_VIEWS_FAILED);
         }
-
-        return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
     }
 
     /**
