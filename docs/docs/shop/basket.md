@@ -11,7 +11,7 @@ title: Basket
 $order = $shopClient->getCustomerBasket(customerUri: string)
 ```
 
-This call returns an [OrderOutputDto](../shop-types#OrderDto) object.
+This call returns an [OrderDto](../shop-types#OrderDto) object.
 
 ## Add product to basket
 
@@ -41,7 +41,7 @@ $order = $shopClient->addProductToBasket(product: AddProductInputDto);
 
 </details>
 
-This call returns an [OrderOutputDto](../shop-types#OrderDto) object.
+This call returns an [FindAdvertisementsOutputDto](../shop-types#FindAdvertisementsOutputDto) object.
 
 ## Remove product to basket
 
@@ -52,7 +52,7 @@ Removes an item identified by its id from the basket.
 $order = $shopClient->removeItemFromBasket(itemId: string);
 ```
 
-This call returns an [OrderOutputDto](../shop-types#OrderDto) object.
+This call returns an [OrderDto](../shop-types#OrderDto) object.
 
 ## Clear basket
 
@@ -64,7 +64,7 @@ Clears basket for a customer.
 $result = $shopClient->clearBasket(customerId: string);
 ```
 
-This call returns an [OrderOutputDto](../shop-types#OrderDto) object.
+This call returns an [OrderDto](../shop-types#OrderDto) object.
 
 ## Add comment to basket
 
@@ -74,7 +74,7 @@ This call returns an [OrderOutputDto](../shop-types#OrderDto) object.
 $order = $shopClient->addCommentToBasket(comment: string);
 ```
 
-This call returns an [OrderOutputDto](../shop-types#OrderDto) object.
+This call returns an [OrderDto](../shop-types#OrderDto) object.
 
 ## Add discount code to basket
 
@@ -84,7 +84,7 @@ This call returns an [OrderOutputDto](../shop-types#OrderDto) object.
 $order = $shopClient->addDiscountCodeToBasket(strng $code);
 ```
 
-This call returns an [OrderOutputDto](../shop-types#OrderDto) object.
+This call returns an [OrderDto](../shop-types#OrderDto) object.
 
 ## Add sponsor code to basket
 
@@ -94,7 +94,7 @@ This call returns an [OrderOutputDto](../shop-types#OrderDto) object.
 $order = $shopClient->addSponsorCodeToBasket(string $code);
 ```
 
-This call returns an [OrderOutputDto](../shop-types#OrderDto) object.
+This call returns an [OrderDto](../shop-types#OrderDto) object.
 
 ## Validate and pay current basket
 
@@ -115,7 +115,7 @@ ShopBasketValidateAndPayInputDto extends [ShopBasketValidatePaymentInputDto](../
 
 </details>
 
-This call returns an [OrderOutputDto](../shop-types#OrderDto) object.
+This call returns an [OrderDto](../shop-types#OrderDto) object.
 
 ## Validate pending payment to basket
 
@@ -128,4 +128,4 @@ $order = $shopClient->validatePaymentBasket(ShopBasketValidatePaymentInputDto $v
 
 Parameter is an instance of [ShopBasketValidatePaymentInputDto](../shop-types#ShopBasketValidatePaymentInputDto)
 
-This call returns an [OrderOutputDto](../shop-types#OrderDto) object.
+This call returns an [OrderDto](../shop-types#OrderDto) object.

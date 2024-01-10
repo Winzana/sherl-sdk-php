@@ -5,7 +5,7 @@ title: Shop types
 
 ### Advertisements
 
-## AdvertisementsOutpuDto
+## AdvertisementDto
 
 | Fields               |                             Type                              | Description                                                      |
 | -------------------- | :-----------------------------------------------------------: | ---------------------------------------------------------------- |
@@ -119,7 +119,7 @@ title: Shop types
 | **EXTERNAL**                 |         EXTERNAL         | Payment with an external solution            |
 | **CREDIT**                   |          CREDIT          | Payment on credit                            |
 
-## PaymentOutputDto
+## PaymentDto
 
 | Fields                      |                                                              Type                                                              | Description                                                                                                            |
 | --------------------------- | :----------------------------------------------------------------------------------------------------------------------------: | ---------------------------------------------------------------------------------------------------------------------- | --- | --- |

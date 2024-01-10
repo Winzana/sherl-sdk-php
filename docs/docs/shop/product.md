@@ -51,7 +51,7 @@ $products = $shopClient->getProducts(ProductFindByDto $filters);
 | **uriOfPanels**         | string[]           | :x:      | Array of URIs of panels associated with the product.      |
 | **panel**               | string             | :x:      | The panel associated with the product.                    |
 
-This call returns a [paginated](../pagination#pagination) array of [ProductResponseDto](../shop-types#ProductResponseDto) objects.
+This call returns a [paginated](../pagination#pagination) array of [ProductPaginatedResultDto](../shop-types#ProductPaginatedResultDto) objects.
 
 ## Get Public Products
 
@@ -61,7 +61,7 @@ This call returns a [paginated](../pagination#pagination) array of [ProductRespo
 $publicProducts = $shopClient->getPublicProducts(ProductFindByDto $filters);
 ```
 
-This call returns a [paginated](../pagination#pagination) array of [PublicProductResponseDto](../shop-types#PublicProductResponseDto) objects.
+This call returns a [paginated](../pagination#pagination) array of [ProductPaginatedResultDto](../shop-types#ProductPaginatedResultDto) objects.
 
 ## Get Product by ID
 
@@ -101,17 +101,17 @@ This call returns an [CommentDto](../shop-types#CommentDto) object.
 $comments = $shopClient->getProductComments(string $productId, FindProductCommentsInputDto $filters);
 ```
 
-This call returns an [SearchResultDto](../pagination#SearchResultDto) of [CommentDto](../shop-types#CommentDto) objects.
+This call returns an [SearchResultDto](../pagination#SearchResultDto) of [ProductCommentsResult](../shop-types#ProductCommentsResult) objects.
 
 ## Add Option to Product
 
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$productResponse = $shopClient->addOptionToProduct(string $productId, ShopProductOptionCreateInputDto $option);
+$productResponse = $shopClient->addOptionToProduct(string $productId, mixed $option);
 ```
 
-This call returns an [ProductResponseDto](../shop-types#ProductResponseDto) object.
+This call returns an [ProductOutputDto](../shop-types#ProductOutputDto) object.
 
 ## Remove a Product Option
 
@@ -121,7 +121,7 @@ This call returns an [ProductResponseDto](../shop-types#ProductResponseDto) obje
 $productResponse = $shopClient->removeProductOption(string $productId, string $optionId);
 ```
 
-This call returns an [ProductResponseDto](../shop-types#ProductResponseDto) object.
+This call returns an [ProductOutputDto](../shop-types#ProductOutputDto) object.
 
 ## Add Like to Product
 
@@ -142,16 +142,6 @@ $likesCount = $shopClient->getProductLikes(string $productId);
 ```
 
 This call returns the current number of likes.
-
-## Add View to Product
-
-<span class="badge badge--warning">Require authentication</span>
-
-```php
-$viewsCount = $shopClient->addViewToProduct(string $productId);
-```
-
-This call returns the current number of views.
 
 ## Get Product Views
 

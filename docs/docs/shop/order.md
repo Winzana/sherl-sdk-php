@@ -12,7 +12,7 @@ $orders = $shopClient->getOrders(OrderFindByDto $filters);
 ```
 
 <details>
-<summary><b>SubscriptionFindOnByDto</b></summary>
+<summary><b>OrderFindInputDto</b></summary>
 
 |          Field           |             Type              | Required |                        Description                        |
 | :----------------------: | :---------------------------: | :------: | :-------------------------------------------------------: |
@@ -45,7 +45,7 @@ $orders = $shopClient->getOrders(OrderFindByDto $filters);
 $order = $shopClient->getOrder(string $orderId);
 ```
 
-This call returns an [OrderOutputDto](../order-types#OrderDto) object.
+This call returns an [OrderDto](../order-types#OrderDto) object.
 
 ## Cancel Order
 
@@ -55,7 +55,7 @@ This call returns an [OrderOutputDto](../order-types#OrderDto) object.
 $cancelledOrder = $shopClient->cancelOrder(string $orderId,CancelOrderInputDto $cancelOrderDates);
 ```
 
-This call returns an [OrderOutputDto](../order-types#OrderDto) object.
+This call returns an [OrderDto](../order-types#OrderDto) object.
 
 ## Update Order Status
 
@@ -65,14 +65,14 @@ This call returns an [OrderOutputDto](../order-types#OrderDto) object.
 $updatedOrder = $shopClient->updateOrderStatus(string $orderId, OrderStatus $status);
 ```
 
-This call returns an [OrderOutputDto](../order-types#OrderDto) object.
+This call returns an [OrderFindOutputDto](../order-types#OrderFindOutputDto) object.
 
 ## Get Organization Orders
 
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$organizationOrders = $shopClient->getOrganizationOrders(string $organizationId, OrderFindByDto $filters);
+$organizationOrders = $shopClient->getOrganizationOrders(string $organizationId, OrderFindInputDto $filters);
 ```
 
 This call returns a [OrderFindOutputDto](../order-types#OrderFindOutputDto).

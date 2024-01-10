@@ -8,7 +8,7 @@ title: Subscription
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$subscription = $shopClient->getSubscriptionFindOneBy(ISubscriptionFindOnByDto $filters);
+$subscription = $shopClient->getSubscriptionFindOneBy(SubscriptionFindOnByDto $filters);
 ```
 
 <details>

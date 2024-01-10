@@ -25,7 +25,7 @@ This call returns an [CreditCardDto](../shop-types#CreditCardDto) object.
 $person = $shopClient->saveCard(string $cardId, string $token);
 ```
 
-This call returns an **PersonInputDto** (TODO: Add Link) object.
+This call returns an [PersonOutputDto](../shop-types#PersonOutputDto) object.
 
 ## Delete Card
 
@@ -35,7 +35,7 @@ This call returns an **PersonInputDto** (TODO: Add Link) object.
 $person = $shopClient->deleteCard(string $cardId);
 ```
 
-This call returns an **PersonInputDto** (TODO: Add Link) object.
+This call returns an [PersonOutputDto](../shop-types#PersonOutputDto) object.
 
 ## Set Default Card
 
@@ -45,7 +45,7 @@ This call returns an **PersonInputDto** (TODO: Add Link) object.
 $person = $shopClient->setDefaultCard(string $cardId);
 ```
 
-This call returns an **PersonInputDto** (TODO: Add Link) object.
+This call returns an [PersonOutputDto](../shop-types#PersonOutputDto) object.
 
 ## Validate Card
 

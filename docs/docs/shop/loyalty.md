@@ -8,13 +8,11 @@ title: Loyalty
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$results = $shopClient->getLoyaltiesCardToMe(filters?: ILoyaltyCardFindByDto);
+$results = $shopClient->getLoyaltiesCardToMe(LoyaltyCardFindByDto $filter );
 ```
 
 <details>
 <summary><b>LoyaltyCardFindByDto</b></summary>
-
-**LoyaltyCardFindByDto** extends [PaginationFiltersInputDto](../pagination#PaginationFiltersInputDto)
 
 | Fields         |   Type   | Required | Description                                     |
 | -------------- | :------: | :------: | ----------------------------------------------- |
@@ -42,12 +40,12 @@ This call returns an [LoyaltyCardDto](../shop-types#LoyaltyCardDto) object.
 
 <span class="badge badge--warning">Require authentication</span>
 
-```ts
-await shop(client).updateLoyaltyCard(cardId: string, updatedCard: IShopLoyaltyCardUpdateInputDto);
+```php
+card = $shopClient->updateLoyaltyCard(string $cardId, ShopLoyaltyCardUpdateInputDto  $updateInfo);
 ```
 
 <details>
-<summary><b>ILoyaltyCardFindByDto</b></summary>
+<summary><b>LoyaltyCardFindByDto</b></summary>
 
 | Fields       |                    Type                    |      Required      | Description                                     |
 | ------------ | :----------------------------------------: | :----------------: | ----------------------------------------------- |

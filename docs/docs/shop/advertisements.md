@@ -26,7 +26,7 @@ $advertisement = $shopClient->createAdvertisement(CreateAdvertisementInputDto $c
 
 </details>
 
-This call returns an [AdvertisementsOutpuDto](../shop-types#AdvertisementsOutpuDto) object.
+This call returns an [AdvertisementDto](../shop-types#AdvertisementDto) object.
 
 ## Update an advertisement
 
@@ -56,7 +56,7 @@ $advertisement = $shopClient->updateAdvertisement(
 
 </details>
 
-This call returns the updated [AdvertisementsOutpuDto](../shop-types#AdvertisementsOutpuDto) object.
+This call returns the updated [AdvertisementDto](../shop-types#AdvertisementDto) object.
 
 ## Delete an advertisement
 
@@ -68,7 +68,7 @@ Delete the advertisement identified by its advertisementId.
 $success = $shopClient->deleteAdvertisement(string $advertisementId);
 ```
 
-This call returns true if the advertisement was correctly deleted.
+This call returns the updated [AdvertisementDto](../shop-types#AdvertisementDto) object.
 
 ## Get an advertisement
 
@@ -80,7 +80,7 @@ Retrieve an advertisement identified by its advertisementId.
 $advertisement = $shopClient->getAdvertisement(string $advertisementId);
 ```
 
-This call returns the identified [AdvertisementsOutpuDto](../shop-types#AdvertisementsOutpuDto) object.
+This call returns the identified [AdvertisementDto](../shop-types#AdvertisementsOutpuDto) object.
 
 ## Get advertisements with filter
 
