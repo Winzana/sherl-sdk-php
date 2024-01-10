@@ -5,7 +5,7 @@ namespace Sherl\Sdk\Shop\Advertisement\Dto;
 use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Shop\Advertisement\Enum\DisplayZoneEnum;
 
-use Sher\Sdk\Media\Dto\MediaObjectOutputDto;
+use Sherl\Sdk\Media\Dto\MediaObjectOutputDto;
 
 use Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementTranslationDto;
 
