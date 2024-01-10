@@ -2,6 +2,10 @@ node_modules
 vendor
 .env
 .php-cs-fixer.cache
+composer.phar
+.phpunit.cache
 
 # IDE specific
 .idea
+.vscode/*
+!.vscode/extensions.json

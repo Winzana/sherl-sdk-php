@@ -35,3 +35,7 @@ jobs:
 
       - name: Run PHPStan analyse
         run: ./vendor/bin/phpstan analyse src --level 8
+
+      - name: Run PHPUnit Tests
+        run: vendor/bin/phpunit --testdox
+
