@@ -24,7 +24,7 @@ class AuthTest extends TestCase
         $this->authProvider = $this->createMock(AuthProvider::class);
 
         $fakeLoginOutputDto = new LoginOutputDto();
-        $fakeLoginOutputDto->access_token = FAKE_TOKEN;
+        $fakeLoginOutputDto->access_token = self::FAKE_TOKEN;
 
         $this->authProvider
             ->method('signInWithEmailAndPassword')
