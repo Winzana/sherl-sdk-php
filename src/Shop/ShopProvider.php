@@ -109,9 +109,7 @@ class ShopProvider
     public function createAdvertisement(CreateAdvertisementInputDto $createAdvertisement): ?AdvertisementDto
     {
         try {
-            $response = $this->client->post(
-                "/api/shop/advertisements",
-                [
+            $response = $this->client->post("/api/shop/advertisements", [
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
@@ -124,8 +122,7 @@ class ShopProvider
                   'translations' => $createAdvertisement->translations,
                   'metadatas' => $createAdvertisement->metadatas
                 ]
-            ]
-            );
+            ]);
 
             switch ($response->getStatusCode()) {
                 case 201:
@@ -1840,9 +1837,9 @@ class ShopProvider
      *
      * @param ShopProductCategoryFindByQueryDto $filters The filters to apply when searching for categories.
      * @throws SherlException If an error occurs during the request.
-     * @return ProductCategoryDto The output DTO containing the categories.
+     * @return ProductCategoryDto|null The output DTO containing the categories.
      */
-    public function getCategories(ShopProductCategoryFindByQueryDto $filters): ProductCategoryDto
+    public function getCategories(ShopProductCategoryFindByQueryDto $filters): ?ProductCategoryDto
     {
         try {
             $response = $this->client->get("/api/shop/products/categories/all", [
@@ -2097,15 +2094,12 @@ class ShopProvider
     public function getProduct(string $productId): ?ProductResponseDto
     {
         try {
-            $response = $this->client->get(
-                "/api/shop/products/$productId",
-                [
+            $response = $this->client->get("/api/shop/products/$productId", [
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
                 RequestOptions::QUERY => ["productId" => $productId]
-      ]
-            );
+            ]);
 
             switch ($response->getStatusCode()) {
                 case 200:
@@ -2116,7 +2110,7 @@ class ShopProvider
                     );
                 case 403:
                     throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCT_BY_ID_FAILED_FORBIDDEN);
-                case 403:
+                case 404:
                     throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
                 default:
                     throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCT_BY_ID_FAILED);
@@ -2136,15 +2130,12 @@ class ShopProvider
     public function getProducts(ProductFindByDto $filters): ?ProductPaginatedResultDto
     {
         try {
-            $response = $this->client->get(
-                "/api/shop/products",
-                [
+            $response = $this->client->get("/api/shop/products", [
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
                 RequestOptions::JSON => ["filters" => $filters]
-      ]
-            );
+            ]);
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
@@ -2172,15 +2163,12 @@ class ShopProvider
     public function getPublicCategoriesAndSub(PublicCategoryAndSubCategoryFindByDto $filters): ?PublicCategoryResponseDto
     {
         try {
-            $response = $this->client->get(
-                "/api/public/shop/products/categories-and-subcategories",
-                [
+            $response = $this->client->get("/api/public/shop/products/categories-and-subcategories", [
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
                 RequestOptions::JSON => ["filters" => $filters]
-      ]
-            );
+            ]);
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
@@ -2207,14 +2195,11 @@ class ShopProvider
     public function getPublicCategories(): ?PublicCategoryResponseDto
     {
         try {
-            $response = $this->client->get(
-                "/api/public/shop/products/categories",
-                [
+            $response = $this->client->get("/api/public/shop/products/categories", [
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
-      ]
-            );
+            ]);
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
@@ -2242,15 +2227,12 @@ class ShopProvider
     public function getPublicCategoryBySlug(string $slug): ?PublicCategoryResponseDto
     {
         try {
-            $response = $this->client->get(
-                "/api/public/shop/products/categories/find-one-by-slug/$slug",
-                [
+            $response = $this->client->get("/api/public/shop/products/categories/find-one-by-slug/$slug", [
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
                 RequestOptions::QUERY => ["slug" => $slug]
-        ]
-            );
+            ]);
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
@@ -2280,15 +2262,12 @@ class ShopProvider
     public function getPublicProductBySlug(string $slug): ?PublicProductResponseDto
     {
         try {
-            $response = $this->client->get(
-                "/api/public/shop/products/find-one-by-slug/$slug",
-                [
+            $response = $this->client->get("/api/public/shop/products/find-one-by-slug/$slug", [
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
                 RequestOptions::QUERY => ["slug" => $slug]
-      ]
-            );
+            ]);
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
@@ -2318,15 +2297,12 @@ class ShopProvider
     public function getPublicProduct(string $id): ?PublicProductResponseDto
     {
         try {
-            $response = $this->client->get(
-                "/api/public/shop/products/$id",
-                [
+            $response = $this->client->get("/api/public/shop/products/$id", [
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
                 RequestOptions::QUERY => ["id" => $id]
-      ]
-            );
+            ]);
 
             switch ($response->getStatusCode()) {
                 case 200:
@@ -2355,15 +2331,12 @@ class ShopProvider
     public function getPublicProductsWithFilters(ProductFindByDto $filters): ?ProductPaginatedResultDto
     {
         try {
-            $response = $this->client->get(
-                "/api/shop/products/public",
-                [
+            $response = $this->client->get("/api/shop/products/public", [
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
                 RequestOptions::QUERY => ["filters" => $filters]
-      ]
-            );
+            ]);
 
             switch ($response->getStatusCode()) {
                 case 200:
@@ -2392,15 +2365,12 @@ class ShopProvider
     public function getPublicProducts(ProductFindByDto $filters): ?ProductPaginatedResultDto
     {
         try {
-            $response = $this->client->get(
-                "/api/public/shop/products",
-                [
+            $response = $this->client->get("/api/public/shop/products", [
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
                 RequestOptions::QUERY => ["filters" => $filters]
-      ]
-            );
+            ]);
 
 
             switch ($response->getStatusCode()) {
@@ -2424,18 +2394,16 @@ class ShopProvider
      * Retrieves an array of unrestricted categories from the API.
      *
      * @return PublicCategoryResponseDto|null Returns an PublicCategoryResponseDto of unrestricted categories.
+     * @throws SherlException If the API request fails.
      */
     public function getUnrestrictedCategories(): ?PublicCategoryResponseDto
     {
         try {
-            $response = $this->client->get(
-                "/api/shop/products/categories/public",
-                [
+            $response = $this->client->get("/api/shop/products/categories/public", [
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
-      ]
-            );
+            ]);
 
             switch ($response->getStatusCode()) {
                 case 200:
@@ -2461,9 +2429,9 @@ class ShopProvider
      *
      * @param string $cardId The ID of the card to delete.
      * @throws SherlException If the API request fails.
-     * @return PersonOutputDto The updated person data.
+     * @return PersonOutputDto|null The updated person data.
      */
-    public function deleteCard(string $cardId): PersonOutputDto
+    public function deleteCard(string $cardId): ?PersonOutputDto
     {
         try {
 
@@ -2497,10 +2465,10 @@ class ShopProvider
     /**
      * Requests credentials to add a credit card.
      *
-     * @return CreditCardDto The credit card data.
+     * @return CreditCardDto|null The credit card data.
      * @throws SherlException If there is an error in the API request.
      */
-    public function requestCredentialsToAddCard(): CreditCardDto
+    public function requestCredentialsToAddCard(): ?CreditCardDto
     {
         try {
             $response = $this->client->post("/api/shop/payments/request-credentials-to-add-card", [
@@ -2531,21 +2499,18 @@ class ShopProvider
      * @param string $cardId The ID of the card to be saved.
      * @param string $token The token associated with the card.
      * @throws SherlException If there is an error while saving the card.
-     * @return PersonOutputDto The updated person data.
+     * @return PersonOutputDto|null The updated person data.
      */
-    public function saveCard(string $cardId, string $token): PersonOutputDto
+    public function saveCard(string $cardId, string $token): ?PersonOutputDto
     {
         try {
-            $response = $this->client->post(
-                "/api/shop/payments/card/{$cardId}/default",
-                [
+            $response = $this->client->post("/api/shop/payments/card/$cardId/default", [
                     "headers" => [
                         "Content-Type" => "application/json",
                       ],
                 RequestOptions::QUERY => ['cardId' => $cardId],
                 RequestOptions::JSON => [ 'token' => $token]
-      ]
-            );
+            ]);
 
             switch ($response->getStatusCode()) {
                 case 200:
@@ -2570,12 +2535,12 @@ class ShopProvider
      *
      * @param string $cardId The ID of the card to set as default.
      * @throws SherlException If the API request fails.
-     * @return PersonOutputDto The updated person information.
+     * @return PersonOutputDto|null The updated person information.
      */
-    public function setDefaultCard(string $cardId): PersonOutputDto
+    public function setDefaultCard(string $cardId): ?PersonOutputDto
     {
         try {
-            $response = $this->client->post("/api/shop/payments/card/{$cardId}/default", [
+            $response = $this->client->post("/api/shop/payments/card/$cardId/default", [
                 "headers" => [
                     "Content-Type" => "application/json",
                   ],
@@ -2607,15 +2572,15 @@ class ShopProvider
      *
      * @param string $cardId The ID of the credit card to be validated.
      * @throws SherlException If the API request fails.
-     * @return CreditCardDto The validated CreditCardDto object.
+     * @return CreditCardDto|null The validated CreditCardDto object.
      */
-    public function validateCard(string $cardId): CreditCardDto
+    public function validateCard(string $cardId): ?CreditCardDto
     {
         try {
-            $response = $this->client->get("/api/shop/payments/validate-card/{$cardId}", [
+            $response = $this->client->get("/api/shop/payments/validate-card/$cardId", [
                 "headers" => [
                     "Content-Type" => "application/json",
-                  ],
+                ],
                 RequestOptions::QUERY => [
                     "cardId" => $cardId
                     ]
@@ -2653,7 +2618,7 @@ class ShopProvider
             $response = $this->client->post("/api/shop/generate-payout", [
                 "headers" => [
                     "Content-Type" => "application/json",
-                  ]
+                ]
             ]);
 
             switch ($response->getStatusCode()) {
@@ -2716,9 +2681,7 @@ class ShopProvider
     public function addPictureToProduct(string $productId, string $mediaId): ?ProductResponseDto
     {
         try {
-            $response = $this->client->post(
-                "/api/shop/products/{$productId}/pictures/{$mediaId}",
-                [
+            $response = $this->client->post("/api/shop/products/$productId/pictures/$mediaId", [
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
@@ -2726,8 +2689,7 @@ class ShopProvider
                   'productId' => $productId,
                   'idMedia' => $mediaId,
                 ]
-                ]
-            );
+            ]);
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
@@ -2758,15 +2720,12 @@ class ShopProvider
     public function removePictureToProduct(string $productId, string $mediaId): ?ProductResponseDto
     {
         try {
-            $response = $this->client->delete(
-                "/api/shop/products/{$productId}/pictures/{$mediaId}",
-                [
-                    RequestOptions::QUERY => [
-                        "productId" => $productId,
-                        "mediaId" => $mediaId
-                        ]
+            $response = $this->client->delete("/api/shop/products/{$productId}/pictures/{$mediaId}", [
+                RequestOptions::QUERY => [
+                    "productId" => $productId,
+                    "mediaId" => $mediaId
                 ]
-            );
+            ]);
 
             switch ($response->getStatusCode()) {
                 case 200:
@@ -2798,15 +2757,12 @@ class ShopProvider
     public function cancelSubscription(string $subscriptionId): ?SubscriptionDto
     {
         try {
-            $response = $this->client->post(
-                "/api/shop/subscriptions/{$subscriptionId}/cancel",
-                [
+            $response = $this->client->post("/api/shop/subscriptions/{$subscriptionId}/cancel", [
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
                 RequestOptions::QUERY => $subscriptionId
-      ]
-            );
+            ]);
 
             switch ($response->getStatusCode()) {
                 case 200:
@@ -2836,15 +2792,13 @@ class ShopProvider
     public function getSubscriptionFindOneBy(SubscriptionFindOnByDto $filters): ?SubscriptionDto
     {
         try {
-            $response = $this->client->get(
-                "/api/shop/subscriptions/find-one-by",
-                [
+            $response = $this->client->get("/api/shop/subscriptions/find-one-by", [
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
                 RequestOptions::JSON => $filters,
-      ]
-            );
+            ]);
+
             switch ($response->getStatusCode()) {
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
