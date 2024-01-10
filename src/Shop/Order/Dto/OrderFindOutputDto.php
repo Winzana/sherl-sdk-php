@@ -13,11 +13,11 @@ class OrderFindOutputDto extends Pagination
      * @var OrderDto[]
      * @Serializer\Type("array<Sherl\Sdk\Order\Dto\OrderOutputDto>")
      */
-    public $results;
+    public array $results;
 
     /**
      * @var ViewOutputDto
      * @Serializer\Type("Sherl\Sdk\Common\Dto\ViewOutputDto")
      */
-    public $view;
+    public mixed $view;
 }
