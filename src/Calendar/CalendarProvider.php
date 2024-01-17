@@ -7,8 +7,15 @@ use GuzzleHttp\RequestOptions;
 
 use Psr\Http\Message\ResponseInterface;
 
-use Sherl\Sdk\Calendar\Dto\CalendarDto;
+use Sherl\Sdk\Common\Error\SherlException;
+use Sherl\Sdk\Common\Error\ErrorFactory;
+use Sherl\Sdk\Common\Error\ErrorHelper;
+use Sherl\Sdk\Calendar\Errors\CalendarErr;
+use Exception;
+use Sherl\Sdk\Common\SerializerFactory;
 
+// DTOS
+use Sherl\Sdk\Calendar\Dto\CalendarDto;
 use Sherl\Sdk\Calendar\Dto\AvailabilityDto;
 use Sherl\Sdk\Calendar\Dto\CalendarEventDto;
 use Sherl\Sdk\Calendar\Dto\CalendarFilterInputDto;
@@ -25,8 +32,6 @@ use Sherl\Sdk\Calendar\Dto\CalendarEventsPaginatedResultDto;
 use Sherl\Sdk\Calendar\Dto\UpdateCalendarEventInputDto;
 use Sherl\Sdk\Calendar\Dto\UpdateCalendarInputDto;
 use Sherl\Sdk\Calendar\Dto\GetCalendarEventByOwnerInputDto;
-use Sherl\Sdk\Common\Error\SherlException;
-use Sherl\Sdk\Common\SerializerFactory;
 
 class UserProvider
 {
@@ -34,16 +39,18 @@ class UserProvider
 
     private Client $client;
 
+    private ErrorFactory $errorFactory;
+
     public function __construct(Client $client)
     {
         $this->client = $client;
+        $this->errorFactory = new ErrorFactory(self::DOMAIN, CalendarErr::$errors);
     }
 
     private function throwSherlUserException(ResponseInterface $response)
     {
         throw new SherlException(UserProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
     }
-
 
     // Calendar
 
@@ -52,31 +59,38 @@ class UserProvider
      *
      * @param CreateCalendarInputDto $calendarData The calendar data.
      * @throws SherlException If there is an error on creating the calendar.
-     * @return CalendarDto The created calendar.
+     * @return CalendarDto|null The created calendar.
      */
-    public function createCalendardRequest(CreateCalendarInputDto $calendarData): CalendarDto
+    public function createCalendardRequest(CreateCalendarInputDto $calendarData): ?CalendarDto
     {
-        $response = $this->client->post('/api/calendar', [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => [
-            "aboutUri" => $calendarData->aboutUri,
-            "ownerUri" => $calendarData->ownerUri,
-            "availabilities" => $calendarData->availabilities,
-            "metadatas" => $calendarData->metadatas,
-          ]
-        ]);
+        try {
+            $response = $this->client->post('/api/calendar', [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::JSON => [
+                "aboutUri" => $calendarData->aboutUri,
+                "ownerUri" => $calendarData->ownerUri,
+                "availabilities" => $calendarData->availabilities,
+                "metadatas" => $calendarData->metadatas,
+              ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlUserException($response);
+            switch ($response->getStatusCode()) {
+                case 201:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        CalendarDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_FORBIDDEN);
+                default:
+                    throw $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            CalendarDto::class,
-            'json'
-        );
     }
 
     /**
@@ -85,32 +99,41 @@ class UserProvider
      * @param string $calendarId The ID of the calendar to be updated.
      * @param UpdateCalendarInputDto $calendarData The data to update the calendar with.
      * @throws SherlException If there is an error on updating the calendar.
-     * @return CalendarDto The updated calendar.
+     * @return CalendarDto|null The updated calendar.
      */
-    public function updateCalendarRequest(string $calendarId, UpdateCalendarInputDto $calendarData): CalendarDto
+    public function updateCalendarRequest(string $calendarId, UpdateCalendarInputDto $calendarData): ?CalendarDto
     {
-        $response = $this->client->put('/api/calendar/' + $calendarId, [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => [
-            "aboutUri" => $calendarData->aboutUri,
-            "ownerUri" => $calendarData->ownerUri,
-            "availabilities" => $calendarData->availabilities,
-            "metadatas" => $calendarData->metadatas,
-            "enabled" => $calendarData->enabled
-          ]
-        ]);
+        try {
+            $response = $this->client->put('/api/calendar/' + $calendarId, [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::JSON => [
+                "aboutUri" => $calendarData->aboutUri,
+                "ownerUri" => $calendarData->ownerUri,
+                "availabilities" => $calendarData->availabilities,
+                "metadatas" => $calendarData->metadatas,
+                "enabled" => $calendarData->enabled
+              ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlUserException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        CalendarDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(CalendarErr::UPDATE_CALENDAR_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(CalendarErr::UPDATE_CALENDAR_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::UPDATE_CALENDAR_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            CalendarDto::class,
-            'json'
-        );
     }
 
     /**
@@ -122,18 +145,30 @@ class UserProvider
      */
     public function deleteCalendar(string $calendarId): bool
     {
-        $response = $this->client->delete('/api/calendar/' + $calendarId, [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => []
-        ]);
+        try {
+            $response = $this->client->delete('/api/calendar/' + $calendarId, [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::QUERY => [
+                "calendarId" => $calendarId
+              ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlUserException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
+                case 403:
+                    throw $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_FAILED));
         }
 
-        return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
     }
 
     /**
@@ -141,26 +176,38 @@ class UserProvider
      *
      * @param string $calendarId The ID of the calendar to retrieve.
      * @throws SherlException If there is an error on retrieving the calendar.
-     * @return CalendarDto The retrieved calendar.
+     * @return CalendarDto|null The retrieved calendar.
      */
-    public function getCalendarById(string $calendarId): CalendarDto
+    public function getCalendarById(string $calendarId): ?CalendarDto
     {
-        $response = $this->client->get('/api/calendar/' + $calendarId, [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => []
-        ]);
+        try {
+            $response = $this->client->get('/api/calendar/' + $calendarId, [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::QUERY => [
+                "calendarId" => $calendarId
+              ]
+            ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlUserException($response);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        CalendarDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(CalendarErr::GET_ONE_CALENDAR_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
+                default:
+                    throw $this->errorFactory->create(CalendarErr::GET_ONE_CALENDAR_FAILED);
+            }
+        } catch (Exception $err) {
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::GET_ONE_CALENDAR_FAILED));
         }
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            CalendarDto::class,
-            'json'
-        );
     }
 
     /**
