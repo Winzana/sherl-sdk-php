@@ -3,6 +3,7 @@
 namespace Sherl\Sdk\Calendar\Dto;
 
 use Sherl\Sdk\Common\Dto\PaginationFilterInputDto;
+use Sherl\Sdk\Common\Dto\DateFilterOutputDto;
 
 class GetCalendarEventForCurrentPersonInputDto extends PaginationFilterInputDto
 {
@@ -41,5 +42,4 @@ class GetCalendarEventForCurrentPersonInputDto extends PaginationFilterInputDto
      * @Serializer\Type("Sherl\Sdk\Common\Dto\DateFilterOutputDto")
      */
     public $endDate;
-
 }

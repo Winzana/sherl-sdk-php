@@ -3,6 +3,7 @@
 namespace Sherl\Sdk\Calendar\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
+use Sherl\Sdk\Calendar\Enum\HoursSpecificationRulesetEnum;
 
 class OpeningHoursSpecificationOutputDto
 {
@@ -19,9 +20,9 @@ class OpeningHoursSpecificationOutputDto
     public $dayOfWeek;
 
     /**
-    * @var string
-    * @Serializer\Type("array<string>")
-    */
+     * @var string
+     * @Serializer\Type("array<string>")
+     */
     public $weekDays;
 
     /**

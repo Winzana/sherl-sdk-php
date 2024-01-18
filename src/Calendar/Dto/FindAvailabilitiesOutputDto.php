@@ -3,6 +3,7 @@
 namespace Sherl\Sdk\Calendar\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
+use Sherl\Sdk\Place\Dto\GeoCoordinates;
 
 class FindAvailabilitiesOutputDto
 {
@@ -44,9 +45,9 @@ class FindAvailabilitiesOutputDto
     public $startDate;
 
     /**
-    * @var string
-    * @Serializer\Type("string")
-    */
+     * @var string
+     * @Serializer\Type("string")
+     */
     public $endDate;
 
     /**
@@ -56,15 +57,15 @@ class FindAvailabilitiesOutputDto
     public $location;
 
     /**
-    * @var string
-    * @Serializer\Type("string")
-    */
+     * @var string
+     * @Serializer\Type("string")
+     */
     public $createdAt;
 
     /**
-    * @var string
-    * @Serializer\Type("string")
-    */
+     * @var string
+     * @Serializer\Type("string")
+     */
     public $updatedAt;
 
     /**

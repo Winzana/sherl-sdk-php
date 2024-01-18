@@ -3,6 +3,7 @@
 namespace Sherl\Sdk\Calendar\Dto;
 
 use Sherl\Sdk\Common\Dto\PaginationFilterInputDto;
+use Sherl\Sdk\Common\Dto\DateFilterOutputDto;
 
 class GetCalendarEventForCalendarInputDto extends PaginationFilterInputDto
 {
@@ -47,5 +48,4 @@ class GetCalendarEventForCalendarInputDto extends PaginationFilterInputDto
      * Serializer\Type("string")
      */
     public $consumerId;
-
 }

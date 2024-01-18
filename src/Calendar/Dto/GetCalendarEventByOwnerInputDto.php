@@ -5,6 +5,7 @@ namespace Sherl\Sdk\Calendar\Dto;
 use JMS\Serializer\Annotation as Serializer;
 
 use Sherl\Sdk\Common\Dto\PaginationFilterInputDto;
+use Sherl\Sdk\Common\Dto\DateFilterOutputDto;
 
 class GetCalendarEventByOwnerInputDto extends PaginationFilterInputDto
 {

@@ -15,7 +15,7 @@ class CheckDatesInputDto
     public $metadatas;
 
     /**
-     * @var Avaibility[]
+     * @var AvailabilityDto[]
      */
     public $dates;
 }

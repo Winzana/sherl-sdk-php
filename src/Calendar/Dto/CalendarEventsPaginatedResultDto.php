@@ -4,10 +4,9 @@ namespace Sherl\Sdk\Calendar\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Calendar\Dto\CalendarEventDto;
-use Sherl\Sdk\Common\Dto\Pagination;
 use Sherl\Sdk\Common\Dto\ViewOutputDto;
 
-class CalendarEventsPaginatedResultDto extends Pagination
+class CalendarEventsPaginatedResultDto
 {
     /**
      * @var CalendarEventDto[]
@@ -20,4 +19,10 @@ class CalendarEventsPaginatedResultDto extends Pagination
      * @Serializer\Type("Sherl\Sdk\Common\Dto\ViewOutputDto")
      */
     public $view;
+
+    public function __construct(mixed $results, mixed $view)
+    {
+        $this->results = $results;
+        $this->view = $view;
+    }
 }

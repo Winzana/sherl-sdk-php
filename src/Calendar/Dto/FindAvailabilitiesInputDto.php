@@ -3,6 +3,7 @@
 namespace Sherl\Sdk\Calendar\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
+use Sherl\Sdk\Calendar\Enum\AvailabilityScale;
 
 class FindAvailabilitiesInputDto
 {
@@ -37,9 +38,9 @@ class FindAvailabilitiesInputDto
     public $startDate;
 
     /**
-    * @var string
-    * @Serializer\Type("string")
-    */
+     * @var string
+     * @Serializer\Type("string")
+     */
     public $endDate;
 
     /**

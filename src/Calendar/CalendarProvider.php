@@ -47,11 +47,6 @@ class UserProvider
         $this->errorFactory = new ErrorFactory(self::DOMAIN, CalendarErr::$errors);
     }
 
-    private function throwSherlUserException(ResponseInterface $response)
-    {
-        throw new SherlException(UserProvider::DOMAIN, $response->getBody()->getContents(), $response->getStatusCode());
-    }
-
     // Calendar
 
     /**
@@ -104,7 +99,7 @@ class UserProvider
     public function updateCalendarRequest(string $calendarId, UpdateCalendarInputDto $calendarData): ?CalendarDto
     {
         try {
-            $response = $this->client->put('/api/calendar/' + $calendarId, [
+            $response = $this->client->put('/api/calendar/' . $calendarId, [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
@@ -146,7 +141,7 @@ class UserProvider
     public function deleteCalendar(string $calendarId): bool
     {
         try {
-            $response = $this->client->delete('/api/calendar/' + $calendarId, [
+            $response = $this->client->delete('/api/calendar/' . $calendarId, [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
@@ -168,7 +163,6 @@ class UserProvider
         } catch (Exception $err) {
             throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_FAILED));
         }
-
     }
 
     /**
@@ -181,7 +175,7 @@ class UserProvider
     public function getCalendarById(string $calendarId): ?CalendarDto
     {
         try {
-            $response = $this->client->get('/api/calendar/' + $calendarId, [
+            $response = $this->client->get('/api/calendar/' . $calendarId, [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
@@ -207,7 +201,6 @@ class UserProvider
         } catch (Exception $err) {
             throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::GET_ONE_CALENDAR_FAILED));
         }
-
     }
 
     /**
@@ -236,16 +229,18 @@ class UserProvider
           ]
         ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlUserException($response);
+        switch ($response->getStatusCode()) {
+            case 200:
+                return SerializerFactory::getInstance()->deserialize(
+                    $response->getBody()->getContents(),
+                    "array<Sherl\Sdk\Calendar\Dto\FindAvailabilitiesOutputDto>",
+                    'json'
+                );
+            case 403:
+                throw $this->errorFactory->create(CalendarErr::FIND_CALENDAR_AVAILABILITIES_FORBIDDEN);
+            default:
+                throw $this->errorFactory->create(CalendarErr::FIND_CALENDAR_AVAILABILITIES_FAILED);
         }
-
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            "array<Sherl\Sdk\Calendar\Dto\$response->getStatusCode() >= 400>",
-            'json'
-        );
     }
 
     /**
@@ -269,15 +264,19 @@ class UserProvider
           ]
         ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlUserException($response);
-        }
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            "array<Sherl\Sdk\Calendar\Dto\AvailabilityDto>",
-            'json'
-        );
+        switch ($response->getStatusCode()) {
+            case 200:
+                return SerializerFactory::getInstance()->deserialize(
+                    $response->getBody()->getContents(),
+                    "array<Sherl\Sdk\Calendar\Dto\AvailabilityDto>",
+                    'json'
+                );
+            case 403:
+                throw $this->errorFactory->create(CalendarErr::CHECK_DATES_FORBIDDEN);
+            default:
+                throw $this->errorFactory->create(CalendarErr::CHECK_DATES_FAILED);
+        }
     }
 
     /**
@@ -304,11 +303,14 @@ class UserProvider
           ]
         ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlUserException($response);
+        switch ($response->getStatusCode()) {
+            case 200:
+                return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
+            case 403:
+                throw $this->errorFactory->create(CalendarErr::CHECK_LOCATION_FORBIDDEN);
+            default:
+                throw $this->errorFactory->create(CalendarErr::CHECK_LOCATION_FAILED);
         }
-
-        return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
     }
 
 
@@ -318,9 +320,9 @@ class UserProvider
      *
      * @param CalendarFilterInputDto $calendarFilter The filter to apply when searching for a calendar.
      * @throws SherlException If there is an error on finding a calendar.
-     * @return CalendarDto The calendar that matches the filter.
+     * @return CalendarDto | null The calendar that matches the filter.
      */
-    public function findCalendarWithFilter(CalendarFilterInputDto $calendarFilter): CalendarDto
+    public function findCalendarWithFilter(CalendarFilterInputDto $calendarFilter): ?CalendarDto
     {
         $response = $this->client->get('/api/calendar/find-one', [
           "headers" => [
@@ -334,15 +336,18 @@ class UserProvider
           ]
         ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlUserException($response);
+        switch ($response->getStatusCode()) {
+            case 200:
+                return SerializerFactory::getInstance()->deserialize(
+                    $response->getBody()->getContents(),
+                    CalendarDto::class,
+                    'json'
+                );
+            case 403:
+                throw $this->errorFactory->create(CalendarErr::FIND_ONE_CALENDAR_FORBIDDEN);
+            default:
+                throw $this->errorFactory->create(CalendarErr::FIND_ONE_CALENDAR_FAILED);
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            CalendarDto::class,
-            'json'
-        );
     }
 
     // Calendar Events
@@ -370,15 +375,20 @@ class UserProvider
           ]
         ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlUserException($response);
+        switch ($response->getStatusCode()) {
+            case 200:
+                return SerializerFactory::getInstance()->deserialize(
+                    $response->getBody()->getContents(),
+                    CalendarEventDto::class,
+                    'json'
+                );
+            case 403:
+                throw $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_EVENT_FORBIDDEN);
+            case 404:
+                throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
+            default:
+                throw $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_EVENT_FAILED);
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            CalendarEventDto::class,
-            'json'
-        );
     }
 
     /**
@@ -392,7 +402,7 @@ class UserProvider
      */
     public function updateCalendarEventRequest(string $calendarId, string $eventId, UpdateCalendarEventInputDto $calendarEventData): CalendarEventDto
     {
-        $response = $this->client->put('/api/calendar/' + $calendarId + '/event/' + $eventId, [
+        $response = $this->client->put('/api/calendar/' . $calendarId . '/event/' . $eventId, [
           "headers" => [
             "Content-Type" => "application/json",
           ],
@@ -405,15 +415,20 @@ class UserProvider
           ]
         ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlUserException($response);
+        switch ($response->getStatusCode()) {
+            case 200:
+                return SerializerFactory::getInstance()->deserialize(
+                    $response->getBody()->getContents(),
+                    CalendarEventDto::class,
+                    'json'
+                );
+            case 403:
+                throw $this->errorFactory->create(CalendarErr::UPDATE_CALENDAR_EVENT_FORBIDDEN);
+            case 404:
+                throw $this->errorFactory->create(CalendarErr::CALENDAR_OR_CALENDAR_EVENT_NOT_FOUND);
+            default:
+                throw $this->errorFactory->create(CalendarErr::UPDATE_CALENDAR_EVENT_FAILED);
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            CalendarEventDto::class,
-            'json'
-        );
     }
 
     /**
@@ -426,18 +441,23 @@ class UserProvider
      */
     public function deleteCalendarEventRequest(string $calendarId, string $calendarEventId): bool
     {
-        $response = $this->client->delete('/api/calendar/' + $calendarId + '/event/' + $calendarEventId, [
+        $response = $this->client->delete('/api/calendar/' . $calendarId . '/event/' . $calendarEventId, [
           "headers" => [
             "Content-Type" => "application/json",
           ],
           RequestOptions::JSON => []
         ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlUserException($response);
+        switch ($response->getStatusCode()) {
+            case 200:
+                return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
+            case 403:
+                throw $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_EVENT_FORBIDDEN);
+            case 404:
+                throw $this->errorFactory->create(CalendarErr::CALENDAR_OR_CALENDAR_EVENT_NOT_FOUND);
+            default:
+                throw $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_EVENT_FAILED);
         }
-
-        return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
     }
 
     /**
@@ -450,7 +470,7 @@ class UserProvider
      */
     public function getAllCalendarEvents(string $calendarId, GetCalendarEventForCalendarInputDto $filters): array
     {
-        $response = $this->client->get('/api/calendar/' + $calendarId + 'events', [
+        $response = $this->client->get('/api/calendar/' . $calendarId . '/events', [
           "headers" => [
             "Content-Type" => "application/json",
           ],
@@ -466,15 +486,20 @@ class UserProvider
           ]
         ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlUserException($response);
+        switch ($response->getStatusCode()) {
+            case 200:
+                return SerializerFactory::getInstance()->deserialize(
+                    $response->getBody()->getContents(),
+                    "array<Sherl\Sdk\Calendar\Dto\GetCalendarEventForCalendarResultsDto>",
+                    'json'
+                );
+            case 403:
+                throw $this->errorFactory->create(CalendarErr::GET_ALL_CALENDAR_EVENTS_WITH_FILTER_FORBIDDEN);
+            case 404:
+                throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
+            default:
+                throw $this->errorFactory->create(CalendarErr::GET_ALL_CALENDAR_EVENTS_WITH_FILTER_FAILED);
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            "array<Sherl\Sdk\Calendar\Dto\GetCalendarEventForCalendarResultsDto>",
-            'json'
-        );
     }
 
     /**
@@ -482,26 +507,31 @@ class UserProvider
      *
      * @param string $calendarEventId The ID of the calendar event.
      * @throws SherlException If there is an error retrieving the calendar event.
-     * @return CalendarEventDto The retrieved calendar event.
+     * @return CalendarEventDto | null The retrieved calendar event.
      */
-    public function getCalendarEventRequest(string $calendarEventId): CalendarEventDto
+    public function getCalendarEventRequest(string $calendarEventId): ?CalendarEventDto
     {
-        $response = $this->client->put('/api/calendar-event/' + $calendarEventId, [
+        $response = $this->client->put('/api/calendar-event/' . $calendarEventId, [
           "headers" => [
             "Content-Type" => "application/json",
           ],
           RequestOptions::JSON => []
         ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlUserException($response);
+        switch ($response->getStatusCode()) {
+            case 200:
+                return SerializerFactory::getInstance()->deserialize(
+                    $response->getBody()->getContents(),
+                    CalendarEventDto::class,
+                    'json'
+                );
+            case 403:
+                throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENT_BY_ID_FORBIDDEN);
+            case 404:
+                throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_EXIST);
+            default:
+                throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENT_BY_ID_FAILED);
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            CalendarEventDto::class,
-            'json'
-        );
     }
 
     /**
@@ -528,15 +558,18 @@ class UserProvider
           ]
         ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlUserException($response);
+        switch ($response->getStatusCode()) {
+            case 200:
+                return SerializerFactory::getInstance()->deserialize(
+                    $response->getBody()->getContents(),
+                    CalendarEventsPaginatedResultDto::class,
+                    'json'
+                );
+            case 403:
+                throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_CURRENT_USER_FORBIDDEN);
+            default:
+                throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_CURRENT_USER_FAILED);
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            CalendarEventsPaginatedResultDto::class,
-            'json'
-        );
     }
 
     /**
@@ -564,14 +597,17 @@ class UserProvider
           ]
         ]);
 
-        if ($response->getStatusCode() >= 400) {
-            return $this->throwSherlUserException($response);
+        switch ($response->getStatusCode()) {
+            case 200:
+                return SerializerFactory::getInstance()->deserialize(
+                    $response->getBody()->getContents(),
+                    CalendarEventsPaginatedResultDto::class,
+                    'json'
+                );
+            case 403:
+                throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_OWNER_FORBIDDEN);
+            default:
+                throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_OWNER_FAILED);
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            CalendarEventsPaginatedResultDto::class,
-            'json'
-        );
     }
 }

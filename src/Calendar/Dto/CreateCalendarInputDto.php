@@ -26,7 +26,7 @@ class CreateCalendarInputDto
     public $ownerUri;
 
     /**
-     * @var OpenHoursSpecification
+     * @var OpeningHoursSpecificationOutputDto
      * @Serializer\Type("array<Sherl\Sdk\Calendar\Dto\OpeningHoursSpecificationOutputDto>")
      */
     public $availabilities;
