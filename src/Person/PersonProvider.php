@@ -22,7 +22,11 @@ class PersonProvider
 
     public function getMe(): ?PersonOutputDto
     {
-        $response = $this->client->get('/api/persons/me');
+        $response = $this->client->get('/api/persons/me', [
+            "headers" => [
+              "Content-Type" => "application/json",
+            ]
+          ]);
 
         if ($response->getStatusCode() >= 300) {
             throw new SherlException(PersonProvider::DOMAIN, $response->getBody()->getContents());
