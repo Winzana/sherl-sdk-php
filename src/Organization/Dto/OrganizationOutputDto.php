@@ -355,7 +355,7 @@ class OrganizationOutputDto
 
     /**
      * @var array<string,QuotaOutputDto>
-     * @Serializer\Type("array<string, Sherl\Sdk\Quotas\Dto\QuotaOutputDto>")
+     * @Serializer\Type("array<string, Sherl\Sdk\Quota\Dto\QuotaOutputDto>")
      */
     public $quotas;
 

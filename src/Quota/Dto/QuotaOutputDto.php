@@ -48,7 +48,7 @@ class QuotaOutputDto
 
     /**
      * @var QuotaSourceOutputDto[]
-     * @Serializer\Type("array<Sherl\Sdk\Quotas\Dto\QuotaSourceOutputDto>")
+     * @Serializer\Type("array<Sherl\Sdk\Quota\Dto\QuotaSourceOutputDto>")
      */
     public $sources;
 

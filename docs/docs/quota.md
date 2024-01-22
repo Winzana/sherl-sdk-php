@@ -25,4 +25,4 @@ $quota = $sherlClient->quota->getOneQuotaBy(QuotaFilterDto $filters);
 |   **ownerUri**   | string  | :white_check_mark: |      Owner Uri for the quota      |
 </details>
 
-This call returns a [QuotaOutputDto](quotas-types#QuotaOutputDto) object.
+This call returns a [QuotaOutputDto](quota-types#QuotaOutputDto) object.
