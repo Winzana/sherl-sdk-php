@@ -33,13 +33,13 @@ class CommunicationProvider
     }
 
     /**
-     * Retrieves communication data based on the provided filters.
+     * Retrieves communication datas based on the provided filters.
      *
      * @param CommunicationFindByInputDto $filters The filters to apply to the communication query.
      * @return CommunicationOutputDto|null The communication output data object or null on failure.
      * @throws SherlException If there is an error during the communication retrieval process.
      */
-    public function getCommunication(CommunicationFindByInputDto $filters): ?CommunicationOutputDto
+    public function getCommunications(CommunicationFindByInputDto $filters): ?CommunicationOutputDto
     {
         try {
             $response = $this->client->get('/api/communications', [

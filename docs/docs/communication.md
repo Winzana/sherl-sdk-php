@@ -18,7 +18,6 @@ $sherlClient->communication->getCommunication(CommunicationFindByInputDto $filte
 | :-------------- | :------------------------: | :------: | ----------------------------------- |
 | **id**          |          `string`          |   :x:    | The communication unique identifier |
 | **uri**         |          `string`          |   :x:    | The communication URI               |
-| **consumerId**  |          `string`          |   :x:    | The consumer unique identifier      |
 | **senderId**    |          `string`          |   :x:    | The sender unique identifier        |
 | **receiverUri** |          `string`          |   :x:    | The receiver URI                    |
 | **aboutUri**    |          `string`          |   :x:    | The communication about URI         |
