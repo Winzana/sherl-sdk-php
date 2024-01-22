@@ -36,10 +36,10 @@ class IamProvider
      * Retrieves all IAM profiles filtered by the provided parameters.
      *
      * @param IamProfilesFilterDto $filters IamProfilesFilterDto to apply to the IAM profiles query.
-     * @return ProfileDto|null The filtered IAM profiles data result.
+     * @return ProfileDto[]|null The filtered IAM profiles data result.
      * @throws SherlException If there is an error while fetching the IAM profiles.
      */
-    public function getAllIamProfiles(IamProfilesFilterDto $filters): ?ProfileDto
+    public function getAllIamProfiles(IamProfilesFilterDto $filters): ?array
     {
         try {
             $response = $this->client->get('/api/iam/profiles', [

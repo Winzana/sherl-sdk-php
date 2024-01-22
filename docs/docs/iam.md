@@ -21,7 +21,7 @@ $profiles = $sherlClient->iam->getAllIamProfiles(IamProfilesFilterDto $filter);
 
 </details>
 
-This call returns an array of [ProfileDto](Iam-types#ProfileDto).
+This call returns an array of [ProfileDto][]|null(Iam-types#ProfileDto).
 
 ## Get IAM profile by ID
 
