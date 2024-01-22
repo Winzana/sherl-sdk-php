@@ -49,7 +49,6 @@ class OpinionProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => $id,
                 RequestOptions::JSON => $opinionData,
             ]);
 
@@ -147,7 +146,6 @@ class OpinionProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => $id,
                 RequestOptions::JSON => $updatedOpinion,
             ]);
 
@@ -183,7 +181,6 @@ class OpinionProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => $id,
                 RequestOptions::JSON => $opinionData,
             ]);
 
