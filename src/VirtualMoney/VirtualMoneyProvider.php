@@ -52,9 +52,6 @@ class VirtualMoneyProvider
                   "Content-Type" => "application/json",
                 ],
                 RequestOptions::JSON => $walletHistorical,
-                RequestOptions::QUERY => [
-                    "walletId" => $walletId
-                ],
               ]);
 
             switch ($response->getStatusCode()) {
@@ -92,10 +89,6 @@ class VirtualMoneyProvider
             $response = $this->client->get("api/wallet/$walletId/historical/$historicalId", [
                 "headers" => [
                   "Content-Type" => "application/json",
-                ],
-                RequestOptions::QUERY => [
-                    "walletId" => $walletId,
-                    "historicalId" => $historicalId
                 ],
               ]);
 
@@ -169,9 +162,6 @@ class VirtualMoneyProvider
                   "Content-Type" => "application/json",
                 ],
                 RequestOptions::JSON => $transferWallet,
-                RequestOptions::QUERY => [
-                    "walletId" => $walletId
-                ],
               ]);
 
             switch ($response->getStatusCode()) {
@@ -201,7 +191,7 @@ class VirtualMoneyProvider
      * @return WalletOutputDto|null The wallet output data object or null on failure.
      * @throws SherlException If there is an error during the debit operation.
      */
-    public function debitWalet(string $walletId, TransferWalletInputDto $transferWallet): ?WalletOutputDto
+    public function debitWallet(string $walletId, TransferWalletInputDto $transferWallet): ?WalletOutputDto
     {
         try {
             $response = $this->client->post("/api/wallet/$walletId/debit", [
@@ -209,9 +199,6 @@ class VirtualMoneyProvider
                   "Content-Type" => "application/json",
                 ],
                 RequestOptions::JSON => $transferWallet,
-                RequestOptions::QUERY => [
-                    "walletId" => $walletId
-                ],
               ]);
 
             switch ($response->getStatusCode()) {
@@ -246,7 +233,6 @@ class VirtualMoneyProvider
     public function findOneWallet(
         string $id,
         string $personId,
-        string $consumerId
     ): ?WalletOutputDto {
 
         try {
@@ -257,7 +243,6 @@ class VirtualMoneyProvider
                 RequestOptions::QUERY => [
                     "id" => $id,
                     "personId" => $personId,
-                    "consumerId" => $consumerId
                 ],
               ]);
 
@@ -293,9 +278,6 @@ class VirtualMoneyProvider
             $response = $this->client->get("api/wallet/$walletId", [
                 "headers" => [
                   "Content-Type" => "application/json",
-                ],
-                RequestOptions::QUERY => [
-                    "walletId" => $walletId
                 ],
               ]);
 

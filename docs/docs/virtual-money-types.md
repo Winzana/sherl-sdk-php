@@ -5,26 +5,26 @@ title: Virtual Money types
 
 ## WalletHistoricalOutputDto
 
-| Fields             |   Type   | Description                                    |
-| :----------------- | :------: | ---------------------------------------------- |
-| **id**             | `string` | L'identifiant de l'historique du portefeuille. |
-| **uri**            | `string` | L'URI associée à l'historique.                 |
-| **amount**         | `float`  | Le montant de l'historique.                    |
-| **consumerId**     | `string` | L'identifiant du consommateur.                 |
-| **organizationId** | `string` | L'identifiant de l'organisation.               |
-| **description**    | `string` | La description de l'historique.                |
-| **personId**       | `string` | L'identifiant de la personne.                  |
-| **walletId**       | `string` | L'identifiant du portefeuille.                 |
-| **createdAt**      | `string` | La date de création de l'historique.           |
+| Fields             |   Type   | Description                           |
+| :----------------- | :------: | ------------------------------------- |
+| **id**             | `string` | The identifier of the wallet history. |
+| **uri**            | `string` | The URI associated with the history.  |
+| **amount**         | `float`  | The amount in the history.            |
+| **consumerId**     | `string` | The consumer's identifier.            |
+| **organizationId** | `string` | The organization's identifier.        |
+| **description**    | `string` | The description of the history.       |
+| **personId**       | `string` | The identifier of the person.         |
+| **walletId**       | `string` | The wallet's identifier.              |
+| **createdAt**      | `string` | The creation date of the history.     |
 
 ## WalletOutputDto
 
-| Champs         |   Type   | Description                             |
-| :------------- | :------: | --------------------------------------- |
-| **id**         | `string` | L'identifiant du portefeuille.          |
-| **uri**        | `string` | L'URI associée au portefeuille.         |
-| **amount**     | `float`  | Le montant du portefeuille.             |
-| **consumerId** | `string` | L'identifiant du consommateur.          |
-| **personId**   | `string` | L'identifiant de la personne.           |
-| **createdAt**  | `string` | La date de création du portefeuille.    |
-| **updatedAt**  | `string` | La date de mise à jour du portefeuille. |
+| Fields         |   Type   | Description                                |
+| :------------- | :------: | ------------------------------------------ |
+| **id**         | `string` | The wallet's identifier.                   |
+| **uri**        | `string` | The URI associated with the wallet.        |
+| **amount**     | `float`  | The amount in the wallet.                  |
+| **consumerId** | `string` | The consumer's identifier.                 |
+| **personId**   | `string` | The identifier of the person.              |
+| **createdAt**  | `string` | The creation date of the wallet.           |
+| **updatedAt**  | `string` | The date of the last update of the wallet. |
