@@ -6,7 +6,7 @@ use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Etl\Dto\WrapperModelDto;
 use Sherl\Sdk\Etl\Enum\FieldValueTypesEnum;
 
-class SchemaDestinationModel
+class SchemaDestinationModelDto
 {
     /**
      * @var string
@@ -39,7 +39,7 @@ class SchemaDestinationModel
     public $indexed;
 
     /**
-     * @var WrapperModel[]
+     * @var WrapperModelDto[]
      * @Serializer\Type("array<Sherl\Sdk\Etl\Dto\WrapperModelDto>")
      */
     public $wrappers;

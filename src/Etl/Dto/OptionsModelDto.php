@@ -6,7 +6,7 @@ use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Etl\Enum\HttpRequestTypeEnum;
 use Sherl\Sdk\Etl\Enum\MimeTypeEnum;
 
-class OptionsModel
+class OptionsModelDto
 {
     /**
      * @var string

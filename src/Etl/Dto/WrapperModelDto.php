@@ -5,7 +5,7 @@ namespace Sherl\Sdk\Etl\Dto;
 use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Etl\Enum\WrapperIdentifierEnum;
 
-class WrapperModel
+class WrapperModelDto
 {
     /**
      * @var WrapperIdentifierEnum

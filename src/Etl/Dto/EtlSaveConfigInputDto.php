@@ -11,26 +11,26 @@ use Sherl\Sdk\Etl\Dto\FilterModelDto;
 class EtlSaveConfigInputDto
 {
     /**
-     * @var SourceModel
+     * @var SourceModelDto
      * @Serializer\Type("Sherl\Sdk\Etl\Dto\SourceModelDto")
      */
     public $source;
 
     /**
-     * @var DestinationModel
+     * @var DestinationModelDto
      * @Serializer\Type("Sherl\Sdk\Etl\Dto\DestinationModelDto")
      */
     public $destination;
 
     /**
-     * @var SchemaModel
-     * @Serializer\Type("Sherl\Sdk\Etl\Dto\SchemaModelDto")
+     * @var SchemaModelDto[]
+     * @Serializer\Type("array<Sherl\Sdk\Etl\Dto\SchemaModelDto>")
      */
     public $schemas;
 
     /**
-     * @var FilterModel
-     * @Serializer\Type("Sherl\Sdk\Etl\Dto\FilterModelDto")
+     * @var FilterModelDto[]
+     * @Serializer\Type("array<Sherl\Sdk\Etl\Dto\FilterModelDto>")
      */
     public $filters;
 }

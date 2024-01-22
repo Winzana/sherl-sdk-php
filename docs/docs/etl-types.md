@@ -3,7 +3,7 @@ id: etl-types
 title: ETL types
 ---
 
-## EtlResponseDto
+## ExtractTransformLoadResponseDto
 
 | Fields |  Type   | Description             |
 | :----- | :-----: | :---------------------- |
@@ -11,32 +11,32 @@ title: ETL types
 
 ## ConfigModelDto
 
-| Fields      |       Type        | Description                                    |
-| :---------- | :---------------: | :--------------------------------------------- |
-| id          |      string       | ID of the configuration.                       |
-| uri         |      string       | URI of the configuration.                      |
-| consumerId  |      string       | Consumer ID of the configuration.              |
-| source      |   ISourceModel    | Source information.                            |
-| destination | IDestinationModel | Destination information.                       |
-| schemas     |  ISchemaModel[]   | Array of schemas.                              |
-| filters     |  IFilterModel[]   | Array of filters.                              |
-| createdAt   |     DateTime      | Creation date of the configuration (optional). |
+| Fields      |        Type         | Description                                    |
+| :---------- | :-----------------: | :--------------------------------------------- |
+| id          |       string        | ID of the configuration.                       |
+| uri         |       string        | URI of the configuration.                      |
+| consumerId  |       string        | Consumer ID of the configuration.              |
+| source      |   SourceModelDto    | Source information.                            |
+| destination | DestinationModelDto | Destination information.                       |
+| schemas     |  SchemaModelDto[]   | Array of schemas.                              |
+| filters     |  FilterModelDto[]   | Array of filters.                              |
+| createdAt   |      DateTime       | Creation date of the configuration (optional). |
 
 ## EtlSaveConfigInputDto
 
-| Fields      |       Type        | Description              |
-| :---------- | :---------------: | :----------------------- |
-| source      |   ISourceModel    | Source information.      |
-| destination | IDestinationModel | Destination information. |
-| schemas     |   ISchemaModel    | Schema information.      |
-| filters     |   IFilterModel    | Filter information.      |
+| Fields      |        Type         | Description              |
+| :---------- | :-----------------: | :----------------------- |
+| source      |   SourceModelDto    | Source information.      |
+| destination | DestinationModelDto | Destination information. |
+| schemas     |   SchemaModelDto    | Schema information.      |
+| filters     |   FilterModelDto    | Filter information.      |
 
 ## SourceModelDto
 
 | Fields  |          Type           | Description               |
 | :------ | :---------------------: | :------------------------ |
 | method  | ExtractSourceMethodEnum | Source extraction method. |
-| options |      IOptionsModel      | Source options.           |
+| options |     OptionsModelDto     | Source options.           |
 | name    |         string          | Name of the source.       |
 
 ## DestinationModelDto
@@ -57,20 +57,20 @@ title: ETL types
 
 ## SchemaModelDto
 
-| Fields       |           Type            | Description                   |
-| :----------- | :-----------------------: | :---------------------------- |
-| name         |          string           | Name of the schema.           |
-| sources      |   ISchemaSourceModel[]    | Array of schema sources.      |
-| destinations | ISchemaDestinationModel[] | Array of schema destinations. |
+| Fields       |            Type             | Description                   |
+| :----------- | :-------------------------: | :---------------------------- |
+| name         |           string            | Name of the schema.           |
+| sources      |   SchemaSourceModelDto[]    | Array of schema sources.      |
+| destinations | SchemaDestinationModelDto[] | Array of schema destinations. |
 
 ## FilterModelDto
 
-| Fields  |        Type         | Description             |
-| :------ | :-----------------: | :---------------------- |
-| name    |       string        | Name of the filter.     |
-| type    | FieldValueTypesEnum | Filter value type.      |
-| options | IFilterOptionsModel | Filter options.         |
-| fields  | IFilterFieldModel[] | Array of filter fields. |
+| Fields  |         Type          | Description             |
+| :------ | :-------------------: | :---------------------- |
+| name    |        string         | Name of the filter.     |
+| type    |  FieldValueTypesEnum  | Filter value type.      |
+| options | FilterOptionsModelDto | Filter options.         |
+| fields  | FilterFieldModelDto[] | Array of filter fields. |
 
 ## OptionsModelDto
 
@@ -96,7 +96,7 @@ title: ETL types
 | :----------- | :----------------------------: | :---------------------------- |
 | type         |      FieldValueTypesEnum       | Source value type.            |
 | outputType   | FieldValueTypesEnum (optional) | Output value type (optional). |
-| wrappers     |   IWrapperModel[] (optional)   | Array of wrappers (optional). |
+| wrappers     |  WrapperModelDto[] (optional)  | Array of wrappers (optional). |
 | defaultValue |        mixed (optional)        | Default value (optional).     |
 | ignoreEmpty  |       boolean (optional)       | Ignore empty (optional).      |
 
@@ -109,7 +109,7 @@ title: ETL types
 | type       |      FieldValueTypesEnum       | Destination value type.       |
 | pattern    |       string (optional)        | Pattern (optional).           |
 | indexed    |            boolean             | Indexed status (optional).    |
-| wrappers   |   IWrapperModel[] (optional)   | Array of wrappers (optional). |
+| wrappers   |  WrapperModelDto[] (optional)  | Array of wrappers (optional). |
 
 ## FilterFieldModelDto
 

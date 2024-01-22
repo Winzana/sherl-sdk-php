@@ -11,7 +11,7 @@ title: ETL
 $sherlClient->etl->saveConfig(EtlSaveConfigInputDto $config);
 ```
 
-## EtlSaveConfigInputDto
+### EtlSaveConfigInputDto
 
 <details>
  <summary><b>EtlSaveConfigInputDto</b></summary>
@@ -41,7 +41,7 @@ $sherlClient->etl->extractTransformLoad(ExtractTransformLoadInputDto $config);
 | ---------- | ------------------------------------------ | :----------------: | --------------------------- |
 | **config** | [ConfigModelDto](etl-types#ConfigModelDto) | :white_check_mark: | Configuration for ETL task. |
 
-This call returns an [EtlResponseDto](etl-types#EtlResponseDto) object.
+This call returns an [ExtractTransformLoadResponseDto](etl-types#ExtractTransformLoadResponseDto) object.
 
 ## Extract transform load by config id
 
@@ -51,4 +51,4 @@ This call returns an [EtlResponseDto](etl-types#EtlResponseDto) object.
 $sherlClient->etl->extractTransformLoadById(string $id);
 ```
 
-This call returns an [EtlResponseDto](etl-types#EtlResponseDto) object.
+This call returns an [ExtractTransformLoadResponseDto](etl-types#ExtractTransformLoadResponseDto) object.

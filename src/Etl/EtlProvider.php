@@ -11,7 +11,7 @@ use Exception;
 use Sherl\Sdk\Common\Error\ErrorFactory;
 use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Etl\Errors\EtlErr;
-use Sherl\Sdk\Etl\Dto\EtlResponseDto;
+use Sherl\Sdk\Etl\Dto\ExtractTransformLoadResponseDto;
 use Sherl\Sdk\Etl\Dto\ExtractTransformLoadInputDto;
 use Sherl\Sdk\Etl\Dto\EtlSaveConfigInputDto;
 use Sherl\Sdk\Etl\Dto\ConfigModelDto;
@@ -33,11 +33,10 @@ class EtlProvider
      * Executes an Extract Transform Load process by ID.
      *
      * @param string $id - The ID of the ETL process to execute.
-     * @return EtlResponseDto|null - The response from the ETL process.
+     * @return ExtractTransformLoadResponseDto|null - The response from the ETL process.
      * @throws SherlException
      */
-
-    public function extractTransformLoadById(string $id): ?EtlResponseDto
+    public function extractTransformLoadById(string $id): ?ExtractTransformLoadResponseDto
     {
         try {
             $response = $this->client->post("/api/etl/$id", [
@@ -51,7 +50,7 @@ class EtlProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        EtlResponseDto::class,
+                        ExtractTransformLoadResponseDto::class,
                         'json'
                     );
                 case 403:
@@ -69,10 +68,10 @@ class EtlProvider
      * Executes an Extract Transform Load process with a given configuration.
      *
      * @param ExtractTransformLoadInputDto $config - The configuration for the ETL process.
-     * @return EtlResponseDto|null - The response from the ETL process.
+     * @return ExtractTransformLoadResponseDto|null - The response from the ETL process.
      * @throws SherlException
      */
-    public function extractTransformLoad(ExtractTransformLoadInputDto $config): ?EtlResponseDto
+    public function extractTransformLoad(ExtractTransformLoadInputDto $config): ?ExtractTransformLoadResponseDto
     {
         try {
             $response = $this->client->post("/api/etl", [
@@ -86,7 +85,7 @@ class EtlProvider
                 case 200:
                     return SerializerFactory::getInstance()->deserialize(
                         $response->getBody()->getContents(),
-                        EtlResponseDto::class,
+                        ExtractTransformLoadResponseDto::class,
                         'json'
                     );
                 case 403:

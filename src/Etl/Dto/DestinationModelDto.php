@@ -6,7 +6,7 @@ use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Etl\Enum\LoaderTypeEnum;
 use Sherl\Sdk\Etl\Enum\DatabaseLoaderTypeEnum;
 
-class DestinationModel
+class DestinationModelDto
 {
     /**
      * @var LoaderTypeEnum

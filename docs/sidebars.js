@@ -25,7 +25,6 @@ module.exports = {
       "notification-types",
       "media-types",
       "pagination",
-      "place-types",
       "config-types",
       "search-types",
       "gallery-types",
