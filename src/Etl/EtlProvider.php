@@ -43,7 +43,6 @@ class EtlProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => $id
             ]);
 
             switch ($response->getStatusCode()) {
