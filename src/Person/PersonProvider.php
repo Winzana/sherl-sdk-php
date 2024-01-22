@@ -362,7 +362,7 @@ class PersonProvider
      */
     public function addPersonPicture(PictureRegisterInputDto $picture): ?PersonOutputDto
     {
-        $userId = $picture->person;
+        $userId = $picture->personId;
         $mediaId = $picture->mediaId;
 
         try {
