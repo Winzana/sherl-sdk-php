@@ -81,7 +81,6 @@ class IamProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => $id,
             ]);
 
 
@@ -118,7 +117,6 @@ class IamProvider
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => $id,
               ]);
 
             switch ($response->getStatusCode()) {
