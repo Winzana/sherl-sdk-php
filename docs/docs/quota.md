@@ -1,6 +1,6 @@
 ---
-id: quotas
-title: Quotas
+id: quota
+title: Quota
 ---
 
 ## Find Quota with filter
@@ -10,7 +10,7 @@ title: Quotas
 Retrieve quota information by using a filter or not.
 
 ```php
-$quota = $sherlClient->quotas->getOneQuotaBy(QuotaFilterDto $filters);
+$quota = $sherlClient->quota->getOneQuotaBy(QuotaFilterDto $filters);
 ```
 
 <details>

@@ -1,8 +1,8 @@
 <?php
 
-namespace Sherl\Sdk\Quotas\Errors;
+namespace Sherl\Sdk\Quota\Errors;
 
-class QuotasErr
+class QuotaErr
 {
     public const FETCH_FAILED = 'quota/fetch-failed';
     public const FETCH_QUOTA_FIND_ONE_BY_FORBIDDEN = 'quota/fetch-find-one-by-forbidden';

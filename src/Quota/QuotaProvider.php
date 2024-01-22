@@ -5,12 +5,12 @@ namespace Sherl\Sdk\Quota;
 use Exception;
 use GuzzleHttp\Client;
 use Sherl\Sdk\Common\SerializerFactory;
-use Sherl\Sdk\Quotas\Dto\QuotaOutputDto;
+use Sherl\Sdk\Quota\Dto\QuotaOutputDto;
 use Sherl\Sdk\Common\Error\SherlException;
 use Sherl\Sdk\Common\Error\ErrorFactory;
 use Sherl\Sdk\Common\Error\ErrorHelper;
-use Sherl\Sdk\Quotas\Errors\QuotasErr;
-use Sherl\Sdk\Quotas\Dto\QuotaFilterDto;
+use Sherl\Sdk\Quota\Errors\QuotaErr;
+use Sherl\Sdk\Quota\Dto\QuotaFilterDto;
 use GuzzleHttp\RequestOptions;
 
 class QuotaProvider
@@ -26,7 +26,7 @@ class QuotaProvider
     public function __construct(Client $client)
     {
         $this->client = $client;
-        $this->errorFactory = new ErrorFactory(self::DOMAIN, QuotasErr::$errors);
+        $this->errorFactory = new ErrorFactory(self::DOMAIN, QuotaErr::$errors);
     }
 
     /**
@@ -53,12 +53,12 @@ class QuotaProvider
                         'json'
                     );
                 case 403:
-                    throw $this->errorFactory->create(QuotasErr::FETCH_QUOTA_FIND_ONE_BY_FORBIDDEN);
+                    throw $this->errorFactory->create(QuotaErr::FETCH_QUOTA_FIND_ONE_BY_FORBIDDEN);
                 default:
-                    throw $this->errorFactory->create(QuotasErr::FETCH_FAILED);
+                    throw $this->errorFactory->create(QuotaErr::FETCH_FAILED);
             }
         } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(QuotasErr::FETCH_FAILED));
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(QuotaErr::FETCH_FAILED));
         }
     }
 }

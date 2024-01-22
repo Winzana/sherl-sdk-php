@@ -1,6 +1,6 @@
 ---
-id: quotas-types
-title: Quotas types
+id: quota-types
+title: Quota types
 ---
 
 ## QuotaOutputDto
@@ -18,7 +18,7 @@ title: Quotas types
 | **createdAt**     | datetime              | Date and time of quota creation       |
 | **updatedAt**     | datetime              | Date and time of last update          |
 
-## QuotasSourceOutputDto
+## QuotaSourceOutputDto
 
 | Fields          | Type     | Description                             |
 | --------------- | -------- | --------------------------------------- |

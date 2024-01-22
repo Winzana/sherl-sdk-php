@@ -22,7 +22,7 @@ use Sherl\Sdk\Organization\Dto\PersonConfigValueOutputDto;
 use Sherl\Sdk\Organization\Dto\EmployeeOutputDto;
 use Sherl\Sdk\Organization\Dto\FounderOutputDto;
 
-use Sherl\Sdk\Quotas\Dto\QuotaOutputDto;
+use Sherl\Sdk\Quota\Dto\QuotaOutputDto;
 
 use Sherl\Sdk\Place\Dto\AddressOutputDto;
 use Sherl\Sdk\Place\Dto\PlaceOutputDto;

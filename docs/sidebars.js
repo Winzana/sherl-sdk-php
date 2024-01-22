@@ -20,7 +20,7 @@ module.exports = {
       "auth-types",
       "bug-report-types",
       "claim-types",
-      "quotas-types",
+      "quota-types",
       "notification-types",
       "media-types",
       "place-types",

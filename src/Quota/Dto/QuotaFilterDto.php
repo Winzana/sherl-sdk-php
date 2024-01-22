@@ -1,6 +1,6 @@
 <?php
 
-namespace Sherl\Sdk\Quotas\Dto;
+namespace Sherl\Sdk\Quota\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Common\Dto\PaginationFiltersInputDto;
