@@ -32,14 +32,14 @@ class FindPostsFiltersDto extends PaginationFiltersInputDto
     public $type;
 
     /**
-     * @var string|null
-     * @Serializer\Type("string")
+     * @var \DateTime
+     * @Serializer\Type("DateTime")
      */
     public $beginDate;
 
     /**
-     * @var string|null
-     * @Serializer\Type("string")
+     * @var \DateTime
+     * @Serializer\Type("DateTime")
      */
     public $endDate;
 

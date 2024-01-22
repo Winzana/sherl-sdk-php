@@ -48,7 +48,7 @@ class CmsProvider
     public function addMediaPage(string $id, CMSArticleAddMediaDto $data): ?ArticleDto
     {
         try {
-            $response = $this->client->post("/api/media/$id", [
+            $response = $this->client->post("/api/cms/articles/posts/$id/media", [
                 "headers" => ["Content-Type" => "application/json"],
                 RequestOptions::QUERY => $id,
                 RequestOptions::JSON => [
@@ -82,10 +82,10 @@ class CmsProvider
  * @return ArticleDto|null The body content of the HTTP response.
  * @throws SherlException If the response status code is not successful.
  */
-    public function UpdateArticleById(string $id, CMSArticleUpdateInputDto $articleInput): ?ArticleDto
+    public function updateArticleById(string $id, CMSArticleUpdateInputDto $articleInput): ?ArticleDto
     {
         try {
-            $response = $this->client->put("/api/article/$id", [
+            $response = $this->client->put("/api/cms/articles/posts/$id", [
                 "headers" => ["Content-Type" => "application/json"],
                 RequestOptions::QUERY => $id,
                 RequestOptions::JSON => [
@@ -121,7 +121,7 @@ class CmsProvider
     public function createFaqsPage(CMSArticleFaqCreateInputDto $faqInput): ?ArticleDto
     {
         try {
-            $response = $this->client->post("/api/faqs", [
+            $response = $this->client->post("/api/cms/articles/faqs", [
                 "headers" => ["Content-Type" => "application/json"],
                 RequestOptions::JSON => [
                     "faqInput" => $faqInput,
@@ -152,7 +152,7 @@ class CmsProvider
     public function createPostsPage(CMSArticleCreateInputDto $data): ?ArticleDto
     {
         try {
-            $response = $this->client->post("/api/manage_articles", [
+            $response = $this->client->post("/api/cms/articles/posts", [
                 "headers" => ["Content-Type" => "application/json"],
                 RequestOptions::JSON => [
                     "posts" => $data,
@@ -185,7 +185,7 @@ class CmsProvider
     public function createStaticPage(CMSArticleStaticPageCreateInputDto $data): ?ArticleDto
     {
         try {
-            $response = $this->client->post("/api/create_static", [
+            $response = $this->client->post("/api/cms/articles/static-page", [
                 "headers" => ["Content-Type" => "application/json"],
                 RequestOptions::JSON => $data
             ]);
@@ -217,7 +217,7 @@ class CmsProvider
     public function createStoriesPage(CMSArticleStoryCreateInputDto $data): ?ArticleDto
     {
         try {
-            $response = $this->client->post("/api/create_stories", [
+            $response = $this->client->post("/api/cms/articles/stories", [
                 "headers" => ["Content-Type" => "application/json"],
                 RequestOptions::JSON => $data
             ]);
@@ -247,7 +247,7 @@ class CmsProvider
     public function createTrainingsPage(CMSArticleTrainingCreateInputDto $data): ?ArticleDto
     {
         try {
-            $response = $this->client->post("/api/create_training", [
+            $response = $this->client->post("/api/cms/articles/trainings", [
                 "headers" => ["Content-Type" => "application/json"],
                 RequestOptions::JSON => $data
             ]);
@@ -276,7 +276,7 @@ class CmsProvider
     public function deleteArticleById(string $id): ?ArticleDto
     {
         try {
-            $response = $this->client->delete("/api/manage_posts/$id", [
+            $response = $this->client->delete("/api/cms/articles/posts/$id", [
                 "headers" => ["Content-Type" => "application/json"],
                 RequestOptions::QUERY => $id
             ]);
@@ -308,7 +308,7 @@ class CmsProvider
     public function deleteMediaPage(string $id): ?ArticleDto
     {
         try {
-            $response = $this->client->delete("/api/manage_media/$id", [
+            $response = $this->client->delete("/api/cms/articles/posts/$id/media", [
                 "headers" => ["Content-Type" => "application/json"],
                 RequestOptions::QUERY => $id
             ]);
@@ -340,7 +340,7 @@ class CmsProvider
     public function getArticleById(string $id): ?ArticleDto
     {
         try {
-            $response = $this->client->get("/api/manage_posts/$id", [
+            $response = $this->client->get("/api/cms/articles/posts/$id", [
                 "headers" => ["Content-Type" => "application/json"],
                 RequestOptions::QUERY => $id
             ]);
@@ -373,7 +373,7 @@ class CmsProvider
     public function getArticleBySlug(string $slug): ?ArticleDto
     {
         try {
-            $response = $this->client->get("/api/get_slug/$slug", [
+            $response = $this->client->get("/api/cms/articles/posts/find-one-by-slug/$slug", [
                 "headers" => ["Content-Type" => "application/json"],
                 RequestOptions::QUERY => $slug
             ]);
@@ -405,7 +405,7 @@ class CmsProvider
     public function getPosts(FindPostsFiltersDto $filters): ?ArticleDto
     {
         try {
-            $response = $this->client->get("/api/manage_articles", [
+            $response = $this->client->get("/api/cms/articles/posts", [
                 RequestOptions::JSON => $filters
             ]);
             switch ($response->getStatusCode()) {
@@ -434,7 +434,7 @@ class CmsProvider
     public function getPublicArticleById(string $id): ?ArticleDto
     {
         try {
-            $response = $this->client->get("/api/manage_posts/$id", [
+            $response = $this->client->get("/api/cms/articles/posts/$id", [
                 "headers" => ["Content-Type" => "application/json"],
                 RequestOptions::QUERY => $id
             ]);
@@ -466,7 +466,7 @@ class CmsProvider
     public function getPublicArticleBySlug(string $slug): ?ArticleDto
     {
         try {
-            $response = $this->client->get("/api/get_article_by_slug/$slug", [
+            $response = $this->client->get("/api/public/cms/articles/posts/find-one-by-slug/$slug", [
                 "headers" => ["Content-Type" => "application/json"],
                 RequestOptions::QUERY => $slug
             ]);
@@ -500,7 +500,7 @@ class CmsProvider
     public function getPublicArticles(FindPostsFiltersDto $filters): ?ArticleDto
     {
         try {
-            $response = $this->client->get("/api/get_public_articles", [
+            $response = $this->client->get("/api/public/cms/articles/posts", [
                 RequestOptions::JSON => $filters
             ]);
             switch ($response->getStatusCode()) {

@@ -8,7 +8,7 @@ title: Cms
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cmsClient->createStaticPage(CMSArticleStaticPageCreateInputDto $data);
+$sherlClient->cms->createStaticPage(CMSArticleStaticPageCreateInputDto $data);
 ```
 
 <details>
@@ -29,7 +29,7 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cmsClient->addMediaPage(CMSArticleAddMediaDto $data);
+$sherlClient->cms->addMediaPage(CMSArticleAddMediaDto $data);
 ```
 
 <details>
@@ -53,7 +53,7 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cmsClient->deleteMediaPage(string $id);
+$sherlClient->cms->deleteMediaPage(string $id);
 ```
 
 This call returns a [ArticleDto](cms-types#ArticleDto) object.
@@ -63,7 +63,7 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cmsClient->getArticleBySlug(string $slug);
+$sherlClient->cms->getArticleBySlug(string $slug);
 ```
 
 This call returns a [ArticleDto](cms-types#ArticleDto) object.
@@ -73,7 +73,7 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cmsClient->getArticleById(string $id);
+$sherlClient->cms->getArticleById(string $id);
 ```
 
 This call returns a [ArticleDto](cms-types#ArticleDto) object.
@@ -83,7 +83,7 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cmsClient->deleteArticleById(string $id);
+$sherlClient->cms->deleteArticleById(string $id);
 ```
 
 This call returns a [ArticleDto](cms-types#ArticleDto) object.
@@ -93,7 +93,7 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cmsClient->UpdateArticleById(string $id,CMSArticleUpdateInputDto $data);
+$sherlClient->cms->updateArticleById(string $id,CMSArticleUpdateInputDto $data);
 ```
 
 <details>
@@ -116,7 +116,7 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cmsClient->createTrainingsPage(CMSArticleTrainingCreateInputDto $data);
+$sherlClient->cms->createTrainingsPage(CMSArticleTrainingCreateInputDto $data);
 ```
 
 <details>
@@ -137,7 +137,7 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cmsClient->createStoriesPage(CMSArticleStoryCreateInputDto $data);
+$sherlClient->cms->createStoriesPage(CMSArticleStoryCreateInputDto $data);
 ```
 
 <details>
@@ -157,7 +157,7 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cmsClient->createFaqsPage(CMSArticleFaqCreateInputDto $data);
+$sherlClient->cms->createFaqsPage(CMSArticleFaqCreateInputDto $data);
 ```
 
 <details>
@@ -178,7 +178,7 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cmsClient->createPostsPage(CMSArticleCreateInputDto $data);
+$sherlClient->cms->createPostsPage(CMSArticleCreateInputDto $data);
 ```
 
 <details>
@@ -201,7 +201,7 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cmsClient->getPosts(FindPostsFiltersDto $filter);
+$sherlClient->cms->getPosts(FindPostsFiltersDto $filter);
 ```
 
 <details>
@@ -229,7 +229,7 @@ This call returns an [SearchResultDto](pagination#SearchResultDto) of [ArticleDt
 <span class="badge badge--success">Public</span>
 
 ```php
-$cmsClient->getPublicArticleBySlug(string $slug);
+$sherlClient->cms->getPublicArticleBySlug(string $slug);
 ```
 
 This call returns a [ArticleDto](cms-types#ArticleDto) object.
@@ -239,7 +239,7 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--success">Public</span>
 
 ```php
-$cmsClient->getPublicArticleById(string $id);
+$sherlClient->cms->getPublicArticleById(string $id);
 ```
 
 This call returns a [ArticleDto](cms-types#ArticleDto) object.
@@ -249,7 +249,7 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--success">Public</span>
 
 ```php
-$cmsClient->getPublicArticles(FindPostsFiltersDto $data);
+$sherlClient->cms->getPublicArticles(FindPostsFiltersDto $data);
 ```
 
 <details>
