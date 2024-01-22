@@ -56,19 +56,14 @@ class UserProvider
      * @throws SherlException If there is an error on creating the calendar.
      * @return CalendarDto|null The created calendar.
      */
-    public function createCalendardRequest(CreateCalendarInputDto $calendarData): ?CalendarDto
+    public function createCalendar(CreateCalendarInputDto $calendarData): ?CalendarDto
     {
         try {
             $response = $this->client->post('/api/calendar', [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => [
-                "aboutUri" => $calendarData->aboutUri,
-                "ownerUri" => $calendarData->ownerUri,
-                "availabilities" => $calendarData->availabilities,
-                "metadatas" => $calendarData->metadatas,
-              ]
+              RequestOptions::JSON => $calendarData
             ]);
 
             switch ($response->getStatusCode()) {
@@ -96,20 +91,14 @@ class UserProvider
      * @throws SherlException If there is an error on updating the calendar.
      * @return CalendarDto|null The updated calendar.
      */
-    public function updateCalendarRequest(string $calendarId, UpdateCalendarInputDto $calendarData): ?CalendarDto
+    public function updateCalendar(string $calendarId, UpdateCalendarInputDto $calendarData): ?CalendarDto
     {
         try {
             $response = $this->client->put('/api/calendar/' . $calendarId, [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => [
-                "aboutUri" => $calendarData->aboutUri,
-                "ownerUri" => $calendarData->ownerUri,
-                "availabilities" => $calendarData->availabilities,
-                "metadatas" => $calendarData->metadatas,
-                "enabled" => $calendarData->enabled
-              ]
+              RequestOptions::JSON => $calendarData
             ]);
 
             switch ($response->getStatusCode()) {
@@ -145,9 +134,6 @@ class UserProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => [
-                "calendarId" => $calendarId
-              ]
             ]);
 
             switch ($response->getStatusCode()) {
@@ -179,9 +165,6 @@ class UserProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => [
-                "calendarId" => $calendarId
-              ]
             ]);
 
             switch ($response->getStatusCode()) {
@@ -216,17 +199,7 @@ class UserProvider
           "headers" => [
             "Content-Type" => "application/json",
           ],
-          RequestOptions::JSON => [
-            "ownerUri" => $filters->ownerUri,
-            "aboutUri" => $filters->aboutUri,
-            "userPlaceUri" => $filters->userPlaceUri,
-            "metadatas" => $filters->metadatas,
-            "startDate" => $filters->startDate,
-            "endDate" => $filters->endDate,
-            "scale" => $filters->scale,
-            "scaleValue" => $filters->scaleValue,
-            "available" => $filters->available,
-          ]
+          RequestOptions::JSON => $filters
         ]);
 
         switch ($response->getStatusCode()) {
@@ -256,12 +229,7 @@ class UserProvider
           "headers" => [
             "Content-Type" => "application/json",
           ],
-          RequestOptions::JSON => [
-            "ownerUri" => $dates->ownerUri,
-            "metadatas" => $dates->metadatas,
-            "dates" => $dates->dates
-
-          ]
+          RequestOptions::JSON => $dates
         ]);
 
 
@@ -292,15 +260,7 @@ class UserProvider
           "headers" => [
             "Content-Type" => "application/json",
           ],
-          RequestOptions::JSON => [
-            "calendarOwnerUri" => $location->calendarOwnerUri,
-            "country" => $location->country,
-            "locality" => $location->locality,
-            "region" => $location->region,
-            "postalCode" => $location->postalCode,
-            "streetAddress" => $location->streetAddress,
-
-          ]
+          RequestOptions::JSON => $location
         ]);
 
         switch ($response->getStatusCode()) {
@@ -328,12 +288,7 @@ class UserProvider
           "headers" => [
             "Content-Type" => "application/json",
           ],
-          RequestOptions::JSON => [
-            "id" => $calendarFilter->id,
-            "uri" => $calendarFilter->uri,
-            "aboutUri" => $calendarFilter->aboutUri,
-            "ownerUri" => $calendarFilter->ownerUri
-          ]
+          RequestOptions::JSON => $calendarFilter
         ]);
 
         switch ($response->getStatusCode()) {
@@ -359,20 +314,13 @@ class UserProvider
      * @throws SherlException If there is an error on creating a calendar event.
      * @return CalendarEventDto The created calendar event.
      */
-    public function createCalendarEventRequest(CreateCalendarEventInputDto $calendarData): CalendarEventDto
+    public function createCalendarEvent(CreateCalendarEventInputDto $calendarData): CalendarEventDto
     {
         $response = $this->client->post('/api/calendar', [
           "headers" => [
             "Content-Type" => "application/json",
           ],
-          RequestOptions::JSON => [
-            "uri" => $calendarData->uri,
-            "aboutUri" => $calendarData->aboutUri,
-            "ownerUri" => $calendarData->ownerUri,
-            "startDate" => $calendarData->startDate,
-            "endDate" => $calendarData->endDate,
-            "metadatas" => $calendarData->metadatas,
-          ]
+          RequestOptions::JSON => $calendarData
         ]);
 
         switch ($response->getStatusCode()) {
@@ -400,19 +348,13 @@ class UserProvider
      * @throws SherlException If there is an error on updating a calendar event.
      * @return CalendarEventDto The updated calendar event.
      */
-    public function updateCalendarEventRequest(string $calendarId, string $eventId, UpdateCalendarEventInputDto $calendarEventData): CalendarEventDto
+    public function updateCalendarEvent(string $calendarId, string $eventId, UpdateCalendarEventInputDto $calendarEventData): CalendarEventDto
     {
         $response = $this->client->put('/api/calendar/' . $calendarId . '/event/' . $eventId, [
           "headers" => [
             "Content-Type" => "application/json",
           ],
-          RequestOptions::JSON => [
-            "aboutUri" => $calendarEventData->aboutUri,
-            "ownerUri" => $calendarEventData->ownerUri,
-            "calendarUri" => $calendarEventData->calendarUri,
-            "startDate" => $calendarEventData->startDate,
-            "endDate" => $calendarEventData->endDate
-          ]
+          RequestOptions::JSON => $calendarEventData
         ]);
 
         switch ($response->getStatusCode()) {
@@ -445,7 +387,6 @@ class UserProvider
           "headers" => [
             "Content-Type" => "application/json",
           ],
-          RequestOptions::JSON => []
         ]);
 
         switch ($response->getStatusCode()) {
@@ -474,16 +415,7 @@ class UserProvider
           "headers" => [
             "Content-Type" => "application/json",
           ],
-          RequestOptions::JSON => [
-            "page" => $filters->page,
-            "itemsPerPage" => $filters->itemsPerPage,
-            "aboutUri" => $filters->aboutUri,
-            "ownerUri" => $filters->ownerUri,
-            "startDate" => $filters->startDate,
-            "endDate" => $filters->endDate,
-            "calendarUri" => $filters->calendarUri,
-            "consumerId" => $filters->consumerId,
-          ]
+          RequestOptions::JSON => $filters
         ]);
 
         switch ($response->getStatusCode()) {
@@ -509,13 +441,12 @@ class UserProvider
      * @throws SherlException If there is an error retrieving the calendar event.
      * @return CalendarEventDto | null The retrieved calendar event.
      */
-    public function getCalendarEventRequest(string $calendarEventId): ?CalendarEventDto
+    public function getCalendarEvent(string $calendarEventId): ?CalendarEventDto
     {
         $response = $this->client->put('/api/calendar-event/' . $calendarEventId, [
           "headers" => [
             "Content-Type" => "application/json",
           ],
-          RequestOptions::JSON => []
         ]);
 
         switch ($response->getStatusCode()) {
@@ -541,21 +472,13 @@ class UserProvider
      * @throws SherlException If there is an error retrieving the calendar events.
      * @return CalendarEventsPaginatedResultDto The paginated result of calendar events.
      */
-    public function getCalendarEventForCurrentPersonRequest(GetCalendarEventForCurrentPersonInputDto $input): CalendarEventsPaginatedResultDto
+    public function getCalendarEventForCurrentPerson(GetCalendarEventForCurrentPersonInputDto $input): CalendarEventsPaginatedResultDto
     {
         $response = $this->client->get('/api/calendar-events', [
           "headers" => [
             "Content-Type" => "application/json",
           ],
-          RequestOptions::JSON => [
-            "page" => $input->page,
-            "itemsPerPage" => $input->itemsPerPage,
-            "uri" => $$input->uri,
-            "aboutUri" => $input->aboutUri,
-            "ownerUri" => $input->ownerUri,
-            "startDate" => $input->startDate,
-            "endDate" => $input->endDate,
-          ]
+          RequestOptions::JSON => $input
         ]);
 
         switch ($response->getStatusCode()) {
@@ -585,16 +508,7 @@ class UserProvider
           "headers" => [
             "Content-Type" => "application/json",
           ],
-          RequestOptions::JSON => [
-            "page" => $input->page,
-            "itemsPerPage" => $input->itemsPerPage,
-            "calendarOwnerUri" => $input->calendarOwnerUri,
-            "calendarAboutUri" => $input->calendarAboutUri,
-            "aboutUri" => $input->aboutUri,
-            "ownerUri" => $input->ownerUri,
-            "startDate" => $input->startDate,
-            "endDate" => $input->endDate,
-          ]
+          RequestOptions::JSON => $input
         ]);
 
         switch ($response->getStatusCode()) {

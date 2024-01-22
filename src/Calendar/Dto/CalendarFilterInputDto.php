@@ -35,10 +35,4 @@ class CalendarFilterInputDto
      * @Serializer\Type("mixed")
      */
     public $metadatas;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $consumerId;
 }

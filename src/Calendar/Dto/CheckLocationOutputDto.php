@@ -4,6 +4,7 @@ namespace Sherl\Sdk\Calendat\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Place\Dto\GeoCoordinates;
+use DateTime;
 
 class CheckLocationOutputDto
 {
@@ -26,14 +27,14 @@ class CheckLocationOutputDto
     public $aboutUri;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
     public $startDate;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
     public $endDate;
 

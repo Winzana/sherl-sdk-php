@@ -15,13 +15,13 @@ $sherlClient->calendar->createCalendar(CreateCalendarInputDto $createCalendar);
 <details>
  <summary><b>CreateCalendarInputDto</b></summary>
 
-| Fields             |                                           Type                                            |      Required      | Description                             |
-| :----------------- | :---------------------------------------------------------------------------------------: | :----------------: | :-------------------------------------- |
-| **id**             |                                          string                                           | :white_check_mark: | The calendar id                         |
-| **aboutUri**       |                                          string                                           | :white_check_mark: | TODO                                    |
-| **ownerUri**       |                                          string                                           | :white_check_mark: | The uri of the owner                    |
-| **availabilities** | [OpeningHoursSpecificationOutputDto[]](calendar-types#OpeningHoursSpecificationOutputDto) | :white_check_mark: | Availabilities of the calendar          |
-| **metadatas**      |                                           TODO                                            |        :x:         | Metadata information about the calendar |
+| Fields             |                                           Type                                            |      Required      | Description                                |
+| :----------------- | :---------------------------------------------------------------------------------------: | :----------------: | :----------------------------------------- |
+| **id**             |                                          string                                           | :white_check_mark: | The calendar id                            |
+| **aboutUri**       |                                          string                                           | :white_check_mark: | The uri for the associated custom resource |
+| **ownerUri**       |                                          string                                           | :white_check_mark: | The uri of the owner                       |
+| **availabilities** | [OpeningHoursSpecificationOutputDto[]](calendar-types#OpeningHoursSpecificationOutputDto) | :white_check_mark: | Availabilities of the calendar             |
+| **metadatas**      |                                           mixed                                           |        :x:         | Metadata information about the calendar    |
 
 </details>
 
@@ -40,11 +40,11 @@ $sherlClient->calendar->updateCalendar(string $calendarId, UpdateCalendarInputDt
 
 | Fields             |                                          Type                                           | Required | Description                                  |
 | :----------------- | :-------------------------------------------------------------------------------------: | :------: | :------------------------------------------- |
-| **aboutUri**       |                                         string                                          |   :x:    | TODO                                         |
+| **aboutUri**       |                                         string                                          |   :x:    | The uri for the associated custom resource   |
 | **ownerUri**       |                                         string                                          |   :x:    | The uri of the owner                         |
 | **availabilities** | [OpeningHoursSpecificationOutputDto](calendar-types#OpeningHoursSpecificationOutputDto) |   :x:    | Availabilities of the calendar               |
 | **enabled**        |                                         boolean                                         |   :x:    | Indicates if the calendar is enabled or not. |
-| **metadatas**      |                                          TODO                                           |   :x:    | Metadata information about the calendar      |
+| **metadatas**      |                                          mixed                                          |   :x:    | Metadata information about the calendar      |
 
 </details>
 
@@ -94,13 +94,13 @@ $sherlClient->calendar->findCalendarAvailabilities(FindAvailabilitiesInputDto $f
 | Fields       |                         Type                         | Required | Description                          |
 | ------------ | :--------------------------------------------------: | :------: | ------------------------------------ |
 | ownerUri     |                        string                        |   :x:    | Uri of the owner project             |
-| aboutUri     |                        string                        |   :x:    | TODO                                 |
-| userPlaceUri |                        string                        |   :x:    | TODO                                 |
+| aboutUri     |                        string                        |   :x:    | The uri of the event resource        |
+| userPlaceUri |                        string                        |   :x:    | The uri of the user place            |
 | metadatas    |                        mixed                         |   :x:    | Other metadata to filter             |
 | startDate    |                        string                        |   :x:    | Start date of the calendar to find   |
 | endDate      |                        string                        |   :x:    | End date of the calendar to find     |
-| scale        | [AvailabilityScale](calendar-enum#availabilityscale) |   :x:    | TODO                                 |
-| scaleValue   |                                                      |   :x:    | TODO                                 |
+| scale        | [AvailabilityScale](calendar-enum#availabilityscale) |   :x:    | The kind of period                   |
+| scaleValue   |                                                      |   :x:    | The number of period                 |
 | available    |                       boolean                        |   :x:    | Availability of the calendar to find |
 
 </details>
@@ -166,15 +166,15 @@ $sherlClient->calendar->createCalendarEvent(CreateCalendarEventInputDto $createC
 <details>
  <summary><b>CreateCalendarEventInputDto</b></summary>
 
-| Fields    |  Type  | Required | Description                   |
-| --------- | :----: | :------: | ----------------------------- |
-| id        | string |   :x:    | The id of the calendar event  |
-| uri       | string |   :x:    | The uri of the calendar event |
-| aboutUri  | string |   :x:    | TODO                          |
-| ownerUri  | string |   :x:    | The uri of the owner          |
-| startDate | string |   :x:    | The start date of the event   |
-| endDate   | string |   :x:    | The end date of the event     |
-| metadatas | mixed  |   :x:    | metadata about the event      |
+| Fields    |  Type  | Required | Description                                |
+| --------- | :----: | :------: | ------------------------------------------ |
+| id        | string |   :x:    | The id of the calendar event               |
+| uri       | string |   :x:    | The uri of the calendar event              |
+| aboutUri  | string |   :x:    | The uri for the associated custom resource |
+| ownerUri  | string |   :x:    | The uri of the owner                       |
+| startDate | string |   :x:    | The start date of the event                |
+| endDate   | string |   :x:    | The end date of the event                  |
+| metadatas | mixed  |   :x:    | metadata about the event                   |
 
 </details>
 
@@ -185,19 +185,19 @@ This call returns a [CalendarEventDto](calendar-types#CalendarEventDto) class.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$sherlClient->calendar->updateCalendarEventRequest(string $calendarId, string $eventId,UpdateCalendarEventInputDto $calendarEventData);
+$sherlClient->calendar->updateCalendarEvent(string $calendarId, string $eventId,UpdateCalendarEventInputDto $calendarEventData);
 ```
 
 <details>
  <summary><b>UpdateCalendarEventInputDto</b></summary>
 
-| Fields      |  Type   | Required | Description                        |
-| ----------- | :-----: | :------: | ---------------------------------- | --- |
-| aboutUri    | string  |   :x:    | TODO                               |
-| ownerUri    | string  |   :x:    | The uri of the owner               |
-| calendarUri | string  |   :x:    | The uri of the associated calendar |
-| startDate   | string  |   :x:    | The start date of the event        |
-| endDate     | boolean |   :x:    | The end date of the event          |     |
+| Fields      |  Type   | Required | Description                                |
+| ----------- | :-----: | :------: | ------------------------------------------ |
+| aboutUri    | string  |   :x:    | The uri for the associated custom resource |
+| ownerUri    | string  |   :x:    | The uri of the owner                       |
+| calendarUri | string  |   :x:    | The uri of the associated calendar         |
+| startDate   | string  |   :x:    | The start date of the event                |
+| endDate     | boolean |   :x:    | The end date of the event                  |
 
 </details>
 
@@ -218,7 +218,7 @@ This call returns true if calendar calendar with id was successfully deleted.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$sherlClient->calendar->getCalendarEventRequest(string $eventId);
+$sherlClient->calendar->getCalendarEvent(string $eventId);
 ```
 
 This call returns a [CalendarEventDto](calendar-types#CalendarEventDto) class.
@@ -236,16 +236,16 @@ $sherlClient->calendar->getAllCalendarEvents(string $eventId, GetCalendarEventFo
 <details>
  <summary><b>GetCalendarEventForCalendarInputDto</b></summary>
 
-| Fields       | ^cType                                                 | ^cRequired | Description                    |
-| ------------ | ------------------------------------------------------ | ---------- | ------------------------------ |
-| itemsPerPage | integer                                                | :x:        | Number of items per pages      |
-| page         | integer                                                | :x:        | Current page                   |
-| id           | string                                                 | :x:        | The id of event                |
-| uri          | string                                                 | :x:        | The uri of the event           |
-| aboutUri     | string                                                 | :x:        | The uri of the event ressource |
-| ownerUri     | string                                                 | :x:        | The uri of the owner           |
-| startDate    | [DateFilterOutputDto](date-filter#datefilteroutputdto) | :x:        | Start date of the event        |
-| endDate      | [DateFilterOutputDto](date-filter#datefilteroutputdto) | :x:        | End date of the event          |
+| Fields       | ^cType                                                 | ^cRequired | Description                                |
+| ------------ | ------------------------------------------------------ | ---------- | ------------------------------------------ |
+| itemsPerPage | integer                                                | :x:        | Number of items per pages                  |
+| page         | integer                                                | :x:        | Current page                               |
+| id           | string                                                 | :x:        | The id of event                            |
+| uri          | string                                                 | :x:        | The uri of the event                       |
+| aboutUri     | string                                                 | :x:        | The uri for the associated custom resource |
+| ownerUri     | string                                                 | :x:        | The uri of the owner                       |
+| startDate    | [DateFilterOutputDto](date-filter#datefilteroutputdto) | :x:        | Start date of the event                    |
+| endDate      | [DateFilterOutputDto](date-filter#datefilteroutputdto) | :x:        | End date of the event                      |
 
 </details>
 
@@ -258,7 +258,7 @@ This call returns a [GetCalendarEventForCalendarResultsDto](calendar-types#GetCa
 Get all calendar events for the current person
 
 ```php
-$sherlClient->calendar->getCalendarEventForCurrentPersonRequest(GetCalendarEventForCurrentPersonInputDto $input);
+$sherlClient->calendar->getCalendarEventForCurrentPerson(GetCalendarEventForCurrentPersonInputDto $input);
 ```
 
 <details>
@@ -266,16 +266,16 @@ $sherlClient->calendar->getCalendarEventForCurrentPersonRequest(GetCalendarEvent
 
 GetCalendarEventForCurrentPersonInputDto extends [PaginationFilterInputDto](pagination#PaginationFilterInputDto)
 
-| Fields       | ^cType                                                 | ^cRequired | Description                    |
-| ------------ | ------------------------------------------------------ | ---------- | ------------------------------ |
-| itemsPerPage | integer                                                | :x:        | Number of items per pages      |
-| page         | integer                                                | :x:        | Current page                   |
-| id           | string                                                 | :x:        | The id of event                |
-| uri          | string                                                 | :x:        | The uri of the event           |
-| aboutUri     | string                                                 | :x:        | The uri of the event ressource |
-| ownerUri     | string                                                 | :x:        | The uri of the owner           |
-| startDate    | [DateFilterOutputDto](date-filter#datefilteroutputdto) | :x:        | Start date of the event        |
-| endDate      | [DateFilterOutputDto](date-filter#datefilteroutputdto  | :x:        | End date of the event          |
+| Fields       | ^cType                                                 | ^cRequired | Description                                |
+| ------------ | ------------------------------------------------------ | ---------- | ------------------------------------------ |
+| itemsPerPage | integer                                                | :x:        | Number of items per pages                  |
+| page         | integer                                                | :x:        | Current page                               |
+| id           | string                                                 | :x:        | The id of event                            |
+| uri          | string                                                 | :x:        | The uri of the event                       |
+| aboutUri     | string                                                 | :x:        | The uri for the associated custom resource |
+| ownerUri     | string                                                 | :x:        | The uri of the owner                       |
+| startDate    | [DateFilterOutputDto](date-filter#datefilteroutputdto) | :x:        | Start date of the event                    |
+| endDate      | [DateFilterOutputDto](date-filter#datefilteroutputdto  | :x:        | End date of the event                      |
 
 </details>
 
@@ -301,7 +301,7 @@ DtoGetCalendarEventByOwnerInputDto extends [PaginationFilterInputDto](pagination
 | calendarOwnerUri  |                         string                         |   :x:    | The uri of the calendar owner                                  |
 | calendarAboutUri  |                         string                         |   :x:    | The uri for a custom resource associated to the calendar owner |
 | calendarMetadatas |                         string                         |   :x:    | Calendar metadata                                              |
-| aboutUri          |                         string                         |   :x:    | The uri for the custom resource associated                     |
+| aboutUri          |                         string                         |   :x:    | The uri for the associated custom resource                     |
 | ownerUri          |                         string                         |   :x:    | The uri of the calendar event owner                            |
 | startDate         | [DateFilterOutputDto](date-filter#datefilteroutputdto) |   :x:    | Start date of the events                                       |
 | endDate           | [DateFilterOutputDto](date-filter#datefilteroutputdto) |   :x:    | End date of the events                                         |

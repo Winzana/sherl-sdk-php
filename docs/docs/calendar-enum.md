@@ -4,7 +4,9 @@ title: Calendar enums
 ---
 
 ### AvailabilityScale
+
 Indicates the step to check an availability for a period
+
 ```php
 enum AvailabilityScale: string
 {
@@ -15,7 +17,9 @@ enum AvailabilityScale: string
 ```
 
 ### CalendarConfig
+
 The calendar configuration
+
 ```php
 enum CalendarConfig: string
 {
@@ -25,19 +29,23 @@ enum CalendarConfig: string
     case ALLOWED_LOCALITIES = 'CALENDAR_ALLOWED_LOCALITIES';
 }
 ```
-### RecurrenceType
-```php
 
-The king of recurence for an event
+### RecurrenceType
+
+The kind of recurence for an event
+
+```php
 enum RecurrenceType: string
 {
     case day = 'day';
     case week = 'week';
 }
 ```
+
 ### Restriction
 
 Kind of localisation restriction.
+
 ```php
 enum Restriction: string
 {
@@ -49,6 +57,7 @@ enum Restriction: string
 ### HoursSpecificationRulesetEnum
 
 Opening Rules
+
 ```php
 enum HoursSpecificationRulesetEnum: string {
   case OPEN_EVERY_DAY = 'OPEN_EVERY_DAY';
