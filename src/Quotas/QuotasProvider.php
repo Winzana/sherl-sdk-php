@@ -35,16 +35,14 @@ class QuotaProvider
      * @return QuotaOutputDto|null The quota data transfer object if found, null otherwise.
      * @throws SherlException If the response status code indicates an error.
      */
-    public function getQuotaFindOneBy(QuotaFilterDto $filters): ?QuotaOutputDto
+    public function getOneQuotaBy(QuotaFilterDto $filters): ?QuotaOutputDto
     {
         try {
-            $response = $this->client->post("/api/quotas/findOneBy", [
+            $response = $this->client->get("/api/quotas/find-one-by", [
                 "headers" => [
                 "Content-Type" => "application/json",
                 ],
-                RequestOptions::JSON => [
-                "filters" => $filters
-                ]
+                RequestOptions::QUERY => $filters
                 ]);
 
             switch ($response->getStatusCode()) {

@@ -8,12 +8,12 @@ title: Quotas types
 | Fields            | Type                  | Description                           |
 | ----------------- | --------------------- | ------------------------------------- |
 | **id**            | string                | Unique identifier for the quota       |
-| **uri**           | string                | Uri for the quota                     |
+| **uri**           | string                | URI for the quota                     |
 | **consumerId**    | string                | Consumer ID associated with the quota |
 | **type**          | CommunicationTypeEnum | Type of communication                 |
 | **amount**        | number                | Amount of quota                       |
 | **allowNegative** | boolean               | Allows negative quota values or not   |
-| **ownerUri**      | string                | Owner Uri for the quota               |
+| **ownerUri**      | string                | Owner URI for the quota               |
 | **sources**       | QuotaSourceDto[]      | Sources associated with the quota     |
 | **createdAt**     | datetime              | Date and time of quota creation       |
 | **updatedAt**     | datetime              | Date and time of last update          |
@@ -23,7 +23,7 @@ title: Quotas types
 | Fields          | Type     | Description                             |
 | --------------- | -------- | --------------------------------------- |
 | **id**          | string   | Unique identifier for the quota source  |
-| **uri**         | string   | Uri for the quota source                |
+| **uri**         | string   | URI for the quota source                |
 | **lastApply**   | datetime | Date and time of the last apply         |
 | **nextApply**   | datetime | Date and time of the next apply         |
 | **amount**      | float    | Amount for the quota source             |
