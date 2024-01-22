@@ -27,5 +27,5 @@ title: IAM types
 |    **name**    |            string            |           Name of the profile           |
 | **consumerId** |            string            | Consumer ID associated with the profile |
 |   **roles**    | [RoleDto](iam-types#RoleDto) |        Array of associated roles        |
-| **createdAt**  |           datetime           |    Date and time of profile creation    |
-| **updatedAt**  |           datetime           |      Date and time of last update       |
+| **createdAt**  |           DateTime           |    Date and time of profile creation    |
+| **updatedAt**  |           DateTime           |      Date and time of last update       |
