@@ -17,8 +17,8 @@ class ConfigDto
     public $code;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var mixed
+     * @Serializer\Type("mixed")
      */
     public $value;
 

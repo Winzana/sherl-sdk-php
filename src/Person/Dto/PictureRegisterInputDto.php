@@ -12,7 +12,7 @@ class PictureRegisterInputDto
      * @var string
      * @Serializer\Type("string")
      */
-    public $person;
+    public $personId;
 
     /**
      * @var string

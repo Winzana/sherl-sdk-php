@@ -153,12 +153,10 @@ class PersonProvider
     public function getPersonById(string $id): ?PersonOutputDto
     {
         try {
-
-            $response = $this->client->get('/api/persons/$id', [
+            $response = $this->client->get("/api/persons/$id", [
                 "headers" => [
                   "Content-Type" => "application/json",
-                ],
-                RequestOptions::QUERY => $id
+                ]
             ]);
 
             switch ($response->getStatusCode()) {
@@ -228,7 +226,6 @@ class PersonProvider
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => $id
             ]);
 
             switch ($response->getStatusCode()) {
