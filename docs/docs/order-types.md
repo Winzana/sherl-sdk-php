@@ -9,10 +9,9 @@ title: Order types
 
 | Fields                             |                       Type                       | Description                                 |
 | ---------------------------------- | :----------------------------------------------: | ------------------------------------------- |
-| **id**                             |                      string                      | The identifier of the advertisement         |
-| **uri**                            |                                                  | The uri of the advertisment                 |
-| **name**                           |                      string                      | The name of the advertisement               |
-| **consumerId**                     |                      string                      | TODO                                        |
+| **id**                             |                      string                      | The identifier of the order                 |
+| **uri**                            |                                                  | The uri of the order                        |
+| **name**                           |                      string                      | The name of the order                       |
 | **organization**                   |     **OrganizationOutputDto** TODO: Add Link     | The organization associated to the order    |
 | **customer**                       |        **PersonOutputDto** TODO: Add Link        | The customer associated to the order        |
 | **orderNumber**                    |                     integer                      | The number of the order                     |
@@ -34,7 +33,7 @@ title: Order types
 | **orderStatusHistory**             | [OrderStatusHistoryDto](#OrderStatusHistoryDto)  | List of the order status                    |
 | **commission**                     |    [OrderCommissionDto](#OrderCommissionDto)     | MangoPay Commision associated to the order  |
 | **refund**                         |    [ShopOrderRefundDto](#ShopOrderRefundDto)     | Refund associated to the order              |
-| **metadatas**                      |                      mixed                       | TODO                                        |
+| **metadatas**                      |                      mixed                       | Order metadata                              |
 | **sponsorshipCode**                |                      string                      | Sponsor ship code                           |
 | **discountCode**                   |                      string                      | Discount code                               |
 | **discountToUsefull**              |          [DiscountDto[]](#DiscountDto)           | Total discounts to be applied               |
@@ -71,6 +70,8 @@ title: Order types
 | **metadatas**         |                            mixed                            | Metadata associated with the order item.    |
 
 ## OrderCommissionDto
+
+extends [Transfer](https://mangopay.com/docs/endpoints/transfers#transfer-object) from MangoPay.
 
 | Fields        |   Type   | Description                     |
 | ------------- | :------: | ------------------------------- |
