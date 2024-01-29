@@ -7,6 +7,7 @@ use Sherl\Sdk\Etl\Dto\SourceModelDto;
 use Sherl\Sdk\Etl\Dto\DestinationModelDto;
 use Sherl\Sdk\Etl\Dto\SchemaModelDto;
 use Sherl\Sdk\Etl\Dto\FilterModelDto;
+use DateTime;
 
 class ConfigModelDto
 {
