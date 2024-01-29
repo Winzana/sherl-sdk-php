@@ -3,6 +3,7 @@
 namespace Sherl\Sdk\Cms\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
+use DateTime;
 
 class CMSArticleCreateInputDto
 {

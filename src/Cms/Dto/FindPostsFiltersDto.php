@@ -4,6 +4,7 @@ namespace Sherl\Sdk\Cms\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Common\Dto\PaginationFiltersInputDto;
+use DateTime;
 
 class FindPostsFiltersDto extends PaginationFiltersInputDto
 {

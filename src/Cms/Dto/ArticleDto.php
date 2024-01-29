@@ -8,6 +8,8 @@ use Sherl\Sdk\Cms\Enum\ArticleStatus;
 use Sherl\Sdk\Person\Dto\PersonOutputDto;
 use Sherl\Sdk\Media\Dto\ImageObjectOutputDto;
 
+use DateTime;
+
 class ArticleDto
 {
     /**

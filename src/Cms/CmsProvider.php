@@ -50,7 +50,6 @@ class CmsProvider
         try {
             $response = $this->client->post("/api/cms/articles/posts/$id/media", [
                 "headers" => ["Content-Type" => "application/json"],
-                RequestOptions::QUERY => $id,
                 RequestOptions::JSON => [
                     "data" => $data
                 ]
@@ -87,7 +86,6 @@ class CmsProvider
         try {
             $response = $this->client->put("/api/cms/articles/posts/$id", [
                 "headers" => ["Content-Type" => "application/json"],
-                RequestOptions::QUERY => $id,
                 RequestOptions::JSON => [
                     "title" => $articleInput->title,
                     "content" => $articleInput->content,
@@ -278,7 +276,6 @@ class CmsProvider
         try {
             $response = $this->client->delete("/api/cms/articles/posts/$id", [
                 "headers" => ["Content-Type" => "application/json"],
-                RequestOptions::QUERY => $id
             ]);
             switch ($response->getStatusCode()) {
                 case 200:
@@ -310,7 +307,6 @@ class CmsProvider
         try {
             $response = $this->client->delete("/api/cms/articles/posts/$id/media", [
                 "headers" => ["Content-Type" => "application/json"],
-                RequestOptions::QUERY => $id
             ]);
             switch ($response->getStatusCode()) {
                 case 200:
@@ -342,7 +338,6 @@ class CmsProvider
         try {
             $response = $this->client->get("/api/cms/articles/posts/$id", [
                 "headers" => ["Content-Type" => "application/json"],
-                RequestOptions::QUERY => $id
             ]);
 
             switch ($response->getStatusCode()) {
@@ -375,7 +370,6 @@ class CmsProvider
         try {
             $response = $this->client->get("/api/cms/articles/posts/find-one-by-slug/$slug", [
                 "headers" => ["Content-Type" => "application/json"],
-                RequestOptions::QUERY => $slug
             ]);
             switch ($response->getStatusCode()) {
                 case 200:
@@ -436,7 +430,7 @@ class CmsProvider
         try {
             $response = $this->client->get("/api/cms/articles/posts/$id", [
                 "headers" => ["Content-Type" => "application/json"],
-                RequestOptions::QUERY => $id
+
             ]);
             switch ($response->getStatusCode()) {
                 case 200:
@@ -468,7 +462,6 @@ class CmsProvider
         try {
             $response = $this->client->get("/api/public/cms/articles/posts/find-one-by-slug/$slug", [
                 "headers" => ["Content-Type" => "application/json"],
-                RequestOptions::QUERY => $slug
             ]);
 
             switch ($response->getStatusCode()) {
