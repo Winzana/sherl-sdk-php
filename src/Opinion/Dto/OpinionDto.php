@@ -3,6 +3,7 @@
 namespace Sherl\Sdk\Opinion\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
+use DateTime;
 
 class OpinionDto
 {
@@ -31,8 +32,8 @@ class OpinionDto
     public $score;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
     public $opinionFromUri;
 
@@ -85,8 +86,8 @@ class OpinionDto
     public $claimComment;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
     public $updatedAt;
 }
