@@ -26,7 +26,7 @@ title: Place types
 
 ## AddressOutputDto
 
-| Property      | Type   | Description                                          |
+| Fields        | Type   | Description                                          |
 | ------------- | ------ | ---------------------------------------------------- |
 | **id**        | string | A unique identifier for the address.                 |
 | **createdAt** | string | The date and time when the address was created.      |
@@ -34,7 +34,7 @@ title: Place types
 
 ## PlaceOutputDto
 
-| Property                       | Type     | Description                                                 |
+| Fields                         | Type     | Description                                                 |
 | ------------------------------ | -------- | ----------------------------------------------------------- |
 | **id**                         | string   | A unique identifier for the place.                          |
 | **uri**                        | string   | A URI to more information or actions related to the place.  |
