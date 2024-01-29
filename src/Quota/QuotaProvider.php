@@ -55,10 +55,10 @@ class QuotaProvider
                 case 403:
                     throw $this->errorFactory->create(QuotaErr::FETCH_QUOTA_FIND_ONE_BY_FORBIDDEN);
                 default:
-                    throw $this->errorFactory->create(QuotaErr::FETCH_FAILED);
+                    throw $this->errorFactory->create(QuotaErr::FETCH_QUOTA_FIND_ONE_BY_FAILED);
             }
         } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(QuotaErr::FETCH_FAILED));
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(QuotaErr::FETCH_QUOTA_FIND_ONE_BY_FAILED));
         }
     }
 }
