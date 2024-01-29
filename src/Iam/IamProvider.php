@@ -59,10 +59,10 @@ class IamProvider
                 case 403:
                     throw $this->errorFactory->create(IamErr::IAM_GET_ALL_FORBIDDEN);
                 default:
-                    throw $this->errorFactory->create(IamErr::FETCH_FAILED);
+                    throw $this->errorFactory->create(IamErr::IAM_GET_ALL_FAILED);
             }
         } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(IamErr::FETCH_FAILED));
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(IamErr::IAM_GET_ALL_FAILED));
         }
     }
 
@@ -96,10 +96,10 @@ class IamProvider
                 case 404:
                     throw $this->errorFactory->create(IamErr::IAM_PROFILE_NOT_FOUND_ERROR);
                 default:
-                    throw $this->errorFactory->create(IamErr::FETCH_FAILED);
+                    throw $this->errorFactory->create(IamErr::IAM_GET_PROFILE_BY_ID_FAILED);
             }
         } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(IamErr::FETCH_FAILED));
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(IamErr::IAM_GET_PROFILE_BY_ID_FAILED));
         }
     }
 
@@ -131,10 +131,10 @@ class IamProvider
                 case 404:
                     throw $this->errorFactory->create(IamErr::IAM_ROLE_NOT_FOUND_ERROR);
                 default:
-                    throw $this->errorFactory->create(IamErr::FETCH_FAILED);
+                    throw $this->errorFactory->create(IamErr::IAM_GET_ROLE_BY_ID_FAILED);
             }
         } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(IamErr::FETCH_FAILED));
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(IamErr::IAM_GET_ROLE_BY_ID_FAILED));
         }
     }
 }
