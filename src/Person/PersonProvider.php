@@ -51,20 +51,23 @@ class PersonProvider
                 ]
           ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ConfigDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(PersonErr::GET_CONFIGS_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(PersonErr::GET_CONFIGS_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ConfigDto::class,
+                'json'
+            );
+
+        } catch (\Exception $e) {
+            if($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(PersonErr::GET_CONFIGS_FORBIDDEN);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::GET_CONFIGS_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::GET_CONFIGS_FAILED));
         }
     }
 
@@ -85,22 +88,23 @@ class PersonProvider
                 RequestOptions::QUERY => $position
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        LocationDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(PersonErr::FETCH_POSITION_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(PersonErr::FETCH_POSITION_FAILED);
-            }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::FETCH_POSITION_FAILED));
-        }
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                LocationDto::class,
+                'json'
+            );
+        } catch (\Exception $e) {
+            if($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
 
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(PersonErr::FETCH_POSITION_FORBIDDEN);
+                }
+            }
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::FETCH_POSITION_FAILED));
+        }
     }
 
     /**
@@ -126,20 +130,25 @@ class PersonProvider
                 ]
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        PersonOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(PersonErr::FETCH_PERSONS_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(PersonErr::FETCH_PERSONS_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                PersonOutputDto::class,
+                'json'
+            );
+
+        } catch (\Exception $e) {
+            if($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(PersonErr::FETCH_PERSONS_FORBIDDEN);
+                    default:
+                        throw $this->errorFactory->create(PersonErr::FETCH_PERSONS_FAILED);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::FETCH_PERSONS_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::FETCH_PERSONS_FAILED));
         }
     }
 
@@ -159,22 +168,27 @@ class PersonProvider
                 ]
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        PersonOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(PersonErr::GET_PERSON_BY_ID_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(PersonErr::PERSON_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(PersonErr::GET_PERSON_BY_ID_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                PersonOutputDto::class,
+                'json'
+            );
+
+        } catch (\Exception $e) {
+            if($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(PersonErr::GET_PERSON_BY_ID_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(PersonErr::PERSON_NOT_FOUND);
+                    default:
+                        throw $this->errorFactory->create(PersonErr::GET_PERSON_BY_ID_FAILED);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::GET_PERSON_BY_ID_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::GET_PERSON_BY_ID_FAILED));
         }
     }
 
@@ -195,20 +209,25 @@ class PersonProvider
                 RequestOptions::JSON => $address
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        PersonOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(PersonErr::CREATE_ADDRESS_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(PersonErr::CREATE_ADDRESS_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                PersonOutputDto::class,
+                'json'
+            );
+
+        } catch (\Exception $e) {
+            if($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(PersonErr::CREATE_ADDRESS_FORBIDDEN);
+                    default:
+                        throw $this->errorFactory->create(PersonErr::CREATE_ADDRESS_FAILED);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::CREATE_ADDRESS_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::CREATE_ADDRESS_FAILED));
         }
     }
 
@@ -228,22 +247,27 @@ class PersonProvider
                 ],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        PersonOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(PersonErr::DELETE_ADDRESS_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(PersonErr::ADDRESS_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(PersonErr::DELETE_ADDRESS_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                PersonOutputDto::class,
+                'json'
+            );
+
+        } catch (\Exception $e) {
+            if($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(PersonErr::DELETE_ADDRESS_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(PersonErr::ADDRESS_NOT_FOUND);
+                    default:
+                        throw $this->errorFactory->create(PersonErr::DELETE_ADDRESS_FAILED);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::DELETE_ADDRESS_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::DELETE_ADDRESS_FAILED));
         }
     }
 
@@ -265,22 +289,27 @@ class PersonProvider
                 RequestOptions::JSON => $address
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        PersonOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(PersonErr::UPDATE_ADDRESS_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(PersonErr::ADDRESS_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(PersonErr::UPDATE_ADDRESS_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                PersonOutputDto::class,
+                'json'
+            );
+
+        } catch (\Exception $e) {
+            if($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(PersonErr::UPDATE_ADDRESS_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(PersonErr::ADDRESS_NOT_FOUND);
+                    default:
+                        throw $this->errorFactory->create(PersonErr::UPDATE_ADDRESS_FAILED);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::UPDATE_ADDRESS_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::UPDATE_ADDRESS_FAILED));
         }
     }
 
@@ -301,22 +330,26 @@ class PersonProvider
                 RequestOptions::JSON => $person
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        PersonOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(PersonErr::CREATE_PERSON_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(PersonErr::CREATE_PERSON_FAILED);
-            }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::CREATE_PERSON_FAILED));
-        }
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                PersonOutputDto::class,
+                'json'
+            );
 
+        } catch (\Exception $e) {
+            if($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(PersonErr::CREATE_PERSON_FORBIDDEN);
+                    default:
+                        throw $this->errorFactory->create(PersonErr::CREATE_PERSON_FAILED);
+                }
+            }
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::CREATE_PERSON_FAILED));
+        }
     }
 
     /**
@@ -336,20 +369,25 @@ class PersonProvider
                 RequestOptions::JSON => $person
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        PersonOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(PersonErr::REGISTER_PERSON_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(PersonErr::REGISTER_PERSON_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                PersonOutputDto::class,
+                'json'
+            );
+
+        } catch (\Exception $e) {
+            if($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(PersonErr::REGISTER_PERSON_FORBIDDEN);
+                    default:
+                        throw $this->errorFactory->create(PersonErr::REGISTER_PERSON_FAILED);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::REGISTER_PERSON_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::REGISTER_PERSON_FAILED));
         }
     }
 
@@ -383,20 +421,25 @@ class PersonProvider
             ]
             );
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        PersonOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(PersonErr::ADD_PICTURE_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(PersonErr::ADD_PICTURE_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                PersonOutputDto::class,
+                'json'
+            );
+
+        } catch (\Exception $e) {
+            if($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(PersonErr::ADD_PICTURE_FORBIDDEN);
+                    default:
+                        throw $this->errorFactory->create(PersonErr::ADD_PICTURE_FAILED);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::ADD_PICTURE_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::ADD_PICTURE_FAILED));
         }
     }
 
@@ -418,22 +461,27 @@ class PersonProvider
                 RequestOptions::JSON => $person
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        PersonOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(PersonErr::UPDATE_PERSON_BY_ID_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(PersonErr::PERSON_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(PersonErr::UPDATE_PERSON_BY_ID_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                PersonOutputDto::class,
+                'json'
+            );
+
+        } catch (\Exception $e) {
+            if($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(PersonErr::UPDATE_PERSON_BY_ID_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(PersonErr::PERSON_NOT_FOUND);
+                    default:
+                        throw $this->errorFactory->create(PersonErr::UPDATE_PERSON_BY_ID_FAILED);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::UPDATE_PERSON_BY_ID_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::UPDATE_PERSON_BY_ID_FAILED));
         }
     }
 
@@ -452,20 +500,25 @@ class PersonProvider
                 ],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        PersonOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(PersonErr::GET_ME_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(PersonErr::GET_ME_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                PersonOutputDto::class,
+                'json'
+            );
+
+        } catch (\Exception $e) {
+            if($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(PersonErr::GET_ME_FORBIDDEN);
+                    default:
+                        throw $this->errorFactory->create(PersonErr::GET_ME_FAILED);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PersonErr::GET_ME_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::GET_ME_FAILED));
         }
     }
 }
