@@ -55,7 +55,7 @@ class PlaceProvider
             );
         } catch (\Exception $err) {
             if ($err instanceof \GuzzleHttp\Exception\ClientException) {
-                $response = $e->getResponse();
+                $response = $err->getResponse();
                 $statusCode = $response->getStatusCode();
 
                 switch ($statusCode) {
