@@ -48,21 +48,23 @@ class PlaceProvider
                     "itemsperpage" => $itemsPerPage
                 ],
             ]);
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        PlaceOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(PlaceErr::FETCH_PLACES_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(PlaceErr::FETCH_PLACES_FAILED);
-            }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(PlaceErr::FETCH_PLACES_FAILED));
-        }
-    }
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                PlaceOutputDto::class,
+                'json'
+            );
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
 
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(PlaceErr::FETCH_PLACES_FORBIDDEN);
+
+                }
+            }
+        }
+    throw $this->errorFactory->create(PlaceErr::FETCH_PLACES_FAILED);
+    }
 }
