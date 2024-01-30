@@ -54,22 +54,24 @@ class VirtualMoneyProvider
                 RequestOptions::JSON => $walletHistorical,
               ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        WalletHistoricalOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(VirtualMoneyErr::CREATE_WALLET_HISTORICAL_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(VirtualMoneyErr::WALLET_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(VirtualMoneyErr::CREATE_WALLET_HISTORICAL_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                WalletHistoricalOutputDto::class,
+                'json'
+            );
+        } catch (\Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(VirtualMoneyErr::CREATE_WALLET_HISTORICAL_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(VirtualMoneyErr::WALLET_NOT_FOUND);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(VirtualMoneyErr::CREATE_WALLET_HISTORICAL_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(VirtualMoneyErr::CREATE_WALLET_HISTORICAL_FAILED));
         }
     }
 
@@ -92,22 +94,25 @@ class VirtualMoneyProvider
                 ],
               ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        WalletHistoricalOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(VirtualMoneyErr::GET_WALLET_HISTORICAL_FAILED_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(VirtualMoneyErr::WALLET_HISTORICAL_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(VirtualMoneyErr::GET_WALLET_HISTORICAL_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                WalletHistoricalOutputDto::class,
+                'json'
+            );
+
+        } catch (\Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(VirtualMoneyErr::GET_WALLET_HISTORICAL_FAILED_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(VirtualMoneyErr::WALLET_HISTORICAL_NOT_FOUND);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(VirtualMoneyErr::GET_WALLET_HISTORICAL_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(VirtualMoneyErr::GET_WALLET_HISTORICAL_FAILED));
         }
     }
 
@@ -128,21 +133,22 @@ class VirtualMoneyProvider
                 RequestOptions::JSON => $wallet
               ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        WalletOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(VirtualMoneyErr::CREATE_WALLET_FAILED_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(VirtualMoneyErr::CREATE_WALLET_FAILED);
-            }
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                WalletOutputDto::class,
+                'json'
+            );
 
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(VirtualMoneyErr::CREATE_WALLET_FAILED));
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(VirtualMoneyErr::CREATE_WALLET_FAILED_FORBIDDEN);
+                }
+            }
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(VirtualMoneyErr::CREATE_WALLET_FAILED));
         }
     }
 
@@ -164,22 +170,25 @@ class VirtualMoneyProvider
                 RequestOptions::JSON => $transferWallet,
               ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        WalletOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(VirtualMoneyErr::CREDIT_WALLET_FAILED_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(VirtualMoneyErr::WALLET_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(VirtualMoneyErr::CREDIT_WALLET_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                WalletOutputDto::class,
+                'json'
+            );
+
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(VirtualMoneyErr::CREDIT_WALLET_FAILED_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(VirtualMoneyErr::WALLET_NOT_FOUND);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(VirtualMoneyErr::CREDIT_WALLET_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(VirtualMoneyErr::CREDIT_WALLET_FAILED));
         }
     }
 
@@ -201,23 +210,24 @@ class VirtualMoneyProvider
                 RequestOptions::JSON => $transferWallet,
               ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                WalletOutputDto::class,
+                'json'
+            );
 
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        WalletOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(VirtualMoneyErr::DEBIT_WALLET_FAILED_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(VirtualMoneyErr::WALLET_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(VirtualMoneyErr::DEBIT_WALLET_FAILED);
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(VirtualMoneyErr::DEBIT_WALLET_FAILED_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(VirtualMoneyErr::WALLET_NOT_FOUND);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(VirtualMoneyErr::DEBIT_WALLET_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(VirtualMoneyErr::DEBIT_WALLET_FAILED));
         }
     }
 
@@ -233,6 +243,7 @@ class VirtualMoneyProvider
     public function findOneWallet(
         string $id,
         string $personId,
+        string $consumerId
     ): ?WalletOutputDto {
 
         try {
@@ -243,23 +254,28 @@ class VirtualMoneyProvider
                 RequestOptions::QUERY => [
                     "id" => $id,
                     "personId" => $personId,
+                    "consumerId" => $consumerId,
                 ],
               ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        WalletOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(VirtualMoneyErr::FIND_ONE_WALLET_FAILED_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(VirtualMoneyErr::FIND_ONE_WALLET_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                WalletOutputDto::class,
+                'json'
+            );
+
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(VirtualMoneyErr::FIND_ONE_WALLET_FAILED_FORBIDDEN);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(VirtualMoneyErr::FIND_ONE_WALLET_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(VirtualMoneyErr::FIND_ONE_WALLET_FAILED));
         }
     }
 
@@ -281,22 +297,25 @@ class VirtualMoneyProvider
                 ],
               ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        WalletOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(VirtualMoneyErr::GET_ONE_WALLET_BY_ID_FAILED_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(VirtualMoneyErr::WALLET_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(VirtualMoneyErr::GET_ONE_WALLET_BY_ID_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                WalletOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(VirtualMoneyErr::GET_ONE_WALLET_BY_ID_FAILED_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(VirtualMoneyErr::WALLET_NOT_FOUND);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(VirtualMoneyErr::GET_ONE_WALLET_BY_ID_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(VirtualMoneyErr::GET_ONE_WALLET_BY_ID_FAILED));
         }
     }
 }
