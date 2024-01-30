@@ -44,20 +44,23 @@ class QuotaProvider
                 ],
                 RequestOptions::QUERY => $filters
                 ]);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                QuotaOutputDto::class,
+                'json'
+            );
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        QuotaOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(QuotaErr::FETCH_QUOTA_FIND_ONE_BY_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(QuotaErr::FETCH_QUOTA_FIND_ONE_BY_FAILED);
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(QuotaErr::FETCH_QUOTA_FIND_ONE_BY_FORBIDDEN);
+
+                }
             }
-        } catch (Exception $err) {
             throw ErrorHelper::getSherlError($err, $this->errorFactory->create(QuotaErr::FETCH_QUOTA_FIND_ONE_BY_FAILED));
         }
     }
