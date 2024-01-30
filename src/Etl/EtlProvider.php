@@ -73,7 +73,7 @@ class EtlProvider
     public function extractTransformLoad(ExtractTransformLoadInputDto $config): ?ExtractTransformLoadResponseDto
     {
         try {
-            $response = $this->client->post("/api/etl", [
+            $response = $this->client->post("/api/etl/extract-transform-load", [
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
@@ -105,7 +105,7 @@ class EtlProvider
     public function saveConfig(EtlSaveConfigInputDto $config): ?ConfigModelDto
     {
         try {
-            $response = $this->client->post("/api/save-config", [
+            $response = $this->client->post("/api/etl/save-config", [
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
