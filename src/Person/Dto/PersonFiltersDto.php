@@ -101,7 +101,7 @@ class PersonFiltersDto
 
     /**
      * @var string
-     * @Serializer(Type("string"))
+     * @Serializer\Type("string")
      */
     public $email;
 
