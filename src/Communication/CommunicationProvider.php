@@ -49,22 +49,25 @@ class CommunicationProvider
                 RequestOptions::QUERY => $filters,
               ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        CommunicationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(CommunicationErr::GET_COMMUNICATION_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(CommunicationErr::COMMUNICATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(CommunicationErr::GET_COMMUNICATION_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                CommunicationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CommunicationErr::GET_COMMUNICATION_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(CommunicationErr::COMMUNICATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CommunicationErr::GET_COMMUNICATION_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(CommunicationErr::GET_COMMUNICATION_FAILED));
         }
     }
 }
