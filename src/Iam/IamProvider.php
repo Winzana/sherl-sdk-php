@@ -84,25 +84,26 @@ class IamProvider
             ]);
 
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ProfileDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(IamErr::IAM_GET_PROFILE_BY_ID_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(IamErr::IAM_PROFILE_NOT_FOUND_ERROR);
-                default:
-                    throw $this->errorFactory->create(IamErr::IAM_GET_PROFILE_BY_ID_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ProfileDto::class,
+                'json'
+            );
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(IamErr::IAM_GET_PROFILE_BY_ID_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(IamErr::IAM_PROFILE_NOT_FOUND_ERROR);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(IamErr::IAM_GET_PROFILE_BY_ID_FAILED));
+            throw $this->errorFactory->create(IamErr::IAM_GET_PROFILE_BY_ID_FAILED);
         }
     }
-
     /**
      * Retrieves an IAM role by its unique identifier.
      *
@@ -119,22 +120,26 @@ class IamProvider
                 ],
               ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        RoleDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(IamErr::IAM_GET_ROLE_BY_ID_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(IamErr::IAM_ROLE_NOT_FOUND_ERROR);
-                default:
-                    throw $this->errorFactory->create(IamErr::IAM_GET_ROLE_BY_ID_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                RoleDto::class,
+                'json'
+            );
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+
+                    case 403:
+                        throw $this->errorFactory->create(IamErr::IAM_GET_ROLE_BY_ID_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(IamErr::IAM_ROLE_NOT_FOUND_ERROR);
+
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(IamErr::IAM_GET_ROLE_BY_ID_FAILED));
+            throw $this->errorFactory->create(IamErr::IAM_GET_ROLE_BY_ID_FAILED);
         }
     }
 }
