@@ -44,11 +44,11 @@ title: Order types
 
 ## OrderFindOutputDto
 
-| Fields           |                                  Type                                   | Description                                |
-| ---------------- | :---------------------------------------------------------------------: | ------------------------------------------ |
-| **results**      |                    [OrderDto[]](shop-types#OrderDto)                    | List of [OrderDto[]](shop-types#OrderDto)  |
-| **view**         |                [ViewOutputDto](pagination#viewoutputdto)                | The discount type associated to the reward |
-| **aggregations** | array<string,[AggregationsOutputDto](pagination#aggregationsoutputdto)> | The amount of the discount                 |
+| Fields           |                                  Type                                   | Description                               |
+| ---------------- | :---------------------------------------------------------------------: | ----------------------------------------- |
+| **results**      |                    [OrderDto[]](shop-types#OrderDto)                    | List of [OrderDto[]](shop-types#OrderDto) |
+| **view**         |                [ViewOutputDto](pagination#viewoutputdto)                | Pagination information                    |
+| **aggregations** | array<string,[AggregationsOutputDto](pagination#aggregationsoutputdto)> | Aggregation info (related to MongoDB)     |
 
 ## OrderItemDto
 
@@ -67,7 +67,7 @@ title: Order types
 | **schedules**         | [OrderItemProductScheduleDto](#OrderItemProductScheduleDto) | List of schedules                           |
 | **offerId**           |                 [PaymentDto[]](#PaymentDto)                 | The offer associated to the order           |
 | **refunded**          |                           boolean                           | Indicates if the item was refunded or not   |
-| **metadatas**         |                            mixed                            | Metadata associated with the order item.    |
+| **metadatas**         |                            mixed                            | Metadatas associated with the order item.   |
 
 ## OrderCommissionDto
 

@@ -9,93 +9,87 @@ use Sherl\Sdk\Shop\Product\Dto\OptionDto;
 
 class ProductResponseDto
 {
-    /**
-     * @var boolean
-     * @Serializer\Type("boolean")
-     */
-    public $isEnable;
+  /**
+   * @var boolean
+   * @Serializer\Type("boolean")
+   */
+  public $isEnable;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $id;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $id;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $uri;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $uri;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $consumerId;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $name;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $name;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $slogan;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $slogan;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $description;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $description;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $categoryUri;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $categoryUri;
+  /**
+   * @var OfferDto[]
+   * @Serializer\Type("array<Sherl\Sdk\Shop\Product\Dto\OfferDto>")
+   */
+  public $offers;
 
-    /**
-     * @var OfferDto[]
-     * @Serializer\Type("array<Sherl\Sdk\Shop\Product\Dto\OfferDto>")
-     */
-    public $offers;
+  /**
+   * @var MetadatasDto
+   * @Serializer\Type("Sherl\Sdk\Shop\Product\Dto\MetadatasDto")
+   */
+  public $metadatas;
 
-    /**
-     * @var MetadatasDto
-     * @Serializer\Type("Sherl\Sdk\Shop\Product\Dto\MetadatasDto")
-     */
-    public $metadatas;
+  /**
+   * @var OptionDto[]
+   * @Serializer\Type("array<Sherl\Sdk\Shop\Product\Dto\OptionDto>")
+   */
+  public $options;
 
-    /**
-     * @var OptionDto[]
-     * @Serializer\Type("array<Sherl\Sdk\Shop\Product\Dto\OptionDto>")
-     */
-    public $options;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $organizationUri;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $organizationUri;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $createdAt;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $createdAt;
+  /**
+   * @var string
+   * @Serializer\Type("string")
+   */
+  public $updatedAt;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $updatedAt;
-
-    /**
-     * @var mixed
-     * @Serializer\Type("mixed")
-     */
-    public $category;
+  /**
+   * @var mixed
+   * @Serializer\Type("mixed")
+   */
+  public $category;
 }
