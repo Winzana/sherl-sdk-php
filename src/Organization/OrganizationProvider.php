@@ -66,20 +66,23 @@ class OrganizationProvider
               ],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::CREATE_ORGANIZATION_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::CREATE_ORGANIZATION_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::CREATE_ORGANIZATION_FORBIDDEN);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(OrganizationErr::CREATE_ORGANIZATION_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::CREATE_ORGANIZATION_FAILED));
         }
     }
 
@@ -94,28 +97,29 @@ class OrganizationProvider
     {
         try {
             $response = $this->client->get("/api/organizations/$organizationId", [
-              "headers" => [
+            "headers" => [
                 "Content-Type" => "application/json",
-              ],
-              RequestOptions::QUERY => $organizationId,
+            ],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::GET_ORGANIZATION_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::GET_ORGANIZATION_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::GET_ORGANIZATION_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(OrganizationErr::GET_ORGANIZATION_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::GET_ORGANIZATION_FAILED));
         }
     }
 
@@ -130,28 +134,31 @@ class OrganizationProvider
     {
         try {
             $response = $this->client->get("/api/organizations", [
-              "headers" => [
+            "headers" => [
                 "Content-Type" => "application/json",
-              ],
-              RequestOptions::QUERY => $filters,
+            ],
+            RequestOptions::QUERY => $filters,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::GET_ORGANIZATIONS_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::GET_ORGANIZATIONS_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::GET_ORGANIZATIONS_FORBIDDEN);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(OrganizationErr::GET_ORGANIZATIONS_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::GET_ORGANIZATIONS_FAILED));
         }
     }
+
 
     /**
      * Retrieves a public organization by its slug.
@@ -167,25 +174,26 @@ class OrganizationProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => $slug,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATION_BY_SLUG_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATION_BY_SLUG_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATION_BY_SLUG_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATION_BY_SLUG_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATION_BY_SLUG_FAILED));
         }
     }
 
@@ -200,30 +208,32 @@ class OrganizationProvider
     {
         try {
             $response = $this->client->get("/api/public/organizations/$organizationId", [
-              "headers" => [
+            "headers" => [
                 "Content-Type" => "application/json",
-              ],
-              RequestOptions::QUERY => $organizationId,
+            ],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATION_BY_SLUG_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATION_BY_SLUG_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATION_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATION_BY_SLUG_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATION_FAILED));
         }
     }
+
 
     /**
      * Retrieves a list of public organizations based on the provided filters.
@@ -242,22 +252,25 @@ class OrganizationProvider
               RequestOptions::QUERY => $filters,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATIONS_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATIONS_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATIONS_FORBIDDEN);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATIONS_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATIONS_FAILED));
         }
     }
+
 
     /**
      * Registers an organization to a person using the provided data.
@@ -278,22 +291,25 @@ class OrganizationProvider
               ],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_TO_PERSON_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_TO_PERSON_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_TO_PERSON_FORBIDDEN);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_TO_PERSON_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_TO_PERSON_FAILED));
         }
     }
+
 
     /**
      * Registers a new organization with the provided request details.
@@ -307,29 +323,32 @@ class OrganizationProvider
         try {
             $response = $this->client->post("/api/organizations/register", [
                 "headers" => [
-                  "Content-Type" => "application/json",
+                "Content-Type" => "application/json",
                 ],
                 RequestOptions::JSON => [
-                  'request' => $request,
+                'request' => $request,
                 ],
-              ]);
+            ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_FORBIDDEN);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_FAILED));
         }
     }
+
 
     /**
      * Submits a suggestion for an organization based on the provided request details.
@@ -343,27 +362,29 @@ class OrganizationProvider
         try {
             $response = $this->client->post("/api/organizations/suggest", [
                 "headers" => [
-                  "Content-Type" => "application/json",
+                "Content-Type" => "application/json",
                 ],
                 RequestOptions::JSON => [
-                  'suggestion' => $suggestion,
+                'suggestion' => $suggestion,
                 ],
-              ]);
+            ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::SUGGEST_ORGANIZATION_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::SUGGEST_ORGANIZATION_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::SUGGEST_ORGANIZATION_FORBIDDEN);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::SUGGEST_ORGANIZATION_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::SUGGEST_ORGANIZATION_FAILED));
         }
     }
 
@@ -382,26 +403,27 @@ class OrganizationProvider
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => $organizationId,
                 RequestOptions::JSON => $updatedOrganization,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::UPDATE_ORGANIZATION_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::UPDATE_ORGANIZATION_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::UPDATE_ORGANIZATION_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::UPDATE_ORGANIZATION_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::UPDATE_ORGANIZATION_FAILED));
         }
     }
 
@@ -422,28 +444,30 @@ class OrganizationProvider
                 "headers" => [
                   "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => $organizationId,
                 RequestOptions::JSON => $address,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::ADD_ADDRESS_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ADDRESS_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::ADD_ADDRESS_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::ADD_ADDRESS_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ADDRESS_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::ADD_ADDRESS_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::ADD_ADDRESS_FAILED));
         }
     }
+
 
     /**
      * Deletes an address from an organization using the specified IDs.
@@ -460,28 +484,26 @@ class OrganizationProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => [
-                    'organizationId' => $organizationId,
-                    'addressId' => $addressId,
-                ],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::DELETE_ADDRESS_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ADDRESS_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::DELETE_ADDRESS_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::DELETE_ADDRESS_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ADDRESS_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::DELETE_ADDRESS_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::DELETE_ADDRESS_FAILED));
         }
     }
 
@@ -501,29 +523,27 @@ class OrganizationProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => [
-                    'organizationId' => $organizationId,
-                    'addressId' => $addressId,
-                ],
                 RequestOptions::JSON => $request,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::UPDATE_ADDRESS_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ADDRESS_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::UPDATE_ADDRESS_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::UPDATE_ADDRESS_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ADDRESS_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::UPDATE_ADDRESS_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::UPDATE_ADDRESS_FAILED));
         }
     }
 
@@ -545,29 +565,27 @@ class OrganizationProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => [
-                    'organizationId' => $organizationId,
-                    'mediaId' => $mediaId,
-                ],
                 RequestOptions::JSON => $image,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::CREATE_BACKGROUND_IMAGE_FROM_MEDIA_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::CREATE_BACKGROUND_IMAGE_FROM_MEDIA_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::CREATE_BACKGROUND_IMAGE_FROM_MEDIA_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::CREATE_BACKGROUND_IMAGE_FROM_MEDIA_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::CREATE_BACKGROUND_IMAGE_FROM_MEDIA_FAILED));
         }
     }
 
@@ -601,30 +619,29 @@ class OrganizationProvider
                             $onUploadProgress($stats);
                         }
                     },
-                RequestOptions::QUERY => [
-                    'organizationId' => $organizationId,
-                    'mediaId' => $mediaId,
-                ],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::CREATE_BACKGROUND_IMAGE_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::CREATE_BACKGROUND_IMAGE_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::CREATE_BACKGROUND_IMAGE_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::CREATE_BACKGROUND_IMAGE_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::CREATE_BACKGROUND_IMAGE_FAILED));
         }
     }
+
 
     /**
      * Deletes the background image of an organization identified by its unique ID.
@@ -640,27 +657,29 @@ class OrganizationProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => ['organizationId' => $organizationId],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::DELETE_BACKGROUND_IMAGE_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::DELETE_BACKGROUND_IMAGE_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::DELETE_BACKGROUND_IMAGE_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::DELETE_BACKGROUND_IMAGE_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::DELETE_BACKGROUND_IMAGE_FAILED));
         }
     }
+
 
     // COMMUNICATION
 
@@ -679,26 +698,27 @@ class OrganizationProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => ['organizationId' => $organizationId],
                 RequestOptions::JSON => $communicationInfo,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::SET_COMMUNICATION_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::SET_COMMUNICATION_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::SET_COMMUNICATION_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::SET_COMMUNICATION_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::SET_COMMUNICATION_FAILED));
         }
     }
 
@@ -719,26 +739,27 @@ class OrganizationProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => ['organizationId' => $organizationId],
                 RequestOptions::JSON => $employee,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        EmployeeOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::CREATE_EMPLOYEE_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::CREATE_EMPLOYEE_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                EmployeeOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::CREATE_EMPLOYEE_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::CREATE_EMPLOYEE_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::CREATE_EMPLOYEE_FAILED));
         }
     }
 
@@ -757,28 +778,26 @@ class OrganizationProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => [
-                    'organizationId' => $organizationId,
-                    'employeeId' => $employeeId,
-                ]
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        EmployeeOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::DELETE_EMPLOYEE_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::EMPLOYEE_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::DELETE_EMPLOYEE_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                EmployeeOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::DELETE_EMPLOYEE_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::EMPLOYEE_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::DELETE_EMPLOYEE_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::DELETE_EMPLOYEE_FAILED));
         }
     }
 
@@ -795,33 +814,31 @@ class OrganizationProvider
     public function createFounder(string $organizationId, FounderInputDto $founder): ?FounderOutputDto
     {
         try {
-
             $response = $this->client->post("/api/organizations/$organizationId/founders", [
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
                 RequestOptions::JSON => $founder,
-                RequestOptions::QUERY => [
-                    "organizationId" => $organizationId
-                ]
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        FounderOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::CREATE_FOUNDER_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::CREATE_FOUNDER_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                FounderOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::CREATE_FOUNDER_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::CREATE_FOUNDER_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::CREATE_FOUNDER_FAILED));
         }
     }
 
@@ -840,30 +857,29 @@ class OrganizationProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => [
-                    "organizationId" => $organizationId,
-                    "founderId" => $founderId
-                ]
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        FounderOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::DELETE_FOUNDER_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::DELETE_FOUNDER_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                FounderOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::DELETE_FOUNDER_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::DELETE_FOUNDER_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::DELETE_FOUNDER_FAILED));
         }
     }
+
 
     /**
      * Updates the details of a founder within a specified organization.
@@ -882,30 +898,29 @@ class OrganizationProvider
                     "Content-Type" => "application/json",
                 ],
                 RequestOptions::JSON => $updatedFounder,
-                RequestOptions::QUERY => [
-                    "organizationId" => $organizationId,
-                    "founderId" => $founderId
-                ]
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        FounderOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::UPDATE_FOUNDER_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::FOUNDER_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::UPDATE_FOUNDER_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                FounderOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::UPDATE_FOUNDER_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::FOUNDER_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::UPDATE_FOUNDER_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::UPDATE_FOUNDER_FAILED));
         }
     }
+
 
     // KYC
 
@@ -932,32 +947,34 @@ class OrganizationProvider
             $response = $this->client->post("/api/organizations/$organizationId/kycs", [
                 "headers" => ["Content-Type" => "application/json"],
                 'body' => $formData,
-                    'on_stats' => function (\GuzzleHttp\TransferStats $stats) use ($onUploadProgress) {
-                        if ($onUploadProgress) {
-                            $onUploadProgress($stats);
-                        }
-                    },
-                RequestOptions::QUERY => ['organizationId' => $organizationId],
+                'on_stats' => function (\GuzzleHttp\TransferStats $stats) use ($onUploadProgress) {
+                    if ($onUploadProgress) {
+                        $onUploadProgress($stats);
+                    }
+                },
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        KYCDocumentOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::ADD_DOCUMENT_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::ADD_DOCUMENT_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                KYCDocumentOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::ADD_DOCUMENT_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::ADD_DOCUMENT_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::ADD_DOCUMENT_FAILED));
         }
     }
+
 
     /**
      * Retrieves all KYC documents for a specified organization.
@@ -973,27 +990,29 @@ class OrganizationProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => ["organizationId" => $organizationId]
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        KYCDocumentOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::GET_KYCS_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::GET_KYCS_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                KYCDocumentOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::GET_KYCS_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::GET_KYCS_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::GET_KYCS_FAILED));
         }
     }
+
 
     /**
      * Updates a specific KYC document for an organization.
@@ -1024,30 +1043,30 @@ class OrganizationProvider
                             $onUploadProgress($stats);
                         }
                     },
-                RequestOptions::QUERY => [
-                    'organizationId' => $organizationId,
-                    'kycId' => $kycId,
-                ],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        KYCDocumentOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::UPDATE_DOCUMENT_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::KYC_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::UPDATE_DOCUMENT_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                KYCDocumentOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::UPDATE_DOCUMENT_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::KYC_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::UPDATE_DOCUMENT_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::UPDATE_DOCUMENT_FAILED));
         }
     }
+
+
     // LOGO
 
     /**
@@ -1079,28 +1098,26 @@ class OrganizationProvider
                             $onUploadProgress($stats);
                         }
                     },
-                RequestOptions::QUERY => [
-                    'organizationId' => $organizationId,
-                    'mediaId' => $mediaId,
-                ],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::ADD_LOGO_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::ADD_LOGO_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::ADD_LOGO_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::ADD_LOGO_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::ADD_LOGO_FAILED));
         }
     }
 
@@ -1118,27 +1135,29 @@ class OrganizationProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => ["organizationId" => $organizationId]
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::DELETE_LOGO_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::DELETE_LOGO_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::DELETE_LOGO_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::DELETE_LOGO_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::DELETE_LOGO_FAILED));
         }
     }
+
 
     // OPENING HOURS SPECIFICATION
 
@@ -1157,28 +1176,30 @@ class OrganizationProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => ["organizationId" => $organizationId],
                 RequestOptions::JSON => $data,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::CREATE_OPENING_HOURS_SPECIFICATION_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::CREATE_OPENING_HOURS_SPECIFICATION_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::CREATE_OPENING_HOURS_SPECIFICATION_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::CREATE_OPENING_HOURS_SPECIFICATION_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::CREATE_OPENING_HOURS_SPECIFICATION_FAILED));
         }
     }
+
 
     /**
      * Deletes an opening hours specification from a specified organization.
@@ -1195,30 +1216,29 @@ class OrganizationProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => [
-                    "organizationId" => $organizationId,
-                    "hoursSpecId" => $hoursSpecId
-                ],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::DELETE_OPENING_HOURS_SPECIFICATION_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::DELETE_OPENING_HOURS_SPECIFICATION_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::DELETE_OPENING_HOURS_SPECIFICATION_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::DELETE_OPENING_HOURS_SPECIFICATION_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::DELETE_OPENING_HOURS_SPECIFICATION_FAILED));
         }
     }
+
 
     /**
      * Updates an opening hours specification for a specified organization.
@@ -1236,29 +1256,27 @@ class OrganizationProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => [
-                    "organizationId" => $organizationId,
-                    "hoursSpecId" => $hoursSpecId
-                ],
                 RequestOptions::JSON => $data,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::UPDATE_OPENING_HOURS_SPECIFICATION_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::UPDATE_OPENING_HOURS_SPECIFICATION_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::UPDATE_OPENING_HOURS_SPECIFICATION_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::UPDATE_OPENING_HOURS_SPECIFICATION_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::UPDATE_OPENING_HOURS_SPECIFICATION_FAILED));
         }
     }
 
@@ -1280,31 +1298,30 @@ class OrganizationProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => [
-                    "organizationId" => $organizationId,
-                    "pictureId" => $pictureId,
-                ],
                 RequestOptions::JSON => $picture,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FROM_MEDIA_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FROM_MEDIA_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FROM_MEDIA_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FROM_MEDIA_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FROM_MEDIA_FAILED));
         }
     }
+
 
     /**
      * Uploads and creates a picture for an organization from a file.
@@ -1336,30 +1353,29 @@ class OrganizationProvider
                             $onUploadProgress($stats);
                         }
                     },
-                RequestOptions::QUERY => [
-                    'organizationId' => $organizationId,
-                    'pictureId' => $pictureId,
-                ],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FAILED));
         }
     }
+
 
     /**
      * Deletes a picture from a specified organization.
@@ -1376,30 +1392,29 @@ class OrganizationProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => [
-                    "organizationId" => $organizationId,
-                    "pictureId" => $pictureId,
-                ],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OrganizationOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::DELETE_PICTURE_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::DELETE_PICTURE_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OrganizationOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::DELETE_PICTURE_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::DELETE_PICTURE_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::DELETE_PICTURE_FAILED));
         }
     }
+
 
     // RIB
 
@@ -1418,28 +1433,30 @@ class OrganizationProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => ["organizationId" => $organizationId],
                 RequestOptions::JSON => $request,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        RIBOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::ADD_RIB_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::ADD_RIB_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                RIBOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::ADD_RIB_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::ADD_RIB_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::ADD_RIB_FAILED));
         }
     }
+
 
     /**
      * Retrieves all RIBs associated with a specified organization.
@@ -1455,23 +1472,24 @@ class OrganizationProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => ["organizationId" => $organizationId],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        RIBOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OrganizationErr::GET_RIBS_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(OrganizationErr::GET_RIBS_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                RIBOutputDto::class,
+                'json'
+            );
+
+        } catch (Exception $e) {
+            if ($e instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $e->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OrganizationErr::GET_RIBS_FORBIDDEN);
+                }
             }
-        } catch (Exception $error) {
-            throw ErrorHelper::getSherlError($error, $this->errorFactory->create(OrganizationErr::GET_RIBS_FAILED));
+            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::GET_RIBS_FAILED));
         }
     }
 }
