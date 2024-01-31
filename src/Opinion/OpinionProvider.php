@@ -52,23 +52,26 @@ class OpinionProvider
                 RequestOptions::JSON => $opinionData,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OpinionDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OpinionErr::CREATE_OPINION_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(OpinionErr::CREATE_OPINION_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OpinionDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OpinionErr::CREATE_OPINION_FORBIDDEN);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(OpinionErr::CREATE_OPINION_FAILED));
+            throw $this->errorFactory->create(OpinionErr::CREATE_OPINION_FAILED);
         }
     }
-
     /**
      * Gets the average opinions for a specific entity.
      *
@@ -83,20 +86,23 @@ class OpinionProvider
                 RequestOptions::QUERY => ['opinionToUri' => $opinionToUri],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OpinionAverageDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OpinionErr::FETCH_OPINION_AVERAGE_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(OpinionErr::FETCH_OPINION_AVERAGE_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OpinionAverageDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OpinionErr::FETCH_OPINION_AVERAGE_FORBIDDEN);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(OpinionErr::FETCH_OPINION_AVERAGE_FAILED));
+            throw $this->errorFactory->create(OpinionErr::FETCH_OPINION_AVERAGE_FAILED);
         }
     }
 
@@ -114,23 +120,26 @@ class OpinionProvider
                 RequestOptions::QUERY => $filtersInput,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OpinionDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OpinionErr::FETCH_OPINIONS_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(OpinionErr::FETCH_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OpinionDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OpinionErr::FETCH_OPINIONS_FORBIDDEN);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(OpinionErr::FETCH_FAILED));
+            throw $this->errorFactory->create(OpinionErr::FETCH_FAILED);
         }
     }
-
     /**
      * Updates the status of an opinion.
      *
@@ -149,20 +158,24 @@ class OpinionProvider
                 RequestOptions::JSON => $updatedOpinion,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OpinionDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OpinionErr::FETCH_OPINIONS_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(OpinionErr::FETCH_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OpinionDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OpinionErr::FETCH_OPINIONS_FORBIDDEN);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(OpinionErr::FETCH_FAILED));
+            throw $this->errorFactory->create(OpinionErr::FETCH_FAILED);
         }
     }
 
@@ -184,22 +197,27 @@ class OpinionProvider
                 RequestOptions::JSON => $opinionData,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OpinionDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OpinionErr::CREATE_OPINION_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(OpinionErr::OPINION_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(OpinionErr::CREATE_OPINION_CLAIM_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OpinionDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OpinionErr::CREATE_OPINION_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(OpinionErr::OPINION_NOT_FOUND);
+
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(OpinionErr::CREATE_OPINION_CLAIM_FAILED));
+            throw $this->errorFactory->create(OpinionErr::CREATE_OPINION_CLAIM_FAILED);
         }
     }
     /**
@@ -219,20 +237,24 @@ class OpinionProvider
                 RequestOptions::QUERY => $filtersInput,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OpinionDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OpinionErr::FETCH_OPINION_I_GIVE_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(OpinionErr::FETCH_OPINION_AVERAGE_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OpinionDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OpinionErr::FETCH_OPINION_I_GIVE_FORBIDDEN);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(OpinionErr::FETCH_OPINION_AVERAGE_FAILED));
+            throw $this->errorFactory->create(OpinionErr::FETCH_OPINION_AVERAGE_FAILED);
         }
     }
     /**
@@ -252,20 +274,25 @@ class OpinionProvider
                 RequestOptions::QUERY => $filtersInput,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        OpinionDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(OpinionErr::FETCH_PUBLIC_OPINIONS_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(OpinionErr::FETCH_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                OpinionDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(OpinionErr::FETCH_PUBLIC_OPINIONS_FORBIDDEN);
+                    default:
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(OpinionErr::FETCH_FAILED));
+            throw $this->errorFactory->create(OpinionErr::FETCH_FAILED);
         }
     }
 }
