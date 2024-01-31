@@ -55,22 +55,26 @@ class CmsProvider
                 ]
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ArticleDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(CmsErr::CMS_EVENT_CREATION_FAILED_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(CmsErr::CMS_ADD_MEDIA_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ArticleDto::class,
+                'json'
+            );
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CmsErr::CMS_EVENT_CREATION_FAILED_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
+
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_ADD_MEDIA_FAILED));
+            throw $this->errorFactory->create(CmsErr::CMS_ADD_MEDIA_FAILED);
         }
     }
 
@@ -92,22 +96,25 @@ class CmsProvider
 
                 ]
             ]);
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ArticleDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(CmsErr::CMS_EVENT_CREATION_FAILED_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(CmsErr::CMS_UPDATE_ARTICLE_BY_ID_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ArticleDto::class,
+                'json'
+            );
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CmsErr::CMS_EVENT_CREATION_FAILED_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_UPDATE_ARTICLE_BY_ID_FAILED));
+            throw $this->errorFactory->create(CmsErr::CMS_UPDATE_ARTICLE_BY_ID_FAILED);
         }
     }
     /**
@@ -125,20 +132,26 @@ class CmsProvider
                     "faqInput" => $faqInput,
                 ]
             ]);
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ArticleDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(CmsErr::CMS_FAQS_CREATION_FAILED_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(CmsErr::CMS_CREATE_FAQS_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ArticleDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+
+                    case 403:
+                        throw $this->errorFactory->create(CmsErr::CMS_FAQS_CREATION_FAILED_FORBIDDEN);
+
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_CREATE_FAQS_FAILED));
+            throw $this->errorFactory->create(CmsErr::CMS_CREATE_FAQS_FAILED);
         }
     }
     /**
@@ -157,20 +170,24 @@ class CmsProvider
                     ]
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ArticleDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(CmsErr::CMS_POSTS_CREATION_FAILED_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(CmsErr::CMS_CREATE_POSTS_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ArticleDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($response->getStatusCode()) {
+                    case 403:
+                        throw $this->errorFactory->create(CmsErr::CMS_POSTS_CREATION_FAILED_FORBIDDEN);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_CREATE_POSTS_FAILED));
+            throw $this->errorFactory->create(CmsErr::CMS_CREATE_POSTS_FAILED);
         }
     }
     /**
@@ -188,21 +205,24 @@ class CmsProvider
                 RequestOptions::JSON => $data
             ]);
 
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ArticleDto::class,
+                'json'
+            );
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ArticleDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(CmsErr::CMS_STATIC_PAGES_CREATION_FAILED_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(CmsErr::CMS_CREATE_FAILED);
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CmsErr::CMS_STATIC_PAGES_CREATION_FAILED_FORBIDDEN);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_CREATE_FAILED));
+            throw $this->errorFactory->create(CmsErr::CMS_CREATE_FAILED);
         }
     }
     /**
@@ -219,20 +239,25 @@ class CmsProvider
                 "headers" => ["Content-Type" => "application/json"],
                 RequestOptions::JSON => $data
             ]);
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ArticleDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(CmsErr::CMS_STORIES_CREATION_FAILED_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(CmsErr::CMS_CREATE_STORIES_FAILED);
+
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ArticleDto::class,
+                'json'
+            );
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CmsErr::CMS_STORIES_CREATION_FAILED_FORBIDDEN);
+
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_CREATE_STORIES_FAILED));
+            throw $this->errorFactory->create(CmsErr::CMS_CREATE_STORIES_FAILED);
         }
     }
     /**
@@ -249,20 +274,25 @@ class CmsProvider
                 "headers" => ["Content-Type" => "application/json"],
                 RequestOptions::JSON => $data
             ]);
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ArticleDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(CmsErr::CMS_TRAINING_CREATION_FAILED_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(CmsErr::CMS_CREATE_TRAININGS_FAILED);
+
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ArticleDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CmsErr::CMS_TRAINING_CREATION_FAILED_FORBIDDEN);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_CREATE_TRAININGS_FAILED));
+            throw $this->errorFactory->create(CmsErr::CMS_CREATE_TRAININGS_FAILED);
         }
     }
     /**
@@ -277,22 +307,26 @@ class CmsProvider
             $response = $this->client->delete("/api/cms/articles/posts/$id", [
                 "headers" => ["Content-Type" => "application/json"],
             ]);
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ArticleDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(CmsErr::CMS_DELETE_BY_ID_FAILED_CMS_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(CmsErr::CMS_DELETE_BY_ID_FAILED);
+
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ArticleDto::class,
+                'json'
+            );
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CmsErr::CMS_DELETE_BY_ID_FAILED_CMS_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_DELETE_BY_ID_FAILED));
+            throw $this->errorFactory->create(CmsErr::CMS_DELETE_BY_ID_FAILED);
         }
     }
     /**
@@ -308,22 +342,26 @@ class CmsProvider
             $response = $this->client->delete("/api/cms/articles/posts/$id/media", [
                 "headers" => ["Content-Type" => "application/json"],
             ]);
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ArticleDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(CmsErr::CREATE_CMS_MEDIA_FAILED_CMS_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(CmsErr::CMS_DELETE_MEDIA_FAILED);
+
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ArticleDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CmsErr::CREATE_CMS_MEDIA_FAILED_CMS_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_DELETE_MEDIA_FAILED));
+            throw $this->errorFactory->create(CmsErr::CMS_DELETE_MEDIA_FAILED);
         }
     }
     /**
@@ -340,22 +378,26 @@ class CmsProvider
                 "headers" => ["Content-Type" => "application/json"],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ArticleDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(CmsErr::CMS_GET_BY_ID_FAILED_POST_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(CmsErr::CMS_GET_BY_ID_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ArticleDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CmsErr::CMS_GET_BY_ID_FAILED_POST_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_GET_BY_ID_FAILED));
+            throw $this->errorFactory->create(CmsErr::CMS_GET_BY_ID_FAILED);
         }
     }
     /**
@@ -371,22 +413,26 @@ class CmsProvider
             $response = $this->client->get("/api/cms/articles/posts/find-one-by-slug/$slug", [
                 "headers" => ["Content-Type" => "application/json"],
             ]);
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ArticleDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED_ARTICLE_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ArticleDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED_ARTICLE_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
+
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED));
+            throw $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED);
         }
     }
     /**
@@ -402,20 +448,24 @@ class CmsProvider
             $response = $this->client->get("/api/cms/articles/posts", [
                 RequestOptions::JSON => $filters
             ]);
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ArticleDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(CmsErr::CMS_GET_BY_ID_FAILED_POST_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(CmsErr::CMS_GET_POSTS_FAILED);
+
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ArticleDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CmsErr::CMS_GET_BY_ID_FAILED_POST_FORBIDDEN);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_GET_POSTS_FAILED));
+            throw $this->errorFactory->create(CmsErr::CMS_GET_POSTS_FAILED);
         }
     }
     /**
@@ -432,22 +482,26 @@ class CmsProvider
                 "headers" => ["Content-Type" => "application/json"],
 
             ]);
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ArticleDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_FIND_ID_FAILED_POST_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_FIND_ID_FAILED);
+
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ArticleDto::class,
+                'json'
+            );
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_FIND_ID_FAILED_POST_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_FIND_ID_FAILED));
+            throw $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_FIND_ID_FAILED);
         }
     }
     /**
@@ -464,22 +518,23 @@ class CmsProvider
                 "headers" => ["Content-Type" => "application/json"],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ArticleDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED_ARTICLE_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ArticleDto::class,
+                'json'
+            );
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED_ARTICLE_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED));
+            throw $this->errorFactory->create(CmsErr::CMS_GET_SLUG_FAILED);
         }
     }
 
@@ -496,20 +551,23 @@ class CmsProvider
             $response = $this->client->get("/api/public/cms/articles/posts", [
                 RequestOptions::JSON => $filters
             ]);
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ArticleDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_ARTICLES_FAILED_POSTS_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_ARTICLES_FAILED);
-            }
+
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ArticleDto::class,
+                'json'
+            );
         } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_ARTICLES_FAILED));
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_ARTICLES_FAILED_POSTS_FORBIDDEN);
+                }
+            }
+            throw $this->errorFactory->create(CmsErr::CMS_GET_PUBLIC_ARTICLES_FAILED);
         }
     }
 }
