@@ -45,22 +45,25 @@ class EtlProvider
                 ],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ExtractTransformLoadResponseDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(EtlErr::EXTRACT_TRANSFORM_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(EtlErr::ETL_CONFIG_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(EtlErr::EXTRACT_TRANSFORM_LOAD_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ExtractTransformLoadResponseDto::class,
+                'json'
+            );
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+
+                    case 403:
+                        throw $this->errorFactory->create(EtlErr::EXTRACT_TRANSFORM_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(EtlErr::ETL_CONFIG_NOT_FOUND);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(EtlErr::EXTRACT_TRANSFORM_LOAD_FAILED));
+            throw $this->errorFactory->create(EtlErr::EXTRACT_TRANSFORM_LOAD_FAILED);
         }
     }
     /**
@@ -80,20 +83,24 @@ class EtlProvider
                 RequestOptions::JSON => $config,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ExtractTransformLoadResponseDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(EtlErr::EXTRACT_TRANSFORM_LOAD_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(EtlErr::EXTRACT_TRANSFORM_LOAD_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ExtractTransformLoadResponseDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(EtlErr::EXTRACT_TRANSFORM_LOAD_FORBIDDEN);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(EtlErr::EXTRACT_TRANSFORM_LOAD_FAILED));
+            throw $this->errorFactory->create(EtlErr::EXTRACT_TRANSFORM_LOAD_FAILED);
         }
     }
     /**
@@ -111,20 +118,24 @@ class EtlProvider
                 ],
                 RequestOptions::JSON => $config,
             ]);
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ConfigModelDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(EtlErr::SAVE_CONFIG_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(EtlErr::SAVE_CONFIG_FAILED);
+
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ConfigModelDto::class,
+                'json'
+            );
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(EtlErr::SAVE_CONFIG_FORBIDDEN);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(EtlErr::SAVE_CONFIG_FAILED));
+            throw $this->errorFactory->create(EtlErr::SAVE_CONFIG_FAILED);
         }
     }
 }
