@@ -65,20 +65,21 @@ class UserProvider
               ],
               RequestOptions::JSON => $calendarData
             ]);
-
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        CalendarDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_FAILED);
-            }
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                CalendarDto::class,
+                'json'
+            );
         } catch (Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_FORBIDDEN);
+                }
+            }
             throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_FAILED));
         }
     }
@@ -100,22 +101,23 @@ class UserProvider
               ],
               RequestOptions::JSON => $calendarData
             ]);
-
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        CalendarDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(CalendarErr::UPDATE_CALENDAR_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(CalendarErr::UPDATE_CALENDAR_FAILED);
-            }
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                CalendarDto::class,
+                'json'
+            );
         } catch (Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CalendarErr::UPDATE_CALENDAR_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
+                }
+            }
             throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::UPDATE_CALENDAR_FAILED));
         }
     }
@@ -136,17 +138,19 @@ class UserProvider
               ],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
-                case 403:
-                    throw $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_FAILED);
-            }
+            return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
         } catch (Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
+                }
+            }
             throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_FAILED));
         }
     }
@@ -167,21 +171,23 @@ class UserProvider
               ],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        CalendarDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(CalendarErr::GET_ONE_CALENDAR_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(CalendarErr::GET_ONE_CALENDAR_FAILED);
-            }
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                CalendarDto::class,
+                'json'
+            );
         } catch (Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CalendarErr::GET_ONE_CALENDAR_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
+                }
+            }
             throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::GET_ONE_CALENDAR_FAILED));
         }
     }
@@ -195,24 +201,32 @@ class UserProvider
      */
     public function findCalendarAvailabilities(FindAvailabilitiesInputDto $filters): array
     {
-        $response = $this->client->get('/api/calendar/find-availabilities', [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => $filters
-        ]);
+        try {
+            $response = $this->client->get('/api/calendar/find-availabilities', [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::JSON => $filters
+            ]);
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    "array<Sherl\Sdk\Calendar\Dto\FindAvailabilitiesOutputDto>",
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CalendarErr::FIND_CALENDAR_AVAILABILITIES_FORBIDDEN);
-            default:
-                throw $this->errorFactory->create(CalendarErr::FIND_CALENDAR_AVAILABILITIES_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                "array<Sherl\Sdk\Calendar\Dto\FindAvailabilitiesOutputDto>",
+                'json'
+            );
+        } catch (Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CalendarErr::FIND_CALENDAR_AVAILABILITIES_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
+                }
+            }
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::FIND_CALENDAR_AVAILABILITIES_FAILED));
         }
     }
 
@@ -225,25 +239,30 @@ class UserProvider
      */
     public function checksDateAvailabilities(CheckDatesInputDto $dates): array
     {
-        $response = $this->client->get('/api/user/password/forgot-validate', [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => $dates
-        ]);
+        try {
+            $response = $this->client->get('/api/user/password/forgot-validate', [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::JSON => $dates
+            ]);
 
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                "array<Sherl\Sdk\Calendar\Dto\AvailabilityDto>",
+                'json'
+            );
+        } catch (Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    "array<Sherl\Sdk\Calendar\Dto\AvailabilityDto>",
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CalendarErr::CHECK_DATES_FORBIDDEN);
-            default:
-                throw $this->errorFactory->create(CalendarErr::CHECK_DATES_FAILED);
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CalendarErr::CHECK_DATES_FORBIDDEN);
+                }
+            }
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::CHECK_DATES_FAILED));
         }
     }
 
@@ -256,20 +275,26 @@ class UserProvider
      */
     public function checkLocationAvailabilities(CheckLocationInputDto $location): bool
     {
-        $response = $this->client->get('//api/calendar/check-location', [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => $location
-        ]);
+        try {
+            $response = $this->client->get('//api/calendar/check-location', [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::JSON => $location
+            ]);
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
-            case 403:
-                throw $this->errorFactory->create(CalendarErr::CHECK_LOCATION_FORBIDDEN);
-            default:
-                throw $this->errorFactory->create(CalendarErr::CHECK_LOCATION_FAILED);
+            return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
+        } catch (Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CalendarErr::CHECK_LOCATION_FORBIDDEN);
+                }
+            }
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::CHECK_LOCATION_FAILED));
         }
     }
 
@@ -284,24 +309,30 @@ class UserProvider
      */
     public function findCalendarWithFilter(CalendarFilterInputDto $calendarFilter): ?CalendarDto
     {
-        $response = $this->client->get('/api/calendar/find-one', [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => $calendarFilter
-        ]);
+        try {
+            $response = $this->client->get('/api/calendar/find-one', [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::JSON => $calendarFilter
+            ]);
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    CalendarDto::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CalendarErr::FIND_ONE_CALENDAR_FORBIDDEN);
-            default:
-                throw $this->errorFactory->create(CalendarErr::FIND_ONE_CALENDAR_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                CalendarDto::class,
+                'json'
+            );
+        } catch (Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CalendarErr::FIND_ONE_CALENDAR_FORBIDDEN);
+                }
+            }
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::FIND_ONE_CALENDAR_FAILED));
         }
     }
 
@@ -316,26 +347,32 @@ class UserProvider
      */
     public function createCalendarEvent(CreateCalendarEventInputDto $calendarData): CalendarEventDto
     {
-        $response = $this->client->post('/api/calendar', [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => $calendarData
-        ]);
+        try {
+            $response = $this->client->post('/api/calendar', [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::JSON => $calendarData
+            ]);
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    CalendarEventDto::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_EVENT_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_EVENT_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                CalendarEventDto::class,
+                'json'
+            );
+        } catch (Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_EVENT_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
+                }
+            }
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_EVENT_FAILED));
         }
     }
 
@@ -350,26 +387,31 @@ class UserProvider
      */
     public function updateCalendarEvent(string $calendarId, string $eventId, UpdateCalendarEventInputDto $calendarEventData): CalendarEventDto
     {
-        $response = $this->client->put('/api/calendar/' . $calendarId . '/event/' . $eventId, [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => $calendarEventData
-        ]);
+        try {
+            $response = $this->client->put('/api/calendar/' . $calendarId . '/event/' . $eventId, [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::JSON => $calendarEventData
+            ]);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                CalendarEventDto::class,
+                'json'
+            );
+        } catch (Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    CalendarEventDto::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CalendarErr::UPDATE_CALENDAR_EVENT_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(CalendarErr::CALENDAR_OR_CALENDAR_EVENT_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(CalendarErr::UPDATE_CALENDAR_EVENT_FAILED);
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CalendarErr::UPDATE_CALENDAR_EVENT_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(CalendarErr::CALENDAR_OR_CALENDAR_EVENT_NOT_FOUND);
+                }
+            }
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::UPDATE_CALENDAR_EVENT_FAILED));
         }
     }
 
@@ -383,21 +425,26 @@ class UserProvider
      */
     public function deleteCalendarEventRequest(string $calendarId, string $calendarEventId): bool
     {
-        $response = $this->client->delete('/api/calendar/' . $calendarId . '/event/' . $calendarEventId, [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-        ]);
+        try {
+            $response = $this->client->delete('/api/calendar/' . $calendarId . '/event/' . $calendarEventId, [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+            ]);
+            return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
+        } catch (Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
-            case 403:
-                throw $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_EVENT_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(CalendarErr::CALENDAR_OR_CALENDAR_EVENT_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_EVENT_FAILED);
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_EVENT_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(CalendarErr::CALENDAR_OR_CALENDAR_EVENT_NOT_FOUND);
+                }
+            }
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_EVENT_FAILED));
         }
     }
 
@@ -411,26 +458,32 @@ class UserProvider
      */
     public function getAllCalendarEvents(string $calendarId, GetCalendarEventForCalendarInputDto $filters): array
     {
-        $response = $this->client->get('/api/calendar/' . $calendarId . '/events', [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => $filters
-        ]);
+        try {
+            $response = $this->client->get('/api/calendar/' . $calendarId . '/events', [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::JSON => $filters
+            ]);
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    "array<Sherl\Sdk\Calendar\Dto\GetCalendarEventForCalendarResultsDto>",
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CalendarErr::GET_ALL_CALENDAR_EVENTS_WITH_FILTER_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
-            default:
-                throw $this->errorFactory->create(CalendarErr::GET_ALL_CALENDAR_EVENTS_WITH_FILTER_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                "array<Sherl\Sdk\Calendar\Dto\GetCalendarEventForCalendarResultsDto>",
+                'json'
+            );
+        } catch (Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CalendarErr::GET_ALL_CALENDAR_EVENTS_WITH_FILTER_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
+                }
+            }
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::GET_ALL_CALENDAR_EVENTS_WITH_FILTER_FAILED));
         }
     }
 
@@ -443,25 +496,40 @@ class UserProvider
      */
     public function getCalendarEvent(string $calendarEventId): ?CalendarEventDto
     {
-        $response = $this->client->put('/api/calendar-event/' . $calendarEventId, [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-        ]);
+        try {
+            $response = $this->client->put('/api/calendar-event/' . $calendarEventId, [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+            ]);
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    CalendarEventDto::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENT_BY_ID_FORBIDDEN);
-            case 404:
-                throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_EXIST);
-            default:
-                throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENT_BY_ID_FAILED);
+            switch ($response->getStatusCode()) {
+                case 200:
+                    return SerializerFactory::getInstance()->deserialize(
+                        $response->getBody()->getContents(),
+                        CalendarEventDto::class,
+                        'json'
+                    );
+                case 403:
+                    throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENT_BY_ID_FORBIDDEN);
+                case 404:
+                    throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_EXIST);
+                default:
+                    throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENT_BY_ID_FAILED);
+            }
+        } catch (Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENT_BY_ID_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_EXIST);
+                }
+            }
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENT_BY_ID_FAILED));
         }
     }
 
@@ -474,24 +542,30 @@ class UserProvider
      */
     public function getCalendarEventForCurrentPerson(GetCalendarEventForCurrentPersonInputDto $input): CalendarEventsPaginatedResultDto
     {
-        $response = $this->client->get('/api/calendar-events', [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => $input
-        ]);
+        try {
+            $response = $this->client->get('/api/calendar-events', [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::JSON => $input
+            ]);
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    CalendarEventsPaginatedResultDto::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_CURRENT_USER_FORBIDDEN);
-            default:
-                throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_CURRENT_USER_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                CalendarEventsPaginatedResultDto::class,
+                'json'
+            );
+        } catch (Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_CURRENT_USER_FORBIDDEN);
+                }
+            }
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_CURRENT_USER_FAILED));
         }
     }
 
@@ -504,24 +578,29 @@ class UserProvider
      */
     public function getAllCalendarEventsForOwner(GetCalendarEventByOwnerInputDto $input): CalendarEventsPaginatedResultDto
     {
-        $response = $this->client->get('/api/calendar/owner', [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => $input
-        ]);
+        try {
+            $response = $this->client->get('/api/calendar/owner', [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::JSON => $input
+            ]);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                CalendarEventsPaginatedResultDto::class,
+                'json'
+            );
+        } catch (Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
 
-        switch ($response->getStatusCode()) {
-            case 200:
-                return SerializerFactory::getInstance()->deserialize(
-                    $response->getBody()->getContents(),
-                    CalendarEventsPaginatedResultDto::class,
-                    'json'
-                );
-            case 403:
-                throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_OWNER_FORBIDDEN);
-            default:
-                throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_OWNER_FAILED);
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_OWNER_FORBIDDEN);
+                }
+            }
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_OWNER_FAILED));
         }
     }
 }
