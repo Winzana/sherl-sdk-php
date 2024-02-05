@@ -11,208 +11,208 @@ use Sherl\Sdk\Common\Dto\PaginationFiltersInputDto;
 
 class ProductFindByDto extends PaginationFiltersInputDto
 {
-  /**
-   * @var string[]
-   * @Serializer\Type("array<string>")
-   */
-  public $ids;
+    /**
+     * @var string[]
+     * @Serializer\Type("array<string>")
+     */
+    public $ids;
 
-  /**
-   * @var string[]
-   * @Serializer\Type("array<string>")
-   */
-  public $externalIds;
+    /**
+     * @var string[]
+     * @Serializer\Type("array<string>")
+     */
+    public $externalIds;
 
-  /**
-   * @var string[]
-   * @Serializer\Type("array<string>")
-   */
-  public $excludedExternalIds;
+    /**
+     * @var string[]
+     * @Serializer\Type("array<string>")
+     */
+    public $excludedExternalIds;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $externalIdentifier;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $externalIdentifier;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $uri;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $uri;
 
-  /**
-   * @var integer
-   * @Serializer\Type("integer")
-   */
-  public $versionNumber;
+    /**
+     * @var integer
+     * @Serializer\Type("integer")
+     */
+    public $versionNumber;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $slug;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $slug;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $parentUri;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $parentUri;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $organizationUri;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $organizationUri;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $organizationSlug;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $organizationSlug;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $id;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $id;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $name;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $name;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $categoryUri;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $categoryUri;
 
-  /**
-   * @var string[]
-   * @Serializer\Type("array<string>")
-   */
-  public $categoryUris;
+    /**
+     * @var string[]
+     * @Serializer\Type("array<string>")
+     */
+    public $categoryUris;
 
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $q;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $q;
 
-  /**
-   * @var boolean
-   * @Serializer\Type("boolean")
-   */
-  public $isEnable;
+    /**
+     * @var boolean
+     * @Serializer\Type("boolean")
+     */
+    public $isEnable;
 
-  /**
-   * @var string[]
-   * @Serializer\Type("array<string>")
-   */
-  public $languages;
+    /**
+     * @var string[]
+     * @Serializer\Type("array<string>")
+     */
+    public $languages;
 
-  /**
-   * @var boolean
-   * @Serializer\Type("boolean")
-   */
-  public $placeForward;
+    /**
+     * @var boolean
+     * @Serializer\Type("boolean")
+     */
+    public $placeForward;
 
-  /**
-   * @var boolean
-   * @Serializer\Type("boolean")
-   */
-  public $strictPlaceForward;
+    /**
+     * @var boolean
+     * @Serializer\Type("boolean")
+     */
+    public $strictPlaceForward;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $geopoint;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $geopoint;
 
-  /**
-   * @var float
-   * @Serializer\Type("float")
-   */
-  public $distance;
+    /**
+     * @var float
+     * @Serializer\Type("float")
+     */
+    public $distance;
 
-  /**
-   * @var boolean
-   * @Serializer\Type("boolean")
-   */
-  public $withinHours;
+    /**
+     * @var boolean
+     * @Serializer\Type("boolean")
+     */
+    public $withinHours;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $startDate;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $startDate;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $endDate;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $endDate;
 
-  /**
-   * @var boolean
-   * @Serializer\Type("boolean")
-   */
-  public $displayAllVersion;
+    /**
+     * @var boolean
+     * @Serializer\Type("boolean")
+     */
+    public $displayAllVersion;
 
-  /**
-   * @var boolean
-   * @Serializer\Type("boolean")
-   */
-  public $includeDeleted;
+    /**
+     * @var boolean
+     * @Serializer\Type("boolean")
+     */
+    public $includeDeleted;
 
-  /**
-   * @var bool
-   * @Serializer\Type("boolean")
-   */
-  public $isUpdatedByHuman;
+    /**
+     * @var bool
+     * @Serializer\Type("boolean")
+     */
+    public $isUpdatedByHuman;
 
-  /**
-   * @var ProductTags
-   * @Serializer\Type("Sherl\Sdk\Shop\Product\Dto\ProductTags")
-   */
-  public $tag;
+    /**
+     * @var ProductTags
+     * @Serializer\Type("Sherl\Sdk\Shop\Product\Dto\ProductTags")
+     */
+    public $tag;
 
-  /**
-   * @var integer
-   * @Serializer\Type("integer")
-   */
-  public $tags;
+    /**
+     * @var integer
+     * @Serializer\Type("integer")
+     */
+    public $tags;
 
-  /**
-   * @var ProductDisplayMode
-   * @Serializer\Type("Sherl\Sdk\Shop\Product\Dto\ProductDisplayMode")
-   */
-  public $displayMode;
+    /**
+     * @var ProductDisplayMode
+     * @Serializer\Type("Sherl\Sdk\Shop\Product\Dto\ProductDisplayMode")
+     */
+    public $displayMode;
 
-  /**
-   * @var ProductTypeEnum
-   * @Serializer\Type("Sherl\Sdk\Shop\Product\Dto\ProductTypeEnum")
-   */
-  public $type;
+    /**
+     * @var ProductTypeEnum
+     * @Serializer\Type("Sherl\Sdk\Shop\Product\Dto\ProductTypeEnum")
+     */
+    public $type;
 
-  /**
-   * @var boolean
-   * @Serializer\Type("boolean")
-   */
-  public $noBind;
+    /**
+     * @var boolean
+     * @Serializer\Type("boolean")
+     */
+    public $noBind;
 
-  /**
-   * @var string[]
-   * @Serializer\Type("array<string>")
-   */
-  public $uriOfPanels;
+    /**
+     * @var string[]
+     * @Serializer\Type("array<string>")
+     */
+    public $uriOfPanels;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $panel;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $panel;
 }
