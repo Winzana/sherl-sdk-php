@@ -113,33 +113,28 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::JSON => [
-          'description' => $createAdvertisement->description,
-          'displayZones' => $createAdvertisement->displayZones,
-          'backgroundImage' => $createAdvertisement->backgroundImage,
-          'name' => $createAdvertisement->name,
-          'redirectUrl' => $createAdvertisement->redirectUrl,
-          'translations' => $createAdvertisement->translations,
-          'metadatas' => $createAdvertisement->metadatas
-        ]
+        RequestOptions::JSON => $createAdvertisement
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 201:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            AdvertisementDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::CREATION_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::CREATION_FAILED);
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        AdvertisementDto::class,
+        'json'
+      );
+    } catch (\Exception $err) {
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::CREATION_FORBIDDEN);
+        }
       }
-    } catch (Exception $err) {
       throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::CREATION_FAILED));
     }
   }
+
   /**
    * Updates an advertisement.
    *
@@ -155,35 +150,26 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::JSON => [
-          'description' => $updateAdvertisement->description,
-          'displayZones' => $updateAdvertisement->displayZones,
-          'backgroundImage' => $updateAdvertisement->backgroundImage,
-          'name' => $updateAdvertisement->name,
-          'redirectUrl' => $updateAdvertisement->redirectUrl,
-          'translations' => $updateAdvertisement->translations,
-          'metadatas' => $updateAdvertisement->metadatas
-        ],
-        RequestOptions::QUERY => [
-          "advertisementId" => $advertisementId
-        ]
+        RequestOptions::JSON => $updateAdvertisement,
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            AdvertisementDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::UPDATE_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::ADVERTISEMENT_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::UPDATE_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        AdvertisementDto::class,
+        'json'
+      );
     } catch (Exception $err) {
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::UPDATE_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::ADVERTISEMENT_NOT_FOUND);
+        }
+      }
       throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::UPDATE_FAILED));
     }
   }
@@ -206,18 +192,19 @@ class ShopProvider
           "advertisementId" => $advertisementId
         ]
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
-        case 403:
-          throw $this->errorFactory->create(ShopErr::DELETE_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::ADVERTISEMENT_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::DELETE_FAILED);
-      }
+      return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
     } catch (Exception $err) {
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::DELETE_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::ADVERTISEMENT_NOT_FOUND);
+        }
+      }
       throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::DELETE_FAILED));
     }
   }
@@ -241,21 +228,23 @@ class ShopProvider
         ]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            AdvertisementDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_ADVERTISEMENT_BY_ID_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::ADVERTISEMENT_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_ADVERTISEMENT_BY_ID_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        AdvertisementDto::class,
+        'json'
+      );
     } catch (Exception $err) {
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_ADVERTISEMENT_BY_ID_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::ADVERTISEMENT_NOT_FOUND);
+        }
+      }
       throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ADVERTISEMENT_BY_ID_FAILED));
     }
   }
@@ -274,32 +263,24 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::JSON => [
-          'displayDeleted' => $filter->displayDeleted,
-          'displayZones' => $filter->displayZones,
-          'shuffle' => $filter->shuffle,
-          'q' => $filter->q,
-          'displayAllVersion' => $filter->displayAllVersion,
-          'panel' => $filter->panel,
-          'uriOfPanels' => $filter->uriOfPanels,
-          'sortBy' => $filter->sortBy,
-          'sortOrder' => $filter->sortOrder
-        ]
+        RequestOptions::JSON => $filter
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            FindAdvertisementsOutputDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_ADVERTISEMENTS_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_ADVERTISEMENTS_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        FindAdvertisementsOutputDto::class,
+        'json'
+      );
     } catch (Exception $err) {
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_ADVERTISEMENTS_FORBIDDEN);
+        }
+      }
       throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ADVERTISEMENTS_FAILED));
     }
   }
@@ -318,32 +299,25 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::JSON => [
-          'displayDeleted' => $filter->displayDeleted,
-          'displayZones' => $filter->displayZones,
-          'shuffle' => $filter->shuffle,
-          'q' => $filter->q,
-          'displayAllVersion' => $filter->displayAllVersion,
-          'panel' => $filter->panel,
-          'uriOfPanels' => $filter->uriOfPanels,
-          'sortBy' => $filter->sortBy,
-          'sortOrder' => $filter->sortOrder
-        ]
+        RequestOptions::JSON => $filter
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            FindAdvertisementsOutputDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_PUBLIC_ADVERTISEMENTS_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_PUBLIC_ADVERTISEMENTS_FAILED);
-      }
+
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        FindAdvertisementsOutputDto::class,
+        'json'
+      );
     } catch (Exception $err) {
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_PUBLIC_ADVERTISEMENTS_FORBIDDEN);
+        }
+      }
       throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_ADVERTISEMENTS_FAILED));
     }
   }
@@ -356,43 +330,33 @@ class ShopProvider
    *
    * @param AddProductInputDto $productToAdd The product to add to the basket.
    * @throws SherlException If an error occurs during the request.
-   * @return FindAdvertisementsOutputDto|null The output DTO for finding advertisements.
+   * @return OrderDto|null The updated Order.
    */
-  public function addProductToBasket(AddProductInputDto $productToAdd): ?FindAdvertisementsOutputDto
+  public function addProductToBasket(AddProductInputDto $productToAdd): ?OrderDto
   {
     try {
       $response = $this->client->post("/api/public/shop/advertisements", [
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::JSON => [
-          'organizationUri' => $productToAdd->organizationUri,
-          'orderId' => $productToAdd->orderId,
-          'latitude' => $productToAdd->latitude,
-          'longitude' => $productToAdd->longitude,
-          'productId' => $productToAdd->productId,
-          'orderQuantity' => $productToAdd->orderQuantity,
-          'options' => $productToAdd->options,
-          'schedules' => $productToAdd->schedules,
-          'metadatas' => $productToAdd->metadatas,
-          'customerUri' => $productToAdd->customerUri,
-          'isFreeTrial' => $productToAdd->isFreeTrial
-        ]
+        RequestOptions::JSON => $productToAdd
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            FindAdvertisementsOutputDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::BASKET_ADD_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::BASKET_ADD_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        OrderDto::class,
+        'json'
+      );
     } catch (Exception $err) {
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::BASKET_ADD_FORBIDDEN);
+        }
+      }
       throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_ADD_FAILED));
     }
   }
@@ -415,16 +379,17 @@ class ShopProvider
           'customerId' => $customerId
         ]
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
-        case 403:
-          throw $this->errorFactory->create(ShopErr::BASKET_CLEAR_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::BASKET_CLEAR_FAILED);
-      }
+      return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
     } catch (Exception $err) {
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::BASKET_CLEAR_FORBIDDEN);
+        }
+      }
       throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_CLEAR_FAILED));
     }
   }
@@ -447,20 +412,21 @@ class ShopProvider
           'comment' => $comment
         ]
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::BASKET_COMMENT_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::BASKET_COMMENT_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        OrderDto::class,
+        'json'
+      );
     } catch (Exception $err) {
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::BASKET_COMMENT_FORBIDDEN);
+        }
+      }
       throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_COMMENT_FAILED));
     }
   }
@@ -485,20 +451,24 @@ class ShopProvider
         ]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_BASKET_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_BASKET_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        OrderDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_BASKET_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_BASKET_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::CUSTOMER_NOT_FOUND);
+        }
+      }
+      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_COMMENT_FAILED));
     }
   }
 
@@ -520,18 +490,19 @@ class ShopProvider
           'itemId' => $itemId
         ]
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
-        case 403:
-          throw $this->errorFactory->create(ShopErr::BASKET_REMOVE_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::BASKET_REMOVE_FAILED);
-      }
+      return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
     } catch (Exception $err) {
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::BASKET_REMOVE_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
+        }
+      }
       throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_REMOVE_FAILED));
     }
   }
@@ -554,23 +525,24 @@ class ShopProvider
           'code' => $code
         ]
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::BASKET_DISCOUNT_CODE_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::CODE_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::BASKET_DISCOUNT_CODE_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        OrderDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_DISCOUNT_CODE_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::BASKET_DISCOUNT_CODE_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::CODE_NOT_FOUND);
+        }
+      }
+      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_REMOVE_FAILED));
     }
   }
 
@@ -593,21 +565,23 @@ class ShopProvider
         ]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::BASKET_SPONSOR_CODE_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::SPONSOR_CODE_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::BASKET_SPONSOR_CODE_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        OrderDto::class,
+        'json'
+      );
     } catch (Exception $err) {
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::BASKET_SPONSOR_CODE_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::SPONSOR_CODE_NOT_FOUND);
+        }
+      }
       throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_SPONSOR_CODE_FAILED));
     }
   }
@@ -626,32 +600,29 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::JSON => [
-          'orderId' => $validation->orderId,
-          'customerUri' => $validation->customerUri,
-          'meansOfPayment' => $validation->meansOfPayment
-        ]
+        RequestOptions::JSON => $validation
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::VALIDATE_AND_PAY_BASKET_FAILED_FORBIDDEN);
-        case 460:
-          throw $this->errorFactory->create(ShopErr::NO_DEFAULT_CARD);
-        case 461:
-          throw $this->errorFactory->create(ShopErr::BASKET_ORDER_NOT_VALIDATED);
-        case 462:
-          throw $this->errorFactory->create(ShopErr::BASKET_ALREADY_PAYED);
-        default:
-          throw $this->errorFactory->create(ShopErr::VALIDATE_AND_PAY_BASKET_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        OrderDto::class,
+        'json'
+      );
     } catch (Exception $err) {
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::VALIDATE_AND_PAY_BASKET_FORBIDDEN);
+          case 460:
+            throw $this->errorFactory->create(ShopErr::NO_DEFAULT_CARD);
+          case 461:
+            throw $this->errorFactory->create(ShopErr::BASKET_ORDER_NOT_VALIDATED);
+          case 462:
+            throw $this->errorFactory->create(ShopErr::BASKET_ALREADY_PAYED);
+        }
+      }
       throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::VALIDATE_AND_PAY_BASKET_FAILED));
     }
   }
@@ -670,25 +641,24 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::JSON => [
-          'orderId' => $validation->orderId,
-          'customerUri' => $validation->customerUri
-        ]
+        RequestOptions::JSON => $validation
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::BASKET_VALIDATE_PENDING_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::BASKET_VALIDATE_PENDING_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        OrderDto::class,
+        'json'
+      );
     } catch (Exception $err) {
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::BASKET_VALIDATE_PENDING_FORBIDDEN);
+        }
+      }
       throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_VALIDATE_PENDING_FAILED));
     }
   }
@@ -709,41 +679,25 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::JSON => [
-          'id' => $discountParameter->id,
-          'name' => $discountParameter->name,
-          'availableFrom' => $discountParameter->availableFrom,
-          'availableUntil' => $discountParameter->availableUntil,
-          'enabled' => $discountParameter->enabled,
-          'highlight' => $discountParameter->highlight,
-          'cumulative' => $discountParameter->cumulative,
-          'discountType' => $discountParameter->discountType,
-          'code' => $discountParameter->code,
-          'percentage' => $discountParameter->percentage,
-          'amount' => $discountParameter->amount,
-          'quantity' => $discountParameter->quantity,
-          'translaquantityPerUsertions' => $discountParameter->quantityPerUser,
-          'customers' => $discountParameter->customers,
-          'visibleToPublic' => $discountParameter->visibleToPublic,
-          'productRestrictions' => $discountParameter->productRestrictions,
-          'dateRestrictions' => $discountParameter->dateRestrictions,
-        ]
+        RequestOptions::JSON => $discountParameter
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 201:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            DiscountDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::BASKET_VALIDATE_PENDING_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::BASKET_VALIDATE_PENDING_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        DiscountDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_VALIDATE_PENDING_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::CREATE_DISCOUNT_FORBIDDEN);
+        }
+      }
+      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::CREATE_DISCOUNT_FAILED));
     }
   }
 
@@ -762,46 +716,27 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::JSON => [
-          'id' => $discountParameter->id,
-          'name' => $discountParameter->name,
-          'availableFrom' => $discountParameter->availableFrom,
-          'availableUntil' => $discountParameter->availableUntil,
-          'enabled' => $discountParameter->enabled,
-          'highlight' => $discountParameter->highlight,
-          'cumulative' => $discountParameter->cumulative,
-          'discountType' => $discountParameter->discountType,
-          'code' => $discountParameter->code,
-          'percentage' => $discountParameter->percentage,
-          'amount' => $discountParameter->amount,
-          'quantity' => $discountParameter->quantity,
-          'translaquantityPerUsertions' => $discountParameter->quantityPerUser,
-          'customers' => $discountParameter->customers,
-          'visibleToPublic' => $discountParameter->visibleToPublic,
-          'productRestrictions' => $discountParameter->productRestrictions,
-          'dateRestrictions' => $discountParameter->dateRestrictions,
-        ],
-        RequestOptions::QUERY => [
-          "discountId" => $discountId
-        ]
+        RequestOptions::JSON => $discountParameter
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            DiscountDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::UPDATE_DISCOUNT_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::DISCOUNT_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::UPDATE_DISCOUNT_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        DiscountDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::UPDATE_DISCOUNT_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::UPDATE_DISCOUNT_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::DISCOUNT_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::UPDATE_DISCOUNT_FAILED));
+      }
     }
   }
 
@@ -823,23 +758,24 @@ class ShopProvider
           "discountId" => $discountId
         ]
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            DiscountDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::DELETE_DISCOUNT_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::DISCOUNT_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::DELETE_DISCOUNT_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        DiscountDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::DELETE_DISCOUNT_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::DELETE_DISCOUNT_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::DISCOUNT_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::DELETE_DISCOUNT_FAILED));
+      }
     }
   }
 
@@ -857,57 +793,24 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::JSON => [
-          "id" => $filter->id,
-          "uri" => $filter->uri,
-          "name" => $filter->name,
-          "ownerUri" => $filter->ownerUri,
-          "ownerUris" => $filter->ownerUris,
-          "validFor" => $filter->validFor,
-          "enabled" => $filter->enabled,
-          "isSubscription" => $filter->isSubscription,
-          "public" => $filter->public,
-          "visibleToPublic" => $filter->visibleToPublic,
-          "highlight" => $filter->highlight,
-          "cumulative" => $filter->cumulative,
-          "discountType" => $filter->discountType,
-          "code" => $filter->code,
-          "toCode" => $filter->toCode,
-          "noCode" => $filter->noCode,
-          "percentage" => $filter->percentage,
-          "amount" => $filter->amount,
-          "quantity" => $filter->quantity,
-          "quantityPerUser" => $filter->quantityPerUser,
-          "customerUri" => $filter->customerUri,
-          "productUris" => $filter->productUris,
-          "noProduct" => $filter->noProduct,
-          "productRestrictions" => $filter->productRestrictions,
-          "dateRestrictions" => $filter->dateRestrictions,
-          "toDate" => $filter->toDate,
-          "toMe" => $filter->toMe,
-          "createdAt" => $filter->createdAt,
-          "updatedAt" => $filter->updatedAt,
-          "offPeakHours" => $filter->offPeakHours,
-          "toValidate" => $filter->toValidate,
-          "availableFrom" => $filter->availableFrom,
-          "availableUntil" => $filter->availableUntil,
-        ]
+        RequestOptions::JSON => $filter,
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            DiscountDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_DISCOUNTS_BY_PARAMS_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_DISCOUNTS_BY_PARAMS_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        DiscountDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_DISCOUNTS_BY_PARAMS_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_DISCOUNTS_BY_PARAMS_FORBIDDEN);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_DISCOUNTS_BY_PARAMS_FAILED));
+      }
     }
   }
 
@@ -930,22 +833,24 @@ class ShopProvider
         ]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            DiscountDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_DISCOUNT_BY_ID_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::DISCOUNT_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_DISCOUNT_BY_ID_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        DiscountDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_DISCOUNT_BY_ID_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_DISCOUNT_BY_ID_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::DISCOUNT_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_DISCOUNT_BY_ID_FAILED));
+      }
     }
   }
 
@@ -959,61 +864,28 @@ class ShopProvider
   public function getDiscountsWithFilter(DiscountFilterInputDto $filter): ?DiscountPaginatedResultOutputDto
   {
     try {
-      $response = $this->client->get("/api/shop/advertisements/", [
+      $response = $this->client->get("/api/shop/discounts", [
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::JSON => [
-          "id" => $filter->id,
-          "uri" => $filter->uri,
-          "name" => $filter->name,
-          "ownerUri" => $filter->ownerUri,
-          "ownerUris" => $filter->ownerUris,
-          "validFor" => $filter->validFor,
-          "enabled" => $filter->enabled,
-          "isSubscription" => $filter->isSubscription,
-          "public" => $filter->public,
-          "visibleToPublic" => $filter->visibleToPublic,
-          "highlight" => $filter->highlight,
-          "cumulative" => $filter->cumulative,
-          "discountType" => $filter->discountType,
-          "code" => $filter->code,
-          "toCode" => $filter->toCode,
-          "noCode" => $filter->noCode,
-          "percentage" => $filter->percentage,
-          "amount" => $filter->amount,
-          "quantity" => $filter->quantity,
-          "quantityPerUser" => $filter->quantityPerUser,
-          "customerUri" => $filter->customerUri,
-          "productUris" => $filter->productUris,
-          "noProduct" => $filter->noProduct,
-          "productRestrictions" => $filter->productRestrictions,
-          "dateRestrictions" => $filter->dateRestrictions,
-          "toDate" => $filter->toDate,
-          "toMe" => $filter->toMe,
-          "createdAt" => $filter->createdAt,
-          "updatedAt" => $filter->updatedAt,
-          "offPeakHours" => $filter->offPeakHours,
-          "toValidate" => $filter->toValidate,
-          "availableFrom" => $filter->availableFrom,
-          "availableUntil" => $filter->availableUntil,
-        ]
+        RequestOptions::JSON => $filter
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            DiscountPaginatedResultOutputDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_DISCOUNTS_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_DISCOUNTS_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        DiscountPaginatedResultOutputDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_DISCOUNTS_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_DISCOUNTS_FORBIDDEN);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_DISCOUNTS_FAILED));
+      }
     }
   }
 
@@ -1028,31 +900,28 @@ class ShopProvider
   public function getPublicDiscountsWithFilter(DiscountPublicFilterInputDto $filter): ?DiscountPaginatedResultOutputDto
   {
     try {
-      $response = $this->client->get("/api/shop/advertisements/", [
+      $response = $this->client->get("/api/public/shop/discounts", [
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::JSON => [
-          "ownerUri" => $filter->ownerUri,
-          "availableFrom" => $filter->availableFrom,
-          "availableUntil" => $filter->availableUntil,
-        ]
+        RequestOptions::JSON => $filter
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            DiscountPaginatedResultOutputDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_PUBLIC_DISCOUNTS_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_PUBLIC_DISCOUNTS_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        DiscountPaginatedResultOutputDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_DISCOUNTS_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_PUBLIC_DISCOUNTS_FORBIDDEN);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_DISCOUNTS_FAILED));
+      }
     }
   }
 
@@ -1076,20 +945,22 @@ class ShopProvider
           "productUri" => $productUri,
         ]
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
-        case 403:
-          throw $this->errorFactory->create(ShopErr::VALIDATE_DISCOUNT_CODE_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::VALIDATE_DISCOUNT_CODE_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::VALIDATE_DISCOUNT_CODE_FAILED);
-      }
+      return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::VALIDATE_DISCOUNT_CODE_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::VALIDATE_DISCOUNT_CODE_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::VALIDATE_DISCOUNT_CODE_FORBIDDEN);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::VALIDATE_DISCOUNT_CODE_FAILED));
+      }
     }
+    return null;
   }
 
   // INVOICE
@@ -1112,24 +983,26 @@ class ShopProvider
           "invoiceId" => $invoiceId
         ]
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::SEND_INVOICE_LINK_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::INVOICE_ID_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::SEND_INVOICE_LINK_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        OrderDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::SEND_INVOICE_LINK_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::SEND_INVOICE_LINK_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::INVOICE_ID_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::SEND_INVOICE_LINK_FAILED));
+      }
     }
+    return null;
   }
 
   // LOYALTY
@@ -1148,33 +1021,27 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::JSON => [
-          "id" => $filter->id,
-          "uri" => $filter->uri,
-          "ownerUri" => $filter->ownerUri,
-          "ownerUris" => $filter->ownerUris,
-          "enabled" => $filter->enabled,
-          "itemsPerPage" => $filter->itemsPerPage,
-          "page" => $filter->page,
-
-        ]
+        RequestOptions::JSON => $filter
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            LoyaltySearchResultDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_USER_CARD_LOYALTIES_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_USER_CARD_LOYALTIES_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        LoyaltySearchResultDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_USER_CARD_LOYALTIES_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_USER_CARD_LOYALTIES_FORBIDDEN);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_USER_CARD_LOYALTIES_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -1191,28 +1058,28 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::QUERY => [
-          "organizationId" => $organizationId
-        ]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            LoyaltyCardDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_LOYALTY_CARD_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::ORGANIZATION_ID_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_LOYALTY_CARD_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        LoyaltyCardDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORGANIZATION_LOYALTY_CARD_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_LOYALTY_CARD_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::ORGANIZATION_ID_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORGANIZATION_LOYALTY_CARD_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -1230,31 +1097,28 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::JSON => [
-          "amount" => $updateInfo->amount,
-          "discountType" => $updateInfo->discountType,
-          "percentage" => $updateInfo->percentage,
-          "enabled" => $updateInfo->enabled
-        ]
+        RequestOptions::JSON => $updateInfo
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            LoyaltyCardDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::UPDATE_LOYALTY_CARD_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::LOYALTY_CARD_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::UPDATE_LOYALTY_CARD_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        LoyaltyCardDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::UPDATE_LOYALTY_CARD_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::UPDATE_LOYALTY_CARD_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::LOYALTY_CARD_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::UPDATE_LOYALTY_CARD_FAILED));
+      }
     }
+    return null;
   }
 
   // ORDER
@@ -1273,44 +1137,26 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::JSON => [
-          "id" => $filter->id,
-          "type" => $filter->type,
-          "q" => $filter->q,
-          "date" => $filter->date,
-          "dateRangeMin" => $filter->dateRangeMin,
-          "dateRangeMax" => $filter->dateRangeMax,
-          "scheduleDateRangeMin" => $filter->scheduleDateRangeMin,
-          "scheduleDateRangeMax" => $filter->scheduleDateRangeMax,
-          "orderNumber" => $filter->orderNumber,
-          "orderStatus" => $filter->orderStatus,
-          "orderStatusTab" => $filter->orderStatusTab,
-          "customerId" => $filter->customerId,
-          "customerName" => $filter->customerName,
-          "meansOfPayment" => $filter->meansOfPayment,
-          "serviceType" => $filter->serviceType,
-          "amount" => $filter->amount,
-          "filterByUsage" => $filter->filterByUsage,
-          "sort" => $filter->sort,
-
-        ]
+        RequestOptions::JSON => $filter
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderFindOutputDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_ORDERS_WITH_FILTER_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_ORDERS_WITH_FILTER_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        OrderFindOutputDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORDERS_WITH_FILTER_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_ORDERS_WITH_FILTER_FORBIDDEN);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORDERS_WITH_FILTER_FAILED));
+      }
     }
+    return null;
   }
 
 
@@ -1329,48 +1175,28 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::JSON => [
-          "id" => $filter->id,
-          "type" => $filter->type,
-          "q" => $filter->q,
-          "date" => $filter->date,
-          "dateRangeMin" => $filter->dateRangeMin,
-          "dateRangeMax" => $filter->dateRangeMax,
-          "scheduleDateRangeMin" => $filter->scheduleDateRangeMin,
-          "scheduleDateRangeMax" => $filter->scheduleDateRangeMax,
-          "orderNumber" => $filter->orderNumber,
-          "orderStatus" => $filter->orderStatus,
-          "orderStatusTab" => $filter->orderStatusTab,
-          "customerId" => $filter->customerId,
-          "customerName" => $filter->customerName,
-          "meansOfPayment" => $filter->meansOfPayment,
-          "serviceType" => $filter->serviceType,
-          "amount" => $filter->amount,
-          "filterByUsage" => $filter->filterByUsage,
-          "sort" => $filter->sort,
-        ],
-        RequestOptions::QUERY => [
-          "organisationId" => $organisationId
-        ]
+        RequestOptions::JSON => $filter,
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderFindOutputDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_ORDERS_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::ORGANIZATION_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_ORDERS_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        OrderFindOutputDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORGANIZATION_ORDERS_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_ORDERS_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::ORGANIZATION_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORGANIZATION_ORDERS_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -1394,29 +1220,32 @@ class ShopProvider
         ]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderFindOutputDto::class,
-            'json'
-          );
-        case 400:
-          throw $this->errorFactory->create(ShopErr::BAD_REQUEST);
-        case 401:
-          throw $this->errorFactory->create(ShopErr::NOT_ALLOWED);
-        case 403:
-          throw $this->errorFactory->create(ShopErr::UPDATE_ORDER_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::ORDER_NOT_FOUND);
-        case 409:
-          throw $this->errorFactory->create(ShopErr::ALREADY_CHANGED);
-        default:
-          throw $this->errorFactory->create(ShopErr::UPDATE_ORDER_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        OrderFindOutputDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::UPDATE_ORDER_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 400:
+            throw $this->errorFactory->create(ShopErr::BAD_REQUEST);
+          case 401:
+            throw $this->errorFactory->create(ShopErr::NOT_ALLOWED);
+          case 403:
+            throw $this->errorFactory->create(ShopErr::UPDATE_ORDER_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::ORDER_NOT_FOUND);
+          case 409:
+            throw $this->errorFactory->create(ShopErr::ALREADY_CHANGED);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::UPDATE_ORDER_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -1435,34 +1264,33 @@ class ShopProvider
           "Content-Type" => "application/json",
         ],
         RequestOptions::JSON => $cancelOrderDates,
-        RequestOptions::QUERY => [
-          "orderId" => $orderId
-        ]
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-          );
-        case 400:
-          throw $this->errorFactory->create(ShopErr::BAD_REQUEST);
-        case 401:
-          throw $this->errorFactory->create(ShopErr::NOT_ALLOWED);
-        case 403:
-          throw $this->errorFactory->create(ShopErr::CANCEL_ORDER_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::ORDER_NOT_FOUND);
-        case 409:
-          throw $this->errorFactory->create(ShopErr::ALREADY_CHANGED);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_ORDERS_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        OrderDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORGANIZATION_ORDERS_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 400:
+            throw $this->errorFactory->create(ShopErr::BAD_REQUEST);
+          case 401:
+            throw $this->errorFactory->create(ShopErr::NOT_ALLOWED);
+          case 403:
+            throw $this->errorFactory->create(ShopErr::CANCEL_ORDER_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::ORDER_NOT_FOUND);
+          case 409:
+            throw $this->errorFactory->create(ShopErr::ALREADY_CHANGED);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORGANIZATION_ORDERS_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -1483,24 +1311,26 @@ class ShopProvider
           "orderId" => $orderId
         ]
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            OrderDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_ORDER_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::ORDER_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_ORDER_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        OrderDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORDER_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_ORDER_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::ORDER_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORDER_FAILED));
+      }
     }
+    return null;
   }
 
   // PRODUCT
@@ -1522,21 +1352,24 @@ class ShopProvider
         RequestOptions::JSON => ['category' => $category]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductCategoryDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::ADD_CATEGORY_TO_ORGANIZATION_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::ADD_CATEGORY_TO_ORGANIZATION_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        ProductCategoryDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_CATEGORY_TO_ORGANIZATION_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::ADD_CATEGORY_TO_ORGANIZATION_FORBIDDEN);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_CATEGORY_TO_ORGANIZATION_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -1556,21 +1389,25 @@ class ShopProvider
         RequestOptions::JSON => ['productComment' => $productComment]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            CommentDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::ADD_COMMENT_ON_PRODUCT_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::ADD_COMMENT_ON_PRODUCT_FAILED);
-      }
+
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        CommentDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_COMMENT_ON_PRODUCT_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::ADD_COMMENT_ON_PRODUCT_FORBIDDEN);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_COMMENT_ON_PRODUCT_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -1588,27 +1425,29 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::QUERY => ["productId" => $productId],
         RequestOptions::JSON => ['option' => $option]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductOutputDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::ADD_OPTION_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::ADD_OPTION_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        ProductOutputDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_OPTION_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::ADD_OPTION_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_OPTION_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -1625,23 +1464,25 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::QUERY => ["productId" => $productId]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          $likes = filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
-          return ($likes !== false) ? $likes : null;
-        case 403:
-          throw $this->errorFactory->create(ShopErr::ADD_OPTION_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::ADD_OPTION_FAILED);
-      }
+      $likes = filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
+      return ($likes !== false) ? $likes : null;
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_OPTION_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::ADD_OPTION_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_OPTION_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -1660,21 +1501,21 @@ class ShopProvider
         ],
         RequestOptions::QUERY => ["productId" => $productId]
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          $views = filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
-          return ($views !== false) ? $views : null;
-        case 403:
-          throw $this->errorFactory->create(ShopErr::ADD_PRODUCT_VIEWS_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::ADD_PRODUCT_VIEWS_FAILED);
-      }
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_PRODUCT_VIEWS_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::ADD_PRODUCT_VIEWS_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_PRODUCT_VIEWS_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -1692,27 +1533,29 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::QUERY => ["categoryId" => $categoryId],
         RequestOptions::JSON => ['subCategory' => $subCategory]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductCategoryDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::ADD_SUBCATEGORY_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::CATEGORY_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::ADD_SUBCATEGORY_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        ProductCategoryDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_SUBCATEGORY_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::ADD_SUBCATEGORY_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::CATEGORY_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_SUBCATEGORY_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -1732,23 +1575,26 @@ class ShopProvider
         RequestOptions::QUERY => ["categoryId" => $categoryId]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductCategoryDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::DELETE_CATEGORY_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::CATEGORY_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::DELETE_CATEGORY_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        ProductCategoryDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::DELETE_CATEGORY_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::DELETE_CATEGORY_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::CATEGORY_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::DELETE_CATEGORY_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -1765,30 +1611,30 @@ class ShopProvider
       $response = $this->client->delete("/api/shop/products/$productId/options/$optionId", [
         "headers" => [
           "Content-Type" => "application/json",
-        ],
-        RequestOptions::QUERY => [
-          "categoryId" => $productId,
-          "optionId" => $optionId
         ]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductOutputDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::REMOVE_OPTION_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::OPTION_OR_PRODUCT_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::REMOVE_OPTION_FAILED);
-      }
+
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        ProductOutputDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::DELETE_CATEGORY_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::REMOVE_OPTION_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::OPTION_OR_PRODUCT_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::REMOVE_OPTION_FAILED));
+      }
     }
+    return null;
   }
 
 
@@ -1811,23 +1657,27 @@ class ShopProvider
         RequestOptions::JSON => ['updatedCategory' => $updatedCategory]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductCategoryDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::UPDATE_CATEGORY_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::CATEGORY_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::UPDATE_CATEGORY_FAILED);
-      }
+
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        ProductCategoryDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::DELETE_CATEGORY_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::UPDATE_CATEGORY_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::CATEGORY_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::UPDATE_CATEGORY_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -1850,21 +1700,25 @@ class ShopProvider
         ]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductCategoryDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_CATEGORIES_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_CATEGORIES_FAILED);
-      }
+
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        ProductCategoryDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_CATEGORIES_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_CATEGORIES_FORBIDDEN);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_CATEGORIES_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -1884,23 +1738,26 @@ class ShopProvider
         RequestOptions::QUERY => ["categoryId" => $categoryId]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductCategoryDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_CATEGORY_BY_ID_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::CATEGORY_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_CATEGORY_BY_ID_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        ProductCategoryDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_CATEGORY_BY_ID_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_CATEGORY_BY_ID_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::CATEGORY_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_CATEGORY_BY_ID_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -1920,23 +1777,26 @@ class ShopProvider
         RequestOptions::QUERY => ["organizationId" => $organizationId]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductCategoryDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_CATEGORIES_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::ORGANIZATION_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_CATEGORIES_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        ProductCategoryDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORGANIZATION_CATEGORIES_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_CATEGORIES_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::ORGANIZATION_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORGANIZATION_CATEGORIES_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -1956,23 +1816,27 @@ class ShopProvider
         RequestOptions::QUERY => ["categoryId" => $categoryId]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductCategoryDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_SUBCATEGORIES_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::ORGANIZATION_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_SUBCATEGORIES_FAILED);
-      }
+
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        ProductCategoryDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORGANIZATION_SUBCATEGORIES_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_SUBCATEGORIES_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::ORGANIZATION_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORGANIZATION_SUBCATEGORIES_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -2009,7 +1873,7 @@ class ShopProvider
             'json'
           );
         case 403:
-          throw $this->errorFactory->create(ShopErr::GET_PRODUCT_COMMENTS_FAILED_FORBIDDEN);
+          throw $this->errorFactory->create(ShopErr::GET_PRODUCT_COMMENTS_FORBIDDEN);
         case 404:
           throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
         default:
@@ -2034,23 +1898,26 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::QUERY => ["productId" => $productId]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          $likes = filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
-          return ($likes !== false) ? $likes : null;
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_PRODUCT_LIKES_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_PRODUCT_LIKES_FAILED);
-      }
+
+      $likes = filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
+      return ($likes !== false) ? $likes : null;
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PRODUCT_LIKES_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_PRODUCT_LIKES_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PRODUCT_LIKES_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -2062,24 +1929,31 @@ class ShopProvider
    */
   public function getProductViews(string $productId): ?int
   {
-    $response = $this->client->get("/api/shop/products/$productId/views", [
-      "headers" => [
-        "Content-Type" => "application/json",
-      ],
-      RequestOptions::QUERY => ["productId" => $productId]
-    ]);
+    try {
+      $response = $this->client->get("/api/shop/products/$productId/views", [
+        "headers" => [
+          "Content-Type" => "application/json",
+        ],
+        RequestOptions::QUERY => ["productId" => $productId]
+      ]);
 
-    switch ($response->getStatusCode()) {
-      case 200:
-        $views = filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
-        return ($views !== false) ? $views : null;
-      case 403:
-        throw $this->errorFactory->create(ShopErr::GET_PRODUCT_VIEWS_FAILED_FORBIDDEN);
-      case 404:
-        throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
-      default:
-        throw $this->errorFactory->create(ShopErr::GET_PRODUCT_VIEWS_FAILED);
+      $views = filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
+      return ($views !== false) ? $views : null;
+    } catch (Exception $err) {
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_PRODUCT_VIEWS_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PRODUCT_VIEWS_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -2096,26 +1970,29 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::QUERY => ["productId" => $productId]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductResponseDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCT_BY_ID_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCT_BY_ID_FAILED);
-      }
+
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        ProductResponseDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCT_BY_ID_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCT_BY_ID_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCT_BY_ID_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -2134,21 +2011,25 @@ class ShopProvider
         ],
         RequestOptions::JSON => ["filters" => $filters]
       ]);
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductPaginatedResultDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_PRODUCTS_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_PRODUCTS_FAILED);
-      }
+
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        ProductPaginatedResultDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PRODUCTS_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_PRODUCTS_FORBIDDEN);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PRODUCTS_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -2167,21 +2048,25 @@ class ShopProvider
         ],
         RequestOptions::JSON => ["filters" => $filters]
       ]);
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PublicCategoryResponseDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORIES_AND_SUBS_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORIES_AND_SUBS_FAILED);
-      }
+
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        PublicCategoryResponseDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORIES_AND_SUBS_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORIES_AND_SUBS_FORBIDDEN);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORIES_AND_SUBS_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -2198,21 +2083,24 @@ class ShopProvider
           "Content-Type" => "application/json",
         ],
       ]);
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PublicCategoryResponseDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORIES_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORIES_FAILED);
-      }
+
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        PublicCategoryResponseDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORIES_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORIES_FORBIDDEN);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORIES_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -2229,25 +2117,27 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::QUERY => ["slug" => $slug]
       ]);
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PublicCategoryResponseDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORY_BY_SLUG_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::SLUG_CATEGORY_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORY_BY_SLUG_FAILED);
-      }
+
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        PublicCategoryResponseDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORY_BY_SLUG_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORY_BY_SLUG_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::SLUG_CATEGORY_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORY_BY_SLUG_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -2264,25 +2154,27 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::QUERY => ["slug" => $slug]
       ]);
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PublicProductResponseDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCT_BY_SLUG_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::SLUG_PRODUCT_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCT_BY_SLUG_FAILED);
-      }
+
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        PublicProductResponseDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCT_BY_SLUG_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCT_BY_SLUG_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::SLUG_PRODUCT_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCT_BY_SLUG_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -2310,7 +2202,7 @@ class ShopProvider
             'json'
           );
         case 403:
-          throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCTS_WITH_FILTERS_FAILED_FORBIDDEN);
+          throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCTS_WITH_FILTERS_FORBIDDEN);
         default:
           throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCTS_WITH_FILTERS_FAILED);
       }
@@ -2336,31 +2228,33 @@ class ShopProvider
         RequestOptions::QUERY => ["filters" => $filters]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductPaginatedResultDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCTS_WITH_FILTERS_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCTS_WITH_FILTERS_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        ProductPaginatedResultDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCTS_WITH_FILTERS_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCTS_WITH_FILTERS_FORBIDDEN);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCTS_WITH_FILTERS_FAILED));
+      }
     }
+    return null;
   }
 
   /**
-   * Retrieves public products based on the given filters.
+   * Retrieves products based on the given filters.
    *
    * @param ProductFindByDto $filters The filters to apply when retrieving the products.
    * @throws SherlException If the API request fails.
    * @return ProductPaginatedResultDto|null The paginated result of the retrieved products.
    */
-  public function getPublicProducts(ProductFindByDto $filters): ?ProductPaginatedResultDto
+  public function getProductsWithFilters(ProductFindByDto $filters): ?ProductPaginatedResultDto
   {
     try {
       $response = $this->client->get("/api/public/shop/products", [
@@ -2370,22 +2264,23 @@ class ShopProvider
         RequestOptions::QUERY => ["filters" => $filters]
       ]);
 
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductPaginatedResultDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCTS_WITH_FILTERS_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCTS_WITH_FILTERS_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        ProductPaginatedResultDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCTS_WITH_FILTERS_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_PRODUCTS_WITH_FILTERS_FORBIDDEN);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PRODUCTS_WITH_FILTERS_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -2402,22 +2297,23 @@ class ShopProvider
           "Content-Type" => "application/json",
         ],
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PublicCategoryResponseDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GET_UNRESTRICTED_CATEGORIES_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::GET_UNRESTRICTED_CATEGORIES_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        PublicCategoryResponseDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_UNRESTRICTED_CATEGORIES_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GET_UNRESTRICTED_CATEGORIES_FORBIDDEN);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_UNRESTRICTED_CATEGORIES_FAILED));
+      }
     }
+    return null;
   }
 
   // PAYMENT
@@ -2442,23 +2338,25 @@ class ShopProvider
         ]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PersonOutputDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::DELETE_CARD_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::CARD_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::DELETE_CARD_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        PersonOutputDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::DELETE_CARD_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::DELETE_CARD_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::CARD_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::DELETE_CARD_FAILED));
+      }
     }
+    return null;
   }
   /**
    * Requests credentials to add a credit card.
@@ -2474,22 +2372,23 @@ class ShopProvider
           "Content-Type" => "application/json",
         ],
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            CreditCardDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::REQUEST_CREDENTIALS_CARD_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::REQUEST_CREDENTIALS_CARD_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        CreditCardDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::REQUEST_CREDENTIALS_CARD_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::REQUEST_CREDENTIALS_CARD_FORBIDDEN);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::REQUEST_CREDENTIALS_CARD_FAILED));
+      }
     }
+    return null;
   }
   /**
    * Saves a card with the specified card ID and token.
@@ -2506,27 +2405,27 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::QUERY => ['cardId' => $cardId],
         RequestOptions::JSON => ['token' => $token]
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PersonOutputDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::SAVE_CARD_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::CARD_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::SAVE_CARD_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        PersonOutputDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::SAVE_CARD_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::SAVE_CARD_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::CARD_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::SAVE_CARD_FAILED));
+      }
     }
+    return null;
   }
   /**
    * Sets the default card for a person.
@@ -2547,24 +2446,27 @@ class ShopProvider
         ]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PersonOutputDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::SET_DEFAULT_CARD_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::CARD_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::SET_DEFAULT_CARD_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        PersonOutputDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::SET_DEFAULT_CARD_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::SET_DEFAULT_CARD_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::CARD_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::SET_DEFAULT_CARD_FAILED));
+      }
     }
+    return null;
   }
+
   /**
    * Validates a credit card.
    *
@@ -2579,28 +2481,27 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::QUERY => [
-          "cardId" => $cardId
-        ]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            CreditCardDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::VALIDATE_CARD_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::CARD_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::VALIDATE_CARD_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        CreditCardDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::VALIDATE_CARD_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::VALIDATE_CARD_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::CARD_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::VALIDATE_CARD_FAILED));
+      }
     }
+    return null;
   }
   // PAYOUT
 
@@ -2619,21 +2520,23 @@ class ShopProvider
         ]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PayoutDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::GENERATE_PAYOUT_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::GENERATE_PAYOUT_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        PayoutDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GENERATE_PAYOUT_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::GENERATE_PAYOUT_FORBIDDEN);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GENERATE_PAYOUT_FAILED));
+      }
     }
+    return null;
   }
   /**
    * Submit a payout and return the PayoutDto.
@@ -2650,21 +2553,23 @@ class ShopProvider
         ]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            PayoutDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::SUBMIT_PAYOUT_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::SUBMIT_PAYOUT_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        PayoutDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::SUBMIT_PAYOUT_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::SUBMIT_PAYOUT_FORBIDDEN);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::SUBMIT_PAYOUT_FAILED));
+      }
     }
+    return null;
   }
   // PICTURE
 
@@ -2683,28 +2588,27 @@ class ShopProvider
         "headers" => [
           "Content-Type" => "application/json",
         ],
-        RequestOptions::JSON => [
-          'productId' => $productId,
-          'idMedia' => $mediaId,
-        ]
       ]);
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductResponseDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::ADD_PICTURE_PRODUCT_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::PRODUCT_OR_MEDIA_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::ADD_PICTURE_PRODUCT_FAILED);
-      }
+
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        ProductResponseDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_PICTURE_PRODUCT_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::ADD_PICTURE_PRODUCT_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::PRODUCT_OR_MEDIA_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_PICTURE_PRODUCT_FAILED));
+      }
     }
+    return null;
   }
 
   /**
@@ -2725,23 +2629,25 @@ class ShopProvider
         ]
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            ProductResponseDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::REMOVE_PICTURE_PRODUCT_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::PRODUCT_OR_MEDIA_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::REMOVE_PICTURE_PRODUCT_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        ProductResponseDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::REMOVE_PICTURE_PRODUCT_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::REMOVE_PICTURE_PRODUCT_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::PRODUCT_OR_MEDIA_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::REMOVE_PICTURE_PRODUCT_FAILED));
+      }
     }
+    return null;
   }
   // SUBSCRIPTION
 
@@ -2762,23 +2668,25 @@ class ShopProvider
         RequestOptions::QUERY => $subscriptionId
       ]);
 
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            SubscriptionDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::CANCEL_SUBSCRIPTION_FAILED_FORBIDDEN);
-        case 404:
-          throw $this->errorFactory->create(ShopErr::SUBSCRIPTION_NOT_FOUND);
-        default:
-          throw $this->errorFactory->create(ShopErr::CANCEL_SUBSCRIPTION_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        SubscriptionDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::CANCEL_SUBSCRIPTION_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::CANCEL_SUBSCRIPTION_FORBIDDEN);
+          case 404:
+            throw $this->errorFactory->create(ShopErr::SUBSCRIPTION_NOT_FOUND);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::CANCEL_SUBSCRIPTION_FAILED));
+      }
     }
+    return null;
   }
   /**
    * Retrieves a subscription using the provided filters.
@@ -2796,21 +2704,22 @@ class ShopProvider
         ],
         RequestOptions::JSON => $filters,
       ]);
-
-      switch ($response->getStatusCode()) {
-        case 200:
-          return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            SubscriptionDto::class,
-            'json'
-          );
-        case 403:
-          throw $this->errorFactory->create(ShopErr::FIND_ONE_SUBSCRIPTION_WITH_FILTER_FAILED_FORBIDDEN);
-        default:
-          throw $this->errorFactory->create(ShopErr::FIND_ONE_SUBSCRIPTION_WITH_FILTER_FAILED);
-      }
+      return SerializerFactory::getInstance()->deserialize(
+        $response->getBody()->getContents(),
+        SubscriptionDto::class,
+        'json'
+      );
     } catch (Exception $err) {
-      throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::FIND_ONE_SUBSCRIPTION_WITH_FILTER_FAILED));
+      if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+        $response = $err->getResponse();
+        $statusCode = $response->getStatusCode();
+        switch ($statusCode) {
+          case 403:
+            throw $this->errorFactory->create(ShopErr::FIND_ONE_SUBSCRIPTION_WITH_FILTER_FORBIDDEN);
+        }
+        throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::FIND_ONE_SUBSCRIPTION_WITH_FILTER_FAILED));
+      }
     }
+    return null;
   }
 }
