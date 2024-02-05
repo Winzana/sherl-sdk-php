@@ -7,6 +7,14 @@ use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Person\Dto\AddressInputDto;
 use Sherl\Sdk\Person\Dto\PersonOrganizationCreateInputDto;
 use Sherl\Sdk\Person\Dto\PersonInputDto;
+use Sherl\Sdk\Person\Dto\FrequentedEstablishmentDto;
+use Sherl\Sdk\Place\Dto\AddressFilterDto;
+
+use Sherl\Sdk\Place\Dto\GeoCoordinatesDto;
+
+use Sherl\Sdk\Organization\Dto\OrganizationFilterDto;
+
+use DateTime;
 
 use Sherl\Sdk\Common\Dto\SortDto;
 
@@ -46,6 +54,18 @@ class PersonFiltersDto
     public $lastName;
 
     /**
+     * @var AddressFilterDto
+     * @Serializer\Type("Sherl\Sdk\Place\Dto\AddressFilterDto")
+     */
+    public $address;
+
+    /**
+     * @var GeoCoordinatesDto
+     * @Serializer\Type("Sherl\Sdk\Place\Dto\GeoCoordinatesDto")
+     */
+    public $subscriptionLocation;
+
+    /**
      * @var string
      * @Serializer\Type("string")
      */
@@ -68,6 +88,12 @@ class PersonFiltersDto
      * @Serializer\Type("string")
      */
     public $nationality;
+
+    /**
+     * @var OrganizationFilterDto
+     * @Serializer\Type("Sherl\Sdk\Organization\Dto\OrganizationFilterDto")
+     */
+    public $affiliation;
 
     /**
      * @var string
@@ -113,7 +139,7 @@ class PersonFiltersDto
 
     /**
      * @var string
-     * @Serializer(Type("string"))
+     * @Serializer\Type("string")
      */
     public $jobTitle;
 
@@ -124,14 +150,14 @@ class PersonFiltersDto
     public $enabled;
 
     /**
-     * @var string
-     * @Serializer(Type("string"))
+     * @var DateTime
+     * @Serializer(Type("DateTime"))
      */
     public $createdAt;
 
     /**
-     * @var string
-     * @Serializer(Type("string"))
+     * @var DateTime
+     * @Serializer(Type("DateTime"))
      */
     public $updatedAt;
 
@@ -140,6 +166,12 @@ class PersonFiltersDto
      * @Serializer(Type("string"))
      */
     public $analytics;
+
+    /**
+     * @var FrequentedEstablishmentDto
+     * @Serializer(Type("Sherl\Sdk\Person\Dto\FrequentedEstablishmentDto"))
+     */
+    public $frequentedEstablishment;
 
     /**
      * @var string
