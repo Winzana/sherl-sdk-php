@@ -738,6 +738,7 @@ class ShopProvider
         throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::UPDATE_DISCOUNT_FAILED));
       }
     }
+    return null;
   }
 
   /**
@@ -777,6 +778,7 @@ class ShopProvider
         throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::DELETE_DISCOUNT_FAILED));
       }
     }
+    return null;
   }
 
   /**
@@ -812,6 +814,7 @@ class ShopProvider
         throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_DISCOUNTS_BY_PARAMS_FAILED));
       }
     }
+    return null;
   }
 
   /**
@@ -852,6 +855,7 @@ class ShopProvider
         throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_DISCOUNT_BY_ID_FAILED));
       }
     }
+    return null;
   }
 
   /**
@@ -887,6 +891,7 @@ class ShopProvider
         throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_DISCOUNTS_FAILED));
       }
     }
+    return null;
   }
 
   /**
@@ -923,6 +928,7 @@ class ShopProvider
         throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_DISCOUNTS_FAILED));
       }
     }
+    return null;
   }
 
   /**
