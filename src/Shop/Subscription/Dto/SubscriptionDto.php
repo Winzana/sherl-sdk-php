@@ -11,93 +11,93 @@ use Sherl\Sdk\Shop\Subscription\Enum\SubscriptionStatus;
 
 class SubscriptionDto
 {
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $id;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $id;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $uri;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $uri;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $name;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $name;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $ownerUri;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $ownerUri;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $activeFrom;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $activeFrom;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $activeUntil;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $activeUntil;
 
-  /**
-   * @var ProductOfferFrequency
-   * @Serializer\Type("enum<'Sherl\Sdk\Shop\Product\Enum\ProductOfferFrequency', 'value'>")
-   */
-  public $frequency;
+    /**
+     * @var ProductOfferFrequency
+     * @Serializer\Type("enum<'Sherl\Sdk\Shop\Product\Enum\ProductOfferFrequency', 'value'>")
+     */
+    public $frequency;
 
-  /**
-   * @var SubscriptionStatus
-   * @Serializer\Type("enum<'Sherl\Sdk\Shop\Subscription\Enum\SubscriptionStatus', 'value'>")
-   */
-  public $status;
+    /**
+     * @var SubscriptionStatus
+     * @Serializer\Type("enum<'Sherl\Sdk\Shop\Subscription\Enum\SubscriptionStatus', 'value'>")
+     */
+    public $status;
 
-  /**
-   * @var boolean
-   * @Serializer\Type("boolean")
-   */
-  public $enabled;
+    /**
+     * @var boolean
+     * @Serializer\Type("boolean")
+     */
+    public $enabled;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $disabledAt;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $disabledAt;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $sourceUri;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $sourceUri;
 
-  /**
-   * @var OfferDto
-   * @Serializer\Type("Sherl\Sdk\Shop\Product\Dto\OfferDto")
-   */
-  public $offer;
+    /**
+     * @var OfferDto
+     * @Serializer\Type("Sherl\Sdk\Shop\Product\Dto\OfferDto")
+     */
+    public $offer;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $contextUri;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $contextUri;
 
-  /**
-   * @var array<string, mixed>
-   * @Serializer\Type("array<string, mixed>")
-   */
-  public $metadatas;
+    /**
+     * @var array<string, mixed>
+     * @Serializer\Type("array<string, mixed>")
+     */
+    public $metadatas;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $createdAt;
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $createdAt;
 }

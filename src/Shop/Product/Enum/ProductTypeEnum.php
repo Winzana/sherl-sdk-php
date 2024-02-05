@@ -10,7 +10,7 @@ enum ProductTypeEnum: string
     case TIP = 'TIP';
     case SERVICE = 'SERVICE';
     case PLAN = 'PLAN';
-    case  QUOTA = 'QUOTA';
-    case  REFUND = 'REFUND';
-    case  EVENT = 'EVENT';
+    case QUOTA = 'QUOTA';
+    case REFUND = 'REFUND';
+    case EVENT = 'EVENT';
 }
