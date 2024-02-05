@@ -37,14 +37,6 @@ class NotificationProvider
         $this->errorFactory = new ErrorFactory(self::DOMAIN, NotificationErr::$errors);
     }
 
-    /**
-     * @throws SherlException
-     */
-    private function throwSherlNotificationException(ResponseInterface $response): SherlException
-    {
-        throw new SherlException(NotificationProvider::DOMAIN, $response->getBody()->getContents());
-    }
-
     public function getNotifications(NotificationFiltersInputDto $notificationFiltersInput): ?NotificationListOutputDto
     {
         try {
@@ -55,132 +47,179 @@ class NotificationProvider
               RequestOptions::QUERY => $notificationFiltersInput,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        NotificationListOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(NotificationErr::GET_NOTIFICATIONS_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(NotificationErr::FETCH_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                NotificationListOutputDto::class,
+                'json'
+            );
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(NotificationErr::GET_NOTIFICATIONS_FORBIDDEN);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(NotificationErr::FETCH_FAILED));
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(NotificationErr::GET_NOTIFICATIONS_FAILED));
         }
     }
 
     public function registerFirebaseNotification(string $notificationRegistrationToken): ?NotificationRegistrationOutputDto
     {
-        $response = $this->client->post('/api/notifications', [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => [
-            'token' => $notificationRegistrationToken,
-          ],
-        ]);
+        try {
+            $response = $this->client->post('/api/notifications', [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::JSON => [
+                'token' => $notificationRegistrationToken,
+              ],
+            ]);
 
-        if ($response->getStatusCode() >= 300) {
-            $this->throwSherlNotificationException($response);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                NotificationRegistrationOutputDto::class,
+                'json'
+            );
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(NotificationErr::REGISTER_FIREBASE_NOTIFICATION_FORBIDDEN);
+                }
+            }
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(NotificationErr::REGISTER_FIREBASE_NOTIFICATION_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            NotificationRegistrationOutputDto::class,
-            'json'
-        );
     }
 
     public function updateNotification(string $notificationId, NotificationUpdateInputDto $notificationUpdateInput): ?NotificationOutputDto
     {
-        $response = $this->client->put("/api/notifications/$notificationId", [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => $notificationUpdateInput
-        ]);
+        try {
+            $response = $this->client->put("/api/notifications/$notificationId", [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::JSON => $notificationUpdateInput
+            ]);
 
-        if ($response->getStatusCode() >= 300) {
-            $this->throwSherlNotificationException($response);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                NotificationOutputDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(NotificationErr::UPDATE_NOTIFICATION_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(NotificationErr::NOTIFICATION_NOT_FOUND);
+                }
+            }
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(NotificationErr::UPDATE_NOTIFICATION_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            NotificationOutputDto::class,
-            'json'
-        );
     }
 
     public function disableNotificationToOrganization(string $notificationId, string $organizationId): ?NotificationOutputDto
     {
-        $response = $this->client->post(
-            "/api/notifications/$notificationId/disable-to-organization",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              'organizationId' => $organizationId
-            ]
-      ]
-        );
+        try {
+            $response = $this->client->post("/api/notifications/$notificationId/disable-to-organization", [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::JSON => [
+                'organizationId' => $organizationId
+              ]
+      ]);
 
-        if ($response->getStatusCode() >= 300) {
-            $this->throwSherlNotificationException($response);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                NotificationOutputDto::class,
+                'json'
+            );
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(NotificationErr::DISABLE_TO_ORGANIZATION_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(NotificationErr::NOTIFICATION_NOT_FOUND);
+                }
+            }
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(NotificationErr::DISABLE_TO_ORGANIZATION_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            NotificationOutputDto::class,
-            'json'
-        );
     }
 
     public function enableNotificationToOrganization(string $notificationId, string $organizationId): ?NotificationOutputDto
     {
-        $response = $this->client->post(
-            "/api/notifications/$notificationId/enable-to-organization",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => [
-              'organizationId' => $organizationId
-            ]
-      ]
-        );
+        try {
+            $response = $this->client->post("/api/notifications/$notificationId/enable-to-organization", [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::JSON => [
+                'organizationId' => $organizationId
+              ]
+            ]);
 
-        if ($response->getStatusCode() >= 300) {
-            $this->throwSherlNotificationException($response);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                NotificationOutputDto::class,
+                'json'
+            );
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(NotificationErr::ENABLE_TO_ORGANIZATION_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(NotificationErr::NOTIFICATION_NOT_FOUND);
+                }
+            }
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(NotificationErr::ENABLE_TO_ORGANIZATION_FAILED));
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            NotificationOutputDto::class,
-            'json'
-        );
     }
 
     public function sendNotificationByType(NotificationType $notificationType, SendNotificationInputDto $sendNotificationInput): ?bool
     {
-        $type = $notificationType->value;
-        $response = $this->client->post(
-            "/api/notification/$type",
-            [
-            "headers" => [
-              "Content-Type" => "application/json",
-            ],
-            RequestOptions::JSON => $sendNotificationInput,
-      ]
-        );
+        try {
+            $type = $notificationType->value;
+            $response = $this->client->post("/api/notification/$type", [
+                "headers" => [
+                  "Content-Type" => "application/json",
+                ],
+                RequestOptions::JSON => $sendNotificationInput,
+            ]);
 
-        if ($response->getStatusCode() >= 300) {
-            $this->throwSherlNotificationException($response);
+            return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(NotificationErr::SEND_NOTIFICATION_BY_TYPE_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(NotificationErr::TYPE_NOT_FOUND);
+                }
+            }
+            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(NotificationErr::SEND_NOTIFICATION_BY_TYPE_FAILED));
         }
-
-        return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
     }
 }
