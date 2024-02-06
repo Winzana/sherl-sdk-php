@@ -42,10 +42,4 @@ class GetCalendarEventForCalendarInputDto extends PaginationFilterInputDto
      * Serializer\Type("string")
      */
     public $calendarUri;
-
-    /**
-     * @var string
-     * Serializer\Type("string")
-     */
-    public $consumerId;
 }

@@ -72,9 +72,9 @@ This call returns true if calendar calendar is successfully deleted.
 $sherlClient->calendar->getCalendarWithId(string $calendarId);
 ```
 
-| Fields         |  Type  |      Required      | Description                      |
-| :------------- | :----: | :----------------: | :------------------------------- |
-| **calendarId** | string | :white_check_mark: | The id of the calendar to delete |
+| Fields         |  Type  |      Required      | Description                        |
+| :------------- | :----: | :----------------: | :--------------------------------- |
+| **calendarId** | string | :white_check_mark: | The id of the calendar to retrieve |
 
 This call returns a [CalendarDto](calendar-types#CalendarDto) class.
 
@@ -118,12 +118,11 @@ $sherlClient->calendar->checksDateAvailabilities(CheckDatesInputDto $dates);
 <details>
  <summary><b>CheckDatesInputDto</b></summary>
 
-| Fields         |  Type  | Description                               |
-| :------------- | :----: | :---------------------------------------- |
-| **id**         | string | calendar's id                             |
-| **personId**   | string | ID of person which associated to calendar |
-| **orderId**    | string | ID of order which associated to calendar  |
-| **consumerId** | string | Internal API ID to identify a project     |
+| Fields       |  Type  | Description                               |
+| :----------- | :----: | :---------------------------------------- |
+| **id**       | string | calendar's id                             |
+| **personId** | string | ID of person which associated to calendar |
+| **orderId**  | string | ID of order which associated to calendar  |
 
 </details>
 
@@ -146,7 +145,7 @@ $sherlClient->calendar->checkLocationAvailabilities(CheckLocationInputDto $locat
 | country          | string |        :x:         | The country to check        |
 | locality         | string |        :x:         | The locality to check       |
 | region           | string |        :x:         | The region to check         |
-| postalCode       | string |        :x:         | The plostal code to checkk  |
+| postalCode       | string |        :x:         | The postal code to check    |
 | streetAddress    | string |        :x:         | The street address to check |
 
 </details>
@@ -174,7 +173,7 @@ $sherlClient->calendar->createCalendarEvent(CreateCalendarEventInputDto $createC
 | ownerUri  | string |   :x:    | The uri of the owner                       |
 | startDate | string |   :x:    | The start date of the event                |
 | endDate   | string |   :x:    | The end date of the event                  |
-| metadatas | mixed  |   :x:    | metadata about the event                   |
+| metadatas | mixed  |   :x:    | Metadata about the event                   |
 
 </details>
 
@@ -187,6 +186,11 @@ This call returns a [CalendarEventDto](calendar-types#CalendarEventDto) class.
 ```php
 $sherlClient->calendar->updateCalendarEvent(string $calendarId, string $eventId,UpdateCalendarEventInputDto $calendarEventData);
 ```
+
+| Fields         |  Type  |      Required      | Description                                      |
+| :------------- | :----: | :----------------: | :----------------------------------------------- |
+| **calendarId** | string | :white_check_mark: | The id of the calendar where to update the event |
+| **eventId**    | string | :white_check_mark: | The id of the event to update                    |
 
 <details>
  <summary><b>UpdateCalendarEventInputDto</b></summary>
@@ -211,9 +215,14 @@ This call returns the updated [CalendarEventDto](calendar-types#CalendarEventDto
 $sherlClient->calendar->deleteCalendarEventRequest(string $calendarEventId);
 ```
 
+| Fields         |  Type  |      Required      | Description                                      |
+| :------------- | :----: | :----------------: | :----------------------------------------------- |
+| **calendarId** | string | :white_check_mark: | The id of the calendar where to delete the event |
+| **eventId**    | string | :white_check_mark: | The id of the event to delete                    |
+
 This call returns true if calendar calendar with id was successfully deleted.
 
-## Get calendar by id
+## Get calendar event by id
 
 <span class="badge badge--warning">Require authentication</span>
 

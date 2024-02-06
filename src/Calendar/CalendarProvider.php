@@ -80,7 +80,10 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_FAILED));
+            throw ErrorHelper::getSherlError(
+                $err,
+                $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_FAILED)
+            );
         }
     }
 
@@ -118,7 +121,10 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::UPDATE_CALENDAR_FAILED));
+            throw ErrorHelper::getSherlError(
+                $err,
+                $this->errorFactory->create(CalendarErr::UPDATE_CALENDAR_FAILED)
+            );
         }
     }
 
@@ -151,7 +157,10 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_FAILED));
+            throw ErrorHelper::getSherlError(
+                $err,
+                $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_FAILED)
+            );
         }
     }
 
@@ -188,7 +197,10 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::GET_ONE_CALENDAR_FAILED));
+            throw ErrorHelper::getSherlError(
+                $err,
+                $this->errorFactory->create(CalendarErr::GET_ONE_CALENDAR_FAILED)
+            );
         }
     }
 
@@ -226,7 +238,10 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::FIND_CALENDAR_AVAILABILITIES_FAILED));
+            throw ErrorHelper::getSherlError(
+                $err,
+                $this->errorFactory->create(CalendarErr::FIND_CALENDAR_AVAILABILITIES_FAILED)
+            );
         }
     }
 
@@ -262,7 +277,10 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CHECK_DATES_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::CHECK_DATES_FAILED));
+            throw ErrorHelper::getSherlError(
+                $err,
+                $this->errorFactory->create(CalendarErr::CHECK_DATES_FAILED)
+            );
         }
     }
 
@@ -294,7 +312,10 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CHECK_LOCATION_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::CHECK_LOCATION_FAILED));
+            throw ErrorHelper::getSherlError(
+                $err,
+                $this->errorFactory->create(CalendarErr::CHECK_LOCATION_FAILED)
+            );
         }
     }
 
@@ -332,7 +353,10 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::FIND_ONE_CALENDAR_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::FIND_ONE_CALENDAR_FAILED));
+            throw ErrorHelper::getSherlError(
+                $err,
+                $this->errorFactory->create(CalendarErr::FIND_ONE_CALENDAR_FAILED)
+            );
         }
     }
 
@@ -372,7 +396,10 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_EVENT_FAILED));
+            throw ErrorHelper::getSherlError(
+                $err,
+                $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_EVENT_FAILED)
+            );
         }
     }
 
@@ -411,7 +438,10 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CALENDAR_OR_CALENDAR_EVENT_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::UPDATE_CALENDAR_EVENT_FAILED));
+            throw ErrorHelper::getSherlError(
+                $err,
+                $this->errorFactory->create(CalendarErr::UPDATE_CALENDAR_EVENT_FAILED)
+            );
         }
     }
 
@@ -444,7 +474,10 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CALENDAR_OR_CALENDAR_EVENT_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_EVENT_FAILED));
+            throw ErrorHelper::getSherlError(
+                $err,
+                $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_EVENT_FAILED)
+            );
         }
     }
 
@@ -483,7 +516,10 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::GET_ALL_CALENDAR_EVENTS_WITH_FILTER_FAILED));
+            throw ErrorHelper::getSherlError(
+                $err,
+                $this->errorFactory->create(CalendarErr::GET_ALL_CALENDAR_EVENTS_WITH_FILTER_FAILED)
+            );
         }
     }
 
@@ -529,7 +565,10 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_EXIST);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENT_BY_ID_FAILED));
+            throw ErrorHelper::getSherlError(
+                $err,
+                $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENT_BY_ID_FAILED)
+            );
         }
     }
 
@@ -565,7 +604,10 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_CURRENT_USER_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_CURRENT_USER_FAILED));
+            throw ErrorHelper::getSherlError(
+                $err,
+                $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_CURRENT_USER_FAILED)
+            );
         }
     }
 
@@ -600,7 +642,10 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_OWNER_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_OWNER_FAILED));
+            throw ErrorHelper::getSherlError(
+                $err,
+                $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_OWNER_FAILED)
+            );
         }
     }
 }

@@ -52,12 +52,6 @@ class CalendarDto
      * @var string
      * @Serializer\Type("string")
      */
-    public $consumerId;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
     public $createdAt;
 
     /**
