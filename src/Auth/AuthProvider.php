@@ -12,208 +12,352 @@ use Sherl\Sdk\Common\SerializerFactory;
 use Sherl\Sdk\Common\Error\SherlException;
 use Sherl\Sdk\Person\Dto\ExternalLoginInputDto;
 
+
+use Sherl\Sdk\Common\Error\ErrorFactory;
+use Sherl\Sdk\Common\Error\ErrorHelper;
+use Sherl\Sdk\Auth\Errors\AuthErr;
+
 class AuthProvider
 {
     public const DOMAIN = "Auth";
     private Client $client;
+    private ErrorFactory $errorFactory;
 
     public function __construct(Client $client)
     {
         $this->client = $client;
-    }
+        $this->errorFactory = new ErrorFactory(self::DOMAIN, AuthErr::$errors);
 
-    /**
-     * @throws SherlException
-     */
-    private function throwSherlAuthError(ResponseInterface $response): SherlException
-    {
-        throw new SherlException(AuthProvider::DOMAIN, $response->getBody()->getContents());
     }
 
     public function signInWithEmailAndPassword(string $username, string $password): ?LoginOutputDto
     {
-        $response = $this->client->post('/api/auth/login', [
-          RequestOptions::JSON => [
-            'username' =>  (string) $username,
-            'password' => (string) $password
-          ],
-          "headers" => [
-            'Content-Type' => 'application/json'
-          ]
-        ]);
+        try {
+            $response = $this->client->post('/api/auth/login', [
+              RequestOptions::JSON => [
+                'username' =>  (string) $username,
+                'password' => (string) $password
+              ],
+              "headers" => [
+                'Content-Type' => 'application/json'
+              ]
+            ]);
 
-        if ($response->getStatusCode() >= 300) {
-            $this->throwSherlAuthError($response);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                LoginOutputDto::class,
+                'json'
+            );
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 401:
+                        throw $this->errorFactory->create(AuthErr::LOGIN_FAILED_UNAUTHORIZED);
+                }
+            }
+            throw $this->errorFactory->create(AuthErr::LOGIN_FAILED);
         }
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            LoginOutputDto::class,
-            'json'
-        );
     }
 
     public function logout(): ?string
     {
-        $response = $this->client->post('/api/auth/logout');
+        try {
+            $response = $this->client->post('/api/auth/logout');
 
-        if ($response->getStatusCode() >= 300) {
-            $this->throwSherlAuthError($response);
+            return "";
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 401:
+                        throw $this->errorFactory->create(AuthErr::LOGOUT_UNAUTHORIZED);
+                }
+            }
+            throw $this->errorFactory->create(AuthErr::LOGOUT_FAILED);
         }
-
-        return "";
     }
 
     public function validateSmsCode(string $mobilePhoneNumber, string $code): ?LoginOutputDto
     {
-        $response = $this->client->post('/api/auth/login/sms/validate', [
-          RequestOptions::JSON => [
-            'mobilePhoneNumber' => (string) $mobilePhoneNumber,
-            'code' => (string) $code
-          ],
-          "headers" => [
-            'Content-Type' => 'application/json'
-          ]
-        ]);
+        try {
+            $response = $this->client->post('/api/auth/login/sms/validate', [
+              RequestOptions::JSON => [
+                'mobilePhoneNumber' => (string) $mobilePhoneNumber,
+                'code' => (string) $code
+              ],
+              "headers" => [
+                'Content-Type' => 'application/json'
+              ]
+            ]);
 
-        if ($response->getStatusCode() >= 300) {
-            $this->throwSherlAuthError($response);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                LoginOutputDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 401:
+                        throw $this->errorFactory->create(AuthErr::VALIDATE_SMS_CODE_FAILED_UNAUTHORIZED);
+                    case 403:
+                        throw $this->errorFactory->create(AuthErr::VALIDATE_SMS_CODE_FAILED_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(AuthErr::SMS_CODE_OR_PHONE_NUMBER_NOT_FOUND);
+                    case 498:
+                        throw $this->errorFactory->create(AuthErr::SMS_VALIDATION_CODE_EXPIRED);
+                }
+            }
+            throw $this->errorFactory->create(AuthErr::VALIDATE_SMS_CODE_FAILED);
         }
 
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            LoginOutputDto::class,
-            'json'
-        );
     }
 
     public function resendSMSCode(string $mobilePhoneNumber): ?bool
     {
-        $response = $this->client->post('/api/auth/login/sms/request-new', [
-          RequestOptions::JSON => [
-            'mobilePhoneNumber' => (string) $mobilePhoneNumber,
-          ],
-          "headers" => [
-            'Content-Type' => 'application/json'
-          ]
-        ]);
+        try {
+            $response = $this->client->post('/api/auth/login/sms/request-new', [
+              RequestOptions::JSON => [
+                'mobilePhoneNumber' => (string) $mobilePhoneNumber,
+              ],
+              "headers" => [
+                'Content-Type' => 'application/json'
+              ]
+            ]);
 
-        if ($response->getStatusCode() >= 300) {
-            $this->throwSherlAuthError($response);
+            return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
+
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(AuthErr::SMS_ALREADY_SENT);
+                    case 404:
+                        throw $this->errorFactory->create(AuthErr::PHONE_NUMBER_NOT_FOUND);
+                }
+            }
+            throw $this->errorFactory->create(AuthErr::RE_REQUEST_SMS_CODE_FAILED);
         }
-
-        return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
     }
 
     public function requestSMSCode(string $mobilePhoneNumber): ?bool
     {
-        $response = $this->client->post('/api/auth/login/sms/request', [
-          RequestOptions::JSON => [
-            'mobilePhoneNumber' => (string) $mobilePhoneNumber,
-          ],
-          "headers" => [
-            'Content-Type' => 'application/json'
-          ]
-        ]);
+        try {
+            $response = $this->client->post('/api/auth/login/sms/request', [
+              RequestOptions::JSON => [
+                'mobilePhoneNumber' => (string) $mobilePhoneNumber,
+              ],
+              "headers" => [
+                'Content-Type' => 'application/json'
+              ]
+            ]);
 
-        if ($response->getStatusCode() >= 300) {
-            $this->throwSherlAuthError($response);
+            return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
+
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(AuthErr::SMS_ALREADY_SENT);
+                    case 404:
+                        throw $this->errorFactory->create(AuthErr::PHONE_NUMBER_NOT_FOUND);
+                }
+            }
+            throw $this->errorFactory->create(AuthErr::RE_REQUEST_SMS_CODE_FAILED);
         }
-
-        return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
     }
 
     public function refreshToken(): ?LoginOutputDto
     {
-        $response = $this->client->post('/api/auth/refesh-token');
+        try {
+            $response = $this->client->post('/api/auth/refesh-token');
 
-        if ($response->getStatusCode() >= 300) {
-            $this->throwSherlAuthError($response);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                LoginOutputDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 401:
+                        throw $this->errorFactory->create(AuthErr::AUTH_UNAUTHORIZED);
+                }
+            }
+            throw $this->errorFactory->create(AuthErr::AUTH_FAILED);
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            LoginOutputDto::class,
-            'json'
-        );
     }
 
     private function externalLogin(string $url, ExternalLoginInputDto $externalLoginInput): ?LoginOutputDto
     {
-        $response = $this->client->post($url, [
-          RequestOptions::JSON => [
-            'id' => $externalLoginInput->id,
-            'emails' => [
-              [
-                'value' => $externalLoginInput->emails->value,
-                'verified' => true
-              ]
-            ],
-            'displayName' => $externalLoginInput->displayName,
-            'name' => [
-              "familyName" => $externalLoginInput->name->familyName,
-              "givenName" => $externalLoginInput->name->givenName
-            ],
-            'locale' => 'fr',
-            'photos' => [
-              [
-                'value' => $externalLoginInput->photos->value
-              ]
-            ]
+        try {
+            $response = $this->client->post($url, [
+              RequestOptions::JSON => [
+                'id' => $externalLoginInput->id,
+                'emails' => [
+                  [
+                    'value' => $externalLoginInput->emails->value,
+                    'verified' => true
+                  ]
+                ],
+                'displayName' => $externalLoginInput->displayName,
+                'name' => [
+                  "familyName" => $externalLoginInput->name->familyName,
+                  "givenName" => $externalLoginInput->name->givenName
+                ],
+                'locale' => 'fr',
+                'photos' => [
+                  [
+                    'value' => $externalLoginInput->photos->value
+                  ]
+                ]
 
-          ],
-          "headers" => [
-            'Content-Type' => 'application/json'
-          ],
-        ]);
+              ],
+              "headers" => [
+                'Content-Type' => 'application/json'
+              ],
+            ]);
 
-        if ($response->getStatusCode() >= 300) {
-            $this->throwSherlAuthError($response);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                LoginOutputDto::class,
+                'json'
+            );
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 401:
+                        throw $this->errorFactory->create(AuthErr::AUTH_UNAUTHORIZED);
+                }
+            }
+            throw $this->errorFactory->create(AuthErr::AUTH_FAILED);
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            LoginOutputDto::class,
-            'json'
-        );
     }
 
     public function loginWithGoogle(ExternalLoginInputDto $googleInput): ?LoginOutputDto
     {
-        return $this->externalLogin('/api/auth/login/google', $googleInput);
+        try {
+            return $this->externalLogin('/api/auth/login/google', $googleInput);
+
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 401:
+                        throw $this->errorFactory->create(AuthErr::LOGIN_GOOGLE_FAILED_UNAUTHORIZED);
+                }
+            }
+            throw $this->errorFactory->create(AuthErr::LOGIN_GOOGLE_FAILED);
+        }
     }
 
     public function loginWithFacebook(ExternalLoginInputDto $facebookInput): ?LoginOutputDto
     {
-        return $this->externalLogin('/api/auth/login/facebook', $facebookInput);
+        try {
+            return $this->externalLogin('/api/auth/login/facebook', $facebookInput);
+
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 401:
+                        throw $this->errorFactory->create(AuthErr::LOGIN_FACEBOOK_FAILED_UNAUTHORIZED);
+                }
+            }
+            throw $this->errorFactory->create(AuthErr::LOGIN_FACEBOOK_FAILED);
+        }
     }
 
     public function loginWithApple(ExternalLoginInputDto $appleInput): ?LoginOutputDto
     {
-        return $this->externalLogin('/api/auth/login/apple', $appleInput);
+        try {
+            return $this->externalLogin('/api/auth/login/apple', $appleInput);
+
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 401:
+                        throw $this->errorFactory->create(AuthErr::LOGIN_APPLE_FAILED_UNAUTHORIZED);
+                }
+            }
+            throw $this->errorFactory->create(AuthErr::LOGIN_APPLE_FAILED);
+        }
     }
 
     public function loginWithCode(string $userId, string $code): ?LoginOutputDto
     {
-        $response = $this->client->post('/api/auth/login/code', [
-          RequestOptions::JSON => [
-            'userId' => $userId,
-            'code' => $code,
+        try {
+            $response = $this->client->post('/api/auth/login/code', [
+              RequestOptions::JSON => [
+                'userId' => $userId,
+                'code' => $code,
 
-          ],
-          "headers" => [
-            'Content-Type' => 'application/json'
-          ],
-        ]);
+              ],
+              "headers" => [
+                'Content-Type' => 'application/json'
+              ],
+            ]);
 
-        if ($response->getStatusCode() >= 300) {
-            $this->throwSherlAuthError($response);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                LoginOutputDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 401:
+                        throw $this->errorFactory->create(AuthErr::LOGIN_WITH_CODE_FAILED_UNAUTHORIZED);
+                    case 404:
+                        throw $this->errorFactory->create(AuthErr::UNKNOWN_LOGIN_CODE);
+                }
+            }
+            throw $this->errorFactory->create(AuthErr::LOGIN_WITH_CODE_FAILED);
         }
-
-        return SerializerFactory::getInstance()->deserialize(
-            $response->getBody()->getContents(),
-            LoginOutputDto::class,
-            'json'
-        );
     }
 }
