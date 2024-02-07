@@ -33,6 +33,14 @@ class BugReportProvider
         $this->errorFactory = new ErrorFactory(self::DOMAIN, BugReportErr::$errors);
     }
 
+    /**
+ * Creates a bug report using the provided bug report input data.
+ *
+ * @param CreateBugReportInputDto $createBugReportInput The input data containing information about the bug report.
+ * @return BugReportOutputDto|null The bug report object representing the created bug report, or null if creation fails.
+ * @throws SherlException If an error occurs during the bug report creation process.
+ */
+
     public function createBugReport(CreateBugReportInputDto $createBugReportInput): ?BugReportOutputDto
     {
         try {
@@ -71,6 +79,13 @@ class BugReportProvider
 
     }
 
+    /**
+ * Retrieves a bug report by its ID.
+ *
+ * @param string $bugReportId The ID of the bug report to retrieve.
+ * @return BugReportOutputDto|null The bug report retrieved, or null if not found.
+ * @throws SherlException If an error occurs during the bug report retrieval process.
+ */
     public function getBugReportById(string $bugReportId): ?BugReportOutputDto
     {
         try {
@@ -104,6 +119,13 @@ class BugReportProvider
 
     }
 
+    /**
+ * Retrieves bug reports based on the provided bug report list input data.
+ *
+ * @param BugReportListInputDto $bugReportListInput The input data containing parameters for bug report retrieval.
+ * @return BugReportListOutputDto|null The list of bug reports retrieved, or null if retrieval fails.
+ * @throws SherlException If an error occurs during the bug report retrieval process.
+ */
     public function getBugReports(BugReportListInputDto $bugReportListInput): ?BugReportListOutputDto
     {
         try {
