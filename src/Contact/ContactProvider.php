@@ -25,6 +25,13 @@ class ContactProvider
         $this->errorFactory = new ErrorFactory(self::DOMAIN, ContactErr::$errors);
     }
 
+    /**
+ * Sends a contact message using the provided contact input data.
+ *
+ * @param ContactInputDto $contactInput The input data containing the contact information.
+ * @return string The response content indicating the success or failure of the contact message sending process.
+ * @throws SherlException If an error occurs during the contact message sending process.
+ */
     public function sendContact(ContactInputDto $contactInput): string
     {
         try {
@@ -56,6 +63,14 @@ class ContactProvider
 
     }
 
+    /**
+ * Contacts a person identified by the provided ID using the provided contact input data.
+ *
+ * @param string $id The ID of the person to contact.
+ * @param ContactInputDto $contactInput The input data containing the contact information.
+ * @return string The response content indicating the success or failure of the contact process with the person.
+ * @throws SherlException If an error occurs during the contact process with the person.
+ */
     public function contactPerson(string $id, ContactInputDto $contactInput): string
     {
         try {
