@@ -37,6 +37,14 @@ class NotificationProvider
         $this->errorFactory = new ErrorFactory(self::DOMAIN, NotificationErr::$errors);
     }
 
+    /**
+ * Retrieves the list of notifications based on the specified filters.
+ *
+ * @param NotificationFiltersInputDto $notificationFiltersInput The notification filters.
+ * @return NotificationListOutputDto|null The list of notifications if successful, null otherwise.
+ * @throws SherlException If retrieving notifications fails.
+ */
+
     public function getNotifications(NotificationFiltersInputDto $notificationFiltersInput): ?NotificationListOutputDto
     {
         try {
@@ -65,6 +73,13 @@ class NotificationProvider
             throw ErrorHelper::getSherlError($err, $this->errorFactory->create(NotificationErr::GET_NOTIFICATIONS_FAILED));
         }
     }
+    /**
+     * Registers the Firebase notification token for push notifications.
+     *
+     * @param string $notificationRegistrationToken The notification registration token.
+     * @return NotificationRegistrationOutputDto|null The output data for the notification registration if successful, null otherwise.
+     * @throws SherlException If registering Firebase notification fails.
+     */
 
     public function registerFirebaseNotification(string $notificationRegistrationToken): ?NotificationRegistrationOutputDto
     {
@@ -96,6 +111,14 @@ class NotificationProvider
             throw ErrorHelper::getSherlError($err, $this->errorFactory->create(NotificationErr::REGISTER_FIREBASE_NOTIFICATION_FAILED));
         }
     }
+    /**
+     * Updates an existing notification with new information.
+     *
+     * @param string $notificationId The ID of the notification to update.
+     * @param NotificationUpdateInputDto $notificationUpdateInput The new notification data.
+     * @return NotificationOutputDto|null The output data of the updated notification if successful, null otherwise.
+     * @throws SherlException If updating the notification fails.
+     */
 
     public function updateNotification(string $notificationId, NotificationUpdateInputDto $notificationUpdateInput): ?NotificationOutputDto
     {
@@ -128,6 +151,14 @@ class NotificationProvider
             throw ErrorHelper::getSherlError($err, $this->errorFactory->create(NotificationErr::UPDATE_NOTIFICATION_FAILED));
         }
     }
+    /**
+     * Disables sending the notification to a specific organization.
+     *
+     * @param string $notificationId The ID of the notification to disable.
+     * @param string $organizationId The ID of the organization to which to disable the notification.
+     * @return NotificationOutputDto|null The output data of the disabled notification if successful, null otherwise.
+     * @throws SherlException If disabling the notification fails.
+     */
 
     public function disableNotificationToOrganization(string $notificationId, string $organizationId): ?NotificationOutputDto
     {
@@ -162,6 +193,15 @@ class NotificationProvider
         }
     }
 
+    /**
+    * Enables sending the notification to a specific organization.
+    *
+    * @param string $notificationId The ID of the notification to enable.
+    * @param string $organizationId The ID of the organization to which to enable the notification.
+    * @return NotificationOutputDto|null The output data of the enabled notification if successful, null otherwise.
+    * @throws SherlException If enabling the notification fails.
+    */
+
     public function enableNotificationToOrganization(string $notificationId, string $organizationId): ?NotificationOutputDto
     {
         try {
@@ -194,6 +234,15 @@ class NotificationProvider
             throw ErrorHelper::getSherlError($err, $this->errorFactory->create(NotificationErr::ENABLE_TO_ORGANIZATION_FAILED));
         }
     }
+
+    /**
+ * Sends a notification of a certain type with the specified data.
+ *
+ * @param NotificationType $notificationType The type of notification to send.
+ * @param SendNotificationInputDto $sendNotificationInput The notification data to send.
+ * @return bool|null True if the notification was successfully sent, false otherwise.
+ * @throws SherlException If sending the notification fails.
+ */
 
     public function sendNotificationByType(NotificationType $notificationType, SendNotificationInputDto $sendNotificationInput): ?bool
     {
