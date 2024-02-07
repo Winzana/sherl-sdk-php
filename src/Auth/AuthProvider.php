@@ -30,6 +30,14 @@ class AuthProvider
 
     }
 
+    /**
+ * Signs in a user with the provided username and password.
+ *
+ * @param string $username The username of the user.
+ * @param string $password The password of the user.
+ * @return LoginOutputDto|null The login output data if successful, null otherwise.
+ * @throws SherlException If an error occurs during the sign-in process.
+ */
     public function signInWithEmailAndPassword(string $username, string $password): ?LoginOutputDto
     {
         try {
@@ -64,6 +72,13 @@ class AuthProvider
 
     }
 
+    /**
+ * Logs out the current user.
+ *
+ * @return string|null Empty string if logout is successful, null otherwise.
+ * @throws SherlException If an error occurs during the logout process.
+ */
+
     public function logout(): ?string
     {
         try {
@@ -84,6 +99,15 @@ class AuthProvider
             throw $this->errorFactory->create(AuthErr::LOGOUT_FAILED);
         }
     }
+
+    /**
+ * Validates an SMS code sent to the provided mobile phone number.
+ *
+ * @param string $mobilePhoneNumber The mobile phone number to validate the SMS code.
+ * @param string $code The SMS code to validate.
+ * @return LoginOutputDto|null The login output data if successful, null otherwise.
+ * @throws SherlException If an error occurs during the SMS code validation process.
+ */
 
     public function validateSmsCode(string $mobilePhoneNumber, string $code): ?LoginOutputDto
     {
@@ -125,6 +149,13 @@ class AuthProvider
         }
 
     }
+    /**
+     * Resends an SMS code to the provided mobile phone number.
+     *
+     * @param string $mobilePhoneNumber The mobile phone number to resend the SMS code.
+     * @return bool|null True if SMS code is resent successfully, false otherwise.
+     * @throws SherlException If an error occurs during the SMS code resending process.
+     */
 
     public function resendSMSCode(string $mobilePhoneNumber): ?bool
     {
@@ -156,6 +187,13 @@ class AuthProvider
             throw $this->errorFactory->create(AuthErr::RE_REQUEST_SMS_CODE_FAILED);
         }
     }
+    /**
+     * Requests a new SMS code to be sent to the provided mobile phone number.
+     *
+     * @param string $mobilePhoneNumber The mobile phone number to request a new SMS code.
+     * @return bool|null True if new SMS code is requested successfully, false otherwise.
+     * @throws SherlException If an error occurs during the SMS code request process.
+     */
 
     public function requestSMSCode(string $mobilePhoneNumber): ?bool
     {
@@ -187,6 +225,12 @@ class AuthProvider
             throw $this->errorFactory->create(AuthErr::RE_REQUEST_SMS_CODE_FAILED);
         }
     }
+    /**
+     * Refreshes the authentication token.
+     *
+     * @return LoginOutputDto|null The login output data if successful, null otherwise.
+     * @throws SherlException If an error occurs during the token refresh process.
+     */
 
     public function refreshToken(): ?LoginOutputDto
     {
@@ -213,7 +257,14 @@ class AuthProvider
             throw $this->errorFactory->create(AuthErr::AUTH_FAILED);
         }
     }
-
+    /**
+     * Logs in a user using external authentication.
+     *
+     * @param string $url The URL for the external login service.
+     * @param ExternalLoginInputDto $externalLoginInput The input data for external authentication.
+     * @return LoginOutputDto|null The login output data if successful, null otherwise.
+     * @throws SherlException If an error occurs during the external login process.
+     */
     private function externalLogin(string $url, ExternalLoginInputDto $externalLoginInput): ?LoginOutputDto
     {
         try {
@@ -263,6 +314,13 @@ class AuthProvider
             throw $this->errorFactory->create(AuthErr::AUTH_FAILED);
         }
     }
+    /**
+     * Logs in a user using Google authentication.
+     *
+     * @param ExternalLoginInputDto $googleInput The input data for Google authentication.
+     * @return LoginOutputDto|null The login output data if successful, null otherwise.
+     * @throws SherlException If an error occurs during the Google login process.
+     */
 
     public function loginWithGoogle(ExternalLoginInputDto $googleInput): ?LoginOutputDto
     {
@@ -283,6 +341,13 @@ class AuthProvider
             throw $this->errorFactory->create(AuthErr::LOGIN_GOOGLE_FAILED);
         }
     }
+    /**
+     * Logs in a user using Facebook authentication.
+     *
+     * @param ExternalLoginInputDto $facebookInput The input data for Facebook authentication.
+     * @return LoginOutputDto|null The login output data if successful, null otherwise.
+     * @throws SherlException If an error occurs during the Facebook login process.
+     */
 
     public function loginWithFacebook(ExternalLoginInputDto $facebookInput): ?LoginOutputDto
     {
@@ -303,6 +368,13 @@ class AuthProvider
             throw $this->errorFactory->create(AuthErr::LOGIN_FACEBOOK_FAILED);
         }
     }
+    /**
+     * Logs in a user using Apple authentication.
+     *
+     * @param ExternalLoginInputDto $appleInput The input data for Apple authentication.
+     * @return LoginOutputDto|null The login output data if successful, null otherwise.
+     * @throws SherlException If an error occurs during the Apple login process.
+     */
 
     public function loginWithApple(ExternalLoginInputDto $appleInput): ?LoginOutputDto
     {
@@ -323,6 +395,14 @@ class AuthProvider
             throw $this->errorFactory->create(AuthErr::LOGIN_APPLE_FAILED);
         }
     }
+    /**
+     * Logs in a user using a provided code.
+     *
+     * @param string $userId The ID of the user.
+     * @param string $code The code for login.
+     * @return LoginOutputDto|null The login output data if successful, null otherwise.
+     * @throws SherlException If an error occurs during the login with code process.
+     */
 
     public function loginWithCode(string $userId, string $code): ?LoginOutputDto
     {
