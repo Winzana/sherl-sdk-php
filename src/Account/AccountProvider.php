@@ -25,6 +25,13 @@ class AccountProvider
         $this->errorFactory = new ErrorFactory(self::DOMAIN, AccountErr::$errors);
     }
 
+    /**
+ * Creates a new user account based on the provided input data.
+ *
+ * @param CreateAccountInputDto $createAccount The input data for creating the account.
+ * @return AccountOutputDto|null The output data for the created account if successful, null otherwise.
+ * @throws SherlException If there is an error during the account creation process.
+ */
     public function createAccount(CreateAccountInputDto $createAccount): ?AccountOutputDto
     {
 
