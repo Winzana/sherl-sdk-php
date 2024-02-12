@@ -15,7 +15,6 @@ use Sherl\Sdk\Opinion\Dto\OpinionFilterDto;
 use Sherl\Sdk\Opinion\Dto\CreateOpinionInputDto;
 use Exception;
 use Sherl\Sdk\Common\Error\ErrorFactory;
-use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Opinion\Errors\OpinionErr;
 
 class OpinionProvider
