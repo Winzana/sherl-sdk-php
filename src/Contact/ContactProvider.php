@@ -10,7 +10,6 @@ use Sherl\Sdk\Contact\Dto\ContactInputDto;
 use Exception;
 
 use Sherl\Sdk\Common\Error\ErrorFactory;
-use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Contact\Errors\ContactErr;
 
 class ContactProvider
