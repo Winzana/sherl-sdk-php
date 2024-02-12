@@ -14,7 +14,6 @@ use Sherl\Sdk\Person\Dto\ExternalLoginInputDto;
 
 
 use Sherl\Sdk\Common\Error\ErrorFactory;
-use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Auth\Errors\AuthErr;
 
 class AuthProvider
@@ -31,7 +30,7 @@ class AuthProvider
     }
 
     /**
- * Signs in a user with the provided username and password.
+ * Logs in a user with the provided username and password.
  *
  * @param string $username The username of the user.
  * @param string $password The password of the user.
