@@ -17,7 +17,6 @@ use Sherl\Sdk\Cms\Dto\FindPostsFiltersDto;
 use Sherl\Sdk\Cms\Dto\CMSArticleUpdateInputDto;
 use Exception;
 use Sherl\Sdk\Common\Error\ErrorFactory;
-use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Common\SerializerFactory;
 use Sherl\Sdk\Cms\Errors\CmsErr;
 
