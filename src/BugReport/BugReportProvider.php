@@ -17,7 +17,6 @@ use Sherl\Sdk\Common\Error\SherlException;
 use Exception;
 
 use Sherl\Sdk\Common\Error\ErrorFactory;
-use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\BugReport\Errors\BugReportErr;
 
 class BugReportProvider
