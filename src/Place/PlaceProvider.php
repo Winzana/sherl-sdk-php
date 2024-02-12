@@ -8,7 +8,6 @@ use Psr\Http\Message\ResponseInterface;
 use Exception;
 use Sherl\Sdk\Common\SerializerFactory;
 use Sherl\Sdk\Common\Error\ErrorFactory;
-use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Place\Errors\PlaceErr;
 use Sherl\Sdk\Place\Dto\PlaceOutputDto;
 use Sherl\Sdk\Place\Dto\PlaceFindByInputDto;
