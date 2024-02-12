@@ -48,20 +48,24 @@ class IamProvider
                 RequestOptions::QUERY => $filters,
                 ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ProfileDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(IamErr::IAM_GET_ALL_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(IamErr::IAM_GET_ALL_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ProfileDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(IamErr::IAM_GET_ALL_FORBIDDEN);
+                }
+                throw $this->errorFactory->create(IamErr::IAM_GET_ALL_FAILED);
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(IamErr::IAM_GET_ALL_FAILED));
+            return null;
         }
     }
 
