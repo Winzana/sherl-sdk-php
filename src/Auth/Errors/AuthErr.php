@@ -18,7 +18,7 @@ class AuthErr
     public const LOGIN_WITH_CODE_FAILED_UNAUTHORIZED = 'auth/login-with-code-failed-unauthorized';
     public const REQUEST_SMS_CODE_FAILED = 'auth/request-sms-code-failed';
     public const REQUEST_SMS_CODE_NOT_FOUND = 'auth/request-sms-code-failed-not-found';
-    public const RE_REQUEST_SMS_CODE_FAILED = 'auth/re-request-sms-code-failed';
+    public const RESEND_SMS_CODE_FAILED = 'auth/resend-sms-code-failed';
     public const VALIDATE_SMS_CODE_FAILED = 'auth/validate-sms-code-failed';
     public const VALIDATE_SMS_CODE_FAILED_UNAUTHORIZED = 'auth/validate-sms-code-failed-unauthorized';
     public const VALIDATE_SMS_CODE_FAILED_FORBIDDEN = 'auth/validate-sms-code-failed-forbidden';
@@ -29,7 +29,8 @@ class AuthErr
     public const PHONE_NUMBER_NOT_FOUND = 'auth/phone-number-not-found';
     public const SMS_CODE_OR_PHONE_NUMBER_NOT_FOUND = 'auth/phone-number-or-code-not-found';
     public const UNKNOWN_LOGIN_CODE = 'auth/unknown-login-code';
-
+    public const REFRESH_TOKEN_UNAUTHORIZED = 'auth/refresh-token-unauthorized';
+    public const REFRESH_TOKEN_FAILED  = 'auth/refresh-token-failed';
 
 
     /** @var array<string, string>
@@ -53,7 +54,7 @@ class AuthErr
        'Failed to connect with code, unauthorized',
       self::REQUEST_SMS_CODE_FAILED => 'Failed to request sms code',
       self::REQUEST_SMS_CODE_NOT_FOUND => 'Failed to request sms code, not found',
-      self::RE_REQUEST_SMS_CODE_FAILED => 'Failed to re-request sms code',
+      self::RESEND_SMS_CODE_FAILED => 'Failed to resend sms code',
       self::VALIDATE_SMS_CODE_FAILED => 'Failed to connect validate sms code',
       self::VALIDATE_SMS_CODE_FAILED_UNAUTHORIZED =>
        'Failed to connect validate sms code, unauthorized',
@@ -67,5 +68,7 @@ class AuthErr
       self::SMS_CODE_OR_PHONE_NUMBER_NOT_FOUND =>
        'Phone number or SMS code not found',
       self::UNKNOWN_LOGIN_CODE => 'Unknown login code',
+      self::REFRESH_TOKEN_UNAUTHORIZED => 'Refresh token is not authorized',
+      self::REFRESH_TOKEN_FAILED => 'refresh token failed',
         ];
 };

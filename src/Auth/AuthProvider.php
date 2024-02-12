@@ -183,7 +183,7 @@ class AuthProvider
                         throw $this->errorFactory->create(AuthErr::PHONE_NUMBER_NOT_FOUND);
                 }
             }
-            throw $this->errorFactory->create(AuthErr::RE_REQUEST_SMS_CODE_FAILED);
+            throw $this->errorFactory->create(AuthErr::RESEND_SMS_CODE_FAILED);
         }
     }
     /**
@@ -221,7 +221,7 @@ class AuthProvider
                         throw $this->errorFactory->create(AuthErr::PHONE_NUMBER_NOT_FOUND);
                 }
             }
-            throw $this->errorFactory->create(AuthErr::RE_REQUEST_SMS_CODE_FAILED);
+            throw $this->errorFactory->create(AuthErr::REQUEST_SMS_CODE_FAILED);
         }
     }
     /**
@@ -234,7 +234,7 @@ class AuthProvider
     public function refreshToken(): ?LoginOutputDto
     {
         try {
-            $response = $this->client->post('/api/auth/refesh-token');
+            $response = $this->client->post('/api/auth/refresh-token');
 
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -250,10 +250,10 @@ class AuthProvider
                 $statusCode = $response->getStatusCode();
                 switch ($statusCode) {
                     case 401:
-                        throw $this->errorFactory->create(AuthErr::AUTH_UNAUTHORIZED);
+                        throw $this->errorFactory->create(AuthErr::REFRESH_TOKEN_UNAUTHORIZED);
                 }
             }
-            throw $this->errorFactory->create(AuthErr::AUTH_FAILED);
+            throw $this->errorFactory->create(AuthErr::REFRESH_TOKEN_FAILED);
         }
     }
     /**
