@@ -20,7 +20,6 @@ use Sherl\Sdk\Common\SerializerFactory;
 use Exception;
 
 use Sherl\Sdk\Common\Error\ErrorFactory;
-use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Claim\Errors\ClaimErr;
 
 class ClaimProvider
