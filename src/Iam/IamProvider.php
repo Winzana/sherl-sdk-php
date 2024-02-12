@@ -8,7 +8,6 @@ use Psr\Http\Message\ResponseInterface;
 use Sherl\Sdk\Common\Error\SherlException;
 use Exception;
 use Sherl\Sdk\Common\Error\ErrorFactory;
-use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Iam\Errors\IamErr;
 use Sherl\Sdk\Iam\Dto\IamProfilesFilterDto;
 use Sherl\Sdk\Iam\Dto\ProfileDto;
