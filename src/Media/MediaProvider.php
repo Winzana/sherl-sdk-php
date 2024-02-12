@@ -11,7 +11,6 @@ use Sherl\Sdk\Media\Errors\MediaErr;
 use Sherl\Sdk\Common\SerializerFactory;
 use Exception;
 use Sherl\Sdk\Common\Error\ErrorFactory;
-use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Opinion\Errors\OpinionErr;
 use Sherl\Sdk\Media\Dto\MediaQueryDto;
 use Sherl\Sdk\Media\Dto\ImageObjectOutputDto;
