@@ -107,7 +107,7 @@ class NotificationProvider
                         throw $this->errorFactory->create(NotificationErr::REGISTER_FIREBASE_NOTIFICATION_FORBIDDEN);
                 }
             }
-            throw $this->errorFactory->create(NotificationErr:: REGISTER_FIREBASE_NOTIFICATION_FAILED);
+            throw $this->errorFactory->create(NotificationErr::REGISTER_FIREBASE_NOTIFICATION_FAILED);
         }
     }
     /**
