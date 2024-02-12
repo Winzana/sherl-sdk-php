@@ -9,7 +9,6 @@ use Psr\Http\Message\ResponseInterface;
 
 use Sherl\Sdk\Common\Error\SherlException;
 use Sherl\Sdk\Common\Error\ErrorFactory;
-use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Search\Errors\SearchErr;
 use Exception;
 
@@ -49,20 +48,23 @@ class SearchProvider
                 RequestOptions::QUERY => $filters,
               ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        SearchResultOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(SearchErr::SEARCH_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(SearchErr::SEARCH_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                SearchResultOutputDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(SearchErr::SEARCH_FORBIDDEN);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(SearchErr::SEARCH_FAILED));
+            throw $this->errorFactory->create(SearchErr::SEARCH_FAILED);
         }
     }
 }

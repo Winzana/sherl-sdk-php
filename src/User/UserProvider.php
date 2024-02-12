@@ -8,6 +8,9 @@ use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 
 use Sherl\Sdk\Common\Error\SherlException;
+use Sherl\Sdk\Common\Error\ErrorFactory;
+use Sherl\Sdk\User\Errors\UserErr;
+use Exception;
 
 use Sherl\Sdk\User\Dto\ValidateResetPasswordInputDto;
 
@@ -16,74 +19,95 @@ class UserProvider
     public const DOMAIN = "User";
 
     private Client $client;
+    private ErrorFactory $errorFactory;
 
     public function __construct(Client $client)
     {
         $this->client = $client;
-    }
-
-    /**
-     * @throws SherlException
-     */
-    private function throwSherlUserException(ResponseInterface $response): SherlException
-    {
-        throw new SherlException(UserProvider::DOMAIN, $response->getBody()->getContents());
+        $this->errorFactory = new ErrorFactory(self::DOMAIN, UserErr::$errors);
     }
 
     public function forgotPasswordRequest(string $email): ?bool
     {
-        $response = $this->client->post('/api/user/password/forgot-request', [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => [
-            "email" => $email
-          ]
-        ]);
+        try {
+            $response = $this->client->post('/api/user/password/forgot-request', [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::JSON => [
+                "email" => $email
+              ]
+            ]);
 
-        if ($response->getStatusCode() >= 300) {
-            $this->throwSherlUserException($response);
+            return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(UserErr::RESET_PASSWORD_REQUEST_FORBIDDEN);
+                }
+            }
+            throw $this->errorFactory->create(UserErr::RESET_PASSWORD_REQUEST_FAILED);
         }
-
-        return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
     }
 
     public function forgotPasswordValidation(ValidateResetPasswordInputDto $validateResetPasswordInput): ?bool
     {
-        $response = $this->client->post('/api/user/password/forgot-validate', [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => [
-            "password" => $validateResetPasswordInput->password,
-            "passwordRepeat" => $validateResetPasswordInput->passwordRepeat,
-            "token" => $validateResetPasswordInput->token
-          ]
-        ]);
+        try {
+            $response = $this->client->post('/api/user/password/forgot-validate', [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::JSON => [
+                "password" => $validateResetPasswordInput->password,
+                "passwordRepeat" => $validateResetPasswordInput->passwordRepeat,
+                "token" => $validateResetPasswordInput->token
+              ]
+            ]);
 
-        if ($response->getStatusCode() >= 300) {
-            $this->throwSherlUserException($response);
+            return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(UserErr::RESET_PASSWORD_VALIDATE_FORBIDDEN);
+                }
+            }
+            throw $this->errorFactory->create(UserErr::RESET_PASSWORD_VALIDATE_FAILED);
         }
-
-        return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
     }
 
     public function changePassword(string $password, string $passwordRepeat): ?bool
     {
-        $response = $this->client->post('/api/user/password/forgot-validate', [
-          "headers" => [
-            "Content-Type" => "application/json",
-          ],
-          RequestOptions::JSON => [
-            "password" => $password,
-            "passwordRepeat" => $passwordRepeat,
-          ]
-        ]);
+        try {
+            $response = $this->client->post('/api/user/password/forgot-validate', [
+              "headers" => [
+                "Content-Type" => "application/json",
+              ],
+              RequestOptions::JSON => [
+                "password" => $password,
+                "passwordRepeat" => $passwordRepeat,
+              ]
+            ]);
 
-        if ($response->getStatusCode() >= 300) {
-            $this->throwSherlUserException($response);
+            return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(UserErr::UPDATE_MY_PASSWORD_FORBIDDEN);
+                }
+            }
+            throw $this->errorFactory->create(UserErr::UPDATE_MY_PASSWORD_FAILED);
         }
-
-        return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
     }
 }
