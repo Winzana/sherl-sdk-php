@@ -60,7 +60,7 @@ class QuotaProvider
 
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(QuotaErr::FETCH_QUOTA_FIND_ONE_BY_FAILED));
+            throw $this->errorFactory->create(QuotaErr::FETCH_QUOTA_FIND_ONE_BY_FAILED);
         }
     }
 }
