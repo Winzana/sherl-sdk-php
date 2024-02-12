@@ -8,7 +8,7 @@ title: Payment
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$creditCard = $shopClient->requestCredentialsToAddCard();
+$creditCard = $client->$shop->requestCredentialsToAddCard();
 ```
 
 This call returns an [CreditCardDto](../shop-types#CreditCardDto) object.
@@ -22,7 +22,7 @@ This call returns an [CreditCardDto](../shop-types#CreditCardDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$person = $shopClient->saveCard(string $cardId, string $token);
+$person = $client->$shop->saveCard(string $cardId, string $token);
 ```
 
 This call returns an [PersonOutputDto](../shop-types#PersonOutputDto) object.
@@ -32,7 +32,7 @@ This call returns an [PersonOutputDto](../shop-types#PersonOutputDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$person = $shopClient->deleteCard(string $cardId);
+$person = $client->$shop->deleteCard(string $cardId);
 ```
 
 This call returns an [PersonOutputDto](../shop-types#PersonOutputDto) object.
@@ -42,7 +42,7 @@ This call returns an [PersonOutputDto](../shop-types#PersonOutputDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$person = $shopClient->setDefaultCard(string $cardId);
+$person = $client->$shop->setDefaultCard(string $cardId);
 ```
 
 This call returns an [PersonOutputDto](../shop-types#PersonOutputDto) object.
@@ -52,7 +52,7 @@ This call returns an [PersonOutputDto](../shop-types#PersonOutputDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$creditCard = $shopClient->validateCard(string $cardId);
+$creditCard = $client->$shop->validateCard(string $cardId);
 ```
 
 This call returns an [CreditCardDto](../shop-types#CreditCardDto) object.

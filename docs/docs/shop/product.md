@@ -8,7 +8,7 @@ title: Product
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$products = $shopClient->getProducts(ProductFindByDto $filters);
+$products = $client->$shop->getProducts(ProductFindByDto $filters);
 ```
 
 **IProductFindByDto** extends [PaginationFiltersInputDto](../pagination#PaginationFiltersInputDto)
@@ -58,7 +58,7 @@ This call returns a [paginated](../pagination#pagination) array of [ProductPagin
 <span class="badge badge--success">Public</span>
 
 ```php
-$publicProducts = $shopClient->getPublicProducts(ProductFindByDto $filters);
+$publicProducts = $client->$shop->getPublicProducts(ProductFindByDto $filters);
 ```
 
 This call returns a [paginated](../pagination#pagination) array of [ProductPaginatedResultDto](../shop-types#ProductPaginatedResultDto) objects.
@@ -68,7 +68,7 @@ This call returns a [paginated](../pagination#pagination) array of [ProductPagin
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$product = $shopClient->getProduct(string $id);
+$product = $client->$shop->getProduct(string $id);
 ```
 
 This call returns an [ProductResponseDto](../shop-types#ProductResponseDto) object.
@@ -78,7 +78,7 @@ This call returns an [ProductResponseDto](../shop-types#ProductResponseDto) obje
 <span class="badge badge--success">Public</span>
 
 ```php
-$publicProduct = $shopClient->getPublicProductBySlug(string $slug);
+$publicProduct = $client->$shop->getPublicProductBySlug(string $slug);
 ```
 
 This call returns an [PublicProductResponseDto](../shop-types#PublicProductResponseDto) object.
@@ -88,7 +88,7 @@ This call returns an [PublicProductResponseDto](../shop-types#PublicProductRespo
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$comment = $shopClient->addCommentOnProduct(AddCommentOnProductDto $productComment);
+$comment = $client->$shop->addCommentOnProduct(AddCommentOnProductDto $productComment);
 ```
 
 This call returns an [CommentDto](../shop-types#CommentDto) object.
@@ -98,7 +98,7 @@ This call returns an [CommentDto](../shop-types#CommentDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$comments = $shopClient->getProductComments(string $productId, FindProductCommentsInputDto $filters);
+$comments = $client->$shop->getProductComments(string $productId, FindProductCommentsInputDto $filters);
 ```
 
 This call returns an [SearchResultDto](../pagination#SearchResultDto) of [ProductCommentsResult](../shop-types#ProductCommentsResult) objects.
@@ -108,7 +108,7 @@ This call returns an [SearchResultDto](../pagination#SearchResultDto) of [Produc
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$productResponse = $shopClient->addOptionToProduct(string $productId, mixed $option);
+$productResponse = $client->$shop->addOptionToProduct(string $productId, mixed $option);
 ```
 
 This call returns an [ProductOutputDto](../shop-types#ProductOutputDto) object.
@@ -118,7 +118,7 @@ This call returns an [ProductOutputDto](../shop-types#ProductOutputDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$productResponse = $shopClient->removeProductOption(string $productId, string $optionId);
+$productResponse = $client->$shop->removeProductOption(string $productId, string $optionId);
 ```
 
 This call returns an [ProductOutputDto](../shop-types#ProductOutputDto) object.
@@ -128,7 +128,7 @@ This call returns an [ProductOutputDto](../shop-types#ProductOutputDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$likesCount = $shopClient->addLikeToProduct(string $productId);
+$likesCount = $client->$shop->addLikeToProduct(string $productId);
 ```
 
 This call returns the current number of likes.
@@ -138,7 +138,7 @@ This call returns the current number of likes.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$likesCount = $shopClient->getProductLikes(string $productId);
+$likesCount = $client->$shop->getProductLikes(string $productId);
 ```
 
 This call returns the current number of likes.
@@ -148,7 +148,7 @@ This call returns the current number of likes.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$viewsCount = $shopClient->getProductViews(string $productId);
+$viewsCount = $client->$shop->getProductViews(string $productId);
 ```
 
 This call returns the current number of views.

@@ -8,7 +8,7 @@ title: Subscription
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$subscription = $shopClient->getSubscriptionFindOneBy(SubscriptionFindOnByDto $filters);
+$subscription = $client->$shop->getSubscriptionFindOneBy(SubscriptionFindOnByDto $filters);
 ```
 
 <details>
@@ -36,7 +36,7 @@ This call returns an [SubscriptionDto](../shop-types#SubscriptionDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cancelledSubscription = $shopClient->cancelSubscription(string $subscriptionId);
+$cancelledSubscription = $client->$shop->cancelSubscription(string $subscriptionId);
 ```
 
 This call returns an updated [SubscriptionDto](../shop-types#SubscriptionDto) object, typically reflecting its cancelled status.

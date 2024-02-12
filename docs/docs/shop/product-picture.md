@@ -8,7 +8,7 @@ title: Product picture
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$productResponse = $shopClient->addPictureToProduct(string $productId, string $mediaId);
+$productResponse = $client->$shop->addPictureToProduct(string $productId, string $mediaId);
 ```
 
 This call returns an [ProductResponseDto](../shop-types#ProductResponseDto) object.
@@ -18,7 +18,7 @@ This call returns an [ProductResponseDto](../shop-types#ProductResponseDto) obje
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$productResponse = $shopClient->removePictureToProduct(string $productId, string $mediaId);
+$productResponse = $client->$shop->removePictureToProduct(string $productId, string $mediaId);
 ```
 
 This call returns an [ProductResponseDto](../shop-types#ProductResponseDto) object.

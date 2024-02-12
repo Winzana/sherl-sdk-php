@@ -11,7 +11,6 @@ use Sherl\Sdk\Common\SerializerFactory;
 // ERRORS MANAGEMENT
 use Sherl\Sdk\Common\Error\SherlException;
 use Sherl\Sdk\Common\Error\ErrorFactory;
-use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Shop\Errors\ShopErr;
 use Exception;
 
