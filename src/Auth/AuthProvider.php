@@ -220,12 +220,6 @@ class AuthProvider
             throw $this->errorFactory->create(AuthErr::REQUEST_SMS_CODE_FAILED);
         }
     }
-    /**
-     * Refreshes the authentication token.
-     *
-     * @return LoginOutputDto|null The login output data if successful, null otherwise.
-     * @throws SherlException If an error occurs during the token refresh process.
-     */
 
     /**
      * Refreshes the authentication token for the current session.
@@ -418,14 +412,6 @@ class AuthProvider
             throw $this->errorFactory->create(AuthErr::LOGIN_APPLE_FAILED);
         }
     }
-    /**
-     * Logs in a user using a provided code.
-     *
-     * @param string $userId The ID of the user.
-     * @param string $code The code for login.
-     * @return LoginOutputDto|null The login output data if successful, null otherwise.
-     * @throws SherlException If an error occurs during the login with code process.
-     */
 
     /**
      * Performs login using a unique code.
