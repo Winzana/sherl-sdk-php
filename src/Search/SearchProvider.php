@@ -9,7 +9,6 @@ use Psr\Http\Message\ResponseInterface;
 
 use Sherl\Sdk\Common\Error\SherlException;
 use Sherl\Sdk\Common\Error\ErrorFactory;
-use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Search\Errors\SearchErr;
 use Exception;
 
