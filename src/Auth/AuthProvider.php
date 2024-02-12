@@ -30,14 +30,6 @@ class AuthProvider
     }
 
     /**
-     * @throws SherlException
-     */
-    private function throwSherlAuthError(ResponseInterface $response): SherlException
-    {
-        throw new SherlException(AuthProvider::DOMAIN, $response->getBody()->getContents());
-    }
-
-    /**
      * Performs sign-in with email and password credentials.
      *
      * @param string $username The user's username.
