@@ -1,6 +1,6 @@
 <?php
 
-namespace Sherl\Sdk\User\Errors;
+namespace Sherl\Sdk\User\Error;
 
 class UserErr
 {
