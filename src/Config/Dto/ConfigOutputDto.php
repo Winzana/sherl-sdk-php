@@ -1,50 +1,50 @@
 <?php
 
-namespace Sherl\Sdk\Media\Dto;
+namespace Sherl\Sdk\Config\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class MediaObjectOutputDto
+class ConfigOutputDto
 {
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $contentUrl;
+    public $id;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $description;
+    public $code;
+
+    /**
+     * @var mixed
+     * @Serializer\Type("mixed")
+     */
+    public $value;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $duration;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $encodingFormat;
+    public $consumer;
 
     /**
      * @var integer
      * @Serializer\Type("integer")
      */
-    public $size;
+    public $position;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $name;
+    public $appliedTo;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var boolean
+     * @Serializer\Type("boolean")
      */
-    public $id;
+    public $isPublic;
 }
