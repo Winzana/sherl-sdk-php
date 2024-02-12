@@ -54,20 +54,26 @@ class GalleryProvider
               RequestOptions::JSON => $gallery,
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        GalleryOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(GalleryErr::CREATE_GALLERY_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(GalleryErr::CREATE_GALLERY_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                GalleryOutputDto::class,
+                'json'
+            );
+
+
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+
+                    case 403:
+                        throw $this->errorFactory->create(GalleryErr::CREATE_GALLERY_FORBIDDEN);
+
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(GalleryErr::CREATE_GALLERY_FAILED));
+            throw $this->errorFactory->create(GalleryErr::CREATE_GALLERY_FAILED);
         }
     }
 
@@ -87,23 +93,27 @@ class GalleryProvider
               ],
               RequestOptions::QUERY => $dynamicBackgroundId,
             ]);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                DynamicBackgroundOutputDto::class,
+                'json'
+            );
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        DynamicBackgroundOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(GalleryErr::DELETE_DYNAMIC_BACKGROUND_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(GalleryErr::DYNAMIC_BACKGROUND_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(GalleryErr::DELETE_DYNAMIC_BACKGROUND_FAILED);
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+
+                    case 403:
+                        throw $this->errorFactory->create(GalleryErr::DELETE_DYNAMIC_BACKGROUND_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(GalleryErr::DYNAMIC_BACKGROUND_NOT_FOUND);
+
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(GalleryErr::DELETE_DYNAMIC_BACKGROUND_FAILED));
+            throw $this->errorFactory->create(GalleryErr::DELETE_DYNAMIC_BACKGROUND_FAILED);
         }
     }
 
@@ -123,22 +133,25 @@ class GalleryProvider
               ],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        GalleryOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(GalleryErr::DELETE_GALLERY_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(GalleryErr::GALLERY_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(GalleryErr::DELETE_GALLERY_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                GalleryOutputDto::class,
+                'json'
+            );
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+
+                    case 403:
+                        throw $this->errorFactory->create(GalleryErr::DELETE_GALLERY_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(GalleryErr::GALLERY_NOT_FOUND);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(GalleryErr::DELETE_GALLERY_FAILED));
+
+            throw $this->errorFactory->create(GalleryErr::DELETE_GALLERY_FAILED);
         }
     }
 
@@ -158,21 +171,24 @@ class GalleryProvider
               ],
               RequestOptions::QUERY => $filters,
             ]);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                DynamicBackgroundOutputDto::class,
+                'json'
+            );
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        DynamicBackgroundOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(GalleryErr::GET_DYNAMIC_BACKGROUNDS_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(GalleryErr::GET_DYNAMIC_BACKGROUNDS_FAILED);
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(GalleryErr::GET_DYNAMIC_BACKGROUNDS_FORBIDDEN);
+
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(GalleryErr::GET_DYNAMIC_BACKGROUNDS_FAILED));
+
+            throw $this->errorFactory->create(GalleryErr::GET_DYNAMIC_BACKGROUNDS_FAILED);
         }
     }
 
@@ -192,21 +208,26 @@ class GalleryProvider
               ],
               RequestOptions::QUERY => $filters,
             ]);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                GalleryOutputDto::class,
+                'json'
+            );
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        GalleryOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(GalleryErr::GET_GALLERIES_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(GalleryErr::GET_GALLERIES_FAILED);
+
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+
+                    case 403:
+                        throw $this->errorFactory->create(GalleryErr::GET_GALLERIES_FORBIDDEN);
+
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(GalleryErr::GET_GALLERIES_FAILED));
+
+            throw $this->errorFactory->create(GalleryErr::GET_GALLERIES_FAILED);
         }
     }
 
@@ -219,21 +240,26 @@ class GalleryProvider
               ],
               RequestOptions::JSON => $dynamicBackground,
             ]);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                DynamicBackgroundOutputDto::class,
+                'json'
+            );
 
-            switch ($response->getStatusCode()) {
-                case 201:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        DynamicBackgroundOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(GalleryErr::ADD_DYNAMIC_BACKGROUND_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(GalleryErr::ADD_DYNAMIC_BACKGROUND_FAILED);
+
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+
+
+                    case 403:
+                        throw $this->errorFactory->create(GalleryErr::ADD_DYNAMIC_BACKGROUND_FORBIDDEN);
+
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(GalleryErr::ADD_DYNAMIC_BACKGROUND_FAILED));
+            throw $this->errorFactory->create(GalleryErr::ADD_DYNAMIC_BACKGROUND_FAILED);
         }
     }
 
@@ -253,23 +279,26 @@ class GalleryProvider
               ],
               RequestOptions::JSON => $dynamicBackground,
             ]);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                DynamicBackgroundOutputDto::class,
+                'json'
+            );
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        DynamicBackgroundOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(GalleryErr::UPDATE_DYNAMIC_BACKGROUND_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(GalleryErr::DYNAMIC_BACKGROUND_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(GalleryErr::UPDATE_DYNAMIC_BACKGROUND_FAILED);
+        } catch (\Exception $err) {
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+
+                    case 403:
+                        throw $this->errorFactory->create(GalleryErr::UPDATE_DYNAMIC_BACKGROUND_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(GalleryErr::DYNAMIC_BACKGROUND_NOT_FOUND);
+
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(GalleryErr::UPDATE_DYNAMIC_BACKGROUND_FAILED));
+            throw $this->errorFactory->create(GalleryErr::UPDATE_DYNAMIC_BACKGROUND_FAILED);
         }
     }
 }

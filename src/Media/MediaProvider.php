@@ -45,26 +45,25 @@ class MediaProvider
                 "headers" => [
                     "Content-Type" => "application/json",
                 ],
-                RequestOptions::QUERY => [
-                    "id" => $id,
-                ],
             ],
             );
 
+            return $response->getBody()->getContents();
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return $response->getBody()->getContents();
+        } catch (\Exception $err) {
 
-                case 403:
-                    throw $this->errorFactory->create(MediaErr::DELETE_FILE_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(MediaErr::MEDIA_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(MediaErr::DELETE_FILE_FAILED);
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(MediaErr::DELETE_FILE_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(MediaErr::MEDIA_NOT_FOUND);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(MediaErr::DELETE_FILE_FAILED));
+            throw $this->errorFactory->create(MediaErr::DELETE_FILE_FAILED);
         }
     }
     /**
@@ -81,28 +80,30 @@ class MediaProvider
                 [
 
             RequestOptions::QUERY => [
-                "id" => $id,
                 "query" => $query,
             ],
             ]
             );
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ImageObjectOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(MediaErr::GET_FILE_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(MediaErr::MEDIA_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(MediaErr::GET_FILE_FAILED);
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ImageObjectOutputDto::class,
+                'json'
+            );
+
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(MediaErr::GET_FILE_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(MediaErr::MEDIA_NOT_FOUND);
+                }
             }
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(MediaErr::GET_FILE_FAILED));
+            throw $this->errorFactory->create(MediaErr::GET_FILE_FAILED);
         }
     }
     /**
@@ -130,21 +131,24 @@ class MediaProvider
                 RequestOptions::JSON => $formData
             ],
             );
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ImageObjectOutputDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(MediaErr::UPLOAD_FILE_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(MediaErr::UPLOAD_FILE_FAILED);
-            }
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ImageObjectOutputDto::class,
+                'json'
+            );
 
-        } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(MediaErr::UPLOAD_FILE_FAILED));
+        } catch (\Exception $err) {
+
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(MediaErr::UPLOAD_FILE_FORBIDDEN);
+                }
+            }
+            throw $this->errorFactory->create(MediaErr::UPLOAD_FILE_FAILED);
         }
     }
 }
