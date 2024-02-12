@@ -9,7 +9,6 @@ use Psr\Http\Message\ResponseInterface;
 
 use Sherl\Sdk\Common\Error\SherlException;
 use Sherl\Sdk\Common\Error\ErrorFactory;
-use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Notification\Errors\NotificationErr;
 use Exception;
 
@@ -70,7 +69,7 @@ class NotificationProvider
                         throw $this->errorFactory->create(NotificationErr::GET_NOTIFICATIONS_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(NotificationErr::GET_NOTIFICATIONS_FAILED));
+            throw $this->errorFactory->create(NotificationErr::GET_NOTIFICATIONS_FAILED);
         }
     }
     /**
@@ -108,7 +107,7 @@ class NotificationProvider
                         throw $this->errorFactory->create(NotificationErr::REGISTER_FIREBASE_NOTIFICATION_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(NotificationErr::REGISTER_FIREBASE_NOTIFICATION_FAILED));
+            throw $this->errorFactory->create(NotificationErr:: REGISTER_FIREBASE_NOTIFICATION_FAILED);
         }
     }
     /**
@@ -148,7 +147,7 @@ class NotificationProvider
                         throw $this->errorFactory->create(NotificationErr::NOTIFICATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(NotificationErr::UPDATE_NOTIFICATION_FAILED));
+            throw $this->errorFactory->create(NotificationErr::UPDATE_NOTIFICATION_FAILED);
         }
     }
     /**
@@ -189,7 +188,7 @@ class NotificationProvider
                         throw $this->errorFactory->create(NotificationErr::NOTIFICATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(NotificationErr::DISABLE_TO_ORGANIZATION_FAILED));
+            throw $this->errorFactory->create(NotificationErr::DISABLE_TO_ORGANIZATION_FAILED);
         }
     }
 
@@ -231,7 +230,7 @@ class NotificationProvider
                         throw $this->errorFactory->create(NotificationErr::NOTIFICATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(NotificationErr::ENABLE_TO_ORGANIZATION_FAILED));
+            throw $this->errorFactory->create(NotificationErr::ENABLE_TO_ORGANIZATION_FAILED);
         }
     }
 
@@ -268,7 +267,7 @@ class NotificationProvider
                         throw $this->errorFactory->create(NotificationErr::TYPE_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(NotificationErr::SEND_NOTIFICATION_BY_TYPE_FAILED));
+            throw $this->errorFactory->create(NotificationErr::SEND_NOTIFICATION_BY_TYPE_FAILED);
         }
     }
 }
