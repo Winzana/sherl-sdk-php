@@ -4,17 +4,17 @@ namespace Sherl\Sdk\Person\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class FrequentedEstablishmentDto {
+class FrequentedEstablishmentDto
+{
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $organizationId;
 
-  /**
-   * @var string
-   * @Serializer\Type("string")
-   */
-  public $organizationId;
-
-  /**
-   * @var boolean
-   * @Serializer\Type("boolean")
-   */
-  public $isCustomer;
+    /**
+     * @var boolean
+     * @Serializer\Type("boolean")
+     */
+    public $isCustomer;
 }

@@ -6,7 +6,7 @@ use JMS\Serializer\Annotation as Serializer;
 
 use Sherl\Sdk\Place\Dto\AddressFilterDto;
 
-class OrganizationFilterDto 
+class OrganizationFilterDto
 {
     /**
      * @var string
