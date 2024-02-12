@@ -3,8 +3,6 @@
 namespace Sherl\Sdk\Organization\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
-
-use Sherl\Sdk\Organization\Dto\MediaInputDto;
 use Sherl\Sdk\Organization\Dto\CaptionInputDto;
 
 class MediaInputDto
@@ -23,7 +21,7 @@ class MediaInputDto
 
     /**
      * @var CaptionInputDto
-     * @Serializer\Type("CaptionInputDto")
+     * @Serializer\Type("Sherl\Sdk\Organization\Dto\CaptionInputDto")
      */
     public $caption;
 
