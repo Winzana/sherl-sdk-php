@@ -76,8 +76,8 @@ $sherlClient->person->getPersons(PersonFiltersDto $filters);
 | **gender**                    |        `string`        | :x:      | The person gender to filter                        |
 | **jobTitle**                  |        `string`        | :x:      | The person job title to filter                     |
 | **enabled**                   |       `boolean`        | :x:      | The person account status to filter                |
-| **createdAt**                 |        `string`        | :x:      | The person creation date to filter                 |
-| **updatedAt**                 |        `string`        | :x:      | The person update date to filter                   |
+| **createdAt**                 |       `DateTime`       | :x:      | The person creation date to filter                 |
+| **updatedAt**                 |       `DateTime`       | :x:      | The person update date to filter                   |
 | **analytics**                 |        `string`        | :x:      | The person analytics to filter                     |
 | **noFrequentedEstablishment** |        `string`        | :x:      | The person not frequenting establishment to filter |
 | **type**                      |      `PersonType`      | :x:      | The person type to filter                          |
