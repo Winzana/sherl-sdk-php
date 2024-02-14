@@ -142,37 +142,37 @@ class OrganizationFiltersDto
 
     /**
      * @var string
-     * @Serializer(Type("string"))
+     * @Serializer\Type("string")
      */
     public $facetted;
 
     /**
      * @var string
-     * @Serializer(Type("string"))
+     * @Serializer\Type("string")
      */
     public $analytics;
 
     /**
      * @var string[]
-     * @Serializer(Type("array<string>"))
+     * @Serializer\Type("array<string>")
      */
     public $opinion;
 
     /**
      * @var string[]
-     * @Serializer(Type("array<string>"))
+     * @Serializer\Type("array<string>")
      */
     public $price;
 
     /**
      * @var string[]
-     * @Serializer(Type("array<string>"))
+     * @Serializer\Type("array<string>")
      */
     public $category;
 
     /**
      * @var string[]
-     * @Serializer(Type("array<string>"))
+     * @Serializer\Type("array<string>")
      */
     public $subCategory;
 
