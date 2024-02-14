@@ -10,7 +10,7 @@ title: Place
 Retrieve a paginated list of places with optional query filters.
 
 ```php
-$places = $sherlClient->place->getPlaces(int $page, int $itemsPerPage, PlaceFindByInputDto $filters);
+$places = $sherlClient->place->getPlaces(PlaceFindByInputDto $filters, int $page, int $itemsPerPage,);
 ```
 
 <details>

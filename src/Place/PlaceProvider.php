@@ -41,10 +41,10 @@ class PlaceProvider
         try {
             $response = $this->client->get('/api/public/places', [
 
+                RequestOptions::JSON => $filters,
                 RequestOptions::QUERY => [
-                    "filters" => $filters,
                     "page" => $page,
-                    "itemsperpage" => $itemsPerPage
+                    "itemsPerPage" => $itemsPerPage
                 ],
             ]);
             return SerializerFactory::getInstance()->deserialize(
@@ -63,7 +63,7 @@ class PlaceProvider
 
                 }
             }
+            throw $this->errorFactory->create(PlaceErr::FETCH_PLACES_FAILED);
         }
-    throw $this->errorFactory->create(PlaceErr::FETCH_PLACES_FAILED);
     }
 }
