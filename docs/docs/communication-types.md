@@ -17,4 +17,24 @@ title: Communication types
 | **channel**     | `CommunicationChannelEnum` | The communication channel           |
 | **type**        |  `CommunicationTypeEnum`   | The communication type              |
 | **code**        |          `string`          | The communication code              |
-| **createdAt**   |          `string`          | The communication creation date     |
+| **createdAt**   |         `DateTime`         | The communication creation date     |
+
+## CommunicationChannelEnum
+
+| Values        |   Type   |
+| :------------ | :------: |
+| **EMAIL**     | `string` |
+| **SMS**       | `string` |
+| **PUSH**      | `string` |
+| **WHATSAPP**  | `string` |
+| **FACEBOOK**  | `string` |
+| **TWITTER**   | `string` |
+| **INSTAGRAM** | `string` |
+| **TELEGRAM**  | `string` |
+
+## CommunicationTypeEnum
+
+| Fields            |   Type   |
+| :---------------- | :------: |
+| **MESSAGING**     | `string` |
+| **TRANSACTIONAL** | `string` |

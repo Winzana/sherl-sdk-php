@@ -9,7 +9,6 @@ use Psr\Http\Message\ResponseInterface;
 
 use Sherl\Sdk\Common\Error\SherlException;
 use Sherl\Sdk\Common\Error\ErrorFactory;
-use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Communication\Errors\CommunicationErr;
 use Exception;
 
@@ -67,7 +66,7 @@ class CommunicationProvider
                         throw $this->errorFactory->create(CommunicationErr::COMMUNICATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(CommunicationErr::GET_COMMUNICATION_FAILED));
+            throw $this->errorFactory->create(CommunicationErr::GET_COMMUNICATION_FAILED);
         }
     }
 }

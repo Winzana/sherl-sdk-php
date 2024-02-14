@@ -61,13 +61,13 @@ class CommunicationOutputDto
 
     /**
      * @var CommunicationChannelEnum
-     * @Serializer\Type("Sherl\Sdk\Communication\Enum\CommunicationChannelEnum")
+     * @Serializer\Type(enum<'Sherl\Sdk\Communication\Enum\CommunicationChannelEnum', 'value'>")
      */
     public $channel;
 
     /**
      * @var CommunicationTypeEnum
-     * @Serializer\Type("Sherl\Sdk\Communication\Enum\CommunicationTypeEnum")
+     * @Serializer\Type("enum<'Sherl\Sdk\Communication\Enum\CommunicationTypeEnum', 'value'>")
      */
     public $type;
 
