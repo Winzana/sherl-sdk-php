@@ -151,7 +151,7 @@ title: Organization types
 
 ## FounderOutputDto extends PersonOutDto
 
-<!-- TODO: add link to PersonOutputDto when merged => [PersonOutputDto](person-types#personoutputdto)  -->
+[PersonOutputDto](person-types#personoutputdto)
 
 | Field      | Type   | Description                       |
 | :--------- | :----- | --------------------------------- |
@@ -339,7 +339,7 @@ title: Organization types
 | code      | string                   | The code associated with the taxonomy.                     |
 | values    | TaxonomyValueOutputDto[] | An array of taxonomy values associated with this taxonomy. |
 | parent    | TaxonomyOutputDto        | The parent taxonomy, if applicable.                        |
-| childrens | TaxonomyOutputDto[]      | An array of child taxonomies, if applicable.               |
+| children  | TaxonomyOutputDto[]      | An array of child taxonomies, if applicable.               |
 | createdAt | DateTime                 | The date and time when the taxonomy was created.           |
 | updatedAt | DateTime                 | The date and time when the taxonomy was last updated.      |
 

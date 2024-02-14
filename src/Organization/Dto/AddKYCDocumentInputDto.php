@@ -17,13 +17,13 @@ class AddKYCDocumentInputDto
 
     /**
      * @var KYCDocumentTypeEnum
-     * @Serializer\Type("Sherl\Sdk\Organization\Enum\KYCDocumentTypeEnum")
+     * @Serializer\Type("enum<'Sherl\Sdk\Organization\Enum\KYCDocumentTypeEnum', 'value'>")
      */
     public $type;
 
     /**
      * @var ImageObjectOutputDto
-     * @Serializer(Type("Sherl\Sdk\Media\Dto\ImageObjectOutputDto"))
+     * @Serializer\Type("Sherl\Sdk\Media\Dto\ImageObjectOutputDto")
      */
     public $media;
 }

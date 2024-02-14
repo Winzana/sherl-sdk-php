@@ -9,7 +9,6 @@ use Psr\Http\Message\ResponseInterface;
 
 use Sherl\Sdk\Common\Error\SherlException;
 use Sherl\Sdk\Common\Error\ErrorFactory;
-use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Organization\Errors\OrganizationErr;
 use Exception;
 
@@ -82,7 +81,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::CREATE_ORGANIZATION_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::CREATE_ORGANIZATION_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::CREATE_ORGANIZATION_FAILED);
         }
     }
 
@@ -119,7 +118,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::GET_ORGANIZATION_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::GET_ORGANIZATION_FAILED);
         }
     }
 
@@ -155,7 +154,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::GET_ORGANIZATIONS_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::GET_ORGANIZATIONS_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::GET_ORGANIZATIONS_FAILED);
         }
     }
 
@@ -193,7 +192,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATION_BY_SLUG_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATION_BY_SLUG_FAILED);
         }
     }
 
@@ -230,7 +229,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATION_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATION_FAILED);
         }
     }
 
@@ -267,7 +266,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATIONS_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATIONS_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::GET_PUBLIC_ORGANIZATIONS_FAILED);
         }
     }
 
@@ -306,7 +305,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_TO_PERSON_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_TO_PERSON_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_TO_PERSON_FAILED);
         }
     }
 
@@ -345,7 +344,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::REGISTER_ORGANIZATION_FAILED);
         }
     }
 
@@ -384,7 +383,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::SUGGEST_ORGANIZATION_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::SUGGEST_ORGANIZATION_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::SUGGEST_ORGANIZATION_FAILED);
         }
     }
 
@@ -423,7 +422,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::UPDATE_ORGANIZATION_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::UPDATE_ORGANIZATION_FAILED);
         }
     }
 
@@ -464,7 +463,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ADDRESS_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::ADD_ADDRESS_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::ADD_ADDRESS_FAILED);
         }
     }
 
@@ -503,7 +502,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ADDRESS_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::DELETE_ADDRESS_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::DELETE_ADDRESS_FAILED);
         }
     }
 
@@ -543,7 +542,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ADDRESS_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::UPDATE_ADDRESS_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::UPDATE_ADDRESS_FAILED);
         }
     }
 
@@ -585,7 +584,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::CREATE_BACKGROUND_IMAGE_FROM_MEDIA_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::CREATE_BACKGROUND_IMAGE_FROM_MEDIA_FAILED);
         }
     }
 
@@ -638,7 +637,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::CREATE_BACKGROUND_IMAGE_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::CREATE_BACKGROUND_IMAGE_FAILED);
         }
     }
 
@@ -676,7 +675,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::DELETE_BACKGROUND_IMAGE_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::DELETE_BACKGROUND_IMAGE_FAILED);
         }
     }
 
@@ -718,7 +717,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::SET_COMMUNICATION_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::SET_COMMUNICATION_FAILED);
         }
     }
 
@@ -759,7 +758,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::CREATE_EMPLOYEE_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::CREATE_EMPLOYEE_FAILED);
         }
     }
 
@@ -797,7 +796,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::EMPLOYEE_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::DELETE_EMPLOYEE_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::DELETE_EMPLOYEE_FAILED);
         }
     }
 
@@ -838,7 +837,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::CREATE_FOUNDER_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::CREATE_FOUNDER_FAILED);
         }
     }
 
@@ -876,7 +875,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::DELETE_FOUNDER_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::DELETE_FOUNDER_FAILED);
         }
     }
 
@@ -917,7 +916,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::FOUNDER_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::UPDATE_FOUNDER_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::UPDATE_FOUNDER_FAILED);
         }
     }
 
@@ -971,7 +970,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::ADD_DOCUMENT_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::ADD_DOCUMENT_FAILED);
         }
     }
 
@@ -1009,7 +1008,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::GET_KYCS_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::GET_KYCS_FAILED);
         }
     }
 
@@ -1062,7 +1061,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::KYC_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::UPDATE_DOCUMENT_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::UPDATE_DOCUMENT_FAILED);
         }
     }
 
@@ -1117,7 +1116,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::ADD_LOGO_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::ADD_LOGO_FAILED);
         }
     }
 
@@ -1154,7 +1153,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::DELETE_LOGO_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::DELETE_LOGO_FAILED);
         }
     }
 
@@ -1196,7 +1195,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::CREATE_OPENING_HOURS_SPECIFICATION_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::CREATE_OPENING_HOURS_SPECIFICATION_FAILED);
         }
     }
 
@@ -1235,7 +1234,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::DELETE_OPENING_HOURS_SPECIFICATION_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::DELETE_OPENING_HOURS_SPECIFICATION_FAILED);
         }
     }
 
@@ -1276,7 +1275,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::UPDATE_OPENING_HOURS_SPECIFICATION_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::UPDATE_OPENING_HOURS_SPECIFICATION_FAILED);
         }
     }
 
@@ -1318,7 +1317,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FROM_MEDIA_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FROM_MEDIA_FAILED);
         }
     }
 
@@ -1372,7 +1371,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::CREATE_PICTURE_FAILED);
         }
     }
 
@@ -1411,7 +1410,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::DELETE_PICTURE_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::DELETE_PICTURE_FAILED);
         }
     }
 
@@ -1453,7 +1452,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::ORGANIZATION_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::ADD_RIB_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::ADD_RIB_FAILED);
         }
     }
 
@@ -1489,7 +1488,7 @@ class OrganizationProvider
                         throw $this->errorFactory->create(OrganizationErr::GET_RIBS_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(OrganizationErr::GET_RIBS_FAILED));
+            throw $this->errorFactory->create(OrganizationErr::GET_RIBS_FAILED);
         }
     }
 }

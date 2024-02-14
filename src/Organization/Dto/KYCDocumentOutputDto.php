@@ -42,7 +42,7 @@ class KYCDocumentOutputDto
 
     /**
      * @var KYCDocumentTypeEnum
-     * @Serializer\Type("KYCDocumentTypeEnum")
+     * @Serializer\Type("enum<'Sherl\Sdk\Organization\Enum\KYCDocumentTypeEnum', 'value'>")
      */
     public $type;
 
@@ -54,55 +54,55 @@ class KYCDocumentOutputDto
 
     /**
      * @var string
-     * @Serializer(Type("string"))
+     * @Serializer\Type("string")
      */
     public $originId;
 
     /**
      * @var DateTime
-     * @Serializer(Type("DateTime"))
+     * @Serializer\Type("DateTime")
      */
     public $creationDate;
 
     /**
      * @var DateTime
-     * @Serializer(Type("DateTime"))
+     * @Serializer\Type("DateTime")
      */
     public $processedDate;
 
     /**
      * @var KYCDocumentStatusEnum
-     * @Serializer(Type("KYCDocumentStatusEnum"))
+     * @Serializer\Type("KYCDocumentStatusEnum")
      */
     public $status;
 
     /**
      * @var KYCDocumentRefusedReasonTypeEnum
-     * @Serializer(Type("KYCDocumentRefusedReasonTypeEnum"))
+     * @Serializer\Type("KYCDocumentRefusedReasonTypeEnum")
      */
     public $refusedReasonType;
 
     /**
      * @var string
-     * @Serializer(Type("string"))
+     * @Serializer\Type("string")
      */
     public $refusedReasonMessage;
 
     /**
      * @var ImageObjectOutputDto
-     * @Serializer(Type("Sherl\Sdk\Media\Dto\ImageObjectOutputDto"))
+     * @Serializer\Type("Sherl\Sdk\Media\Dto\ImageObjectOutputDto")
      */
     public $media;
 
     /**
      * @var DateTime
-     * @Serializer(Type("DateTime"))
+     * @Serializer\Type("DateTime")
      */
     public $createdAt;
 
     /**
      * @var DateTime
-     * @Serializer(Type("DateTime"))
+     * @Serializer\Type("DateTime")
      */
     public $updatedAt;
 }
