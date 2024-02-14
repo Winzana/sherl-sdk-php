@@ -40,7 +40,6 @@ class OpinionProvider
      * @return OpinionDto|null The created opinion if successful, otherwise null.
      * @throws SherlException If an error occurs during the request.
      */
-
     public function createOpinion(string $id, OpinionDto $opinionData): ?OpinionDto
     {
         try {
@@ -210,7 +209,7 @@ class OpinionProvider
 
                 switch ($statusCode) {
                     case 403:
-                        throw $this->errorFactory->create(OpinionErr::CREATE_OPINION_FORBIDDEN);
+                        throw $this->errorFactory->create(OpinionErr::CREATE_OPINION_CLAIM_FORBIDDEN);
                     case 404:
                         throw $this->errorFactory->create(OpinionErr::OPINION_NOT_FOUND);
 
@@ -253,7 +252,7 @@ class OpinionProvider
                         throw $this->errorFactory->create(OpinionErr::FETCH_OPINION_I_GIVE_FORBIDDEN);
                 }
             }
-            throw $this->errorFactory->create(OpinionErr::FETCH_OPINION_AVERAGE_FAILED);
+            throw $this->errorFactory->create(OpinionErr::FETCH_OPINION_I_GIVE_FAILED);
         }
     }
     /**

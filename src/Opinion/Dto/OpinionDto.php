@@ -32,28 +32,28 @@ class OpinionDto
     public $score;
 
     /**
-     * @var DateTime
-     * @Serializer\Type("DateTime")
+     * @var string
+     * @Serializer\Type("string")
      */
     public $opinionFromUri;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
-    public string $createdAt;
+    public $createdAt;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public string $uri;
+    public $uri;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public string $status;
+    public $status;
 
     /**
      * @var mixed

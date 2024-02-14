@@ -9,7 +9,7 @@ class OpinionUpdateStatusInputDto
 {
     /**
      * @var OpinionStatusEnum
-     * @Serializer\Type("Sherl\Sdk\Opinion\Dto\OpinionStatusEnum")
+     * @Serializer\Type("enum<'Sherl\Sdk\Opinion\Dto\OpinionStatusEnum', 'value'>")
      */
     public $status;
 
