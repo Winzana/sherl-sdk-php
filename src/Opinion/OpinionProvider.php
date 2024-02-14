@@ -182,7 +182,7 @@ class OpinionProvider
  *
  * @param string $id - The ID of the opinion to which the claim is related.
  * @param CreateOpinionInputDto $opinionData - The claim input data as OpinionDto object.
- * @return OpinionDto|null - The created opinion if successful, otherwise null.
+ * @return OpinionDto|null - Return the opinion with the claim created.
  * @throws SherlException - If an error occurs during the request.
  */
     public function createOpinionClaim(string $id, CreateOpinionInputDto $opinionData): ?OpinionDto
