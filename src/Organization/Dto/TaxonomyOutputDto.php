@@ -6,6 +6,8 @@ use JMS\Serializer\Annotation as Serializer;
 
 use Sherl\Sdk\Organization\Dto\TaxonomyValueOutputDto;
 
+use DateTime;
+
 class TaxonomyOutputDto
 {
     /**
@@ -45,14 +47,14 @@ class TaxonomyOutputDto
     public $childrens;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
     public $createdAt;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
     public $updatedAt;
 }

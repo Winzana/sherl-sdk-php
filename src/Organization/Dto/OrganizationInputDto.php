@@ -4,31 +4,39 @@ namespace Sherl\Sdk\Organization\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
+use Sherl\Sdk\Place\Dto\PlaceOutputDto;
+
 use DateTime;
 
-class FacebookThirdPartOutputDto
+class OrganizationInputDto
 {
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $accessToken;
+    public $id;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $longLivedUserAccessToken;
+    public $legalName;
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $siret;
 
     /**
      * @var DateTime
      * @Serializer\Type("DateTime")
      */
-    public $expirationDate;
+    public $createdAt;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var PlaceOutputDto
+     * @Serializer\Type("Sherl\Sdk\Place\Dto\PlaceOutputDto")
      */
-    public $userID;
+    public $location;
 }
