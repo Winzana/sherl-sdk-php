@@ -26,7 +26,6 @@ class AuthProvider
     {
         $this->client = $client;
         $this->errorFactory = new ErrorFactory(self::DOMAIN, AuthErr::$errors);
-
     }
 
     /**
@@ -146,6 +145,7 @@ class AuthProvider
         }
 
     }
+  
     /**
      * Resends an SMS code to the provided mobile phone number.
      *
@@ -207,7 +207,6 @@ class AuthProvider
         } catch (\Exception $err) {
 
             if ($err instanceof \GuzzleHttp\Exception\ClientException) {
-
                 $response = $err->getResponse();
                 $statusCode = $response->getStatusCode();
                 switch ($statusCode) {
@@ -310,13 +309,6 @@ class AuthProvider
             throw $this->errorFactory->create(AuthErr::AUTH_FAILED);
         }
     }
-    /**
-     * Logs in a user using Google authentication.
-     *
-     * @param ExternalLoginInputDto $googleInput The input data for Google authentication.
-     * @return LoginOutputDto|null The login output data if successful, null otherwise.
-     * @throws SherlException If an error occurs during the Google login process.
-     */
 
     /**
      * Performs login using Google external authentication.
@@ -344,13 +336,6 @@ class AuthProvider
             throw $this->errorFactory->create(AuthErr::LOGIN_GOOGLE_FAILED);
         }
     }
-    /**
-     * Logs in a user using Facebook authentication.
-     *
-     * @param ExternalLoginInputDto $facebookInput The input data for Facebook authentication.
-     * @return LoginOutputDto|null The login output data if successful, null otherwise.
-     * @throws SherlException If an error occurs during the Facebook login process.
-     */
 
     /**
      * Performs login using Facebook external authentication.
@@ -378,13 +363,6 @@ class AuthProvider
             throw $this->errorFactory->create(AuthErr::LOGIN_FACEBOOK_FAILED);
         }
     }
-    /**
-     * Logs in a user using Apple authentication.
-     *
-     * @param ExternalLoginInputDto $appleInput The input data for Apple authentication.
-     * @return LoginOutputDto|null The login output data if successful, null otherwise.
-     * @throws SherlException If an error occurs during the Apple login process.
-     */
 
     /**
      * Performs login using Apple external authentication.
