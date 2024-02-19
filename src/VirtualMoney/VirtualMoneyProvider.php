@@ -10,7 +10,6 @@ use Sherl\Sdk\Common\SerializerFactory;
 
 use Sherl\Sdk\Common\Error\SherlException;
 use Sherl\Sdk\Common\Error\ErrorFactory;
-use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\VirtualMoney\Errors\VirtualMoneyErr;
 use Exception;
 
@@ -71,7 +70,7 @@ class VirtualMoneyProvider
                         throw $this->errorFactory->create(VirtualMoneyErr::WALLET_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(VirtualMoneyErr::CREATE_WALLET_HISTORICAL_FAILED));
+            throw $this->errorFactory->create(VirtualMoneyErr::CREATE_WALLET_HISTORICAL_FAILED);
         }
     }
 
@@ -112,18 +111,18 @@ class VirtualMoneyProvider
                         throw $this->errorFactory->create(VirtualMoneyErr::WALLET_HISTORICAL_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(VirtualMoneyErr::GET_WALLET_HISTORICAL_FAILED));
+            throw $this->errorFactory->create(VirtualMoneyErr::GET_WALLET_HISTORICAL_FAILED);
         }
     }
 
     /**
      * Creates a new wallet with the given details.
      *
-     * @param WalletInputDto $wallet The wallet input data object.
+     * @param CreateWalletHistoricalInputDto $wallet The wallet input data object.
      * @return WalletOutputDto|null The wallet output data object or null on failure.
      * @throws SherlException If there is an error during the wallet creation process.
      */
-    public function createWallet(WalletInputDto $wallet): ?WalletOutputDto
+    public function createWallet(CreateWalletHistoricalInputDto $wallet): ?WalletOutputDto
     {
         try {
             $response = $this->client->post("/api/wallet", [
@@ -148,7 +147,7 @@ class VirtualMoneyProvider
                         throw $this->errorFactory->create(VirtualMoneyErr::CREATE_WALLET_FAILED_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(VirtualMoneyErr::CREATE_WALLET_FAILED));
+            throw $this->errorFactory->create(VirtualMoneyErr::CREATE_WALLET_FAILED);
         }
     }
 
@@ -188,7 +187,7 @@ class VirtualMoneyProvider
                         throw $this->errorFactory->create(VirtualMoneyErr::WALLET_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(VirtualMoneyErr::CREDIT_WALLET_FAILED));
+            throw $this->errorFactory->create(VirtualMoneyErr::CREDIT_WALLET_FAILED);
         }
     }
 
@@ -227,7 +226,7 @@ class VirtualMoneyProvider
                         throw $this->errorFactory->create(VirtualMoneyErr::WALLET_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(VirtualMoneyErr::DEBIT_WALLET_FAILED));
+            throw $this->errorFactory->create(VirtualMoneyErr::DEBIT_WALLET_FAILED);
         }
     }
 
@@ -275,7 +274,7 @@ class VirtualMoneyProvider
                         throw $this->errorFactory->create(VirtualMoneyErr::FIND_ONE_WALLET_FAILED_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(VirtualMoneyErr::FIND_ONE_WALLET_FAILED));
+            throw $this->errorFactory->create(VirtualMoneyErr::FIND_ONE_WALLET_FAILED);
         }
     }
 
@@ -315,7 +314,7 @@ class VirtualMoneyProvider
                         throw $this->errorFactory->create(VirtualMoneyErr::WALLET_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(VirtualMoneyErr::GET_ONE_WALLET_BY_ID_FAILED));
+            throw $this->errorFactory->create(VirtualMoneyErr::GET_ONE_WALLET_BY_ID_FAILED);
         }
     }
 }

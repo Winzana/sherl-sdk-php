@@ -14,17 +14,17 @@ $sherlClient->virtualMoney->createWalletHistorical(string $walletId, WalletHisto
 <details>
 <summary><b>WalletHistoricalInputDto</b></summary>
 
-| Fields             |   Type   |       Requis       | Description                                    |
-| :----------------- | :------: | :----------------: | ---------------------------------------------- |
-| **id**             | `string` | :white_check_mark: | L'identifiant de l'historique du portefeuille. |
-| **uri**            | `string` | :white_check_mark: | L'URI associée à l'historique.                 |
-| **amount**         | `float`  | :white_check_mark: | Le montant de l'historique.                    |
-| **consumerId**     | `string` | :white_check_mark: | L'identifiant du consommateur.                 |
-| **organizationId** | `string` | :white_check_mark: | L'identifiant de l'organisation.               |
-| **description**    | `string` | :white_check_mark: | La description de l'historique.                |
-| **personId**       | `string` | :white_check_mark: | L'identifiant de la personne.                  |
-| **walletId**       | `string` | :white_check_mark: | L'identifiant du portefeuille.                 |
-| **createdAt**      | `string` | :white_check_mark: | La date de création de l'historique.           |
+| Fields             |   Type   |      Required      | Description                           |
+| :----------------- | :------: | :----------------: | ------------------------------------- |
+| **id**             | `string` | :white_check_mark: | The identifier of the wallet history. |
+| **uri**            | `string` | :white_check_mark: | The URI associated with the history.  |
+| **amount**         | `float`  | :white_check_mark: | The amount of the history.            |
+| **consumerId**     | `string` | :white_check_mark: | The identifier of the consumer.       |
+| **organizationId** | `string` | :white_check_mark: | The identifier of the organization.   |
+| **description**    | `string` | :white_check_mark: | The description of the history.       |
+| **personId**       | `string` | :white_check_mark: | The identifier of the person.         |
+| **walletId**       | `string` | :white_check_mark: | The identifier of the wallet.         |
+| **createdAt**      | `string` | :white_check_mark: | The creation date of the history.     |
 
 </details>
 
@@ -41,10 +41,10 @@ $sherlClient->virtualMoney->createWallet(WalletInputDto $walletHistorical);
 <details>
 <summary><b>WalletInputDto</b></summary>
 
-| Fields       |   Type   |       Requis       | Description                                     |
-| :----------- | :------: | :----------------: | ----------------------------------------------- |
-| **id**       | `string` | :white_check_mark: | L'identifiant du portefeuille.                  |
-| **personId** | `string` | :white_check_mark: | L'id de la personne à associer au portefeuille. |
+| Fields       |   Type   |      Required      | Description                                            |
+| :----------- | :------: | :----------------: | ------------------------------------------------------ |
+| **id**       | `string` | :white_check_mark: | The identifier of the wallet.                          |
+| **personId** | `string` | :white_check_mark: | The ID of the person to be associated with the wallet. |
 
 </details>
 
@@ -61,11 +61,11 @@ $sherlClient->virtualMoney->creditWallet(string $walletId, TransferWalletInputDt
 <details>
 <summary><b>TransferWalletInputDto</b></summary>
 
-| Fields             |   Type   |       Requis       | Description                                             |
-| :----------------- | :------: | :----------------: | ------------------------------------------------------- |
-| **amount**         | `float`  | :white_check_mark: | Le montant à créditer sur le portefeuille               |
-| **description**    | `string` | :white_check_mark: | Description de la transaction                           |
-| **organizationId** | `string` | :white_check_mark: | L'id de l'organisation à qui appartient le portefeuille |
+| Fields             |   Type   |      Required      | Description                                      |
+| :----------------- | :------: | :----------------: | ------------------------------------------------ |
+| **amount**         | `float`  | :white_check_mark: | The amount to be credited to the wallet.         |
+| **description**    | `string` | :white_check_mark: | Description of the transaction.                  |
+| **organizationId** | `string` | :white_check_mark: | The ID of the organization that owns the wallet. |
 
 </details>
 
@@ -76,17 +76,17 @@ This call returns a [WalletOutputDto](virtual-money-types#walletoutputdto) class
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$sherlClient->virtualMoney->creditWallet(string $walletId, TransferWalletInputDto $transferWallet);
+$sherlClient->virtualMoney->debitWallet(string $walletId, TransferWalletInputDto $transferWallet);
 ```
 
 <details>
 <summary><b>TransferWalletInputDto</b></summary>
 
-| Fields             |   Type   |       Requis       | Description                                             |
+| Fields             |   Type   |      Required      | Description                                             |
 | :----------------- | :------: | :----------------: | ------------------------------------------------------- |
-| **amount**         | `float`  | :white_check_mark: | Le montant à débiter sur le portefeuille                |
-| **description**    | `string` | :white_check_mark: | Description de la transaction                           |
-| **organizationId** | `string` | :white_check_mark: | L'id de l'organisation à qui appartient le portefeuille |
+| **amount**         | `float`  | :white_check_mark: | The amount to be debited from the wallet.               |
+| **description**    | `string` | :white_check_mark: | Description of the transaction.                         |
+| **organizationId** | `string` | :white_check_mark: | The ID of the organization to which the wallet belongs. |
 
 </details>
 
