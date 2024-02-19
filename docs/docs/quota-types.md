@@ -5,18 +5,18 @@ title: Quota types
 
 ## QuotaOutputDto
 
-|      Fields       |                           Type                           |              Description              |
-| :---------------: | :------------------------------------------------------: | :-----------------------------------: |
-|      **id**       |                          string                          |    Unique identifier for the quota    |
-|      **uri**      |                          string                          |           URI for the quota           |
-|  **consumerId**   |                          string                          | Consumer ID associated with the quota |
-|     **type**      |                  CommunicationTypeEnum                   |         Type of communication         |
-|    **amount**     |                          number                          |            Amount of quota            |
-| **allowNegative** |                         boolean                          |  Allows negative quota values or not  |
-|   **ownerUri**    |                          string                          |        Owner URI for the quota        |
-|    **sources**    | [QuotaSourceOutputDto](quota-types#QuotaSourceOutputDto) |   Sources associated with the quota   |
-|   **createdAt**   |                         datetime                         |    Date and time of quota creation    |
-|   **updatedAt**   |                         datetime                         |     Date and time of last update      |
+|      Fields       |                                Type                                |              Description              |
+| :---------------: | :----------------------------------------------------------------: | :-----------------------------------: |
+|      **id**       |                               string                               |    Unique identifier for the quota    |
+|      **uri**      |                               string                               |           URI for the quota           |
+|  **consumerId**   |                               string                               | Consumer ID associated with the quota |
+|     **type**      | [CommunicationTypeEnum](communication-types#communicationtypeenum) |         Type of communication         |
+|    **amount**     |                               number                               |            Amount of quota            |
+| **allowNegative** |                              boolean                               |  Allows negative quota values or not  |
+|   **ownerUri**    |                               string                               |        Owner URI for the quota        |
+|    **sources**    |      [QuotaSourceOutputDto](quota-types#QuotaSourceOutputDto)      |   Sources associated with the quota   |
+|   **createdAt**   |                              datetime                              |    Date and time of quota creation    |
+|   **updatedAt**   |                              datetime                              |     Date and time of last update      |
 
 ## QuotaSourceOutputDto
 
