@@ -44,7 +44,7 @@ class PlaceProvider
                 'page' => $page,
                 'itemsPerPage' => $itemsPerPage,
             ];
-    
+
             $queryParams = array_merge($additionalParams, [
                 'id' => $filters->id,
                 'uri' => $filters->uri,
