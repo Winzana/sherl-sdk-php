@@ -31,7 +31,7 @@ class CreateCaptionOutputDto
     public $encodingFormat;
 
     /**
-     * @var int
+     * @var integer
      * @Serializer\Type("integer")
      */
     public $size;

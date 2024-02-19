@@ -20,13 +20,13 @@ class CreateThumbnailOutputDto
     public $uri;
 
     /**
-     * @var int
+     * @var integer
      * @Serializer\Type("integer")
      */
     public $width;
 
     /**
-     * @var int
+     * @var integer
      * @Serializer\Type("integer")
      */
     public $height;

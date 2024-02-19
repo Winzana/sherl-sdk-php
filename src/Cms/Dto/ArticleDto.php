@@ -79,13 +79,13 @@ class ArticleDto
     public $author;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @Serializer\Type("DateTime")
      */
     public $beginDate;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      * @Serializer\Type("DateTime")
      */
     public $endDate;
@@ -115,13 +115,13 @@ class ArticleDto
     public $metadatas;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      * @Serializer\Type("DateTime")
      */
     public $createdAt;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime|null
      * @Serializer>Type("DateTime")
      */
     public $updatedAt;

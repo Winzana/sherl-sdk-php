@@ -56,7 +56,7 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 $sherlClient->cms->deleteMediaPage(string $id);
 ```
 
-This call returns a [ArticleDto](cms-types#ArticleDto) object.
+This call returns the deleted [ArticleDto](cms-types#ArticleDto) object.
 
 ## Get article by slug
 
@@ -201,7 +201,7 @@ This call returns a [ArticleDto](cms-types#ArticleDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$sherlClient->cms->getPosts(FindPostsFiltersDto $filter);
+$sherlClient->cms->getPosts(FindPostsFiltersDto $filters);
 ```
 
 <details>

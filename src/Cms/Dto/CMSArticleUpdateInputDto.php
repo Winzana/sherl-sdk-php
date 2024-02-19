@@ -20,13 +20,13 @@ class CMSArticleUpdateInputDto
     public $content;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @Serializer\Type("DateTime")
      */
     public $beginDate;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @Serializer\Type("DateTime")
      */
     public $endDate;

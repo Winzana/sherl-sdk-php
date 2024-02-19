@@ -49,9 +49,7 @@ class CmsProvider
         try {
             $response = $this->client->post("/api/cms/articles/posts/$id/media", [
                 "headers" => ["Content-Type" => "application/json"],
-                RequestOptions::JSON => [
-                    "data" => $data
-                ]
+                RequestOptions::JSON => $data
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -78,7 +76,7 @@ class CmsProvider
     }
 
     /**
- * Creates an article with the given ID and article input data.
+ * Updates an article with the given ID and article input data.
  * @param string $id The ID associated with the article.
  * @param CMSArticleUpdateInputDto $articleInput Data transfer object for the article input.
  * @return ArticleDto|null The body content of the HTTP response.
@@ -89,11 +87,7 @@ class CmsProvider
         try {
             $response = $this->client->put("/api/cms/articles/posts/$id", [
                 "headers" => ["Content-Type" => "application/json"],
-                RequestOptions::JSON => [
-                    "title" => $articleInput->title,
-                    "content" => $articleInput->content,
-
-                ]
+                RequestOptions::JSON => $articleInput
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -108,7 +102,7 @@ class CmsProvider
 
                 switch ($statusCode) {
                     case 403:
-                        throw $this->errorFactory->create(CmsErr::CMS_EVENT_CREATION_FAILED_FORBIDDEN);
+                        throw $this->errorFactory->create(CmsErr::CMS_UPDATE_ARTICLE_BY_ID_FORBIDDEN);
                     case 404:
                         throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
                 }
@@ -127,9 +121,7 @@ class CmsProvider
         try {
             $response = $this->client->post("/api/cms/articles/faqs", [
                 "headers" => ["Content-Type" => "application/json"],
-                RequestOptions::JSON => [
-                    "faqInput" => $faqInput,
-                ]
+                RequestOptions::JSON => $faqInput
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -164,9 +156,7 @@ class CmsProvider
         try {
             $response = $this->client->post("/api/cms/articles/posts", [
                 "headers" => ["Content-Type" => "application/json"],
-                RequestOptions::JSON => [
-                    "posts" => $data,
-                    ]
+                RequestOptions::JSON => $data
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -221,7 +211,7 @@ class CmsProvider
                         throw $this->errorFactory->create(CmsErr::CMS_STATIC_PAGES_CREATION_FAILED_FORBIDDEN);
                 }
             }
-            throw $this->errorFactory->create(CmsErr::CMS_CREATE_FAILED);
+            throw $this->errorFactory->create(CmsErr::CMS_STATIC_PAGES_CREATE_FAILED);
         }
     }
     /**
@@ -320,16 +310,16 @@ class CmsProvider
 
                 switch ($statusCode) {
                     case 403:
-                        throw $this->errorFactory->create(CmsErr::CMS_DELETE_BY_ID_FAILED_CMS_FORBIDDEN);
+                        throw $this->errorFactory->create(CmsErr::CMS_DELETE_ARTICLE_BY_ID_FAILED_CMS_FORBIDDEN);
                     case 404:
                         throw $this->errorFactory->create(CmsErr::ARTICLE_NOT_FOUND);
                 }
             }
-            throw $this->errorFactory->create(CmsErr::CMS_DELETE_BY_ID_FAILED);
+            throw $this->errorFactory->create(CmsErr::CMS_DELETE_ARTICLE_BY_ID_FAILED);
         }
     }
     /**
-    * Retrieves an article by its identifier.
+ * Deletes a media page by its identifier.
     *
     * @param string $id The identifier for the article.
     * @return ArticleDto|null The body content of the HTTP response.
@@ -445,7 +435,7 @@ class CmsProvider
     {
         try {
             $response = $this->client->get("/api/cms/articles/posts", [
-                RequestOptions::JSON => $filters
+                RequestOptions::QUERY => $filters
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -548,7 +538,7 @@ class CmsProvider
     {
         try {
             $response = $this->client->get("/api/public/cms/articles/posts", [
-                RequestOptions::JSON => $filters
+                RequestOptions::QUERY => $filters
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
