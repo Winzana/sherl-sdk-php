@@ -145,7 +145,7 @@ class AuthProvider
         }
 
     }
-  
+
     /**
      * Resends an SMS code to the provided mobile phone number.
      *
