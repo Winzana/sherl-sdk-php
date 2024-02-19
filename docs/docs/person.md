@@ -56,32 +56,32 @@ $sherlClient->person->getPersons(PersonFiltersDto $filters);
 <details>
  <summary>PersonFiltersDto</summary>
 
-| Fields                        |          Type          | Required | Description                                        |
-| :---------------------------- | :--------------------: | :------- | -------------------------------------------------- |
-| **id**                        |        `string`        | :x:      | The person id to filter                            |
-| **userId**                    |        `string`        | :x:      | The person user id to filter                       |
-| **q**                         |        `string`        | :x:      | The person query to filter                         |
-| **firstName**                 |        `string`        | :x:      | The person first name to filter                    |
-| **lastName**                  |        `string`        | :x:      | The person last name to filter                     |
-| **phoneNumber**               |        `string`        | :x:      | The person phone number to filter                  |
-| **mobilePhoneNumber**         |        `string`        | :x:      | The person mobile phone number to filter           |
-| **faxNumber**                 |        `string`        | :x:      | The person fax number to filter                    |
-| **nationality**               |        `string`        | :x:      | The person nationality to filter                   |
-| **uri**                       |        `string`        | :x:      | The person uri to filter                           |
-| **legalName**                 |        `string`        | :x:      | The person legal name to filter                    |
-| **location**                  |        `mixed`         | :x:      | The person location to filter                      |
-| **subOrganizations**          |        `mixed`         | :x:      | The person sub organizations to filter             |
-| **birthDate**                 |        `string`        | :x:      | The person birth date to filter                    |
-| **email**                     |        `string`        | :x:      | The person email to filter                         |
-| **gender**                    |        `string`        | :x:      | The person gender to filter                        |
-| **jobTitle**                  |        `string`        | :x:      | The person job title to filter                     |
-| **enabled**                   |       `boolean`        | :x:      | The person account status to filter                |
-| **createdAt**                 |       `DateTime`       | :x:      | The person creation date to filter                 |
-| **updatedAt**                 |       `DateTime`       | :x:      | The person update date to filter                   |
-| **analytics**                 |        `string`        | :x:      | The person analytics to filter                     |
-| **noFrequentedEstablishment** |        `string`        | :x:      | The person not frequenting establishment to filter |
-| **type**                      |      `PersonType`      | :x:      | The person type to filter                          |
-| **sort**                      | `Sort<PersonInputDto>` | :x:      | The person sorting status                          |
+| Fields                        |                                        Type                                        | Required | Description                                        |
+| :---------------------------- | :--------------------------------------------------------------------------------: | :------- | -------------------------------------------------- |
+| **id**                        |                                      `string`                                      | :x:      | The person id to filter                            |
+| **userId**                    |                                      `string`                                      | :x:      | The person user id to filter                       |
+| **q**                         |                                      `string`                                      | :x:      | The person query to filter                         |
+| **firstName**                 |                                      `string`                                      | :x:      | The person first name to filter                    |
+| **lastName**                  |                                      `string`                                      | :x:      | The person last name to filter                     |
+| **phoneNumber**               |                                      `string`                                      | :x:      | The person phone number to filter                  |
+| **mobilePhoneNumber**         |                                      `string`                                      | :x:      | The person mobile phone number to filter           |
+| **faxNumber**                 |                                      `string`                                      | :x:      | The person fax number to filter                    |
+| **nationality**               |                                      `string`                                      | :x:      | The person nationality to filter                   |
+| **uri**                       |                                      `string`                                      | :x:      | The person uri to filter                           |
+| **legalName**                 |                                      `string`                                      | :x:      | The person legal name to filter                    |
+| **location**                  |                                      `mixed`                                       | :x:      | The person location to filter                      |
+| **subOrganizations**          |                                      `mixed`                                       | :x:      | The person sub organizations to filter             |
+| **birthDate**                 |                                      `string`                                      | :x:      | The person birth date to filter                    |
+| **email**                     |                                      `string`                                      | :x:      | The person email to filter                         |
+| **gender**                    |                           [Gender](person-types#gender)                            | :x:      | The person gender to filter                        |
+| **jobTitle**                  |                                      `string`                                      | :x:      | The person job title to filter                     |
+| **enabled**                   |                                     `boolean`                                      | :x:      | The person account status to filter                |
+| **createdAt**                 |                                     `DateTime`                                     | :x:      | The person creation date to filter                 |
+| **updatedAt**                 |                                     `DateTime`                                     | :x:      | The person update date to filter                   |
+| **analytics**                 |                                      `string`                                      | :x:      | The person analytics to filter                     |
+| **noFrequentedEstablishment** |                                      `string`                                      | :x:      | The person not frequenting establishment to filter |
+| **type**                      |                          [PersonType](person#persontype)                           | :x:      | The person type to filter                          |
+| **sort**                      | [SortDto](common-types#sortdto)`<`[PersonInputDto](person-types#personinputdto)`>` | :x:      | The person sorting status                          |
 
 </details>
 
@@ -150,23 +150,23 @@ $sherlClient->person->createPerson(PersonCreateInputDto $person);
 <details>
  <summary>PersonCreateInputDto</summary>
 
-| Fields                |                Type                | Required           | Description                                    |
-| :-------------------- | :--------------------------------: | :----------------- | ---------------------------------------------- |
-| **id**                |              `string`              | :white_check_mark: | L'identifiant de la personne                   |
-| **firstName**         |              `string`              | :x:                | Le prénom de la personne                       |
-| **lastName**          |              `string`              | :x:                | Le nom de famille de la personne               |
-| **address**           |         `AddressInputDto`          | :x:                | L'adresse de la personne                       |
-| **phoneNumber**       |              `string`              | :x:                | Le numéro de téléphone                         |
-| **mobilePhoneNumber** |              `string`              | :x:                | Le numéro de téléphone mobile                  |
-| **faxNumber**         |              `string`              | :x:                | Le numéro de télécopie                         |
-| **nationality**       |              `string`              | :x:                | La nationalité de la personne                  |
-| **affiliation**       | `PersonOrganizationCreateInputDto` | :x:                | L'affiliation de la personne                   |
-| **birthDate**         |              `string`              | :x:                | La date de naissance de la personne            |
-| **email**             |              `string`              | :white_check_mark: | L'adresse e-mail de la personne                |
-| **password**          |              `string`              | :white_check_mark: | Le mot de passe de la personne                 |
-| **confirmPassword**   |              `string`              | :white_check_mark: | La confirmation du mot de passe de la personne |
-| **gender**            |              `Gender`              | :white_check_mark: | Le genre de la personne                        |
-| **jobTitle**          |              `string`              | :x:                | Le titre de poste de la personne               |
+| Fields                |                                 Type                                  | Required           | Description                                    |
+| :-------------------- | :-------------------------------------------------------------------: | :----------------- | ---------------------------------------------- |
+| **id**                |                               `string`                                | :white_check_mark: | L'identifiant de la personne                   |
+| **firstName**         |                               `string`                                | :x:                | Le prénom de la personne                       |
+| **lastName**          |                               `string`                                | :x:                | Le nom de famille de la personne               |
+| **address**           |                  [AddressInputDto](#addressinputdto)                  | :x:                | L'adresse de la personne                       |
+| **phoneNumber**       |                               `string`                                | :x:                | Le numéro de téléphone                         |
+| **mobilePhoneNumber** |                               `string`                                | :x:                | Le numéro de téléphone mobile                  |
+| **faxNumber**         |                               `string`                                | :x:                | Le numéro de télécopie                         |
+| **nationality**       |                               `string`                                | :x:                | La nationalité de la personne                  |
+| **affiliation**       | [PersonOrganizationCreateInputDto](#personorganizationcreateinputdto) | :x:                | L'affiliation de la personne                   |
+| **birthDate**         |                               `string`                                | :x:                | La date de naissance de la personne            |
+| **email**             |                               `string`                                | :white_check_mark: | L'adresse e-mail de la personne                |
+| **password**          |                               `string`                                | :white_check_mark: | Le mot de passe de la personne                 |
+| **confirmPassword**   |                               `string`                                | :white_check_mark: | La confirmation du mot de passe de la personne |
+| **gender**            |                     [Gender](person-types#gender)                     | :white_check_mark: | Le genre de la personne                        |
+| **jobTitle**          |                               `string`                                | :x:                | Le titre de poste de la personne               |
 
 </details>
 
@@ -183,23 +183,23 @@ $sherlClient->person->registerWithEmailAndPassword(PersonCreateInputDto $person)
 <details>
  <summary>PersonCreateInputDto</summary>
 
-| Fields                |                Type                | Required           | Description                                    |
-| :-------------------- | :--------------------------------: | :----------------- | ---------------------------------------------- |
-| **id**                |              `string`              | :white_check_mark: | L'identifiant de la personne                   |
-| **firstName**         |              `string`              | :x:                | Le prénom de la personne                       |
-| **lastName**          |              `string`              | :x:                | Le nom de famille de la personne               |
-| **address**           |         `AddressInputDto`          | :x:                | L'adresse de la personne                       |
-| **phoneNumber**       |              `string`              | :x:                | Le numéro de téléphone                         |
-| **mobilePhoneNumber** |              `string`              | :x:                | Le numéro de téléphone mobile                  |
-| **faxNumber**         |              `string`              | :x:                | Le numéro de télécopie                         |
-| **nationality**       |              `string`              | :x:                | La nationalité de la personne                  |
-| **affiliation**       | `PersonOrganizationCreateInputDto` | :x:                | L'affiliation de la personne                   |
-| **birthDate**         |              `string`              | :x:                | La date de naissance de la personne            |
-| **email**             |              `string`              | :white_check_mark: | L'adresse e-mail de la personne                |
-| **password**          |              `string`              | :white_check_mark: | Le mot de passe de la personne                 |
-| **confirmPassword**   |              `string`              | :white_check_mark: | La confirmation du mot de passe de la personne |
-| **gender**            |              `Gender`              | :white_check_mark: | Le genre de la personne                        |
-| **jobTitle**          |              `string`              | :x:                | Le titre de poste de la personne               |
+| Fields                |                                 Type                                  | Required           | Description                                    |
+| :-------------------- | :-------------------------------------------------------------------: | :----------------- | ---------------------------------------------- |
+| **id**                |                               `string`                                | :white_check_mark: | L'identifiant de la personne                   |
+| **firstName**         |                               `string`                                | :x:                | Le prénom de la personne                       |
+| **lastName**          |                               `string`                                | :x:                | Le nom de famille de la personne               |
+| **address**           |                  [AddressInputDto](#addressinputdto)                  | :x:                | L'adresse de la personne                       |
+| **phoneNumber**       |                               `string`                                | :x:                | Le numéro de téléphone                         |
+| **mobilePhoneNumber** |                               `string`                                | :x:                | Le numéro de téléphone mobile                  |
+| **faxNumber**         |                               `string`                                | :x:                | Le numéro de télécopie                         |
+| **nationality**       |                               `string`                                | :x:                | La nationalité de la personne                  |
+| **affiliation**       | [PersonOrganizationCreateInputDto](#personorganizationcreateinputdto) | :x:                | L'affiliation de la personne                   |
+| **birthDate**         |                               `string`                                | :x:                | La date de naissance de la personne            |
+| **email**             |                               `string`                                | :white_check_mark: | L'adresse e-mail de la personne                |
+| **password**          |                               `string`                                | :white_check_mark: | Le mot de passe de la personne                 |
+| **confirmPassword**   |                               `string`                                | :white_check_mark: | La confirmation du mot de passe de la personne |
+| **gender**            |                     [Gender](person-types#gender)                     | :white_check_mark: | Le genre de la personne                        |
+| **jobTitle**          |                               `string`                                | :x:                | Le titre de poste de la personne               |
 
 </details>
 
@@ -313,25 +313,25 @@ $sherlClient->person->updateAddress(string $addressId, AddressInputDto $address)
 <details>
  <summary>PersonUpdateInputDto</summary>
 
-| Champs                |                Type                |       Requis       | Description                          |
-| :-------------------- | :--------------------------------: | :----------------: | ------------------------------------ |
-| **firstName**         |              `string`              | :white_check_mark: | Le prénom de la personne.            |
-| **lastName**          |              `string`              | :white_check_mark: | Le nom de famille de la personne.    |
-| **address**           |         `AddressInputDto`          | :white_check_mark: | L'adresse de la personne.            |
-| **type**              |            `PersonType`            | :white_check_mark: | Le type de personne.                 |
-| **phoneNumber**       |              `string`              | :white_check_mark: | Le numéro de téléphone.              |
-| **mobilePhoneNumber** |              `string`              | :white_check_mark: | Le numéro de téléphone mobile.       |
-| **faxNumber**         |              `string`              | :white_check_mark: | Le numéro de télécopie.              |
-| **nationality**       |              `string`              | :white_check_mark: | La nationalité de la personne.       |
-| **affiliation**       | `PersonOrganizationCreateInputDto` | :white_check_mark: | L'affiliation de la personne.        |
-| **latitude**          |              `float`               | :white_check_mark: | La latitude de la personne.          |
-| **longitude**         |              `float`               | :white_check_mark: | La longitude de la personne.         |
-| **birthDate**         |              `string`              | :white_check_mark: | La date de naissance de la personne. |
-| **email**             |              `string`              |                    | L'adresse e-mail de la personne.     |
-| **gender**            |              `Gender`              | :white_check_mark: | Le genre de la personne.             |
-| **jobTitle**          |              `string`              | :white_check_mark: | Le titre de poste de la personne.    |
-| **metadata**          |              `string`              | :white_check_mark: | Métadonnées de la personne.          |
-| **userProfileUri**    |              `string`              | :white_check_mark: | L'URI du profil utilisateur.         |
+| Champs                |                                 Type                                  |       Requis       | Description                          |
+| :-------------------- | :-------------------------------------------------------------------: | :----------------: | ------------------------------------ |
+| **firstName**         |                               `string`                                | :white_check_mark: | Le prénom de la personne.            |
+| **lastName**          |                               `string`                                | :white_check_mark: | Le nom de famille de la personne.    |
+| **address**           |                  [AddressInputDto](#addressinputdto)                  | :white_check_mark: | L'adresse de la personne.            |
+| **type**              |                    [PersonType](person#persontype)                    | :white_check_mark: | Le type de personne.                 |
+| **phoneNumber**       |                               `string`                                | :white_check_mark: | Le numéro de téléphone.              |
+| **mobilePhoneNumber** |                               `string`                                | :white_check_mark: | Le numéro de téléphone mobile.       |
+| **faxNumber**         |                               `string`                                | :white_check_mark: | Le numéro de télécopie.              |
+| **nationality**       |                               `string`                                | :white_check_mark: | La nationalité de la personne.       |
+| **affiliation**       | [PersonOrganizationCreateInputDto](#personorganizationcreateinputdto) | :white_check_mark: | L'affiliation de la personne.        |
+| **latitude**          |                                `float`                                | :white_check_mark: | La latitude de la personne.          |
+| **longitude**         |                                `float`                                | :white_check_mark: | La longitude de la personne.         |
+| **birthDate**         |                               `string`                                | :white_check_mark: | La date de naissance de la personne. |
+| **email**             |                               `string`                                |                    | L'adresse e-mail de la personne.     |
+| **gender**            |                     [Gender](person-types#gender)                     | :white_check_mark: | Le genre de la personne.             |
+| **jobTitle**          |                               `string`                                | :white_check_mark: | Le titre de poste de la personne.    |
+| **metadata**          |                               `string`                                | :white_check_mark: | Métadonnées de la personne.          |
+| **userProfileUri**    |                               `string`                                | :white_check_mark: | L'URI du profil utilisateur.         |
 
 </details>
 

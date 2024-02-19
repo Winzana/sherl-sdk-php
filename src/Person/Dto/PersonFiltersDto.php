@@ -145,49 +145,49 @@ class PersonFiltersDto
 
     /**
      * @var boolean
-     * @Serializer(Type("boolean"))
+     * @Serializer\Type("boolean")
      */
     public $enabled;
 
     /**
      * @var DateTime
-     * @Serializer(Type("DateTime"))
+     * @Serializer\Type("DateTime")
      */
     public $createdAt;
 
     /**
      * @var DateTime
-     * @Serializer(Type("DateTime"))
+     * @Serializer\Type("DateTime")
      */
     public $updatedAt;
 
     /**
      * @var string
-     * @Serializer(Type("string"))
+     * @Serializer\Type("string")
      */
     public $analytics;
 
     /**
      * @var FrequentedEstablishmentDto
-     * @Serializer(Type("Sherl\Sdk\Person\Dto\FrequentedEstablishmentDto"))
+     * @Serializer\Type("Sherl\Sdk\Person\Dto\FrequentedEstablishmentDto")
      */
     public $frequentedEstablishment;
 
     /**
      * @var string
-     * @Serializer(Type("string"))
+     * @Serializer\Type("string")
      */
     public $noFrequentedEstablishment;
 
     /**
      * @var PersonType
-     * @Serializer(Type("Sherl\Sdk\Person\Enum\PersonType"))
+     * @Serializer\Type("enum<'Sherl\Sdk\Person\Enum\PersonType', 'value'>")
      */
     public $type;
 
     /**
      * @var SortDto<PersonInputDto>
-     * @Serializer(Type("SortDto<Sherl\Sdk\Person\Dto\PersonInputDto>"))
+     * @Serializer\Type("SortDto<Sherl\Sdk\Person\Dto\PersonInputDto>")
      */
     public $sort;
 

@@ -112,7 +112,7 @@ class PersonUpdateAddressInputDto
 
     /**
      * @var AccountType
-     * @Serializer\Type("Sherl\Sdk\Person\Enum\AccountType")
+     * @Serializer\Type("enum<'Sherl\Sdk\Person\Enum\AccountType', 'value'>")
      */
     public $type;
 

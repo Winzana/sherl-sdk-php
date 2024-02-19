@@ -6,6 +6,7 @@ use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Person\Dto\ExperienceFormResponseInputDto;
 
 use Sherl\Sdk\Person\Enum\TravelingGroup;
+use Sherl\Sdk\Common\Dto\LocationDto;
 
 class SessionCreationInputDto
 {
@@ -34,13 +35,13 @@ class SessionCreationInputDto
     public $mapFilters;
 
     /**
-     * @var string[] // TODO: Change type ?
+     * @var string[]
      * @Serializer\Type("array<string>")
      */
     public $disabilityConditions;
 
     /**
-     * @var string[] // TODO: Change type ?
+     * @var string[]
      * @Serializer\Type("array<string>")
      */
     public $favoriteTransportModes;
@@ -52,7 +53,7 @@ class SessionCreationInputDto
     public $alertsDiscarded;
 
     /**
-     * @var string[] // TODO: Change type ?
+     * @var LocationDto
      * @Serializer\Type("array<string>")
      */
     public $location;

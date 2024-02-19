@@ -18,7 +18,6 @@ use Sherl\Sdk\Person\Dto\PictureRegisterInputDto;
 use GuzzleHttp\RequestOptions;
 use Sherl\Sdk\Common\Error\SherlException;
 use Sherl\Sdk\Common\Error\ErrorFactory;
-use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Person\Errors\PersonErr;
 use Exception;
 
@@ -67,7 +66,7 @@ class PersonProvider
                         throw $this->errorFactory->create(PersonErr::GET_CONFIGS_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::GET_CONFIGS_FAILED));
+            throw $this->errorFactory->create(PersonErr::GET_CONFIGS_FAILED);
         }
     }
 
@@ -103,7 +102,7 @@ class PersonProvider
                         throw $this->errorFactory->create(PersonErr::FETCH_POSITION_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::FETCH_POSITION_FAILED));
+            throw $this->errorFactory->create(PersonErr::FETCH_POSITION_FAILED);
         }
     }
 
@@ -124,7 +123,34 @@ class PersonProvider
                   "Content-Type" => "application/json",
                 ],
                 RequestOptions::QUERY => [
-                    'filters' => $filters,
+                    'id' => $filters->id,
+                    'userId' => $filters->userId,
+                    'q' => $filters->q,
+                    'firstName' => $filters->firstName,
+                    'lastName' => $filters->lastName,
+                    'address' => $filters->address,
+                    'subscriptionLocation' => $filters->subscriptionLocation,
+                    'phoneNumber' => $filters->phoneNumber,
+                    'mobilePhoneNumber' => $filters->mobilePhoneNumber,
+                    'faxNumber' => $filters->faxNumber,
+                    'nationality' => $filters->nationality,
+                    'affiliation' => $filters->affiliation,
+                    'uri' => $filters->uri,
+                    'legalName' => $filters->legalName,
+                    'location' => $filters->location,
+                    'subOrganizations' => $filters->subOrganizations,
+                    'birthdate' => $filters->birthdate,
+                    'email' => $filters->email,
+                    'gender' => $filters->gender,
+                    'jobTitle' => $filters->jobTitle,
+                    'enabled' => $filters->enabled,
+                    'createdAt' => $filters->createdAt,
+                    'updatedAt' => $filters->updatedAt,
+                    'analytics' => $filters->analytics,
+                    'frequentedEstablishment' => $filters->frequentedEstablishment,
+                    'noFrequentedEstablishment' => $filters->noFrequentedEstablishment,
+                    'type' => $filters->type,
+                    'sort' => $filters->sort,
                     'page' => $page,
                     'itemsPerPage' => $itemsPerPage,
                 ]
@@ -144,11 +170,9 @@ class PersonProvider
                 switch ($statusCode) {
                     case 403:
                         throw $this->errorFactory->create(PersonErr::FETCH_PERSONS_FORBIDDEN);
-                    default:
-                        throw $this->errorFactory->create(PersonErr::FETCH_PERSONS_FAILED);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::FETCH_PERSONS_FAILED));
+            throw $this->errorFactory->create(PersonErr::FETCH_PERSONS_FAILED);
         }
     }
 
@@ -184,11 +208,9 @@ class PersonProvider
                         throw $this->errorFactory->create(PersonErr::GET_PERSON_BY_ID_FORBIDDEN);
                     case 404:
                         throw $this->errorFactory->create(PersonErr::PERSON_NOT_FOUND);
-                    default:
-                        throw $this->errorFactory->create(PersonErr::GET_PERSON_BY_ID_FAILED);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::GET_PERSON_BY_ID_FAILED));
+            throw $this->errorFactory->create(PersonErr::GET_PERSON_BY_ID_FAILED);
         }
     }
 
@@ -223,11 +245,9 @@ class PersonProvider
                 switch ($statusCode) {
                     case 403:
                         throw $this->errorFactory->create(PersonErr::CREATE_ADDRESS_FORBIDDEN);
-                    default:
-                        throw $this->errorFactory->create(PersonErr::CREATE_ADDRESS_FAILED);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::CREATE_ADDRESS_FAILED));
+            throw $this->errorFactory->create(PersonErr::CREATE_ADDRESS_FAILED);
         }
     }
 
@@ -263,11 +283,9 @@ class PersonProvider
                         throw $this->errorFactory->create(PersonErr::DELETE_ADDRESS_FORBIDDEN);
                     case 404:
                         throw $this->errorFactory->create(PersonErr::ADDRESS_NOT_FOUND);
-                    default:
-                        throw $this->errorFactory->create(PersonErr::DELETE_ADDRESS_FAILED);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::DELETE_ADDRESS_FAILED));
+            throw $this->errorFactory->create(PersonErr::DELETE_ADDRESS_FAILED);
         }
     }
 
@@ -305,11 +323,9 @@ class PersonProvider
                         throw $this->errorFactory->create(PersonErr::UPDATE_ADDRESS_FORBIDDEN);
                     case 404:
                         throw $this->errorFactory->create(PersonErr::ADDRESS_NOT_FOUND);
-                    default:
-                        throw $this->errorFactory->create(PersonErr::UPDATE_ADDRESS_FAILED);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::UPDATE_ADDRESS_FAILED));
+            throw $this->errorFactory->create(PersonErr::UPDATE_ADDRESS_FAILED);
         }
     }
 
@@ -344,11 +360,9 @@ class PersonProvider
                 switch ($statusCode) {
                     case 403:
                         throw $this->errorFactory->create(PersonErr::CREATE_PERSON_FORBIDDEN);
-                    default:
-                        throw $this->errorFactory->create(PersonErr::CREATE_PERSON_FAILED);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::CREATE_PERSON_FAILED));
+            throw $this->errorFactory->create(PersonErr::CREATE_PERSON_FAILED);
         }
     }
 
@@ -383,11 +397,9 @@ class PersonProvider
                 switch ($statusCode) {
                     case 403:
                         throw $this->errorFactory->create(PersonErr::REGISTER_PERSON_FORBIDDEN);
-                    default:
-                        throw $this->errorFactory->create(PersonErr::REGISTER_PERSON_FAILED);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::REGISTER_PERSON_FAILED));
+            throw $this->errorFactory->create(PersonErr::REGISTER_PERSON_FAILED);
         }
     }
 
@@ -435,11 +447,9 @@ class PersonProvider
                 switch ($statusCode) {
                     case 403:
                         throw $this->errorFactory->create(PersonErr::ADD_PICTURE_FORBIDDEN);
-                    default:
-                        throw $this->errorFactory->create(PersonErr::ADD_PICTURE_FAILED);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::ADD_PICTURE_FAILED));
+            throw $this->errorFactory->create(PersonErr::ADD_PICTURE_FAILED);
         }
     }
 
@@ -477,11 +487,9 @@ class PersonProvider
                         throw $this->errorFactory->create(PersonErr::UPDATE_PERSON_BY_ID_FORBIDDEN);
                     case 404:
                         throw $this->errorFactory->create(PersonErr::PERSON_NOT_FOUND);
-                    default:
-                        throw $this->errorFactory->create(PersonErr::UPDATE_PERSON_BY_ID_FAILED);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::UPDATE_PERSON_BY_ID_FAILED));
+            throw $this->errorFactory->create(PersonErr::UPDATE_PERSON_BY_ID_FAILED);
         }
     }
 
@@ -514,11 +522,9 @@ class PersonProvider
                 switch ($statusCode) {
                     case 403:
                         throw $this->errorFactory->create(PersonErr::GET_ME_FORBIDDEN);
-                    default:
-                        throw $this->errorFactory->create(PersonErr::GET_ME_FAILED);
                 }
             }
-            throw ErrorHelper::getSherlError($e, $this->errorFactory->create(PersonErr::GET_ME_FAILED));
+            throw $this->errorFactory->create(PersonErr::GET_ME_FAILED);
         }
     }
 }

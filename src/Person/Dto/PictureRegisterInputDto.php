@@ -22,7 +22,7 @@ class PictureRegisterInputDto
 
     /**
      * @var UploadedFileInterface
-     * @Serializer\Type("UploadedFileInterface")
+     * @Serializer\Type("Psr\Http\Message\UploadedFileInterface")
      */
     public $file;
 

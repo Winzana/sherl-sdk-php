@@ -37,3 +37,13 @@ To access these properties, you need to have activated the domains on which the 
 | **longitude**     | `float`  | The location longitude point |
 
 </details>
+
+<details>
+ <summary>SortDto</summary>
+
+| Champs    |   Type   | Description         |
+| :-------- | :------: | ------------------- |
+| **field** | `string` | The field to filter |
+| **order** | `string` | The order to filter |
+
+</details>

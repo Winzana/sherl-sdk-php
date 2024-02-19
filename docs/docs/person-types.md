@@ -69,7 +69,7 @@ To access these properties, you need to have activated the domains on which the 
 | **longitude**         |                                `float`                                | The latitude of the person            |
 | **birthDate**         |                               `string`                                | The birth date of the person          |
 | **email**             |                               `string`                                | The email of the person               |
-| **gender**            |                               `Gender`                                | The gender of the person              |
+| **gender**            |                           [Gender](#gender)                           | The gender of the person              |
 | **jobTitle**          |                               `string`                                | The job title of the person           |
 | **metadatas**         |                               `string`                                | The metadatas of the person           |
 | **userProfileUri**    |                               `string`                                | The user profile uri of the person    |
@@ -252,7 +252,7 @@ To access these properties, you need to have activated the domains on which the 
 | **affiliation**       | [PersonOrganizationCreateInputDto](#personorganizationcreateinputdto) | The affiliation of the person to create         |
 | **birthDate**         |                               `string`                                | The birth date of the person to create          |
 | **email**             |                               `string`                                | The email of the person to create               |
-| **gender**            |                               `Gender`                                | The gender of the person to create              |
+| **gender**            |                           [Gender](#gender)                           | The gender of the person to create              |
 | **jobTitle**          |                               `string`                                | The job title of the person to create           |
 
 </details>
@@ -289,14 +289,14 @@ To access these properties, you need to have activated the domains on which the 
 | **subOrganizations**          |                   `mixed`                   | The person sub organizations to filter             |
 | **birthDate**                 |                  `string`                   | The person birth date to filter                    |
 | **email**                     |                  `string`                   | The person email to filter                         |
-| **gender**                    |                  `string`                   | The person gender to filter                        |
+| **gender**                    |              [Gender](#gender)              | The person gender to filter                        |
 | **jobTitle**                  |                  `string`                   | The person job title to filter                     |
 | **enabled**                   |                  `boolean`                  | The person account status to filter                |
 | **createdAt**                 |                  `string`                   | The person creation date to filter                 |
 | **updatedAt**                 |                  `string`                   | The person update date to filter                   |
 | **analytics**                 |                  `string`                   | The person analytics to filter                     |
 | **noFrequentedEstablishment** |                  `string`                   | The person not frequenting establishment to filter |
-| **type**                      |                `PersonType`                 | The person type to filter                          |
+| **type**                      |          [PersonType](#persontype)          | The person type to filter                          |
 | **sort**                      | `Sort<`[PersonInputDto](#personinputdto)`>` | The person sorting status                          |
 
 </details>
@@ -451,7 +451,7 @@ To access these properties, you need to have activated the domains on which the 
 | **fistName**          |                               `string`                                | The first name of the person to update          |
 | **lastName**          |                               `string`                                | The last name of the person to update           |
 | **address**           |                  [AddressInputDto](#addressinputdto)                  | The address of the person to update             |
-| **type**              |                             `PersonType`                              | The type of the person to update                |
+| **type**              |                       [PersonType](#persontype)                       | The type of the person to update                |
 | **phoneNumber**       |                               `string`                                | The phone number of the person to update        |
 | **mobilePhoneNumber** |                               `string`                                | The mobile phoen number of the person to update |
 | **faxNumber**         |                               `string`                                | The fax number of the person to update          |
@@ -574,5 +574,29 @@ To access these properties, you need to have activated the domains on which the 
 | :------------- | :---------------------------------------------: | :------------------------------ |
 | **customerId** |                    `string`                     | The id of the stripe account    |
 | **cards**      | [StripeCardOutputDto](#stripecardoutputdto)`[]` | The cards of the stripe account |
+
+</details>
+
+<details>
+ <summary>Gender</summary>
+
+| Value     |   Type   |
+| :-------- | :------: |
+| **MAN**   | `string` |
+| **WOMAN** | `string` |
+| **OTHER** | `string` |
+| **NSP**   | `string` |
+
+</details>
+
+<details>
+ <summary>PersonType</summary>
+
+| Value        |   Type   |
+| :----------- | :------: |
+| **DEFAULT**  | `string` |
+| **EMPLOYEE** | `string` |
+| **FOUNDER**  | `string` |
+| **ADMIN**    | `string` |
 
 </details>
