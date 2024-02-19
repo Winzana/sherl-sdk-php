@@ -82,6 +82,6 @@ class CmsErr
         self::CMS_STORIES_CREATION_FAILED_FORBIDDEN => 'Failed to create CMS stories - Forbidden.',
         self::CREATE_CMS_MEDIA_FAILED_CMS_FORBIDDEN => 'Failed to create CMS media - Forbidden.',
         self::ARTICLE_NOT_FOUND => 'Article not found.',
-        self::CMS_UPDATE_ARTICLE_BY_ID_FORBIDDEN => 'Failed to update CMS article by ID - Forbidden.',        
+        self::CMS_UPDATE_ARTICLE_BY_ID_FORBIDDEN => 'Failed to update CMS article by ID - Forbidden.',
     ];
 }
