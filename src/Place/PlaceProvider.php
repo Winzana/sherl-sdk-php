@@ -41,8 +41,8 @@ class PlaceProvider
         try {
             $response = $this->client->get('/api/public/places', [
 
-                RequestOptions::JSON => $filters,
                 RequestOptions::QUERY => [
+                    "filters" => $filters,
                     "page" => $page,
                     "itemsPerPage" => $itemsPerPage
                 ],
