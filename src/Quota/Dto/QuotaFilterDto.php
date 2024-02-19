@@ -8,19 +8,19 @@ use Sherl\Sdk\Common\Dto\PaginationFiltersInputDto;
 class QuotaFilterDto extends PaginationFiltersInputDto
 {
     /**
-     * @var int
+     * @var integer
      * @Serializer\Type("integer")
      */
     public $page;
 
     /**
-     * @var int
+     * @var integer
      * @Serializer\Type("integer")
      */
     public $itemsPerPage;
 
     /**
-     * @var int
+     * @var integer
      * @Serializer\Type("integer")
      */
     public $id;

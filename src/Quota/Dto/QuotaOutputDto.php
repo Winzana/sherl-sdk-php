@@ -24,7 +24,7 @@ class QuotaOutputDto
 
     /**
      * @var CommunicationTypeEnum
-     * @Serializer\Type("Sherl\Sdk\Communication\Enum\CommunicationTypeEnum")
+     * @Serializer\Type("enum<'Sherl\Sdk\Communication\Enum\CommunicationTypeEnum', 'value'>")
      */
     public $type;
 
