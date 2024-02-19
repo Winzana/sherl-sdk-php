@@ -39,13 +39,20 @@ class PlaceProvider
     public function getPlaces(PlaceFindByInputDto $filters, int $page = 1, int $itemsPerPage = 10): ?PlaceOutputDto
     {
         try {
+
+            $queryParams = [
+                'page' => $page,
+                'itemsPerPage' => $itemsPerPage,
+                'id' => $filters->id,
+                'uri' => $filters->uri,
+                'language' => $filters->language,
+                'consumerId' => $filters->consumerId,
+                'query' => $filters->query,
+                'city' => $filters->city,
+            ];
             $response = $this->client->get('/api/public/places', [
 
-                RequestOptions::QUERY => [
-                    "filters" => $filters,
-                    "page" => $page,
-                    "itemsPerPage" => $itemsPerPage
-                ],
+                RequestOptions::QUERY => $queryParams,
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
