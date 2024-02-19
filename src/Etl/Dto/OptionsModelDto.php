@@ -52,13 +52,13 @@ class OptionsModelDto
 
     /**
      * @var HttpRequestTypeEnum
-     * @Serializer\Type("Sherl\Sdk\Etl\Enum\HttpRequestTypeEnum")
+     * @Serializer\Type("enum<'Sherl\Sdk\Etl\Enum\HttpRequestTypeEnum', 'value'>")
      */
     public $type;
 
     /**
      * @var MimeTypeEnum
-     * @Serializer\Type("Sherl\Sdk\Etl\Enum\MimeTypeEnum")
+     * @Serializer\Type("enum<'Sherl\Sdk\Etl\Enum\MimeTypeEnum', 'value'>")
      */
     public $mimeType;
 

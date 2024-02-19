@@ -9,13 +9,13 @@ class WrapperModelDto
 {
     /**
      * @var WrapperIdentifierEnum
-     * @Serializer\Type("Sherl\Sdk\Etl\Enum\WrapperIdentifierEnum")
+     * @Serializer\Type("enum<'Sherl\Sdk\Etl\Enum\WrapperIdentifierEnum', 'value'>")
      */
     public $identifier;
 
     /**
-     * @var object|null
-     * @Serializer\Type("object")
+     * @var mixed
+     * @Serializer\Type("mixed")
      */
     public $options;
 }

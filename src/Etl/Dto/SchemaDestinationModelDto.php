@@ -16,13 +16,13 @@ class SchemaDestinationModelDto
 
     /**
      * @var FieldValueTypesEnum
-     * @Serializer\Type("Sherl\Sdk\Etl\Enum\FieldValueTypesEnum")
+     * @Serializer\Type("enum<'Sherl\Sdk\Etl\Enum\FieldValueTypesEnum', 'value'>")
      */
     public $outputType;
 
     /**
      * @var FieldValueTypesEnum
-     * @Serializer\Type("Sherl\Sdk\Etl\Enum\FieldValueTypesEnum")
+     * @Serializer\Type("enum<'Sherl\Sdk\Etl\Enum\FieldValueTypesEnum', 'value'>")
      */
     public $type;
 

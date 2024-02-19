@@ -10,7 +10,7 @@ class SourceModelDto
 {
     /**
      * @var ExtractSourceMethodEnum
-     * @Serializer\Type("Sherl\Sdk\Etl\Enum\ExtractSourceMethodEnum")
+     * @Serializer\Type("enum<'Sherl\Sdk\Etl\Enum\ExtractSourceMethodEnum', 'value'>")
      */
     public $method;
 

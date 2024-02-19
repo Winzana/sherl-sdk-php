@@ -10,7 +10,7 @@ class DestinationModelDto
 {
     /**
      * @var LoaderTypeEnum
-     * @Serializer\Type("Sherl\Sdk\Etl\Dto\LoaderTypeEnum")
+     * @Serializer\Type("enum<'Sherl\Sdk\Etl\Dto\LoaderTypeEnum', 'value'>")
      */
     public $loaderType;
 
@@ -64,7 +64,7 @@ class DestinationModelDto
 
     /**
      * @var DatabaseLoaderTypeEnum
-     * @Serializer\Type("Sherl\Sdk\Etl\Dto\DatabaseLoaderTypeEnum")
+     * @Serializer\Type("enum<'Sherl\Sdk\Etl\Dto\DatabaseLoaderTypeEnum', 'value'>")
      */
     public $databaseType;
 
