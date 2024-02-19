@@ -22,7 +22,7 @@ class NotificationErr
     public const REGISTER_FIREBASE_NOTIFICATION_FAILED = "notification/register-firebase-notification-failed";
 
     /**
-     * @var array<string, string>
+     * @var array<string, string> Associative array where both keys and values are strings.
      */
     public static $errors = [
       self::GET_NOTIFICATIONS_FAILED => 'Failed to fetch notification API',

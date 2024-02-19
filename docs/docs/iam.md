@@ -8,7 +8,7 @@ title: IAM
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$profiles = $sherlClient->iam->getAllIamProfiles(IamProfilesFilterDto $filter);
+$profiles = $sherlClient->iam->getAllIamProfiles(IamProfilesFilterDto $filters);
 ```
 
 <details>
@@ -20,8 +20,7 @@ $profiles = $sherlClient->iam->getAllIamProfiles(IamProfilesFilterDto $filter);
 | **itemsPerPage** | integer | :white_check_mark: | Number of items to retrieve per page |
 
 </details>
-
-This call returns an array of [ProfileDto][]|null(Iam-types#ProfileDto).
+This call returns an array of [ProfileDto](Iam-types#ProfileDto)[]|null.
 
 ## Get IAM profile by ID
 
@@ -46,7 +45,7 @@ $profile = $sherlClient->iam->getIamProfileById(string $id);
 
 </details>
 
-This call returns an array of [ProfileDto](Iam-types#ProfileDto).
+This call returns data of type [ProfileDto](Iam-types#ProfileDto).
 
 ## Get IAM role by ID
 
@@ -71,4 +70,4 @@ $role = $sherlClient->iam->getIamRoleById(string $id);
 
 </details>
 
-This call returns an RoleDto object.
+This call returns an [RoleDto](iam#RoleDto) object.
