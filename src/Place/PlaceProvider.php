@@ -40,19 +40,10 @@ class PlaceProvider
     {
         try {
 
-            $additionalParams = [
+            $queryParams = array_merge([
                 'page' => $page,
                 'itemsPerPage' => $itemsPerPage,
-            ];
-
-            $queryParams = array_merge($additionalParams, [
-                'id' => $filters->id,
-                'uri' => $filters->uri,
-                'language' => $filters->language,
-                'consumerId' => $filters->consumerId,
-                'query' => $filters->query,
-                'city' => $filters->city,
-            ]);
+              ], SerializerFactory::getInstance()->toArray($filters));
             $response = $this->client->get('/api/public/places', [
 
                 RequestOptions::QUERY => $queryParams,
