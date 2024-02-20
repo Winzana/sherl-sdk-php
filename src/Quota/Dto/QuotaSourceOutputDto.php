@@ -1,10 +1,10 @@
 <?php
 
-namespace Sherl\Sdk\Quotas\Dto;
+namespace Sherl\Sdk\Quota\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class QuotasSourceOutputDto
+class QuotaSourceOutputDto
 {
     /**
      * @var string

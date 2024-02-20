@@ -22,7 +22,7 @@ use Sherl\Sdk\Organization\Dto\PersonConfigValueOutputDto;
 use Sherl\Sdk\Organization\Dto\EmployeeOutputDto;
 use Sherl\Sdk\Organization\Dto\FounderOutputDto;
 
-use Sherl\Sdk\Quotas\Dto\QuotaOutputDto;
+use Sherl\Sdk\Quota\Dto\QuotaOutputDto;
 
 use Sherl\Sdk\Place\Dto\AddressOutputDto;
 use Sherl\Sdk\Place\Dto\PlaceOutputDto;
@@ -355,7 +355,7 @@ class OrganizationOutputDto
 
     /**
      * @var array<string,QuotaOutputDto>
-     * @Serializer\Type("array<string, Sherl\Sdk\Quotas\Dto\QuotaOutputDto>")
+     * @Serializer\Type("array<string, Sherl\Sdk\Quota\Dto\QuotaOutputDto>")
      */
     public $quotas;
 
