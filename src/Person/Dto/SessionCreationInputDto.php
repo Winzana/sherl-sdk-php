@@ -23,30 +23,6 @@ class SessionCreationInputDto
     public $favoritesSites;
 
     /**
-     * @var ExperienceFormResponseInputDto
-     * @Serializer\Type("<Sherl\Sdk\Person\Dto\ExperienceFormResponseInputDto>")
-     */
-    public $experienceFormResponses;
-
-    /**
-     * @var string[]
-     * @Serializer\Type("array<string>")
-     */
-    public $mapFilters;
-
-    /**
-     * @var string[]
-     * @Serializer\Type("array<string>")
-     */
-    public $disabilityConditions;
-
-    /**
-     * @var string[]
-     * @Serializer\Type("array<string>")
-     */
-    public $favoriteTransportModes;
-
-    /**
      * @var string[]
      * @Serializer\Type("array<string>")
      */

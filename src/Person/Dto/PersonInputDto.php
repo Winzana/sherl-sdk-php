@@ -18,6 +18,8 @@ use Sherl\Sdk\Media\Dto\ImageObjectDto;
 
 use Sherl\Sdk\Place\Dto\GeoCoordinatesDto;
 
+use DateTime;
+
 use Sherl\Sdk\Person\Enum\Gender;
 use Sherl\Sdk\Person\Enum\PersonType;
 
@@ -156,14 +158,14 @@ class PersonInputDto
     public $privacyNotice;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
     public $createdAt;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
     public $updatedAt;
 

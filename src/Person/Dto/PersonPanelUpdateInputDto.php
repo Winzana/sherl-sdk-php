@@ -3,9 +3,9 @@
 namespace Sherl\Sdk\Person\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
-use Sherl\Sdk\Person\Dto\PersonPanelIUpdateFilterInputDto;
+use Sherl\Sdk\Person\Dto\PersonPanelUpdateFilterInputDto;
 
-class PersonPanelIUpdateInputDto
+class PersonPanelUpdateInputDto
 {
     /**
      * @var string
@@ -14,7 +14,7 @@ class PersonPanelIUpdateInputDto
     public $name;
 
     /**
-     * @var PersonPanelIUpdateFilterInputDto[]
+     * @var PersonPanelUpdateFilterInputDto[]
      * @Serializer\Type("array<Sherl\Sdk\Person\Dto\PersonPanelIUpdateFilterInputDto>")
      */
     public $filters;
