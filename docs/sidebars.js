@@ -43,6 +43,7 @@ module.exports = {
       "opinion-types",
       "media-types",
       "place-types",
+      "virtual-money-types",
       "person-types",
       "common-types",
       "organization-types",
