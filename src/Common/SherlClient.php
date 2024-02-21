@@ -24,7 +24,7 @@ use Sherl\Sdk\Common\InitOptions;
 use Sherl\Sdk\Contact\ContactProvider;
 
 use Sherl\Sdk\Notification\NotificationProvider;
-
+use Sherl\Sdk\Shop\ShopProvider;
 use Sherl\Sdk\User\UserProvider;
 
 final class SherlClient
@@ -37,21 +37,18 @@ final class SherlClient
 
     private ?InitOptions $options = null;
 
-    private PersonProvider $person;
 
-    private AuthProvider $auth;
 
     private AccountProvider $account;
-
-    private ContactProvider $contact;
-
-    private ClaimProvider $claim;
-
+    private AuthProvider $auth;
     private BugReportProvider $bugReport;
-
+    private ClaimProvider $claim;
+    private ContactProvider $contact;
+    private NotificationProvider $notification;
+    private PersonProvider $person;
+    private ShopProvider $shop;
     private UserProvider $user;
 
-    private NotificationProvider $notification;
 
     /**
      * @throws OutOfBoundsException
@@ -99,6 +96,7 @@ final class SherlClient
         $this->claim = new ClaimProvider($client);
         $this->bugReport = new BugReportProvider($client);
         $this->account = new AccountProvider($client);
+        $this->shop = new ShopProvider($client);
         $this->user = new UserProvider($client);
         $this->notification = new NotificationProvider($client);
     }

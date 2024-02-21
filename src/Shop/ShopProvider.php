@@ -130,7 +130,7 @@ class ShopProvider
                         throw $this->errorFactory->create(ShopErr::CREATION_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::CREATION_FAILED));
+            throw $this->errorFactory->create(ShopErr::CREATION_FAILED);
         }
     }
 
@@ -169,7 +169,7 @@ class ShopProvider
                         throw $this->errorFactory->create(ShopErr::ADVERTISEMENT_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::UPDATE_FAILED));
+            throw $this->errorFactory->create(ShopErr::UPDATE_FAILED);
         }
     }
 
@@ -204,7 +204,7 @@ class ShopProvider
                         throw $this->errorFactory->create(ShopErr::ADVERTISEMENT_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::DELETE_FAILED));
+            throw $this->errorFactory->create(ShopErr::DELETE_FAILED);
         }
     }
 
@@ -244,7 +244,7 @@ class ShopProvider
                         throw $this->errorFactory->create(ShopErr::ADVERTISEMENT_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ADVERTISEMENT_BY_ID_FAILED));
+            throw $this->errorFactory->create(ShopErr::GET_ADVERTISEMENT_BY_ID_FAILED);
         }
     }
 
@@ -262,7 +262,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => $filter
+              RequestOptions::JSON => $filter
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -280,7 +280,7 @@ class ShopProvider
                         throw $this->errorFactory->create(ShopErr::GET_ADVERTISEMENTS_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ADVERTISEMENTS_FAILED));
+            throw $this->errorFactory->create(ShopErr::GET_ADVERTISEMENTS_FAILED);
         }
     }
 
@@ -298,7 +298,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => $filter
+              RequestOptions::JSON => $filter
             ]);
 
 
@@ -317,7 +317,7 @@ class ShopProvider
                         throw $this->errorFactory->create(ShopErr::GET_PUBLIC_ADVERTISEMENTS_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_ADVERTISEMENTS_FAILED));
+            throw $this->errorFactory->create(ShopErr::GET_PUBLIC_ADVERTISEMENTS_FAILED);
         }
     }
 
@@ -356,7 +356,7 @@ class ShopProvider
                         throw $this->errorFactory->create(ShopErr::BASKET_ADD_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_ADD_FAILED));
+            throw $this->errorFactory->create(ShopErr::BASKET_ADD_FAILED);
         }
     }
 
@@ -389,7 +389,7 @@ class ShopProvider
                         throw $this->errorFactory->create(ShopErr::BASKET_CLEAR_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_CLEAR_FAILED));
+            throw $this->errorFactory->create(ShopErr::BASKET_CLEAR_FAILED);
         }
     }
 
@@ -426,7 +426,7 @@ class ShopProvider
                         throw $this->errorFactory->create(ShopErr::BASKET_COMMENT_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_COMMENT_FAILED));
+            throw $this->errorFactory->create(ShopErr::BASKET_COMMENT_FAILED);
         }
     }
 
@@ -445,7 +445,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => [
+              RequestOptions::JSON => [
                 'customerUri' => $customerUri
               ]
             ]);
@@ -467,7 +467,7 @@ class ShopProvider
                         throw $this->errorFactory->create(ShopErr::CUSTOMER_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_COMMENT_FAILED));
+            throw $this->errorFactory->create(ShopErr::BASKET_COMMENT_FAILED);
         }
     }
 
@@ -502,7 +502,7 @@ class ShopProvider
                         throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_REMOVE_FAILED));
+            throw $this->errorFactory->create(ShopErr::BASKET_REMOVE_FAILED);
         }
     }
 
@@ -541,7 +541,7 @@ class ShopProvider
                         throw $this->errorFactory->create(ShopErr::CODE_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_REMOVE_FAILED));
+            throw $this->errorFactory->create(ShopErr::BASKET_REMOVE_FAILED);
         }
     }
 
@@ -581,7 +581,7 @@ class ShopProvider
                         throw $this->errorFactory->create(ShopErr::SPONSOR_CODE_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_SPONSOR_CODE_FAILED));
+            throw $this->errorFactory->create(ShopErr::BASKET_SPONSOR_CODE_FAILED);
         }
     }
 
@@ -622,7 +622,7 @@ class ShopProvider
                         throw $this->errorFactory->create(ShopErr::BASKET_ALREADY_PAYED);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::VALIDATE_AND_PAY_BASKET_FAILED));
+            throw $this->errorFactory->create(ShopErr::VALIDATE_AND_PAY_BASKET_FAILED);
         }
     }
 
@@ -658,7 +658,7 @@ class ShopProvider
                         throw $this->errorFactory->create(ShopErr::BASKET_VALIDATE_PENDING_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::BASKET_VALIDATE_PENDING_FAILED));
+            throw $this->errorFactory->create(ShopErr::BASKET_VALIDATE_PENDING_FAILED);
         }
     }
 
@@ -696,7 +696,7 @@ class ShopProvider
                         throw $this->errorFactory->create(ShopErr::CREATE_DISCOUNT_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::CREATE_DISCOUNT_FAILED));
+            throw $this->errorFactory->create(ShopErr::CREATE_DISCOUNT_FAILED);
         }
     }
 
@@ -734,7 +734,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::DISCOUNT_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::UPDATE_DISCOUNT_FAILED));
+                throw $this->errorFactory->create(ShopErr::UPDATE_DISCOUNT_FAILED);
             }
         }
         return null;
@@ -774,7 +774,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::DISCOUNT_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::DELETE_DISCOUNT_FAILED));
+                throw $this->errorFactory->create(ShopErr::DELETE_DISCOUNT_FAILED);
             }
         }
         return null;
@@ -790,11 +790,11 @@ class ShopProvider
     public function getDiscountByParams(DiscountFilterInputDto $filter): ?DiscountDto
     {
         try {
-            $response = $this->client->get("/api/shop/advertisements", [
+            $response = $this->client->get("/api/shop/advertisements/", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => $filter,
+              RequestOptions::JSON => $filter,
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -810,7 +810,7 @@ class ShopProvider
                     case 403:
                         throw $this->errorFactory->create(ShopErr::GET_DISCOUNTS_BY_PARAMS_FORBIDDEN);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_DISCOUNTS_BY_PARAMS_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_DISCOUNTS_BY_PARAMS_FAILED);
             }
         }
         return null;
@@ -851,7 +851,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::DISCOUNT_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_DISCOUNT_BY_ID_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_DISCOUNT_BY_ID_FAILED);
             }
         }
         return null;
@@ -871,7 +871,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => $filter
+              RequestOptions::JSON => $filter
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -887,7 +887,7 @@ class ShopProvider
                     case 403:
                         throw $this->errorFactory->create(ShopErr::GET_DISCOUNTS_FORBIDDEN);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_DISCOUNTS_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_DISCOUNTS_FAILED);
             }
         }
         return null;
@@ -908,7 +908,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => $filter
+              RequestOptions::JSON => $filter
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -924,7 +924,7 @@ class ShopProvider
                     case 403:
                         throw $this->errorFactory->create(ShopErr::GET_PUBLIC_DISCOUNTS_FORBIDDEN);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_DISCOUNTS_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_PUBLIC_DISCOUNTS_FAILED);
             }
         }
         return null;
@@ -962,7 +962,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::VALIDATE_DISCOUNT_CODE_FORBIDDEN);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::VALIDATE_DISCOUNT_CODE_FAILED));
+                throw $this->errorFactory->create(ShopErr::VALIDATE_DISCOUNT_CODE_FAILED);
             }
         }
         return null;
@@ -984,6 +984,9 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
+              RequestOptions::QUERY => [
+                "invoiceId" => $invoiceId
+              ]
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -1001,7 +1004,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::INVOICE_ID_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::SEND_INVOICE_LINK_FAILED));
+                throw $this->errorFactory->create(ShopErr::SEND_INVOICE_LINK_FAILED);
             }
         }
         return null;
@@ -1023,7 +1026,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => $filter
+              RequestOptions::JSON => $filter
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -1040,7 +1043,7 @@ class ShopProvider
                     case 403:
                         throw $this->errorFactory->create(ShopErr::GET_USER_CARD_LOYALTIES_FORBIDDEN);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_USER_CARD_LOYALTIES_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_USER_CARD_LOYALTIES_FAILED);
             }
         }
         return null;
@@ -1078,7 +1081,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::ORGANIZATION_ID_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORGANIZATION_LOYALTY_CARD_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_LOYALTY_CARD_FAILED);
             }
         }
         return null;
@@ -1117,7 +1120,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::LOYALTY_CARD_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::UPDATE_LOYALTY_CARD_FAILED));
+                throw $this->errorFactory->create(ShopErr::UPDATE_LOYALTY_CARD_FAILED);
             }
         }
         return null;
@@ -1139,7 +1142,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => $filter
+              RequestOptions::JSON => $filter
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -1155,7 +1158,7 @@ class ShopProvider
                     case 403:
                         throw $this->errorFactory->create(ShopErr::GET_ORDERS_WITH_FILTER_FORBIDDEN);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORDERS_WITH_FILTER_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_ORDERS_WITH_FILTER_FAILED);
             }
         }
         return null;
@@ -1177,7 +1180,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => $filter,
+              RequestOptions::JSON => $filter,
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -1195,7 +1198,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::ORGANIZATION_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORGANIZATION_ORDERS_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_ORDERS_FAILED);
             }
         }
         return null;
@@ -1244,7 +1247,7 @@ class ShopProvider
                     case 409:
                         throw $this->errorFactory->create(ShopErr::ALREADY_CHANGED);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::UPDATE_ORDER_FAILED));
+                throw $this->errorFactory->create(ShopErr::UPDATE_ORDER_FAILED);
             }
         }
         return null;
@@ -1289,7 +1292,7 @@ class ShopProvider
                     case 409:
                         throw $this->errorFactory->create(ShopErr::ALREADY_CHANGED);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORGANIZATION_ORDERS_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_ORDERS_FAILED);
             }
         }
         return null;
@@ -1309,6 +1312,9 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
+              RequestOptions::QUERY => [
+                "orderId" => $orderId
+              ]
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -1326,7 +1332,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::ORDER_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORDER_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_ORDER_FAILED);
             }
         }
         return null;
@@ -1365,7 +1371,7 @@ class ShopProvider
                     case 403:
                         throw $this->errorFactory->create(ShopErr::ADD_CATEGORY_TO_ORGANIZATION_FORBIDDEN);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_CATEGORY_TO_ORGANIZATION_FAILED));
+                throw $this->errorFactory->create(ShopErr::ADD_CATEGORY_TO_ORGANIZATION_FAILED);
             }
         }
         return null;
@@ -1403,7 +1409,7 @@ class ShopProvider
                     case 403:
                         throw $this->errorFactory->create(ShopErr::ADD_COMMENT_ON_PRODUCT_FORBIDDEN);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_COMMENT_ON_PRODUCT_FAILED));
+                throw $this->errorFactory->create(ShopErr::ADD_COMMENT_ON_PRODUCT_FAILED);
             }
         }
         return null;
@@ -1443,7 +1449,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_OPTION_FAILED));
+                throw $this->errorFactory->create(ShopErr::ADD_OPTION_FAILED);
             }
         }
         return null;
@@ -1478,7 +1484,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_OPTION_FAILED));
+                throw $this->errorFactory->create(ShopErr::ADD_OPTION_FAILED);
             }
         }
         return null;
@@ -1511,7 +1517,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_PRODUCT_VIEWS_FAILED));
+                throw $this->errorFactory->create(ShopErr::ADD_PRODUCT_VIEWS_FAILED);
             }
         }
         return null;
@@ -1551,7 +1557,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::CATEGORY_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_SUBCATEGORY_FAILED));
+                throw $this->errorFactory->create(ShopErr::ADD_SUBCATEGORY_FAILED);
             }
         }
         return null;
@@ -1571,6 +1577,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
+              RequestOptions::QUERY => ["categoryId" => $categoryId]
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -1589,7 +1596,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::CATEGORY_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::DELETE_CATEGORY_FAILED));
+                throw $this->errorFactory->create(ShopErr::DELETE_CATEGORY_FAILED);
             }
         }
         return null;
@@ -1629,7 +1636,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::OPTION_OR_PRODUCT_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::REMOVE_OPTION_FAILED));
+                throw $this->errorFactory->create(ShopErr::REMOVE_OPTION_FAILED);
             }
         }
         return null;
@@ -1651,6 +1658,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
+              RequestOptions::QUERY => ["categoryId" => $categoryId],
               RequestOptions::JSON => ['updatedCategory' => $updatedCategory]
             ]);
 
@@ -1671,7 +1679,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::CATEGORY_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::UPDATE_CATEGORY_FAILED));
+                throw $this->errorFactory->create(ShopErr::UPDATE_CATEGORY_FAILED);
             }
         }
         return null;
@@ -1709,7 +1717,7 @@ class ShopProvider
                     case 403:
                         throw $this->errorFactory->create(ShopErr::GET_CATEGORIES_FORBIDDEN);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_CATEGORIES_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_CATEGORIES_FAILED);
             }
         }
         return null;
@@ -1729,6 +1737,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
+              RequestOptions::QUERY => ["categoryId" => $categoryId]
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -1747,7 +1756,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::CATEGORY_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_CATEGORY_BY_ID_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_CATEGORY_BY_ID_FAILED);
             }
         }
         return null;
@@ -1786,7 +1795,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::ORGANIZATION_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORGANIZATION_CATEGORIES_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_CATEGORIES_FAILED);
             }
         }
         return null;
@@ -1806,6 +1815,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
+              RequestOptions::QUERY => ["categoryId" => $categoryId]
             ]);
 
 
@@ -1825,7 +1835,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::ORGANIZATION_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_ORGANIZATION_SUBCATEGORIES_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_ORGANIZATION_SUBCATEGORIES_FAILED);
             }
         }
         return null;
@@ -1846,33 +1856,27 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => ["productId" => $productId],
-              RequestOptions::JSON => [
-                "page" => $filters->page,
-                "itemsPerPage" => $filters->itemsPerPage,
-                "productId" => $filters->productId,
-                "personId" => $filters->personId,
-                "organizationUri" => $filters->organizationUri,
-                "sort" => $filters->sort,
-              ]
+              RequestOptions::JSON => $filters
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        ProductCommentsResult::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(ShopErr::GET_PRODUCT_COMMENTS_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
-                default:
-                    throw $this->errorFactory->create(ShopErr::GET_PRODUCT_COMMENTS_FAILED);
-            }
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                ProductCommentsResult::class,
+                'json'
+            );
         } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PRODUCT_COMMENTS_FAILED));
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(ShopErr::GET_PRODUCT_COMMENTS_FORBIDDEN);
+                    case 404:
+                        throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
+                }
+            }
+            throw $this->errorFactory->create(ShopErr::GET_PRODUCT_COMMENTS_FAILED);
         }
     }
 
@@ -1906,7 +1910,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PRODUCT_LIKES_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_PRODUCT_LIKES_FAILED);
             }
         }
         return null;
@@ -1926,6 +1930,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
+              RequestOptions::QUERY => ["productId" => $productId]
             ]);
 
             $views = filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
@@ -1941,7 +1946,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PRODUCT_VIEWS_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_PRODUCT_VIEWS_FAILED);
             }
         }
         return null;
@@ -1980,7 +1985,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::PRODUCT_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCT_BY_ID_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCT_BY_ID_FAILED);
             }
         }
         return null;
@@ -2000,7 +2005,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => ["filters" => $filters]
+              RequestOptions::JSON => $filters
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -2017,7 +2022,7 @@ class ShopProvider
                     case 403:
                         throw $this->errorFactory->create(ShopErr::GET_PRODUCTS_FORBIDDEN);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PRODUCTS_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_PRODUCTS_FAILED);
             }
         }
         return null;
@@ -2037,7 +2042,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => ["filters" => $filters]
+              RequestOptions::JSON => $filters
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -2054,7 +2059,7 @@ class ShopProvider
                     case 403:
                         throw $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORIES_AND_SUBS_FORBIDDEN);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORIES_AND_SUBS_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORIES_AND_SUBS_FAILED);
             }
         }
         return null;
@@ -2088,7 +2093,7 @@ class ShopProvider
                     case 403:
                         throw $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORIES_FORBIDDEN);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORIES_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORIES_FAILED);
             }
         }
         return null;
@@ -2125,7 +2130,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::SLUG_CATEGORY_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORY_BY_SLUG_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_PUBLIC_CATEGORY_BY_SLUG_FAILED);
             }
         }
         return null;
@@ -2162,7 +2167,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::SLUG_PRODUCT_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCT_BY_SLUG_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCT_BY_SLUG_FAILED);
             }
         }
         return null;
@@ -2183,21 +2188,22 @@ class ShopProvider
                 "Content-Type" => "application/json",
               ],
             ]);
-
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        PublicProductResponseDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCTS_WITH_FILTERS_FORBIDDEN);
-                default:
-                    throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCTS_WITH_FILTERS_FAILED);
-            }
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                PublicProductResponseDto::class,
+                'json'
+            );
         } catch (Exception $err) {
-            throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCTS_WITH_FILTERS_FAILED));
+            if ($err instanceof \GuzzleHttp\Exception\ClientException) {
+                $response = $err->getResponse();
+                $statusCode = $response->getStatusCode();
+                switch ($statusCode) {
+                    case 403:
+                        throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCTS_WITH_FILTERS_FORBIDDEN);
+                }
+                throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCTS_WITH_FILTERS_FAILED);
+            }
+            return null;
         }
     }
 
@@ -2231,7 +2237,7 @@ class ShopProvider
                     case 403:
                         throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCTS_WITH_FILTERS_FORBIDDEN);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCTS_WITH_FILTERS_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_PUBLIC_PRODUCTS_WITH_FILTERS_FAILED);
             }
         }
         return null;
@@ -2267,7 +2273,7 @@ class ShopProvider
                     case 403:
                         throw $this->errorFactory->create(ShopErr::GET_PRODUCTS_WITH_FILTERS_FORBIDDEN);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_PRODUCTS_WITH_FILTERS_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_PRODUCTS_WITH_FILTERS_FAILED);
             }
         }
         return null;
@@ -2300,7 +2306,7 @@ class ShopProvider
                     case 403:
                         throw $this->errorFactory->create(ShopErr::GET_UNRESTRICTED_CATEGORIES_FORBIDDEN);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GET_UNRESTRICTED_CATEGORIES_FAILED));
+                throw $this->errorFactory->create(ShopErr::GET_UNRESTRICTED_CATEGORIES_FAILED);
             }
         }
         return null;
@@ -2323,6 +2329,9 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
+              RequestOptions::QUERY => [
+                "cardId" => $cardId
+              ]
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -2340,7 +2349,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::CARD_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::DELETE_CARD_FAILED));
+                throw $this->errorFactory->create(ShopErr::DELETE_CARD_FAILED);
             }
         }
         return null;
@@ -2372,7 +2381,7 @@ class ShopProvider
                     case 403:
                         throw $this->errorFactory->create(ShopErr::REQUEST_CREDENTIALS_CARD_FORBIDDEN);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::REQUEST_CREDENTIALS_CARD_FAILED));
+                throw $this->errorFactory->create(ShopErr::REQUEST_CREDENTIALS_CARD_FAILED);
             }
         }
         return null;
@@ -2409,7 +2418,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::CARD_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::SAVE_CARD_FAILED));
+                throw $this->errorFactory->create(ShopErr::SAVE_CARD_FAILED);
             }
         }
         return null;
@@ -2428,6 +2437,9 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
+              RequestOptions::QUERY => [
+                "cardId" => $cardId
+              ]
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -2445,7 +2457,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::CARD_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::SET_DEFAULT_CARD_FAILED));
+                throw $this->errorFactory->create(ShopErr::SET_DEFAULT_CARD_FAILED);
             }
         }
         return null;
@@ -2482,7 +2494,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::CARD_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::VALIDATE_CARD_FAILED));
+                throw $this->errorFactory->create(ShopErr::VALIDATE_CARD_FAILED);
             }
         }
         return null;
@@ -2517,7 +2529,7 @@ class ShopProvider
                     case 403:
                         throw $this->errorFactory->create(ShopErr::GENERATE_PAYOUT_FORBIDDEN);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::GENERATE_PAYOUT_FAILED));
+                throw $this->errorFactory->create(ShopErr::GENERATE_PAYOUT_FAILED);
             }
         }
         return null;
@@ -2550,7 +2562,7 @@ class ShopProvider
                     case 403:
                         throw $this->errorFactory->create(ShopErr::SUBMIT_PAYOUT_FORBIDDEN);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::SUBMIT_PAYOUT_FAILED));
+                throw $this->errorFactory->create(ShopErr::SUBMIT_PAYOUT_FAILED);
             }
         }
         return null;
@@ -2589,7 +2601,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::PRODUCT_OR_MEDIA_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::ADD_PICTURE_PRODUCT_FAILED));
+                throw $this->errorFactory->create(ShopErr::ADD_PICTURE_PRODUCT_FAILED);
             }
         }
         return null;
@@ -2606,7 +2618,11 @@ class ShopProvider
     public function removePictureToProduct(string $productId, string $mediaId): ?ProductResponseDto
     {
         try {
-            $response = $this->client->delete("/api/shop/products/$productId/pictures/$mediaId", [
+            $response = $this->client->delete("/api/shop/products/{$productId}/pictures/{$mediaId}", [
+              RequestOptions::QUERY => [
+                "productId" => $productId,
+                "mediaId" => $mediaId
+              ]
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -2624,7 +2640,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::PRODUCT_OR_MEDIA_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::REMOVE_PICTURE_PRODUCT_FAILED));
+                throw $this->errorFactory->create(ShopErr::REMOVE_PICTURE_PRODUCT_FAILED);
             }
         }
         return null;
@@ -2641,10 +2657,11 @@ class ShopProvider
     public function cancelSubscription(string $subscriptionId): ?SubscriptionDto
     {
         try {
-            $response = $this->client->post("/api/shop/subscriptions/$subscriptionId/cancel", [
+            $response = $this->client->post("/api/shop/subscriptions/{$subscriptionId}/cancel", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
+              RequestOptions::QUERY => $subscriptionId
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -2662,7 +2679,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::SUBSCRIPTION_NOT_FOUND);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::CANCEL_SUBSCRIPTION_FAILED));
+                throw $this->errorFactory->create(ShopErr::CANCEL_SUBSCRIPTION_FAILED);
             }
         }
         return null;
@@ -2681,7 +2698,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => $filters,
+              RequestOptions::JSON => $filters,
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -2696,7 +2713,7 @@ class ShopProvider
                     case 403:
                         throw $this->errorFactory->create(ShopErr::FIND_ONE_SUBSCRIPTION_WITH_FILTER_FORBIDDEN);
                 }
-                throw ErrorHelper::getSherlError($err, $this->errorFactory->create(ShopErr::FIND_ONE_SUBSCRIPTION_WITH_FILTER_FAILED));
+                throw $this->errorFactory->create(ShopErr::FIND_ONE_SUBSCRIPTION_WITH_FILTER_FAILED);
             }
         }
         return null;

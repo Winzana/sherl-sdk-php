@@ -8,7 +8,7 @@ title: Advertisements
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$advertisement = $shopClient->createAdvertisement(CreateAdvertisementInputDto $createAdvertisement);
+$advertisement = $client->$shop->createAdvertisement(CreateAdvertisementInputDto $createAdvertisement);
 ```
 
 <details>
@@ -35,7 +35,7 @@ Updates an advertisement identified by its advertisementId.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$advertisement = $shopClient->updateAdvertisement(
+$advertisement = $client->$shop->updateAdvertisement(
   string $advertisementId,
   CreateAdvertisementInputDto $updateAdvertisement
   );
@@ -65,7 +65,7 @@ Delete the advertisement identified by its advertisementId.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$success = $shopClient->deleteAdvertisement(string $advertisementId);
+$success = $client->$shop->deleteAdvertisement(string $advertisementId);
 ```
 
 This call returns the updated [AdvertisementDto](../shop-types#AdvertisementDto) object.
@@ -77,7 +77,7 @@ Retrieve an advertisement identified by its advertisementId.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$advertisement = $shopClient->getAdvertisement(string $advertisementId);
+$advertisement = $client->$shop->getAdvertisement(string $advertisementId);
 ```
 
 This call returns the identified [AdvertisementDto](../shop-types#AdvertisementsOutpuDto) object.
@@ -89,7 +89,7 @@ Updates an advertisement identified by its advertisementId.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$advertisements = $shopClient->getAdvertisements(FindAdvertisementInputDto $filter):;
+$advertisements = $client->$shop->getAdvertisements(FindAdvertisementInputDto $filter):;
 ```
 
 See [FindAdvertisementInputDto](../shop-types#FindAdvertisementInputDto)

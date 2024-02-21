@@ -10,7 +10,7 @@ This page list all actions available on shop invoices.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$order = $shopClient->sendLinkToPaidOnline(string $invoiceId);
+$order = $client->$shop->sendLinkToPaidOnline(string $invoiceId);
 ```
 
 This call returns an [OrderDto](../shop-types#OrderDto) object.

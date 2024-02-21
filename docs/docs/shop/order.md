@@ -8,7 +8,7 @@ title: Order
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$orders = $shopClient->getOrders(OrderFindByDto $filters);
+$orders = $client->$shop->getOrders(OrderFindByDto $filters);
 ```
 
 <details>
@@ -42,7 +42,7 @@ $orders = $shopClient->getOrders(OrderFindByDto $filters);
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$order = $shopClient->getOrder(string $orderId);
+$order = $client->$shop->getOrder(string $orderId);
 ```
 
 This call returns an [OrderDto](../order-types#OrderDto) object.
@@ -52,7 +52,7 @@ This call returns an [OrderDto](../order-types#OrderDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$cancelledOrder = $shopClient->cancelOrder(string $orderId,CancelOrderInputDto $cancelOrderDates);
+$cancelledOrder = $client->$shop->cancelOrder(string $orderId,CancelOrderInputDto $cancelOrderDates);
 ```
 
 This call returns an [OrderDto](../order-types#OrderDto) object.
@@ -62,7 +62,7 @@ This call returns an [OrderDto](../order-types#OrderDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$updatedOrder = $shopClient->updateOrderStatus(string $orderId, OrderStatus $status);
+$updatedOrder = $client->$shop->updateOrderStatus(string $orderId, OrderStatus $status);
 ```
 
 This call returns an [OrderFindOutputDto](../order-types#OrderFindOutputDto) object.
@@ -72,7 +72,7 @@ This call returns an [OrderFindOutputDto](../order-types#OrderFindOutputDto) obj
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$organizationOrders = $shopClient->getOrganizationOrders(string $organizationId, OrderFindInputDto $filters);
+$organizationOrders = $client->$shop->getOrganizationOrders(string $organizationId, OrderFindInputDto $filters);
 ```
 
 This call returns a [OrderFindOutputDto](../order-types#OrderFindOutputDto).

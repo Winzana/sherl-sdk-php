@@ -8,7 +8,7 @@ title: Loyalty
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$results = $shopClient->getLoyaltiesCardToMe(LoyaltyCardFindByDto $filter );
+$results = $client->$shop->getLoyaltiesCardToMe(LoyaltyCardFindByDto $filter );
 ```
 
 <details>
@@ -31,7 +31,7 @@ This call returns a [LoyaltySearchResultDto](../shop-types#LoyaltySearchResultDt
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$card = $shopClient->getOrganizationLoyaltyCard(string $organizationId);
+$card = $client->$shop->getOrganizationLoyaltyCard(string $organizationId);
 ```
 
 This call returns an [LoyaltyCardDto](../shop-types#LoyaltyCardDto) object.
@@ -41,7 +41,7 @@ This call returns an [LoyaltyCardDto](../shop-types#LoyaltyCardDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-card = $shopClient->updateLoyaltyCard(string $cardId, ShopLoyaltyCardUpdateInputDto  $updateInfo);
+card = $client->$shop->updateLoyaltyCard(string $cardId, ShopLoyaltyCardUpdateInputDto  $updateInfo);
 ```
 
 <details>

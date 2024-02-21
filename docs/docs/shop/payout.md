@@ -8,7 +8,7 @@ title: Payout
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$payouts = $shopClient->generatePayout();
+$payouts = $client->$shop->generatePayout();
 ```
 
 This call returns an array [PayoutDto](../shop-types#PayoutDto) objects.
@@ -18,7 +18,7 @@ This call returns an array [PayoutDto](../shop-types#PayoutDto) objects.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$payout = $shopClient->submitPayout();
+$payout = $client->$shop->submitPayout();
 ```
 
 This call returns an [PayoutDto](../shop-types#PayoutDto) object.
