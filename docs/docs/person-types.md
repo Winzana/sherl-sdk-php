@@ -127,18 +127,6 @@ To access these properties, you need to have activated the domains on which the 
 </details>
 
 <details>
- <summary>ExperienceFormResponseInputDto</summary>
-
-| Fields             |               Type                | Description                                              |
-| :----------------- | :-------------------------------: | :------------------------------------------------------- |
-| **startDate**      |             `string`              | The start date of the experience form response           |
-| **endDate**        |             `string`              | The end date of the experience form response             |
-| **travelingGroup** | [TravelingGroup](#travelinggroup) | The traveling group type of the experience form response |
-| **activities**     |            `string[]`             | The activities linked on the experience form response    |
-
-</details>
-
-<details>
  <summary>FrequentedEstablishmentOutputDto</summary>
 
 | Fields               |   Type   | Description                                           |
