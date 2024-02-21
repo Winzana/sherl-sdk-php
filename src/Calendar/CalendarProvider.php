@@ -538,7 +538,7 @@ class UserProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $input
+              RequestOptions::QUERY => $input
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
