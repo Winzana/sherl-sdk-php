@@ -102,19 +102,19 @@ extends [Transfer](https://mangopay.com/docs/endpoints/transfers#transfer-object
 
 ## OrderStatus
 
-| Fields                     | Value | Description                                  |
-| -------------------------- | :---: | -------------------------------------------- |
-| **BASKET**                 |   0   | In Basket                                    |
-| **BASKET_VALIDATED**       |  100  | In basket and validated                      |
-| **WAITING_PAYMENT**        |  200  | Waiting for payment                          |
-| **PAYMENT_REFUSED**        |  300  | Payment refused                              |
-| **PAYED**                  |  400  | Order payed                                  |
-| **WAITING_VALIDATION**     |  500  | Waiting for validation                       |
-| **ORDER_REFUSED**          |  600  | The order was refused                        |
-| **ORDER_ACCEPTED**         |  700  | The order was accepted                       |
-| **ORDER_IN_PROGRESS**      |  800  | Order is in progress                         |
-| **ORDER_READY**            |  900  | The order is ready                           |
-| **FINISHED**               | 1000  | Order finished                               |
-| **REFUND**                 | 1100  | The order was refund                         |
-| **CONSUMER_CANCELLED**     | 9000  | The order was cancelled by the consumer      |
-| **ORGANIZATION_CANCELLED** | 9100  | The order was cancelled by the oraganization |
+| Fields                     | Value | Description                                 |
+| -------------------------- | :---: | ------------------------------------------- |
+| **BASKET**                 |   0   | In Basket                                   |
+| **BASKET_VALIDATED**       |  100  | In basket and validated                     |
+| **WAITING_PAYMENT**        |  200  | Waiting for payment                         |
+| **PAYMENT_REFUSED**        |  300  | Payment refused                             |
+| **PAYED**                  |  400  | Order payed                                 |
+| **WAITING_VALIDATION**     |  500  | Waiting for validation                      |
+| **ORDER_REFUSED**          |  600  | The order was refused                       |
+| **ORDER_ACCEPTED**         |  700  | The order was accepted                      |
+| **ORDER_IN_PROGRESS**      |  800  | Order is in progress                        |
+| **ORDER_READY**            |  900  | The order is ready                          |
+| **FINISHED**               | 1000  | Order finished                              |
+| **REFUND**                 | 1100  | The order was refund                        |
+| **CONSUMER_CANCELLED**     | 9000  | The order was cancelled by the consumer     |
+| **ORGANIZATION_CANCELLED** | 9100  | The order was cancelled by the organization |

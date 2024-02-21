@@ -24,4 +24,5 @@ $filters->email = 1; // Supposons que vous voulez aussi filtrer les notification
 $filters->uri = "http://example.com"; // Mettez ici l'URI souhaité
 $filters->id = "some-unique-id"; // Mettez ici l'ID souhaité
 
+
 $me = $sherlClient->notification->getNotifications($filters);

@@ -4,7 +4,7 @@ namespace Sherl\Sdk\Organization\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-use Sherl\Sdk\Calendar\Dto\CalendarEventOutputDto;
+use Sherl\Sdk\Calendar\Dto\CalendarEventDto;
 use Sherl\Sdk\Calendar\Dto\OpeningHoursSpecificationOutputDto;
 
 use Sherl\Sdk\Media\Dto\ImageObjectOutputDto;
@@ -15,14 +15,14 @@ use Sherl\Sdk\Shop\Subscription\Dto\SubscriptionDto;
 use Sherl\Sdk\Shop\Wallet\Dto\WalletOutputDto;
 
 use Sherl\Sdk\Organization\Dto\OrganizationCommunicationOutputDto;
-use Sherl\Sdk\Organization\Dto\ThridPartyOutputDto;
+use Sherl\Sdk\Organization\Dto\ThirdPartyOutputDto;
 use Sherl\Sdk\Organization\Dto\TaxonomyOutputDto;
 use Sherl\Sdk\Organization\Dto\OrganizationDisplayedOutputDto;
 use Sherl\Sdk\Organization\Dto\PersonConfigValueOutputDto;
 use Sherl\Sdk\Organization\Dto\EmployeeOutputDto;
 use Sherl\Sdk\Organization\Dto\FounderOutputDto;
 
-use Sherl\Sdk\Quotas\Dto\QuotaOutputDto;
+use Sherl\Sdk\Quota\Dto\QuotaOutputDto;
 
 use Sherl\Sdk\Place\Dto\AddressOutputDto;
 use Sherl\Sdk\Place\Dto\PlaceOutputDto;
@@ -300,8 +300,8 @@ class OrganizationOutputDto
     public $products;
 
     /**
-     * @var CalendarEventOutputDto[]
-     * @Serializer\Type("array<Sherl\Sdk\Calendar\Dto\CalendarEventOutputDto>")
+     * @var CalendarEventDto[]
+     * @Serializer\Type("array<Sherl\Sdk\Calendar\Dto\CalendarEventDto>")
      */
     public $events;
 
@@ -342,8 +342,8 @@ class OrganizationOutputDto
     public $blackListPersons;
 
     /**
-     * @var ThridPartyOutputDto
-     * @Serializer\Type("Sherl\Sdk\Organization\Dto\ThridPartyOutputDto")
+     * @var ThirdPartyOutputDto
+     * @Serializer\Type("Sherl\Sdk\Organization\Dto\ThirdPartyOutputDto")
      */
     public $thirdParty;
 
@@ -355,7 +355,7 @@ class OrganizationOutputDto
 
     /**
      * @var array<string,QuotaOutputDto>
-     * @Serializer\Type("array<string, Sherl\Sdk\Quotas\Dto\QuotaOutputDto>")
+     * @Serializer\Type("array<string, Sherl\Sdk\Quota\Dto\QuotaOutputDto>")
      */
     public $quotas;
 

@@ -194,7 +194,7 @@ class ProductFindByDto extends PaginationFiltersInputDto
 
     /**
      * @var ProductTypeEnum
-     * @Serializer\Type("Sherl\Sdk\Shop\Product\Dto\ProductTypeEnum")
+     * @Serializer\Type("enum<'Sherl\Sdk\Shop\Product\Dto\ProductTypeEnum', 'value'>"")
      */
     public $type;
 

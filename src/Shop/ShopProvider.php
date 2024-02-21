@@ -11,7 +11,6 @@ use Sherl\Sdk\Common\SerializerFactory;
 // ERRORS MANAGEMENT
 use Sherl\Sdk\Common\Error\SherlException;
 use Sherl\Sdk\Common\Error\ErrorFactory;
-use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Shop\Errors\ShopErr;
 use Exception;
 
@@ -263,7 +262,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $filter
+              RequestOptions::QUERY => $filter
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -299,7 +298,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $filter
+              RequestOptions::QUERY => $filter
             ]);
 
 
@@ -446,7 +445,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => [
+              RequestOptions::QUERY => [
                 'customerUri' => $customerUri
               ]
             ]);
@@ -791,11 +790,11 @@ class ShopProvider
     public function getDiscountByParams(DiscountFilterInputDto $filter): ?DiscountDto
     {
         try {
-            $response = $this->client->get("/api/shop/advertisements/", [
+            $response = $this->client->get("/api/shop/advertisements", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $filter,
+              RequestOptions::QUERY => $filter,
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -872,7 +871,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $filter
+              RequestOptions::QUERY => $filter
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -909,7 +908,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $filter
+              RequestOptions::QUERY => $filter
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -985,9 +984,6 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => [
-                "invoiceId" => $invoiceId
-              ]
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -1027,7 +1023,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $filter
+              RequestOptions::QUERY => $filter
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -1143,7 +1139,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $filter
+              RequestOptions::QUERY => $filter
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -1181,7 +1177,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $filter,
+              RequestOptions::QUERY => $filter,
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -1313,9 +1309,6 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => [
-                "orderId" => $orderId
-              ]
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -1578,7 +1571,6 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => ["categoryId" => $categoryId]
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -1659,7 +1651,6 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => ["categoryId" => $categoryId],
               RequestOptions::JSON => ['updatedCategory' => $updatedCategory]
             ]);
 
@@ -1700,10 +1691,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => [
-                "organizationId" => $filters->organizationId,
-                "depth" => $filters->depth,
-              ]
+              RequestOptions::JSON => $filters
             ]);
 
 
@@ -1741,7 +1729,6 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => ["categoryId" => $categoryId]
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -1819,7 +1806,6 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => ["categoryId" => $categoryId]
             ]);
 
 
@@ -1940,7 +1926,6 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => ["productId" => $productId]
             ]);
 
             $views = filter_var($response->getBody()->getContents(), FILTER_VALIDATE_INT);
@@ -2197,7 +2182,6 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => ["id" => $id]
             ]);
 
             switch ($response->getStatusCode()) {
@@ -2339,9 +2323,6 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => [
-                "cardId" => $cardId
-              ]
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -2447,9 +2428,6 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => [
-                "cardId" => $cardId
-              ]
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -2628,11 +2606,7 @@ class ShopProvider
     public function removePictureToProduct(string $productId, string $mediaId): ?ProductResponseDto
     {
         try {
-            $response = $this->client->delete("/api/shop/products/{$productId}/pictures/{$mediaId}", [
-              RequestOptions::QUERY => [
-                "productId" => $productId,
-                "mediaId" => $mediaId
-              ]
+            $response = $this->client->delete("/api/shop/products/$productId/pictures/$mediaId", [
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -2667,11 +2641,10 @@ class ShopProvider
     public function cancelSubscription(string $subscriptionId): ?SubscriptionDto
     {
         try {
-            $response = $this->client->post("/api/shop/subscriptions/{$subscriptionId}/cancel", [
+            $response = $this->client->post("/api/shop/subscriptions/$subscriptionId/cancel", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => $subscriptionId
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -2708,7 +2681,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $filters,
+              RequestOptions::QUERY => $filters,
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),

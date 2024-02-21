@@ -204,7 +204,7 @@ class PaymentDto
     /**
      * @var float
      * @see https://stripe.com/docs/
-     *    * @Serializer\Type("float")
+     * @Serializer\Type("float")
      */
     public $amount_refunded;
 

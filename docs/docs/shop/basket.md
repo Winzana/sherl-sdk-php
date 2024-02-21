@@ -81,7 +81,7 @@ This call returns an [OrderDto](../shop-types#OrderDto) object.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$order = $shopClient->addDiscountCodeToBasket(strng $code);
+$order = $shopClient->addDiscountCodeToBasket(string $code);
 ```
 
 This call returns an [OrderDto](../shop-types#OrderDto) object.
@@ -109,9 +109,9 @@ $order = $shopClient->validateAndPayBasket(ShopBasketValidateAndPayInputDto $val
 
 ShopBasketValidateAndPayInputDto extends [ShopBasketValidatePaymentInputDto](../shop-types#ShopBasketValidatePaymentInputDto)
 
-| Fields             |                      Type                      |      Required      | Description                         |
-| ------------------ | :--------------------------------------------: | :----------------: | ----------------------------------- |
-| **meansOfPayment** | [MeansOfPayment](../shop-types#MeansOfPayment) | :white_check_mark: | The identifier of the advertisement |
+| Fields             |                      Type                      |      Required      | Description                                          |
+| ------------------ | :--------------------------------------------: | :----------------: | ---------------------------------------------------- |
+| **meansOfPayment** | [MeansOfPayment](../shop-types#MeansOfPayment) | :white_check_mark: | The accepted method of payment for the advertisement |
 
 </details>
 

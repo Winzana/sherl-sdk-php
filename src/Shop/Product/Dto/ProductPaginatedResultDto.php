@@ -13,11 +13,11 @@ class ProductPaginatedResultDto extends Pagination
      * @var ProductResponseDto[]
      * @Serializer\Type("array<Sherl\Sdk\Order\Dto\ProductOutputDto>")
      */
-    public array $results;
+    public $results;
 
     /**
      * @var ViewOutputDto
      * @Serializer\Type("Sherl\Sdk\Common\Dto\ViewOutputDto")
      */
-    public mixed $view;
+    public $view;
 }

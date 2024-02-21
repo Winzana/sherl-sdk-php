@@ -178,12 +178,10 @@ class ShopErr
     public const REMOVE_OPTION_FORBIDDEN = 'product/remove-option-forbidden';
     public const UPDATE_CATEGORY_FAILED = 'product/update-category-failed';
     public const UPDATE_CATEGORY_FORBIDDEN = 'product/update-category-forbidden';
-    // public const PRODUCT_NOT_FOUND = 'product/product-not-found';
     public const CATEGORY_NOT_FOUND = 'product/category-not-found';
     public const SLUG_CATEGORY_NOT_FOUND = 'product/slug-category-not-found';
     public const SLUG_PRODUCT_NOT_FOUND = 'product/slug-product-not-found';
     public const OPTION_OR_PRODUCT_NOT_FOUND = 'product/option-or-product-not-found';
-    // public const ORGANIZATION_NOT_FOUND = 'product/organization-not-found';
 
     // SUBSCRIPTION
     public const FIND_ONE_SUBSCRIPTION_WITH_FILTER_FAILED = 'subscription/fetch-failed';

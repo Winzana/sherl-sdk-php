@@ -14,13 +14,13 @@ $results = $shopClient->getLoyaltiesCardToMe(LoyaltyCardFindByDto $filter );
 <details>
 <summary><b>LoyaltyCardFindByDto</b></summary>
 
-| Fields         |   Type   | Required | Description                                     |
-| -------------- | :------: | :------: | ----------------------------------------------- |
-| id             |  string  |   :x:    | The identifier of the Loyalty card              |
-| uri            |  string  |   :x:    | The uri of the Loyalty card                     |
-| ownerUri       |  string  |   :x:    | The uri of the Loyalty card's owner             |
-| ownerownerUris | string[] |   :x:    | List of owner uris                              |
-| enabled        | boolean  |   :x:    | Indicates if the loyalty card is enabled or not |
+| Fields    |   Type   | Required | Description                                     |
+| --------- | :------: | :------: | ----------------------------------------------- |
+| id        |  string  |   :x:    | The identifier of the Loyalty card              |
+| uri       |  string  |   :x:    | The uri of the Loyalty card                     |
+| ownerUri  |  string  |   :x:    | The uri of the Loyalty card's owner             |
+| ownerUris | string[] |   :x:    | List of owner uris                              |
+| enabled   | boolean  |   :x:    | Indicates if the loyalty card is enabled or not |
 
 This call returns a [LoyaltySearchResultDto](../shop-types#LoyaltySearchResultDto) objects.
 
@@ -47,12 +47,12 @@ card = $shopClient->updateLoyaltyCard(string $cardId, ShopLoyaltyCardUpdateInput
 <details>
 <summary><b>LoyaltyCardFindByDto</b></summary>
 
-| Fields       |                    Type                    |      Required      | Description                                     |
-| ------------ | :----------------------------------------: | :----------------: | ----------------------------------------------- |
-| amount       |                   string                   |        :x:         | The identifier of the Loyalty card              |
-| discountType | [DiscountType](../shop-types#DiscountType) | :white_check_mark: | The uri of the Loyalty card                     |
-| percentage   |                   string                   |        :x:         | The uri of the Loyalty card's owner             |
-| enabled      |                  boolean                   |        :x:         | Indicates if the loyalty card is enabled or not |
+| Fields       |                    Type                    |      Required      | Description                                                               |
+| ------------ | :----------------------------------------: | :----------------: | ------------------------------------------------------------------------- |
+| amount       |                   string                   |        :x:         | The identifier of the Loyalty card                                        |
+| discountType | [DiscountType](../shop-types#DiscountType) | :white_check_mark: | The type of discount offered, linked to the Loyalty card URI              |
+| percentage   |                   string                   |        :x:         | The percentage discount associated with the owner of the Loyalty card URI |
+| enabled      |                  boolean                   |        :x:         | Indicates if the loyalty card is enabled or not                           |
 
 </details>
 

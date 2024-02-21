@@ -11,11 +11,11 @@ class DiscountPaginatedResultOutputDto extends Pagination
      * @var DiscountDto[]
      * @Serializer\Type("array<Sherl\Sdk\Shop\Discount\Dto\DiscountDto>")
      */
-    public array $results;
+    public $results;
 
     /**
      * @var ViewOutputDto
      * @Serializer\Type("Sherl\Sdk\Common\Dto\ViewOutputDto")
      */
-    public mixed $view;
+    public $view;
 }

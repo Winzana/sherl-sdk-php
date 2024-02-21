@@ -5,6 +5,8 @@ namespace Sherl\Sdk\Media\Dto;
 use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Media\Dto\MediaObjectOutputDto;
 
+use DateTime;
+
 class ImageObjectOutputDto
 {
     /**
@@ -56,8 +58,8 @@ class ImageObjectOutputDto
     public $thumbnail;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
     public $createdAt;
 }

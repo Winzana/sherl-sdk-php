@@ -38,4 +38,3 @@ jobs:
 
       - name: Run PHPUnit Tests
         run: vendor/bin/phpunit --testdox
-

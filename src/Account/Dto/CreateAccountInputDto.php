@@ -4,6 +4,7 @@ namespace Sherl\Sdk\Account\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Place\Dto\AddressInfoDto;
+use Sherl\Sdk\Person\Enum\Gender;
 
 class CreateAccountInputDto
 {
@@ -50,8 +51,8 @@ class CreateAccountInputDto
     public $birthDate;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var Gender
+     * @Serializer\Type("enum<'Sherl\Sdk\Person\Enum\Gender', 'value'>")
      */
     public $gender;
 
