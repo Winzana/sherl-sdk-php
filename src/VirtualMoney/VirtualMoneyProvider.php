@@ -20,6 +20,7 @@ use Sherl\Sdk\VirtualMoney\Dto\WalletInputDto;
 use Sherl\Sdk\VirtualMoney\Dto\WalletOuputDto;
 use Sherl\Sdk\VirtualMoney\Dto\TransferWalletInputDto;
 use Sherl\Sdk\VirtualMoney\Dto\WalletOutputDto;
+use Sherl\Sdk\VirtualMoney\Dto\CreateWalletInputDto;
 
 class VirtualMoneyProvider
 {
@@ -118,11 +119,11 @@ class VirtualMoneyProvider
     /**
      * Creates a new wallet with the given details.
      *
-     * @param CreateWalletHistoricalInputDto $wallet The wallet input data object.
+     * @param CreateWalletInputDto $wallet The wallet input data object.
      * @return WalletOutputDto|null The wallet output data object or null on failure.
      * @throws SherlException If there is an error during the wallet creation process.
      */
-    public function createWallet(CreateWalletHistoricalInputDto $wallet): ?WalletOutputDto
+    public function createWallet(CreateWalletInputDto $wallet): ?WalletOutputDto
     {
         try {
             $response = $this->client->post("/api/wallet", [
