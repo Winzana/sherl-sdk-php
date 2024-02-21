@@ -35,11 +35,11 @@ This call returns a [WalletHistoricalOutputDto](virtual-money-types#wallethistor
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$sherlClient->virtualMoney->createWallet(WalletInputDto $wallet);
+$sherlClient->virtualMoney->createWallet(CreateWalletInputDto $wallet);
 ```
 
 <details>
-<summary><b>WalletInputDto</b></summary>
+<summary><b>CreateWalletInputDto</b></summary>
 
 | Fields       |   Type   |      Required      | Description                                            |
 | :----------- | :------: | :----------------: | ------------------------------------------------------ |
