@@ -26,17 +26,16 @@ class AuthProvider
     {
         $this->client = $client;
         $this->errorFactory = new ErrorFactory(self::DOMAIN, AuthErr::$errors);
-
     }
 
     /**
- * Logs in a user with the provided username and password.
- *
- * @param string $username The username of the user.
- * @param string $password The password of the user.
- * @return LoginOutputDto|null The login output data if successful, null otherwise.
- * @throws SherlException If an error occurs during the sign-in process.
- */
+     * Performs sign-in with email and password credentials.
+     *
+     * @param string $username The user's username.
+     * @param string $password The user's password.
+     * @return LoginOutputDto|null The login output data object or null on failure.
+     * @throws SherlException If there is an error during the sign-in process.
+     */
     public function signInWithEmailAndPassword(string $username, string $password): ?LoginOutputDto
     {
         try {
@@ -72,12 +71,11 @@ class AuthProvider
     }
 
     /**
- * Logs out the current user.
- *
- * @return string|null Empty string if logout is successful, null otherwise.
- * @throws SherlException If an error occurs during the logout process.
- */
-
+     * Performs logout for the current user session.
+     *
+     * @return string|null An empty string on successful logout, null on failure. // TODO: check data returned
+     * @throws SherlException If there is an error during the logout process.
+     */
     public function logout(): ?string
     {
         try {
@@ -100,14 +98,13 @@ class AuthProvider
     }
 
     /**
- * Validates an SMS code sent to the provided mobile phone number.
- *
- * @param string $mobilePhoneNumber The mobile phone number to validate the SMS code.
- * @param string $code The SMS code to validate.
- * @return LoginOutputDto|null The login output data if successful, null otherwise.
- * @throws SherlException If an error occurs during the SMS code validation process.
- */
-
+     * Validates the SMS code sent to a mobile phone number during two-factor authentication.
+     *
+     * @param string $mobilePhoneNumber The user's mobile phone number.
+     * @param string $code The SMS code to validate.
+     * @return LoginOutputDto|null The login output data object on success, null on failure.
+     * @throws SherlException If there is an error during code validation.
+     */
     public function validateSmsCode(string $mobilePhoneNumber, string $code): ?LoginOutputDto
     {
         try {
@@ -148,6 +145,7 @@ class AuthProvider
         }
 
     }
+
     /**
      * Resends an SMS code to the provided mobile phone number.
      *
@@ -155,7 +153,6 @@ class AuthProvider
      * @return bool|null True if SMS code is resent successfully, false otherwise.
      * @throws SherlException If an error occurs during the SMS code resending process.
      */
-
     public function resendSMSCode(string $mobilePhoneNumber): ?bool
     {
         try {
@@ -193,7 +190,6 @@ class AuthProvider
      * @return bool|null True if new SMS code is requested successfully, false otherwise.
      * @throws SherlException If an error occurs during the SMS code request process.
      */
-
     public function requestSMSCode(string $mobilePhoneNumber): ?bool
     {
         try {
@@ -211,7 +207,6 @@ class AuthProvider
         } catch (\Exception $err) {
 
             if ($err instanceof \GuzzleHttp\Exception\ClientException) {
-
                 $response = $err->getResponse();
                 $statusCode = $response->getStatusCode();
                 switch ($statusCode) {
@@ -224,13 +219,13 @@ class AuthProvider
             throw $this->errorFactory->create(AuthErr::REQUEST_SMS_CODE_FAILED);
         }
     }
-    /**
-     * Refreshes the authentication token.
-     *
-     * @return LoginOutputDto|null The login output data if successful, null otherwise.
-     * @throws SherlException If an error occurs during the token refresh process.
-     */
 
+    /**
+     * Refreshes the authentication token for the current session.
+     *
+     * @return LoginOutputDto|null The new login output data object or null on failure.
+     * @throws SherlException If there is an error during the token refresh process.
+     */
     public function refreshToken(): ?LoginOutputDto
     {
         try {
@@ -256,13 +251,14 @@ class AuthProvider
             throw $this->errorFactory->create(AuthErr::REFRESH_TOKEN_FAILED);
         }
     }
+
     /**
-     * Logs in a user using external authentication.
+     * Performs an external login using the specified URL and external login input data.
      *
-     * @param string $url The URL for the external login service.
-     * @param ExternalLoginInputDto $externalLoginInput The input data for external authentication.
-     * @return LoginOutputDto|null The login output data if successful, null otherwise.
-     * @throws SherlException If an error occurs during the external login process.
+     * @param string $url The URL endpoint for the external login service.
+     * @param ExternalLoginInputDto $externalLoginInput The external login input data object.
+     * @return LoginOutputDto|null The login output data object or null on failure.
+     * @throws SherlException If there is an error during the external login process.
      */
     private function externalLogin(string $url, ExternalLoginInputDto $externalLoginInput): ?LoginOutputDto
     {
@@ -313,14 +309,14 @@ class AuthProvider
             throw $this->errorFactory->create(AuthErr::AUTH_FAILED);
         }
     }
-    /**
-     * Logs in a user using Google authentication.
-     *
-     * @param ExternalLoginInputDto $googleInput The input data for Google authentication.
-     * @return LoginOutputDto|null The login output data if successful, null otherwise.
-     * @throws SherlException If an error occurs during the Google login process.
-     */
 
+    /**
+     * Performs login using Google external authentication.
+     *
+     * @param ExternalLoginInputDto $googleInput The external login input data for Google.
+     * @return LoginOutputDto|null The login output data transfer object or null on failure.
+     * @throws SherlException If there is an error during the Google login process.
+     */
     public function loginWithGoogle(ExternalLoginInputDto $googleInput): ?LoginOutputDto
     {
         try {
@@ -340,14 +336,14 @@ class AuthProvider
             throw $this->errorFactory->create(AuthErr::LOGIN_GOOGLE_FAILED);
         }
     }
-    /**
-     * Logs in a user using Facebook authentication.
-     *
-     * @param ExternalLoginInputDto $facebookInput The input data for Facebook authentication.
-     * @return LoginOutputDto|null The login output data if successful, null otherwise.
-     * @throws SherlException If an error occurs during the Facebook login process.
-     */
 
+    /**
+     * Performs login using Facebook external authentication.
+     *
+     * @param ExternalLoginInputDto $facebookInput The external login input data for Facebook.
+     * @return LoginOutputDto|null The login output data object or null on failure.
+     * @throws SherlException If there is an error during the Facebook login process.
+     */
     public function loginWithFacebook(ExternalLoginInputDto $facebookInput): ?LoginOutputDto
     {
         try {
@@ -367,14 +363,14 @@ class AuthProvider
             throw $this->errorFactory->create(AuthErr::LOGIN_FACEBOOK_FAILED);
         }
     }
-    /**
-     * Logs in a user using Apple authentication.
-     *
-     * @param ExternalLoginInputDto $appleInput The input data for Apple authentication.
-     * @return LoginOutputDto|null The login output data if successful, null otherwise.
-     * @throws SherlException If an error occurs during the Apple login process.
-     */
 
+    /**
+     * Performs login using Apple external authentication.
+     *
+     * @param ExternalLoginInputDto $appleInput The external login input data for Apple.
+     * @return LoginOutputDto|null The login output data object or null on failure.
+     * @throws SherlException If there is an error during the Apple login process.
+     */
     public function loginWithApple(ExternalLoginInputDto $appleInput): ?LoginOutputDto
     {
         try {
@@ -394,15 +390,15 @@ class AuthProvider
             throw $this->errorFactory->create(AuthErr::LOGIN_APPLE_FAILED);
         }
     }
-    /**
-     * Logs in a user using a provided code.
-     *
-     * @param string $userId The ID of the user.
-     * @param string $code The code for login.
-     * @return LoginOutputDto|null The login output data if successful, null otherwise.
-     * @throws SherlException If an error occurs during the login with code process.
-     */
 
+    /**
+     * Performs login using a unique code.
+     *
+     * @param string $userId The unique identifier of the user.
+     * @param string $code The unique code for login.
+     * @return LoginOutputDto|null The login output data object or null on failure.
+     * @throws SherlException If there is an error during the login with code process.
+     */
     public function loginWithCode(string $userId, string $code): ?LoginOutputDto
     {
         try {

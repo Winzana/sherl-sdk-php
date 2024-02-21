@@ -1,50 +1,44 @@
 <?php
 
-namespace Sherl\Sdk\Media\Dto;
+namespace Sherl\Sdk\Place\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class MediaObjectOutputDto
+class AddressFilterDto
 {
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $contentUrl;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $description;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $duration;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $encodingFormat;
-
-    /**
-     * @var float
-     * @Serializer\Type("float")
-     */
-    public $size;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $name;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
     public $id;
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $country;
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $locality;
+
+    /**
+     * @var string|null
+     * @Serializer\Type("string")
+     */
+    public $region;
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $postalCode;
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $streetAddress;
 }

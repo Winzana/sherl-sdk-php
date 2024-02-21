@@ -4,7 +4,7 @@ namespace Sherl\Sdk\Media\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class MediaObjectOutputDto
+class MediaObjectDto
 {
     /**
      * @var string
