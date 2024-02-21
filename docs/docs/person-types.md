@@ -379,17 +379,17 @@ To access these properties, you need to have activated the domains on which the 
 </details>
 
 <details>
- <summary>PersonPanelIUpdateInputDto</summary>
+ <summary>PersonPanelUpdateInputDto</summary>
 
-| Fields      |                                   Type                                    | Description                               |
-| :---------- | :-----------------------------------------------------------------------: | :---------------------------------------- |
-| **name**    |                                 `string`                                  | The name of the person panel to update    |
-| **filters** | [PersonPanelIUpdateFilterInputDto](#personpaneliupdatefilterinputdto)`[]` | The filters of the person panel to update |
+| Fields      |                                  Type                                   | Description                               |
+| :---------- | :---------------------------------------------------------------------: | :---------------------------------------- |
+| **name**    |                                `string`                                 | The name of the person panel to update    |
+| **filters** | [PersonPanelUpdateFilterInputDto](#personpanelupdatefilterinputdto)`[]` | The filters of the person panel to update |
 
 </details>
 
 <details>
- <summary>PersonPanelIUpdateFilterInputDto</summary>
+ <summary>PersonPanelUpdateFilterInputDto</summary>
 
 | Fields    |   Type   | Description                                  |
 | :-------- | :------: | :------------------------------------------- |

@@ -15,7 +15,7 @@ class PersonPanelUpdateInputDto
 
     /**
      * @var PersonPanelUpdateFilterInputDto[]
-     * @Serializer\Type("array<Sherl\Sdk\Person\Dto\PersonPanelIUpdateFilterInputDto>")
+     * @Serializer\Type("array<Sherl\Sdk\Person\Dto\PersonPanelUpdateFilterInputDto>")
      */
     public $filters;
 }
