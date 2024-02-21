@@ -9,7 +9,6 @@ use Sherl\Sdk\Person\Dto\AddressInputDto;
 
 class PersonAddAddressInputDto extends AddressInputDto
 {
-
     /**
      * @var string[]
      * @Serializer\Type("array<string>")
