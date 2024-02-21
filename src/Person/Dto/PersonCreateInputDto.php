@@ -91,7 +91,7 @@ class PersonCreateInputDto
 
     /**
      * @var Gender
-     * @Serializer\Type("Sherl\Sdk\Person\Enum\Gender")
+     * @Serializer\Type("enum<'Sherl\Sdk\Person\Enum\Gender', 'value'>")
      */
     public $gender;
 

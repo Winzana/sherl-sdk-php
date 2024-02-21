@@ -4,8 +4,6 @@ namespace Sherl\Sdk\Person\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-use Sherl\Sdk\Person\Dto\AddressInputDto;
-use Sherl\Sdk\Person\Dto\PersonOrganizationCreateInputDto;
 use Sherl\Sdk\Person\Dto\PersonInputDto;
 use Sherl\Sdk\Person\Dto\FrequentedEstablishmentDto;
 use Sherl\Sdk\Place\Dto\AddressFilterDto;
@@ -133,7 +131,7 @@ class PersonFiltersDto
 
     /**
      * @var Gender
-     * @Serializer\Type("Sherl\Sdk\Person\Enum\Gender")
+     * @Serializer\Type("enum<'Sherl\Sdk\Person\Enum\Gender', 'value'>")
      */
     public $gender;
 
