@@ -152,3 +152,13 @@ $viewsCount = $client->$shop->getProductViews(string $productId);
 ```
 
 This call returns the current number of views.
+
+## Get Public Categories And Sub
+
+<span class="badge badge--success">Public</span>
+
+```php
+$categoryAndSub = $client->$shop->getPublicCategoriesAndSub(PublicCategoryAndSubCategoryFindByDto $filters)
+```
+
+This call returns an [PublicCategoryResponseDto](../shop-types#PublicCategoryResponseDto) object.
