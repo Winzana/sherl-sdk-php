@@ -127,10 +127,10 @@ class ShopProvider
 
                 switch ($statusCode) {
                     case 403:
-                        throw $this->errorFactory->create(ShopErr::CREATION_FORBIDDEN);
+                        throw $this->errorFactory->create(ShopErr::CREATION_ADVERTISEMENT_FORBIDDEN);
                 }
             }
-            throw $this->errorFactory->create(ShopErr::CREATION_FAILED);
+            throw $this->errorFactory->create(ShopErr::CREATION_ADVERTISEMENT_FAILED);
         }
     }
 
@@ -164,12 +164,12 @@ class ShopProvider
 
                 switch ($statusCode) {
                     case 403:
-                        throw $this->errorFactory->create(ShopErr::UPDATE_FORBIDDEN);
+                        throw $this->errorFactory->create(ShopErr::UPDATE_ADVERTISEMENT_FORBIDDEN);
                     case 404:
                         throw $this->errorFactory->create(ShopErr::ADVERTISEMENT_NOT_FOUND);
                 }
             }
-            throw $this->errorFactory->create(ShopErr::UPDATE_FAILED);
+            throw $this->errorFactory->create(ShopErr::UPDATE_ADVERTISEMENT_FAILED);
         }
     }
 
@@ -199,12 +199,12 @@ class ShopProvider
 
                 switch ($statusCode) {
                     case 403:
-                        throw $this->errorFactory->create(ShopErr::DELETE_FORBIDDEN);
+                        throw $this->errorFactory->create(ShopErr::DELETE_ADVERTISEMENT_FORBIDDEN);
                     case 404:
                         throw $this->errorFactory->create(ShopErr::ADVERTISEMENT_NOT_FOUND);
                 }
             }
-            throw $this->errorFactory->create(ShopErr::DELETE_FAILED);
+            throw $this->errorFactory->create(ShopErr::DELETE_ADVERTISEMENT_FAILED);
         }
     }
 
@@ -262,7 +262,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $filter
+              RequestOptions::QUERY => $filter
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -298,7 +298,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $filter
+              RequestOptions::QUERY => $filter
             ]);
 
 
@@ -445,7 +445,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => [
+              RequestOptions::QUERY => [
                 'customerUri' => $customerUri
               ]
             ]);
@@ -485,9 +485,6 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => [
-                'itemId' => $itemId
-              ]
             ]);
             return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
         } catch (Exception $err) {
@@ -541,7 +538,7 @@ class ShopProvider
                         throw $this->errorFactory->create(ShopErr::CODE_NOT_FOUND);
                 }
             }
-            throw $this->errorFactory->create(ShopErr::BASKET_REMOVE_FAILED);
+            throw $this->errorFactory->create(ShopErr::BASKET_DISCOUNT_CODE_FAILED);
         }
     }
 
@@ -599,7 +596,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $validation
+              RequestOptions::QUERY => $validation
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -754,9 +751,6 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => [
-                "discountId" => $discountId
-              ]
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -790,11 +784,11 @@ class ShopProvider
     public function getDiscountByParams(DiscountFilterInputDto $filter): ?DiscountDto
     {
         try {
-            $response = $this->client->get("/api/shop/advertisements/", [
+            $response = $this->client->get("/api/shop/advertisements", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $filter,
+              RequestOptions::QUERY => $filter,
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -830,9 +824,6 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => [
-                "discountId" => $discountId
-              ]
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -908,7 +899,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $filter
+              RequestOptions::QUERY => $filter
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -984,9 +975,6 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => [
-                "invoiceId" => $invoiceId
-              ]
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -1026,7 +1014,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $filter
+              RequestOptions::QUERY => $filter
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -1699,7 +1687,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $filters
+              RequestOptions::QUERY => $filters
             ]);
 
 
@@ -2640,7 +2628,7 @@ class ShopProvider
                     case 404:
                         throw $this->errorFactory->create(ShopErr::PRODUCT_OR_MEDIA_NOT_FOUND);
                 }
-                throw $this->errorFactory->create(ShopErr::REMOVE_PICTURE_PRODUCT_FAILED);
+                throw  $this->errorFactory->create(ShopErr::REMOVE_PICTURE_PRODUCT_FAILED);
             }
         }
         return null;

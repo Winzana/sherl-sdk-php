@@ -5,12 +5,12 @@ namespace Sherl\Sdk\Shop\Errors;
 class ShopErr
 {
     // ADVERTISEMENT
-    public const CREATION_FAILED = 'advertisement/creation-failed';
-    public const CREATION_FORBIDDEN = 'advertisement/creation-forbidden';
-    public const UPDATE_FAILED = 'advertisement/update-failed';
-    public const UPDATE_FORBIDDEN = 'advertisement/update-forbidden';
-    public const DELETE_FAILED = 'advertisement/delete-failed';
-    public const DELETE_FORBIDDEN = 'advertisement/delete-forbidden';
+    public const CREATION_ADVERTISEMENT_FAILED = 'advertisement/creation-advertisement-failed';
+    public const CREATION_ADVERTISEMENT_FORBIDDEN = 'advertisement/creation-advertisement-forbidden';
+    public const UPDATE_ADVERTISEMENT_FAILED = 'advertisement/update-advertisement-failed';
+    public const UPDATE_ADVERTISEMENT_FORBIDDEN = 'advertisement/update-advertisement-forbidden';
+    public const DELETE_ADVERTISEMENT_FAILED = 'advertisement/delete-advertisement-failed';
+    public const DELETE_ADVERTISEMENT_FORBIDDEN = 'advertisement/delete-advertisement-forbidden';
     public const GET_ADVERTISEMENT_BY_ID_FAILED = 'advertisement/get-advertisement-by-id-failed';
     public const GET_ADVERTISEMENT_BY_ID_FORBIDDEN = 'advertisement/get-advertisement-by-id-forbidden';
     public const GET_ADVERTISEMENTS_FAILED = 'advertisement/get-advertisements-failed';
@@ -195,12 +195,12 @@ class ShopErr
      */
     public static $errors = [
       // ADVERTISEMENT
-      self::CREATION_FAILED => 'Create advertisement failed',
-      self::CREATION_FORBIDDEN => 'Create advertisement failed, forbidden',
-      self::UPDATE_FAILED => 'Update advertisement failed',
-      self::UPDATE_FORBIDDEN => 'Update advertisement failed, forbidden',
-      self::DELETE_FAILED => 'Delete advertisement failed',
-      self::DELETE_FORBIDDEN => 'Delete advertisement failed, forbidden',
+      self::CREATION_ADVERTISEMENT_FAILED => 'Create advertisement failed',
+      self::CREATION_ADVERTISEMENT_FORBIDDEN => 'Create advertisement failed, forbidden',
+      self::UPDATE_ADVERTISEMENT_FAILED => 'Update advertisement failed',
+      self::UPDATE_ADVERTISEMENT_FORBIDDEN => 'Update advertisement failed, forbidden',
+      self::DELETE_ADVERTISEMENT_FAILED => 'Delete advertisement failed',
+      self::DELETE_ADVERTISEMENT_FORBIDDEN => 'Delete advertisement failed, forbidden',
       self::ADVERTISEMENT_NOT_FOUND => 'Advertisement not found',
       self::GET_ADVERTISEMENT_BY_ID_FAILED => 'Get advertisement by id failed',
       self::GET_ADVERTISEMENT_BY_ID_FORBIDDEN => 'Get advertisement by id failed forbidden',

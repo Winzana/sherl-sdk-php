@@ -4,10 +4,9 @@ namespace Sherl\Sdk\Shop\Order\Dto;
 
 use Sherl\Sdk\Common\Dto\ViewOutputDto;
 
-use Sherl\Sdk\Common\Dto\Pagination;
 use Sherl\Sdk\Shop\Order\Dto\OrderDto;
 
-class OrderFindOutputDto extends Pagination
+class OrderFindOutputDto
 {
     /**
      * @var OrderDto[]

@@ -35,8 +35,8 @@ class AdvertisementDto
     public $description;
 
     /**
-     * @var DisplayZoneEnum
-     * @Serializer\Type("Sherl\Sdk\Shop\Enum\DisplayZoneEnum")
+     * @var DisplayZoneEnum[]
+     * @Serializer\Type("enum<'Sherl\Sdk\Shop\Enum\DisplayZoneEnum', 'value'>")
      */
     public $displayZones;
 
