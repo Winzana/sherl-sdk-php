@@ -1,34 +1,39 @@
 <?php
 
-namespace Sherl\Sdk\Organization\Dto;
+namespace Sherl\Sdk\Cms\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
-
 use DateTime;
 
-class FacebookThirdPartOutputDto
+class CMSArticleUpdateInputDto
 {
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $accessToken;
+    public $title;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $longLivedUserAccessToken;
+    public $content;
 
     /**
      * @var DateTime
      * @Serializer\Type("DateTime")
      */
-    public $expirationDate;
+    public $beginDate;
+
+    /**
+     * @var DateTime
+     * @Serializer\Type("DateTime")
+     */
+    public $endDate;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $userID;
+    public $status;
 }

@@ -4,31 +4,35 @@ namespace Sherl\Sdk\Organization\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
-use DateTime;
-
-class FacebookThirdPartOutputDto
+class OrganizationDocumentsOutputDto
 {
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $accessToken;
+    public $bic;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $longLivedUserAccessToken;
-
-    /**
-     * @var DateTime
-     * @Serializer\Type("DateTime")
-     */
-    public $expirationDate;
+    public $iban;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $userID;
+    public $id;
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $ibanId;
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $status;
 }
