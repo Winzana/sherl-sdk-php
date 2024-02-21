@@ -54,18 +54,18 @@ title: Calendar Types
 
 ### OpeningHoursSpecificationOutputDto
 
-| Field                         |                                     Type                                     | Description                                                 |
-| ----------------------------- | :--------------------------------------------------------------------------: | ----------------------------------------------------------- |
-| id                            |                                    string                                    | Array of Calendar Event                                     |
-| daysOfWeek                    |                                    string                                    | The concerned day                                           |
-| weekDays                      |                                   string[]                                   | List of concerned days                                      |
-| closes                        |                                    string                                    | The closing time                                            |
-| opens                         |                                    string                                    | The opening time                                            |
-| validFrom                     |                                    string                                    | The start date of this opening hours specification          |
-| validFromMonthDay             |                                    number                                    | The month day number which this opening specification start |
-| validThrough                  |                                    string                                    | The end date of this opening hours specification            |
-| validThroughMonthDay          |                                    string                                    | The month day number which this opening specification stop  |
-| HoursSpecificationRulesetEnum | [HoursSpecificationRulesetEnum](calendar-enum#HoursSpecificationRulesetEnum) | The rules to apply to the opening hours specification       |
+| Field                         |                                     Type                                      | Description                                                 |
+| ----------------------------- | :---------------------------------------------------------------------------: | ----------------------------------------------------------- |
+| id                            |                                    string                                     | Array of Calendar Event                                     |
+| daysOfWeek                    |                                    string                                     | The concerned day                                           |
+| weekDays                      |                                   string[]                                    | List of concerned days                                      |
+| closes                        |                                    string                                     | The closing time                                            |
+| opens                         |                                    string                                     | The opening time                                            |
+| validFrom                     |                                    string                                     | The start date of this opening hours specification          |
+| validFromMonthDay             |                                    number                                     | The month day number which this opening specification start |
+| validThrough                  |                                    string                                     | The end date of this opening hours specification            |
+| validThroughMonthDay          |                                    string                                     | The month day number which this opening specification stop  |
+| HoursSpecificationRulesetEnum | [HoursSpecificationRulesetEnum](calendar-types#HoursSpecificationRulesetEnum) | The rules to apply to the opening hours specification       |
 
 ## AvailabilityScale
 

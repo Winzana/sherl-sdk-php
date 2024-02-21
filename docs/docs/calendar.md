@@ -91,17 +91,17 @@ $sherlClient->calendar->findCalendarAvailabilities(FindAvailabilitiesInputDto $f
 <details>
  <summary><b>FindAvailabilitiesInputDto</b></summary>
 
-| Fields       |                         Type                         | Required | Description                          |
-| ------------ | :--------------------------------------------------: | :------: | ------------------------------------ |
-| ownerUri     |                        string                        |   :x:    | Uri of the owner project             |
-| aboutUri     |                        string                        |   :x:    | The uri of the event resource        |
-| userPlaceUri |                        string                        |   :x:    | The uri of the user place            |
-| metadatas    |                        mixed                         |   :x:    | Other metadata to filter             |
-| startDate    |                        string                        |   :x:    | Start date of the calendar to find   |
-| endDate      |                        string                        |   :x:    | End date of the calendar to find     |
-| scale        | [AvailabilityScale](calendar-enum#availabilityscale) |   :x:    | The kind of period                   |
-| scaleValue   |                        string                        |   :x:    | The number of period                 |
-| available    |                       boolean                        |   :x:    | Availability of the calendar to find |
+| Fields       |                         Type                          | Required | Description                          |
+| ------------ | :---------------------------------------------------: | :------: | ------------------------------------ |
+| ownerUri     |                        string                         |   :x:    | Uri of the owner project             |
+| aboutUri     |                        string                         |   :x:    | The uri of the event resource        |
+| userPlaceUri |                        string                         |   :x:    | The uri of the user place            |
+| metadatas    |                         mixed                         |   :x:    | Other metadata to filter             |
+| startDate    |                        string                         |   :x:    | Start date of the calendar to find   |
+| endDate      |                        string                         |   :x:    | End date of the calendar to find     |
+| scale        | [AvailabilityScale](calendar-types#availabilityscale) |   :x:    | The kind of period                   |
+| scaleValue   |                        string                         |   :x:    | The number of period                 |
+| available    |                        boolean                        |   :x:    | Availability of the calendar to find |
 
 </details>
 
@@ -284,7 +284,7 @@ GetCalendarEventForCurrentPersonInputDto extends [PaginationFilterInputDto](pagi
 | aboutUri     | string                                                 | :x:        | The uri for the associated custom resource |
 | ownerUri     | string                                                 | :x:        | The uri of the owner                       |
 | startDate    | [DateFilterOutputDto](date-filter#datefilteroutputdto) | :x:        | Start date of the event                    |
-| endDate      | [DateFilterOutputDto](date-filter#datefilteroutputdto  | :x:        | End date of the event                      |
+| endDate      | [DateFilterOutputDto](date-filter#datefilteroutputdto) | :x:        | End date of the event                      |
 
 </details>
 
