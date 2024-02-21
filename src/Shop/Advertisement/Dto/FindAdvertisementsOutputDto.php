@@ -7,7 +7,7 @@ use Sherl\Sdk\Shop\Advertisement\Dto\AdvertisementDto;
 use Sherl\Sdk\Common\Dto\Pagination;
 use Sherl\Sdk\Common\Dto\ViewOutputDto;
 
-class FindAdvertisementsOutputDto extends Pagination
+class FindAdvertisementsOutputDto
 {
     /**
      * @var AdvertisementDto[]
