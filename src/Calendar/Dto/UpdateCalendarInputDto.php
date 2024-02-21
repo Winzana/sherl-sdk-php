@@ -20,7 +20,7 @@ class UpdateCalendarInputDto
     public $ownerUri;
 
     /**
-     * @var OpeningHoursSpecificationOutputDto
+     * @var OpeningHoursSpecificationOutputDto[]
      * @Serializer\Type("array<Sherl\Sdk\Calendar\Dto\OpeningHoursSpecificationOutputDto>")
      */
     public $availabilities;

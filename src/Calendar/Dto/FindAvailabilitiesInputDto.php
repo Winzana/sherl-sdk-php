@@ -45,7 +45,7 @@ class FindAvailabilitiesInputDto
 
     /**
      * @var AvailabilityScale
-     * @Serializer\Type("Sherl\Sdk\Calendar\Enum\AvailabilityScale")
+     * @Serializer\Type("enum<'Sherl\Sdk\Calendar\Enum\AvailabilityScale', 'value'>")
      */
     public $scale;
 

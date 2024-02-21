@@ -66,3 +66,26 @@ title: Calendar Types
 | validThrough                  |                                    string                                    | The end date of this opening hours specification            |
 | validThroughMonthDay          |                                    string                                    | The month day number which this opening specification stop  |
 | HoursSpecificationRulesetEnum | [HoursSpecificationRulesetEnum](calendar-enum#HoursSpecificationRulesetEnum) | The rules to apply to the opening hours specification       |
+
+## AvailabilityScale
+
+| Values     |   Type   |
+| :--------- | :------: |
+| **HOUR**   | `string` |
+| **DAY**    | `string` |
+| **MINUTE** | `string` |
+
+## HoursSpecificationRulesetEnum
+
+| Values                    |   Type   |
+| :------------------------ | :------: |
+| **OPEN_EVERY_DAY**        | `string` |
+| **OPEN_EXCEPT_WEEK_DAYS** | `string` |
+| **OPEN_WEEK_DAYS**        | `string` |
+
+## Restriction
+
+| Values         |   Type   |
+| :------------- | :------: |
+| **Radius**     | `string` |
+| **LOCALITIES** | `string` |

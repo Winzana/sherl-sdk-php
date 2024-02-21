@@ -1,12 +1,12 @@
 <?php
 
-namespace Sherl\Sdk\Quotas\Dto;
+namespace Sherl\Sdk\Quota\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 
 use Sherl\Sdk\Communication\Enum\CommunicationTypeEnum;
 
-use Sherl\Sdk\Quotas\Dto\QuotasSourceOutputDto;
+use Sherl\Sdk\Quota\Dto\QuotaSourceOutputDto;
 
 class QuotaOutputDto
 {
@@ -47,8 +47,8 @@ class QuotaOutputDto
     public $ownerUri;
 
     /**
-     * @var QuotasSourceOutputDto[]
-     * @Serializer\Type("array<Sherl\Sdk\Quotas\Dto\QuotasSourceOutputDto>")
+     * @var QuotaSourceOutputDto[]
+     * @Serializer\Type("array<Sherl\Sdk\Quota\Dto\QuotaSourceOutputDto>")
      */
     public $sources;
 

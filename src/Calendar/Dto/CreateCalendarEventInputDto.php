@@ -3,6 +3,7 @@
 namespace Sherl\Sdk\Calendar\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
+use DateTime;
 
 class CreateCalendarEventInputDto
 {
@@ -31,14 +32,14 @@ class CreateCalendarEventInputDto
     public $ownerUri;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
     public $startDate;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
     public $endDate;
 

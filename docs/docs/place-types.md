@@ -24,25 +24,34 @@ title: Place types
 | **latitude**                   |  float   | Geographic coordinate                   |
 | **longitude**                  |  float   | Geographic coordinate                   |
 
-### PlaceOutputDto
+## AddressOutputDto
 
-| Fields                     |   Type   | Description                                    |
-| -------------------------- | :------: | ---------------------------------------------- |
-| id                         |  string  | The id of the place                            |
-| uri                        |  string  | the uri of the place                           |
-| country                    |  string  | The place's country                            |
-| locality                   |  string  | The place 's locality                          |
-| region                     |  string  | The place region                               |
-| department                 |  string  | The place's department                         |
-| types                      | string[] | An array of type for the place                 |
-| postalCode                 |  string  | The place's postal code                        |
-| streetAddress              |  string  | The place's street address                     |
-| complementaryStreetAddress |  string  | The complementary addres                       |
-| name                       |  string  | The name of the place                          |
-| originId                   |  string  | TODO                                           |
-| latitude                   |  float   | The latitude of the place                      |
-| longitude                  |  float   | The longitude of the place                     |
-| createdAt                  |  string  | The date creation of the place                 |
-| updatedAt                  |  string  | The last update of the place                   |
-| type                       |  string  | The type of the place                          |
-| isDefault                  | boolean  | Specify if the place is a default place or not |
+| Fields        | Type   | Description                                          |
+| ------------- | ------ | ---------------------------------------------------- |
+| **id**        | string | A unique identifier for the address.                 |
+| **createdAt** | string | The date and time when the address was created.      |
+| **updatedAt** | string | The date and time when the address was last updated. |
+
+## PlaceOutputDto
+
+| Fields                         | Type     | Description                                                 |
+| ------------------------------ | -------- | ----------------------------------------------------------- |
+| **id**                         | string   | A unique identifier for the place.                          |
+| **uri**                        | string   | A URI to more information or actions related to the place.  |
+| **country**                    | string   | The country part of the place address.                      |
+| **locality**                   | string   | The locality or city part of the place address.             |
+| **region**                     | string   | The region or state part of the place address.              |
+| **department**                 | string   | The department or division part of the place address.       |
+| **types**                      | string[] | An array of place types or classifications.                 |
+| **postalCode**                 | string   | The postal code or ZIP code part of the place address.      |
+| **streetAddress**              | string   | The street address of the place.                            |
+| **complementaryStreetAddress** | string   | Complementary details of the place street address.          |
+| **name**                       | string   | The name associated with the place, e.g., "Central Park".   |
+| **originId**                   | string   | An original identifier for the place.                       |
+| **latitude**                   | float    | The latitude coordinate of the place.                       |
+| **longitude**                  | float    | The longitude coordinate of the place.                      |
+| **consumerId**                 | string   | A unique identifier for the consumer related to this place. |
+| **createdAt**                  | string   | The date and time when the place was created.               |
+| **updatedAt**                  | string   | The date and time when the place was last updated.          |
+| **type**                       | string   | The type of place.                                          |
+| **isDefault**                  | boolean  | Indicates if this is the default place for something .      |

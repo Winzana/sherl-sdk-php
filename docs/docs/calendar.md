@@ -100,7 +100,7 @@ $sherlClient->calendar->findCalendarAvailabilities(FindAvailabilitiesInputDto $f
 | startDate    |                        string                        |   :x:    | Start date of the calendar to find   |
 | endDate      |                        string                        |   :x:    | End date of the calendar to find     |
 | scale        | [AvailabilityScale](calendar-enum#availabilityscale) |   :x:    | The kind of period                   |
-| scaleValue   |                                                      |   :x:    | The number of period                 |
+| scaleValue   |                        string                        |   :x:    | The number of period                 |
 | available    |                       boolean                        |   :x:    | Availability of the calendar to find |
 
 </details>
@@ -120,7 +120,7 @@ $sherlClient->calendar->checksDateAvailabilities(CheckDatesInputDto $dates);
 
 | Fields       |  Type  | Description                               |
 | :----------- | :----: | :---------------------------------------- |
-| **id**       | string | calendar's id                             |
+| **id**       | string | Calendar's id                             |
 | **personId** | string | ID of person which associated to calendar |
 | **orderId**  | string | ID of order which associated to calendar  |
 
@@ -239,7 +239,7 @@ This call returns a [CalendarEventDto](calendar-types#CalendarEventDto) class.
 Get all calendar events from a specific calendar with the possibility to filter the results.
 
 ```php
-$sherlClient->calendar->getAllCalendarEvents(string $eventId, GetCalendarEventForCalendarInputDto $filters );
+$sherlClient->calendar->getAllCalendarEvents(string $calendarId, GetCalendarEventForCalendarInputDto $filters );
 ```
 
 <details>
@@ -258,7 +258,7 @@ $sherlClient->calendar->getAllCalendarEvents(string $eventId, GetCalendarEventFo
 
 </details>
 
-This call returns a [GetCalendarEventForCalendarResultsDto](calendar-types#GetCalendarEventForCalendarResultsDto) class.
+This call returns a [GetCalendarEventForCalendarResultsDto](calendar-types#GetCalendarEventForCalendarResultsDto) object.
 
 ## Get all calendar events for current person
 
@@ -317,4 +317,4 @@ DtoGetCalendarEventByOwnerInputDto extends [PaginationFilterInputDto](pagination
 
 </details>
 
-This call returns a [GetCalendarEventForCalendarResultsDto](calendar-types#GetCalendarEventForCalendarResultsDto) class.
+This call returns a [GetCalendarEventForCalendarResultsDto](calendar-types#GetCalendarEventForCalendarResultsDto) object.

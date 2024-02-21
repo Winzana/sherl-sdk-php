@@ -20,7 +20,7 @@ class OpeningHoursSpecificationOutputDto
     public $dayOfWeek;
 
     /**
-     * @var string
+     * @var string[]
      * @Serializer\Type("array<string>")
      */
     public $weekDays;
@@ -44,8 +44,8 @@ class OpeningHoursSpecificationOutputDto
     public $validFrom;
 
     /**
-     * @var number
-     * @Serializer\Type("number")
+     * @var integer
+     * @Serializer\Type("integer")
      */
     public $validFromMonthDay;
 
@@ -56,8 +56,8 @@ class OpeningHoursSpecificationOutputDto
     public $validThrough;
 
     /**
-     * @var number
-     * @Serializer\Type("number")
+     * @var integer
+     * @Serializer\Type("integer")
      */
     public $validThroughMonthDay;
 
@@ -69,7 +69,7 @@ class OpeningHoursSpecificationOutputDto
 
     /**
      * @var HoursSpecificationRulesetEnum
-     * @Serializer\Type("Sherl\Sdk\Calendar\Enum\HoursSpecificationRulesetEnum")
+     * @Serializer\Type("enum<'Sherl\Sdk\Calendar\Enum\HoursSpecificationRulesetEnum', 'value'>")
      */
     public $ruleset;
 }

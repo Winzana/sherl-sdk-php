@@ -4,6 +4,7 @@ namespace Sherl\Sdk\Calendar\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Calendar\Dto\OpenHoursSpecification;
+use Sherl\Sdk\Calendar\Dto\DateFilterOutputDto;
 
 class UpdateCalendarEventInputDto
 {
@@ -26,13 +27,13 @@ class UpdateCalendarEventInputDto
     public $calendarUri;
 
     /**
-     * @var string
+     * @var DateFilterOutputDto
      * @Serializer\Type("Sherl\Sdk\Common\Dto\DateFilterOutputDto")
      */
     public $startDate;
 
     /**
-     * @var string
+     * @var DateFilterOutputDto
      * @Serializer\Type("Sherl\Sdk\Common\Dto\DateFilterOutputDto")
      */
     public $endDate;

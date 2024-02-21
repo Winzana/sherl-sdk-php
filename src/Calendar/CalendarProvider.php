@@ -9,7 +9,6 @@ use Psr\Http\Message\ResponseInterface;
 
 use Sherl\Sdk\Common\Error\SherlException;
 use Sherl\Sdk\Common\Error\ErrorFactory;
-use Sherl\Sdk\Common\Error\ErrorHelper;
 use Sherl\Sdk\Calendar\Errors\CalendarErr;
 use Exception;
 use Sherl\Sdk\Common\SerializerFactory;
@@ -80,10 +79,7 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError(
-                $err,
-                $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_FAILED)
-            );
+            throw $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_FAILED);
         }
     }
 
@@ -98,7 +94,7 @@ class UserProvider
     public function updateCalendar(string $calendarId, UpdateCalendarInputDto $calendarData): ?CalendarDto
     {
         try {
-            $response = $this->client->put('/api/calendar/' . $calendarId, [
+            $response = $this->client->put("api/calendar/$calendarId", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
@@ -121,10 +117,7 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError(
-                $err,
-                $this->errorFactory->create(CalendarErr::UPDATE_CALENDAR_FAILED)
-            );
+            throw $this->errorFactory->create(CalendarErr::UPDATE_CALENDAR_FAILED);
         }
     }
 
@@ -138,7 +131,7 @@ class UserProvider
     public function deleteCalendar(string $calendarId): bool
     {
         try {
-            $response = $this->client->delete('/api/calendar/' . $calendarId, [
+            $response = $this->client->delete("/api/calendar/$calendarId", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
@@ -157,10 +150,7 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError(
-                $err,
-                $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_FAILED)
-            );
+             throw  $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_FAILED);
         }
     }
 
@@ -174,7 +164,7 @@ class UserProvider
     public function getCalendarById(string $calendarId): ?CalendarDto
     {
         try {
-            $response = $this->client->get('/api/calendar/' . $calendarId, [
+            $response = $this->client->get("/api/calendar/$calendarId", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
@@ -197,10 +187,8 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError(
-                $err,
-                $this->errorFactory->create(CalendarErr::GET_ONE_CALENDAR_FAILED)
-            );
+            throw $this->errorFactory->create(CalendarErr::GET_ONE_CALENDAR_FAILED);
+
         }
     }
 
@@ -218,7 +206,7 @@ class UserProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $filters
+              RequestOptions::QUERY => $filters
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -238,10 +226,7 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError(
-                $err,
-                $this->errorFactory->create(CalendarErr::FIND_CALENDAR_AVAILABILITIES_FAILED)
-            );
+            throw $this->errorFactory->create(CalendarErr::FIND_CALENDAR_AVAILABILITIES_FAILED);
         }
     }
 
@@ -259,7 +244,7 @@ class UserProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $dates
+              RequestOptions::QUERY => $dates
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -277,10 +262,7 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CHECK_DATES_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError(
-                $err,
-                $this->errorFactory->create(CalendarErr::CHECK_DATES_FAILED)
-            );
+            throw $this->errorFactory->create(CalendarErr::CHECK_DATES_FAILED);
         }
     }
 
@@ -294,11 +276,11 @@ class UserProvider
     public function checkLocationAvailabilities(CheckLocationInputDto $location): bool
     {
         try {
-            $response = $this->client->get('//api/calendar/check-location', [
+            $response = $this->client->get('/api/calendar/check-location', [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $location
+              RequestOptions::QUERY => $location
             ]);
 
             return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
@@ -312,10 +294,7 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CHECK_LOCATION_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError(
-                $err,
-                $this->errorFactory->create(CalendarErr::CHECK_LOCATION_FAILED)
-            );
+            throw $this->errorFactory->create(CalendarErr::CHECK_LOCATION_FAILED);
         }
     }
 
@@ -335,7 +314,7 @@ class UserProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $calendarFilter
+              RequestOptions::QUERY => $calendarFilter
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -353,10 +332,7 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::FIND_ONE_CALENDAR_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError(
-                $err,
-                $this->errorFactory->create(CalendarErr::FIND_ONE_CALENDAR_FAILED)
-            );
+            throw $this->errorFactory->create(CalendarErr::FIND_ONE_CALENDAR_FAILED);
         }
     }
 
@@ -396,10 +372,7 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError(
-                $err,
-                $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_EVENT_FAILED)
-            );
+            throw $this->errorFactory->create(CalendarErr::CREATE_CALENDAR_EVENT_FAILED);
         }
     }
 
@@ -415,7 +388,7 @@ class UserProvider
     public function updateCalendarEvent(string $calendarId, string $eventId, UpdateCalendarEventInputDto $calendarEventData): CalendarEventDto
     {
         try {
-            $response = $this->client->put('/api/calendar/' . $calendarId . '/event/' . $eventId, [
+            $response = $this->client->put("/api/calendar/$calendarId/event/$eventId", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
@@ -438,10 +411,7 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CALENDAR_OR_CALENDAR_EVENT_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError(
-                $err,
-                $this->errorFactory->create(CalendarErr::UPDATE_CALENDAR_EVENT_FAILED)
-            );
+            throw $this->errorFactory->create(CalendarErr::UPDATE_CALENDAR_EVENT_FAILED);
         }
     }
 
@@ -456,7 +426,7 @@ class UserProvider
     public function deleteCalendarEventRequest(string $calendarId, string $calendarEventId): bool
     {
         try {
-            $response = $this->client->delete('/api/calendar/' . $calendarId . '/event/' . $calendarEventId, [
+            $response = $this->client->delete("/api/calendar/$calendarId/event/$calendarEventId", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
@@ -474,10 +444,7 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CALENDAR_OR_CALENDAR_EVENT_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError(
-                $err,
-                $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_EVENT_FAILED)
-            );
+            throw $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_EVENT_FAILED);
         }
     }
 
@@ -492,11 +459,11 @@ class UserProvider
     public function getAllCalendarEvents(string $calendarId, GetCalendarEventForCalendarInputDto $filters): array
     {
         try {
-            $response = $this->client->get('/api/calendar/' . $calendarId . '/events', [
+            $response = $this->client->get("/api/calendar/$calendarId/events", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $filters
+              RequestOptions::QUERY => $filters
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -516,10 +483,7 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
                 }
             }
-            throw ErrorHelper::getSherlError(
-                $err,
-                $this->errorFactory->create(CalendarErr::GET_ALL_CALENDAR_EVENTS_WITH_FILTER_FAILED)
-            );
+            throw  $this->errorFactory->create(CalendarErr::GET_ALL_CALENDAR_EVENTS_WITH_FILTER_FAILED);
         }
     }
 
@@ -533,26 +497,17 @@ class UserProvider
     public function getCalendarEvent(string $calendarEventId): ?CalendarEventDto
     {
         try {
-            $response = $this->client->put('/api/calendar-event/' . $calendarEventId, [
+            $response = $this->client->get("/api/calendar-event/$calendarEventId", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
             ]);
 
-            switch ($response->getStatusCode()) {
-                case 200:
-                    return SerializerFactory::getInstance()->deserialize(
-                        $response->getBody()->getContents(),
-                        CalendarEventDto::class,
-                        'json'
-                    );
-                case 403:
-                    throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENT_BY_ID_FORBIDDEN);
-                case 404:
-                    throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_EXIST);
-                default:
-                    throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENT_BY_ID_FAILED);
-            }
+            return SerializerFactory::getInstance()->deserialize(
+                $response->getBody()->getContents(),
+                CalendarEventDto::class,
+                'json'
+            );
         } catch (Exception $err) {
             if ($err instanceof \GuzzleHttp\Exception\ClientException) {
                 $response = $err->getResponse();
@@ -565,10 +520,7 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_EXIST);
                 }
             }
-            throw ErrorHelper::getSherlError(
-                $err,
-                $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENT_BY_ID_FAILED)
-            );
+            throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENT_BY_ID_FAILED);
         }
     }
 
@@ -604,10 +556,7 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_CURRENT_USER_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError(
-                $err,
-                $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_CURRENT_USER_FAILED)
-            );
+            throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_CURRENT_USER_FAILED);
         }
     }
 
@@ -625,7 +574,7 @@ class UserProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $input
+              RequestOptions::QUERY => $input
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -642,10 +591,7 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_OWNER_FORBIDDEN);
                 }
             }
-            throw ErrorHelper::getSherlError(
-                $err,
-                $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_OWNER_FAILED)
-            );
+            throw $this->errorFactory->create(CalendarErr::GET_CALENDAR_EVENTS_FOR_OWNER_FAILED);
         }
     }
 }

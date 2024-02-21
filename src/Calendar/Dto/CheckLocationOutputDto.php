@@ -40,7 +40,7 @@ class CheckLocationOutputDto
 
     /**
      *  @var GeoCoordinates
-     * @Serializer\Type("array<Sherl\Sdk\Place\Dto\GeoCoordinates>")
+     * @Serializer\Type("Sherl\Sdk\Place\Dto\GeoCoordinates")
      */
     public $location;
 
