@@ -150,7 +150,7 @@ class UserProvider
                         throw $this->errorFactory->create(CalendarErr::CALENDAR_NOT_FOUND);
                 }
             }
-             throw  $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_FAILED);
+            throw  $this->errorFactory->create(CalendarErr::DELETE_CALENDAR_FAILED);
         }
     }
 

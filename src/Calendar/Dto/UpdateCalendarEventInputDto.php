@@ -4,7 +4,7 @@ namespace Sherl\Sdk\Calendar\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
 use Sherl\Sdk\Calendar\Dto\OpenHoursSpecification;
-use Sherl\Sdk\Calendar\Dto\DateFilterOutputDto;
+use Sherl\Sdk\Common\Dto\DateFilterOutputDto;
 
 class UpdateCalendarEventInputDto
 {
