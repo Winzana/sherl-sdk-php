@@ -11,7 +11,7 @@ class ShopBasketValidateAndPayInputDto extends ShopBasketValidatePaymentInputDto
 {
     /**
      * @var MeansOfPayment
-     * @Serializer\Type("Sherl\Sdk\Shop\Order\Enum\MeansOfPayment")
+     * @Serializer\Type("enum<'Sherl\Sdk\Shop\Order\Enum\MeansOfPayment', 'value'>")
      */
     public $meansOfPayment;
 }

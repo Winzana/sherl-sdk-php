@@ -14,7 +14,7 @@ title: Shop types
 | **name**             |                            string                             | The name of the advertisement                                    |
 | **description**      |                            string                             | Description of the advertisement                                 |
 | **redirectUrl**      |                            string                             | The redirect url                                                 |
-| **displayZones**     |        [DisplayZoneEnum[]](shop-types#displayzoneenum)        | Zones to display the advertisement                               |
+| **displayZones**     |        [DisplayZoneEnum](shop-types#displayzoneenum)        | Zones to display the advertisement                               |
 | **numberOfDisplay**  |                            integer                            | The number of time the advertisements was displayed              |
 | **delete**           |                            boolean                            | Indicates if the advertisement is deleted or not                 |
 | **backgroundImage**  |   [MediaObjectOutputDto](media-types#MediaObjectOutputDto)    | The background image to display                                  |
@@ -53,7 +53,7 @@ title: Shop types
 | Fields                 |                 Type                  | Required | Description                                                                     |
 | ---------------------- | :-----------------------------------: | :------: | ------------------------------------------------------------------------------- |
 | **displayDeleted**     |                boolean                |   :x:    | Display or not deleted advertisements                                           |
-| **displayZones**       | [DisplayZoneEnum[]](#displayZoneEnum) |   :x:    | Display only advertisements in specified zones                                  |
+| **displayZones**       | [DisplayZoneEnum](#displayZoneEnum) |   :x:    | Display only advertisements in specified zones                                  |
 | **shuffle**            |                boolean                |   :x:    | Shuffle results                                                                 |
 | **q**                  |                string                 |   :x:    | Keyword to filter advertisement                                                 |
 | **displayAllVersions** |                boolean                |   :x:    | Display all version or the last one                                             |

@@ -18,7 +18,7 @@ class CreateAdvertisementInputDto
     public $description;
 
     /**
-     * @var DisplayZoneEnum[]
+     * @var DisplayZoneEnum
      * @Serializer\Type("enum<'Sherl\Sdk\Shop\Enum\DisplayZoneEnum', 'value'>")
      */
     public $displayZones;

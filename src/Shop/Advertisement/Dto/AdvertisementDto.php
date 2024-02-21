@@ -35,7 +35,7 @@ class AdvertisementDto
     public $description;
 
     /**
-     * @var DisplayZoneEnum[]
+     * @var DisplayZoneEnum
      * @Serializer\Type("enum<'Sherl\Sdk\Shop\Enum\DisplayZoneEnum', 'value'>")
      */
     public $displayZones;
@@ -60,7 +60,7 @@ class AdvertisementDto
 
     /**
      * @var MediaObjectOutputDto
-     * @Serializer\Type("Sher\Sdk\Media\Dto\MediaObjectOutputDto")
+     * @Serializer\Type("Sherl\Sdk\Media\Dto\MediaObjectOutputDto")
      */
     public $backgroundImage;
 

@@ -15,7 +15,7 @@ class ShopLoyaltyCardUpdateInputDto
     public $amount;
     /**
     * @var DiscountType
-    * @Serializer\Type("Sherl\Sdk\Shop\Discount\Enum\DiscountType")
+    * @Serializer\Type("enum<'Sherl\Sdk\Shop\Discount\Enum\DiscountType', 'value'>")
     */
     public $discountType;
     /**

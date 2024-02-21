@@ -94,7 +94,7 @@ class ClaimOutputDto
 
     /**
      * @var OrderDto
-     * @Serializer\Type("Sherl\Sdk\Order\Dto\OrderOutputDto")
+     * @Serializer\Type("Sherl\Sdk\Shop\Dto\OrderDto")
      */
     public $order;
 }
