@@ -16,7 +16,6 @@ use Exception;
 use Sherl\Sdk\VirtualMoney\Dto\CreateWalletHistoricalInputDto;
 use Sherl\Sdk\VirtualMoney\Dto\WalletHistoricalOutputDto;
 use Sherl\Sdk\VirtualMoney\Dto\WalletHistoricalInputDto;
-use Sherl\Sdk\VirtualMoney\Dto\WalletInputDto;
 use Sherl\Sdk\VirtualMoney\Dto\WalletOuputDto;
 use Sherl\Sdk\VirtualMoney\Dto\TransferWalletInputDto;
 use Sherl\Sdk\VirtualMoney\Dto\WalletOutputDto;
