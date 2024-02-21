@@ -8,7 +8,7 @@ title: Loyalty
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$results = $client->$shop->getLoyaltiesCardToMe(LoyaltyCardFindByDto $filter );
+$results = $client->$shop->getLoyaltiesCardToMe(LoyaltyCardFindByDto $filters);
 ```
 
 <details>

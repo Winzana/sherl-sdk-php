@@ -20,7 +20,7 @@ $advertisement = $client->$shop->createAdvertisement(CreateAdvertisementInputDto
 | **description**     |                                   string                                   | :white_check_mark: | Description of the **advertisement**               |
 | **redirectUrl**     |                                   string                                   | :white_check_mark: | The redirect **url**                               |
 | **displayZones**    |             [DisplayZoneEnum[]](../shop-types#displayzoneenum)             |        :x:         | Zones to display the **advertisement**             |
-| **backgroundImage** |                  **MediaObjectOutputDto** TODO: Add Link                   |        :x:         | The background image to **display**                |
+| **backgroundImage** |          [MediaObjectOutputDto](media-types#MediaObjectOutputDto)          |        :x:         | The background image to **display**                |
 | **translations**    | [AdvertisementTranslationDto[]](../shop-types#AdvertisementTranslationDto) |        :x:         | The translations available for this advertisement. |
 | **metadatas**       |                                   mixed                                    |        :x:         | TODO                                               |
 
@@ -50,7 +50,7 @@ $advertisement = $client->$shop->updateAdvertisement(
 | **description**     |                                   string                                   | :white_check_mark: | Description of the **advertisement**                   |
 | **redirectUrl**     |                                   string                                   | :white_check_mark: | The redirect **url**                                   |
 | **displayZones**    |             [DisplayZoneEnum[]](../shop-types#displayzoneenum)             |        :x:         | Zones to display the **advertisement**                 |
-| **backgroundImage** |                 **MediaObjectOutputDto** (TODO: Add Link)                  |        :x:         | The background image to **display**                    |
+| **backgroundImage** |          [MediaObjectOutputDto](media-types#MediaObjectOutputDto)          |        :x:         | The background image to **display**                    |
 | **translations**    | [AdvertisementTranslationDto[]](../shop-types#AdvertisementTranslationDto) |        :x:         | The translations available for this **advertisement**. |
 | **metadatas**       |                                   mixed                                    |        :x:         | TODO                                                   |
 
@@ -89,7 +89,7 @@ Updates an advertisement identified by its advertisementId.
 <span class="badge badge--warning">Require authentication</span>
 
 ```php
-$advertisements = $client->$shop->getAdvertisements(FindAdvertisementInputDto $filter):;
+$advertisements = $client->$shop->getAdvertisements(FindAdvertisementInputDto $filters);
 ```
 
 See [FindAdvertisementInputDto](../shop-types#FindAdvertisementInputDto)

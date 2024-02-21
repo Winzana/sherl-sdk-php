@@ -251,18 +251,18 @@ class ShopProvider
     /**
      * Retrieves advertisements based on the provided filter.
      *
-     * @param FindAdvertisementInputDto $filter The filter to apply when retrieving advertisements.
+     * @param FindAdvertisementInputDto $filters The filter to apply when retrieving advertisements.
      * @throws SherlException If there is an error retrieving the advertisements.
      * @return FindAdvertisementsOutputDto|null The retrieved advertisements.
      */
-    public function getAdvertisements(FindAdvertisementInputDto $filter): ?FindAdvertisementsOutputDto
+    public function getAdvertisements(FindAdvertisementInputDto $filters): ?FindAdvertisementsOutputDto
     {
         try {
             $response = $this->client->get("/api/shop/advertisements", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => $filter
+              RequestOptions::QUERY => $filters
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -285,20 +285,20 @@ class ShopProvider
     }
 
     /**
-     * Retrieves public advertisements based on the given filter.
+     * Retrieves public advertisements based on the given filters.
      *
-     * @param FindAdvertisementInputDto $filter The filter to apply when retrieving advertisements.
+     * @param FindAdvertisementInputDto $filters The filter to apply when retrieving advertisements.
      * @throws SherlException If there is an error retrieving the advertisements.
      * @return FindAdvertisementsOutputDto|null The output DTO containing the retrieved advertisements.
      */
-    public function getPublicAdvertisements(FindAdvertisementInputDto $filter): ?FindAdvertisementsOutputDto
+    public function getPublicAdvertisements(FindAdvertisementInputDto $filters): ?FindAdvertisementsOutputDto
     {
         try {
             $response = $this->client->get("/api/public/shop/advertisements", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => $filter
+              RequestOptions::QUERY => $filters
             ]);
 
 
@@ -777,18 +777,18 @@ class ShopProvider
     /**
      * Finds a single discount by the given parameters.
      *
-     * @param DiscountFilterInputDto $filter The filter parameters for the discount.
+     * @param DiscountFilterInputDto $filters The filter parameters for the discount.
      * @throws SherlException If an error occurs during the request.
      * @return DiscountDto|null The output DTO representing the discount.
      */
-    public function getDiscountByParams(DiscountFilterInputDto $filter): ?DiscountDto
+    public function getDiscountByParams(DiscountFilterInputDto $filters): ?DiscountDto
     {
         try {
             $response = $this->client->get("/api/shop/advertisements", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => $filter,
+              RequestOptions::QUERY => $filters,
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -849,20 +849,20 @@ class ShopProvider
     }
 
     /**
-     * Retrieves a paginated list of discounts based on the provided filter.
+     * Retrieves a paginated list of discounts based on the provided filters.
      *
-     * @param DiscountFilterInputDto $filter The filter to apply to the discounts.
+     * @param DiscountFilterInputDto $filters The filter to apply to the discounts.
      * @throws SherlException If an error occurs during the request.
      * @return DiscountPaginatedResultOutputDto|null The paginated list of discounts.
      */
-    public function getDiscountsWithFilter(DiscountFilterInputDto $filter): ?DiscountPaginatedResultOutputDto
+    public function getDiscountsWithFilter(DiscountFilterInputDto $filters): ?DiscountPaginatedResultOutputDto
     {
         try {
             $response = $this->client->get("/api/shop/discounts", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $filter
+              RequestOptions::JSON => $filters
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -885,21 +885,21 @@ class ShopProvider
     }
 
     /**
-     * Retrieves public discounts with filter.
+     * Retrieves public discounts with filters.
      *
-     * @param DiscountPublicFilterInputDto $filter The filter to apply to the discounts.
+     * @param DiscountPublicFilterInputDto $filters The filter to apply to the discounts.
      * @throws SherlException If an error occurs while retrieving the discounts.
      * @return DiscountPaginatedResultOutputDto|null The paginated result of public discounts.
      */
 
-    public function getPublicDiscountsWithFilter(DiscountPublicFilterInputDto $filter): ?DiscountPaginatedResultOutputDto
+    public function getPublicDiscountsWithFilter(DiscountPublicFilterInputDto $filters): ?DiscountPaginatedResultOutputDto
     {
         try {
             $response = $this->client->get("/api/public/shop/discounts", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => $filter
+              RequestOptions::QUERY => $filters
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -1003,18 +1003,18 @@ class ShopProvider
     /**
      * Retrieves a loyalty card belonging to the current user.
      *
-     * @param LoyaltyCardFindByDto $filter The filter to apply when searching for the loyalty card.
+     * @param LoyaltyCardFindByDto $filters The filter to apply when searching for the loyalty card.
      * @throws SherlException If an error occurs during the request.
      * @return LoyaltySearchResultDto|null The loyalty card belonging to the current user..
      */
-    public function getLoyaltiesCardToMe(LoyaltyCardFindByDto $filter): ?LoyaltySearchResultDto
+    public function getLoyaltiesCardToMe(LoyaltyCardFindByDto $filters): ?LoyaltySearchResultDto
     {
         try {
             $response = $this->client->get("/api/shop/loyalties/to-me", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => $filter
+              RequestOptions::QUERY => $filters
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -1117,20 +1117,20 @@ class ShopProvider
     // ORDER
 
     /**
-     * Retrieves orders based on the provided filter.
+     * Retrieves orders based on the provided filters.
      *
-     * @param OrderFindInputDto $filter The filter to apply when retrieving orders.
+     * @param OrderFindInputDto $filters The filter to apply when retrieving orders.
      * @throws SherlException If an error occurs during the request.
      * @return OrderFindOutputDto|null The result of the operation.
      */
-    public function getOrders(OrderFindInputDto $filter): ?OrderFindOutputDto
+    public function getOrders(OrderFindInputDto $filters): ?OrderFindOutputDto
     {
         try {
             $response = $this->client->get("/api/shop/orders", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $filter
+              RequestOptions::JSON => $filters
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),
@@ -1157,18 +1157,18 @@ class ShopProvider
      * Retrieves a list of orders for a specific organization.
      *
      * @param string $organisationId The ID of the organization.
-     * @param OrderFindInputDto $filter The filter to apply to the orders.
+     * @param OrderFindInputDto $filters The filter to apply to the orders.
      * @throws SherlException If the request fails.
-     * @return OrderFindOutputDto|null The list of orders that match the filter.
+     * @return OrderFindOutputDto|null The list of orders that match the filters.
      */
-    public function getOrganizationOrders(string $organisationId, OrderFindInputDto $filter): ?OrderFindOutputDto
+    public function getOrganizationOrders(string $organisationId, OrderFindInputDto $filters): ?OrderFindOutputDto
     {
         try {
             $response = $this->client->get("/api/shop/orders/list-to/$organisationId", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => $filter,
+              RequestOptions::JSON => $filters,
             ]);
             return SerializerFactory::getInstance()->deserialize(
                 $response->getBody()->getContents(),

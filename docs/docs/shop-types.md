@@ -17,7 +17,7 @@ title: Shop types
 | **displayZones**     |        [DisplayZoneEnum[]](shop-types#displayzoneenum)        | Zones to display the advertisement                               |
 | **numberOfDisplay**  |                            integer                            | The number of time the advertisements was displayed              |
 | **delete**           |                            boolean                            | Indicates if the advertisement is deleted or not                 |
-| **backgroundImage**  |            **MediaObjectOutputDto** TODO: Add Link            | The background image to display                                  |
+| **backgroundImage**  |   [MediaObjectOutputDto](media-types#MediaObjectOutputDto)    | The background image to display                                  |
 | **translations**     | [AdvertisementTranslationDto[]](#AdvertisementTranslationDto) | The translations available for this advertisement.               |
 | **version**          |                            integer                            | The version of the advertisement                                 |
 | **parentUri**        |                            string                             | Tue uri parent of the advertisement                              |

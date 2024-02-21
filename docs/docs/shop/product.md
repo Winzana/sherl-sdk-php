@@ -13,43 +13,43 @@ $products = $client->$shop->getProducts(ProductFindByDto $filters);
 
 **IProductFindByDto** extends [PaginationFiltersInputDto](../pagination#PaginationFiltersInputDto)
 
-| Fields                  | Type               | Required | Description                                               |
-| ----------------------- | ------------------ | -------- | --------------------------------------------------------- |
-| **ids**                 | string[]           | :x:      | Array of unique identifiers for products.                 |
-| **externalIds**         | string[]           | :x:      | Array of external identifiers for products.               |
-| **excludedExternalIds** | string[]           | :x:      | Array of external identifiers to be excluded.             |
-| **externalIdentifier**  | string             | :x:      | A specific external identifier for a product.             |
-| **uri**                 | string             | :x:      | The URI of the product.                                   |
-| **versionNumber**       | number             | :x:      | The version number of the product.                        |
-| **slug**                | string             | :x:      | The slug used in a human-readable URL for the product.    |
-| **parentUri**           | string             | :x:      | The URI of the parent product.                            |
-| **organizationUri**     | string             | :x:      | The URI of the organization associated with the product.  |
-| **organizationSlug**    | string             | :x:      | The slug of the organization associated with the product. |
-| **id**                  | string             | :x:      | The unique identifier of the product.                     |
-| **name**                | string             | :x:      | The name of the product.                                  |
-| **categoryUri**         | string             | :x:      | The URI of the product's category.                        |
-| **categoryUris**        | string[]           | :x:      | Array of URIs for the product's categories.               |
-| **consumerId**          | string             | :x:      | The consumer ID associated with the product.              |
-| **q**                   | string             | :x:      | A search query string for finding products.               |
-| **isEnable**            | boolean            | :x:      | Indicates whether the product is enabled.                 |
-| **languages**           | string[]           | :x:      | Array of languages available for the product.             |
-| **placeForward**        | boolean            | :x:      | A flag to indicate place forwarding.                      |
-| **strictPlaceForward**  | boolean            | :x:      | A flag to indicate strict place forwarding.               |
-| **geopoint**            | string             | :x:      | A geolocation point associated with the product.          |
-| **distance**            | number             | :x:      | The distance range for the product's location.            |
-| **withinHours**         | boolean            | :x:      | A flag to filter products available within certain hours. |
-| **startDate**           | string             | :x:      | The start date for product availability.                  |
-| **endDate**             | string             | :x:      | The end date for product availability.                    |
-| **displayAllVersion**   | boolean            | :x:      | A flag to display all versions of the product.            |
-| **includeDeleted**      | boolean            | :x:      | A flag to include deleted products in the results.        |
-| **isUpdatedByHuman**    | boolean            | :x:      | Indicates whether the product was updated by a human.     |
-| **tag**                 | ProductTags        | :x:      | A tag associated with the product.                        |
-| **tags**                | number             | :x:      | Numeric tags associated with the product.                 |
-| **displayMode**         | ProductDisplayMode | :x:      | The display mode of the product.                          |
-| **type**                | ProductTypeEnum    | :x:      | The type of the product.                                  |
-| **noBind**              | boolean            | :x:      | A flag indicating if the product should not be bound.     |
-| **uriOfPanels**         | string[]           | :x:      | Array of URIs of panels associated with the product.      |
-| **panel**               | string             | :x:      | The panel associated with the product.                    |
+| Fields                  | Type                                                   | Required | Description                                               |
+| ----------------------- | ------------------------------------------------------ | -------- | --------------------------------------------------------- |
+| **ids**                 | string[]                                               | :x:      | Array of unique identifiers for products.                 |
+| **externalIds**         | string[]                                               | :x:      | Array of external identifiers for products.               |
+| **excludedExternalIds** | string[]                                               | :x:      | Array of external identifiers to be excluded.             |
+| **externalIdentifier**  | string                                                 | :x:      | A specific external identifier for a product.             |
+| **uri**                 | string                                                 | :x:      | The URI of the product.                                   |
+| **versionNumber**       | number                                                 | :x:      | The version number of the product.                        |
+| **slug**                | string                                                 | :x:      | The slug used in a human-readable URL for the product.    |
+| **parentUri**           | string                                                 | :x:      | The URI of the parent product.                            |
+| **organizationUri**     | string                                                 | :x:      | The URI of the organization associated with the product.  |
+| **organizationSlug**    | string                                                 | :x:      | The slug of the organization associated with the product. |
+| **id**                  | string                                                 | :x:      | The unique identifier of the product.                     |
+| **name**                | string                                                 | :x:      | The name of the product.                                  |
+| **categoryUri**         | string                                                 | :x:      | The URI of the product's category.                        |
+| **categoryUris**        | string[]                                               | :x:      | Array of URIs for the product's categories.               |
+| **consumerId**          | string                                                 | :x:      | The consumer ID associated with the product.              |
+| **q**                   | string                                                 | :x:      | A search query string for finding products.               |
+| **isEnable**            | boolean                                                | :x:      | Indicates whether the product is enabled.                 |
+| **languages**           | string[]                                               | :x:      | Array of languages available for the product.             |
+| **placeForward**        | boolean                                                | :x:      | A flag to indicate place forwarding.                      |
+| **strictPlaceForward**  | boolean                                                | :x:      | A flag to indicate strict place forwarding.               |
+| **geopoint**            | string                                                 | :x:      | A geolocation point associated with the product.          |
+| **distance**            | number                                                 | :x:      | The distance range for the product's location.            |
+| **withinHours**         | boolean                                                | :x:      | A flag to filter products available within certain hours. |
+| **startDate**           | string                                                 | :x:      | The start date for product availability.                  |
+| **endDate**             | string                                                 | :x:      | The end date for product availability.                    |
+| **displayAllVersion**   | boolean                                                | :x:      | A flag to display all versions of the product.            |
+| **includeDeleted**      | boolean                                                | :x:      | A flag to include deleted products in the results.        |
+| **isUpdatedByHuman**    | boolean                                                | :x:      | Indicates whether the product was updated by a human.     |
+| **tag**                 | ProductTags                                            | :x:      | A tag associated with the product.                        |
+| **tags**                | number                                                 | :x:      | Numeric tags associated with the product.                 |
+| **displayMode**         | [ProductDisplayMode](../shop-types#ProductDisplayMode) | :x:      | The display mode of the product.                          |
+| **type**                | [ProductTypeEnum](../shop-types#ProductTypeEnum)       | :x:      | The type of the product.                                  |
+| **noBind**              | boolean                                                | :x:      | A flag indicating if the product should not be bound.     |
+| **uriOfPanels**         | string[]                                               | :x:      | Array of URIs of panels associated with the product.      |
+| **panel**               | string                                                 | :x:      | The panel associated with the product.                    |
 
 This call returns a [paginated](../pagination#pagination) array of [ProductPaginatedResultDto](../shop-types#ProductPaginatedResultDto) objects.
 
