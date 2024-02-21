@@ -3,7 +3,7 @@
 namespace Sherl\Sdk\Organization\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
-use Sherl\Sdk\Shop\Subscription\Dto\SubscriptionOutputDto;
+use Sherl\Sdk\Shop\Subscription\Dto\SubscriptionDto;
 
 class StatisticOutputDto
 {
@@ -26,8 +26,8 @@ class StatisticOutputDto
     public $amountTotalOrder;
 
     /**
-     * @var SubscriptionOutputDto
-     * @Serializer\Type("Sherl\Sdk\Shop\Subscription\Dto\SubscriptionOutputDto")
+     * @var SubscriptionDto
+     * @Serializer\Type("Sherl\Sdk\Shop\Subscription\Dto\SubscriptionDto")
      */
     public $subscription;
 

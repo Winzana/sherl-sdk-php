@@ -9,9 +9,9 @@ use Sherl\Sdk\Calendar\Dto\OpeningHoursSpecificationOutputDto;
 
 use Sherl\Sdk\Media\Dto\ImageObjectOutputDto;
 
-use Sherl\Sdk\Shop\Product\Dto\CategoryOutputDto;
+use Sherl\Sdk\Shop\Category\Dto\ProductCategoryDto;
 use Sherl\Sdk\Shop\Product\Dto\ProductOutputDto;
-use Sherl\Sdk\Shop\Subscription\Dto\SubscriptionOutputDto;
+use Sherl\Sdk\Shop\Subscription\Dto\SubscriptionDto;
 use Sherl\Sdk\Shop\Wallet\Dto\WalletOutputDto;
 
 use Sherl\Sdk\Organization\Dto\OrganizationCommunicationOutputDto;
@@ -288,8 +288,8 @@ class OrganizationOutputDto
     public $metadatas;
 
     /**
-     * @var CategoryOutputDto[]
-     * @Serializer\Type("array<Sherl\Sdk\Shop\Product\Dto\CategoryOutputDto>")
+     * @var ProductCategoryDto[]
+     * @Serializer\Type("array<Sherl\Sdk\Shop\Product\Dto\ProductCategoryDto>")
      */
     public $categories;
 
@@ -348,8 +348,8 @@ class OrganizationOutputDto
     public $thirdParty;
 
     /**
-     * @var SubscriptionOutputDto
-     * @Serializer\Type("Sherl\Sdk\Shop\Subscription\Dto\SubscriptionOutputDto")
+     * @var SubscriptionDto
+     * @Serializer\Type("Sherl\Sdk\Shop\Subscription\Dto\SubscriptionDto")
      */
     public $statistics;
 

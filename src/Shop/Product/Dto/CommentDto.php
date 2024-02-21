@@ -1,15 +1,12 @@
 <?php
 
-namespace Sherl\Sdk\Gallery\Dto;
-
-use JMS\Serializer\Annotation as Serializer;
-
-use Sherl\Sdk\Media\Dto\ImageObjectOutputDto;
-use Sherl\Sdk\Shop\Category\Dto\ProductCategoryDto;
+namespace Sherl\Sdk\Shop\Product\Dto;
 
 use DateTime;
 
-class GalleryOutputDto
+use JMS\Serializer\Annotation as Serializer;
+
+class CommentDto
 {
     /**
      * @var string
@@ -27,25 +24,31 @@ class GalleryOutputDto
      * @var string
      * @Serializer\Type("string")
      */
-    public $consumerId;
+    public $productId;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    public $categoryUri;
+    public $personId;
 
     /**
-     * @var ProductCategoryDto
-     * @Serializer\Type("Sherl\Sdk\Shop\Product\Dto\ProductCategoryDto")
+     * @var string
+     * @Serializer\Type("string")
      */
-    public $category;
+    public $personName;
 
     /**
-     * @var ImageObjectOutputDto
-     * @Serializer\Type("Sherl\Sdk\Media\Dto\ImageObjectOutputDto")
+     * @var string
+     * @Serializer\Type("string")
      */
-    public $media;
+    public $organizationUri;
+
+    /**
+     * @var string
+     * @Serializer\Type("string")
+     */
+    public $content;
 
     /**
      * @var DateTime
