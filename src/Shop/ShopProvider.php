@@ -1194,14 +1194,11 @@ class ShopProvider
     public function updateOrderStatus(string $id, OrderStatus $status): ?OrderFindOutputDto
     {
         try {
-            $response = $this->client->put("/api/shop/orders/$id/status/$status->value", [
+            $status = $status->value;
+            $response = $this->client->put("/api/shop/orders/$id/status/$status", [
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => [
-                "id" => $id,
-                "status" => $status->value
-              ]
             ]);
 
             return SerializerFactory::getInstance()->deserialize(
@@ -1633,7 +1630,7 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::JSON => ['updatedCategory' => $updatedCategory]
+              RequestOptions::JSON => $updatedCategory
             ]);
 
 
