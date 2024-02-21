@@ -1,11 +1,12 @@
 <?php
 
-namespace Sherl\Sdk\Calendar\Dto;
+namespace Sherl\Sdk\Calendat\Dto;
 
 use JMS\Serializer\Annotation as Serializer;
-use Sherl\Sdk\Place\Dto\AddressOutputDto;
+use Sherl\Sdk\Place\Dto\GeoCoordinates;
+use DateTime;
 
-class CalendarEventOutputDto
+class CheckLocationOutputDto
 {
     /**
      * @var string
@@ -26,26 +27,20 @@ class CalendarEventOutputDto
     public $aboutUri;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    public $calendarUri;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
     public $startDate;
 
     /**
-     * @var string
-     * @Serializer\Type("string")
+     * @var DateTime
+     * @Serializer\Type("DateTime")
      */
     public $endDate;
 
     /**
-     * @var AddressOutputDto
-     * @Serializer\Type("Sherl\Sdk\Place\Dto\AddressOutputDto")
+     *  @var GeoCoordinates
+     * @Serializer\Type("Sherl\Sdk\Place\Dto\GeoCoordinates")
      */
     public $location;
 
@@ -60,4 +55,10 @@ class CalendarEventOutputDto
      * @Serializer\Type("string")
      */
     public $updatedAt;
+
+    /**
+     * @var mixed
+     * @Serializer\Type("mixed")
+     */
+    public $metadatas;
 }
