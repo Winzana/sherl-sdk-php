@@ -187,8 +187,6 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => $advertisementId
-
             ]);
             return filter_var($response->getBody()->getContents(), FILTER_VALIDATE_BOOLEAN);
         } catch (Exception $err) {
@@ -221,7 +219,6 @@ class ShopProvider
               "headers" => [
                 "Content-Type" => "application/json",
               ],
-              RequestOptions::QUERY => $advertisementId
 
             ]);
 
